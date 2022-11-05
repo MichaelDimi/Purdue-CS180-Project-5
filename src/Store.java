@@ -1,15 +1,30 @@
+import java.util.HashMap;
+
 public class Store {
-    private String name;
+    private String storeName;
 
-    public Store(String name) {
-        this.name = name;
+    private HashMap<Integer, Book> sellHistory = new HashMap<Integer, Book>();
+
+    public Store(String storeName) {
+        this.storeName = storeName;
     }
 
-    public String getName() {
-        return name;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public HashMap<Integer, Book> getSellHistory() {
+        return sellHistory;
+    }
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "storeName='" + storeName + '\'' +
+                '}';
     }
 }

@@ -7,7 +7,7 @@ public class Book {
     /**
      * The store selling the book.
      */
-    private String store; // TODO: Convert to store class
+    private Store store;
 
     /**
      * The genre of the book
@@ -24,7 +24,7 @@ public class Book {
      */
     private double price;
 
-    public Book(String name, String store, String genre, String description, double price) {
+    public Book(String name, Store store, String genre, String description, double price) {
         this.name = name;
         this.store = store;
         this.genre = genre;
@@ -40,11 +40,11 @@ public class Book {
         this.name = name;
     }
 
-    public String getStore() {
+    public Store getStore() {
         return store;
     }
 
-    public void setStore(String store) {
+    public void setStore(Store store) {
         this.store = store;
     }
 

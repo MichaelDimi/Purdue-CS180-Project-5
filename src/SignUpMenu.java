@@ -1,20 +1,49 @@
 import Objects.Buyer;
 import Objects.Seller;
 import Objects.User;
+import com.sun.security.jgss.GSSUtil;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class SignUpMenu extends Menu {
 
     @Override
-    public void present(Scanner scan) {
+    public boolean present(Scanner scan) {
 
-        String[] input = Menu.validateLoginSignUpInput(scan);
+        String username;
+        String email;
+        String password;
+        boolean error;
+        do {
+            error = false;
+            String[] input = Menu.validateSignUpInput(scan);
 
-        String username = input[0];
-        String email = input[1];
-        String password = input[2];
+            username = input[0];
+            email = input[1];
+            password = input[2];
+
+            System.out.println("Validating...");
+
+            try {
+                Thread.sleep(1000); // For dramatic effect
+            } catch (InterruptedException e) {
+                System.out.println("Error: Program interruption");
+            }
+
+            // Validate in Marketplace // TODO: Test
+            ArrayList<User> users = BookApp.marketplace.getUsers();
+            for (User user : users) {
+                if (user.getName().equals(username)) {
+                    System.out.println("That username is taken, please try a different one");
+                    error = true;
+                } else if (user.getEmail().equals(email)) {
+                    System.out.println("That email is already in use, please try again");
+                    error = true;
+                }
+            }
+        } while (error);
 
         boolean isBuyer;
         do {
@@ -37,5 +66,7 @@ public class SignUpMenu extends Menu {
 
         BookApp.marketplace.addToUsers(newUser);
         BookApp.marketplace.setCurrentUser(newUser);
+
+        return true; // Always return true
     }
 }

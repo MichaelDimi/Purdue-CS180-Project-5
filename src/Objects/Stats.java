@@ -1,9 +1,10 @@
 package Objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Stats {
+public class Stats implements Serializable {
 
     /**
      * The number and type of books sold by the Seller

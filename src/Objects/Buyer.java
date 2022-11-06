@@ -1,9 +1,11 @@
 package Objects;
 
 import Exceptions.BookNotFoundException;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Buyer extends User {
+public class Buyer extends User implements Serializable {
     private HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
     private HashMap<Book, Integer> purchaseHistory = new HashMap<Book, Integer>();
 
@@ -65,9 +67,11 @@ public class Buyer extends User {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "cart=" + cart +
-                ", purchaseHistory=" + purchaseHistory +
-                '}';
+        return "Buyer<" + this.getName() + ", " +
+                this.getEmail() + ", " +
+                this.getPassword() + ", " +
+                cart + ", " +
+                purchaseHistory +
+                ">";
     }
 }

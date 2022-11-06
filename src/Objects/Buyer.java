@@ -1,11 +1,14 @@
+package Objects;
+
+import Exceptions.BookNotFoundException;
 import java.util.HashMap;
 
-public class Customer extends User {
+public class Buyer extends User {
     private HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
     private HashMap<Book, Integer> purchaseHistory = new HashMap<Book, Integer>();
 
-    public Customer(String email, String password) {
-        super(email, password);
+    public Buyer(String username, String email, String password) {
+        super(username, email, password);
     }
 
     public HashMap<Book, Integer> getCart() {

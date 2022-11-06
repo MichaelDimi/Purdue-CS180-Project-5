@@ -1,3 +1,5 @@
+package Objects;
+
 public class Book {
     /**
      * The name of the book
@@ -7,12 +9,12 @@ public class Book {
     /**
      * The store selling the book.
      */
-    private String store; // TODO: Convert to store class
+    private Store store;
 
     /**
      * The genre of the book
      */
-    private String genre; // TODO: Convert to genre class?
+    private String genre;
 
     /**
      * The description of the book
@@ -23,8 +25,13 @@ public class Book {
      * The price of the book
      */
     private double price;
+    /**
+     * The percent sale of the book.
+     * Eg $100 book at percentOff = 10 becomes $90
+     */
+    private double percentOff;
 
-    public Book(String name, String store, String genre, String description, double price) {
+    public Book(String name, Store store, String genre, String description, double price) {
         this.name = name;
         this.store = store;
         this.genre = genre;
@@ -40,11 +47,11 @@ public class Book {
         this.name = name;
     }
 
-    public String getStore() {
+    public Store getStore() {
         return store;
     }
 
-    public void setStore(String store) {
+    public void setStore(Store store) {
         this.store = store;
     }
 
@@ -72,9 +79,17 @@ public class Book {
         this.price = price;
     }
 
+    public double getPercentOff() {
+        return percentOff;
+    }
+
+    public void setPercentOff(double percentOff) {
+        this.percentOff = percentOff;
+    }
+
     @Override
     public String toString() {
-        return "Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
+        return "Classes.Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
                 "description='" + description + '\'' + ", price=" + price + '}';
     }
 }

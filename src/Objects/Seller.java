@@ -18,6 +18,10 @@ public class Seller extends User {
         this.stores = new ArrayList<>();
     }
 
+    public void createNewStore(String storeName) {
+        stores.add(new Store(storeName));
+    }
+
     public ArrayList<Store> getStores() {
         return stores;
     }

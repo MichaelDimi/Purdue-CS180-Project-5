@@ -8,10 +8,10 @@ public class Buyer extends User {
     private HashMap<Book, Integer> cart;
     private HashMap<Book, Integer> purchaseHistory;
 
-    public Buyer(String email, String password, HashMap<Book, Integer> cart, HashMap<Book, Integer> purchaseHistory) {
-        super(email, password);
+    public Buyer(String name, String email, String password) {
+        super(name, email, password);
 
-        this.cart = cart;
-        this.purchaseHistory = purchaseHistory;
+        this.cart = new HashMap<>();
+        this.purchaseHistory = new HashMap<>();
     }
 }

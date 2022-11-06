@@ -1,6 +1,7 @@
 package Classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 /**
@@ -10,7 +11,7 @@ public class Marketplace implements Serializable {
     /**
      * Array of users (buyers and sellers) who have accounts for the marketplace
      */
-    User[] users;
+    ArrayList<User> users;
     /**
      * Stores frequency of books in the marketplace
      */
@@ -23,15 +24,24 @@ public class Marketplace implements Serializable {
 
     public Marketplace() {
         // TODO: Deserialize books and users
+        this.users = new ArrayList<>();
         this.currentUser = null;
     }
 
-    public User[] getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
     }
 
-    public void setUsers(User[] users) {
+    public void setUsers(ArrayList<User> users) {
         this.users = users;
+    }
+
+    /**
+     * Adds a new user to the marketplace
+     * @param user The user to add to marketplace
+     */
+    public void addToUsers(User user) {
+        this.users.add(user);
     }
 
     public HashMap<Book, Integer> getBooks() {
@@ -52,6 +62,6 @@ public class Marketplace implements Serializable {
 
     @Override
     public String toString() {
-        return "Marketplace{" + "users=" + Arrays.toString(users) + ", books=" + books + ", currentUser=" + currentUser + '}';
+        return "Marketplace{" + "users=" + users.toString() + ", books=" + books + ", currentUser=" + currentUser + '}';
     }
 }

@@ -12,10 +12,10 @@ public class Seller extends User {
      */
     private Stats stats;
 
-    public Seller(String name, String email, String password, ArrayList<Store> stores) {
+    public Seller(String name, String email, String password) {
         super(name, email, password);
 
-        this.stores = stores;
+        this.stores = new ArrayList<>();
     }
 
     public ArrayList<Store> getStores() {
@@ -35,7 +35,7 @@ public class Seller extends User {
     }
 
     @Override
-    public String toString() {
+    public String toString() { // TODO: Combine this with the super toString()
         return "Seller{" + "stores=" + stores + ", stats=" + stats + '}';
     }
 }

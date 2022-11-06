@@ -1,14 +1,17 @@
-import Classes.Marketplace;
+import Classes.*;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class BookApp {
 
+    public static Marketplace marketplace;
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        Marketplace marketplace = new Marketplace();
+        BookApp.marketplace = new Marketplace();
 
         System.out.println("WELCOME to BOOK APP");
         System.out.println("*******************");
@@ -25,9 +28,13 @@ public class BookApp {
         } while (true);
 
         if (loginSignup.equals("1")) {
-            System.out.println("Login");
+            LoginMenu loginMenu = new LoginMenu();
+            loginMenu.present(scan);
         } else {
-            System.out.println("Sign Up");
+            SignUpMenu signUpMenu = new SignUpMenu();
+            signUpMenu.present(scan);
         }
+
+        System.out.println(marketplace);
     }
 }

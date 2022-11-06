@@ -1,6 +1,4 @@
-package Classes;
-
-import Classes.Book;
+package Objects;
 
 import java.util.HashMap;
 

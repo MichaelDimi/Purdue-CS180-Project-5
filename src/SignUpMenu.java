@@ -1,6 +1,6 @@
-import Classes.Buyer;
-import Classes.Seller;
-import Classes.User;
+import Objects.Buyer;
+import Objects.Seller;
+import Objects.User;
 
 import java.util.Objects;
 import java.util.Scanner;

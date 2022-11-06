@@ -1,6 +1,4 @@
-package Classes;
-
-import java.util.StringTokenizer;
+package Objects;
 
 public class Review {
 

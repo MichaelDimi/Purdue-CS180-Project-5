@@ -111,6 +111,39 @@ public class Marketplace implements Serializable {
         return null;
     }
 
+    public ArrayList<Book> getBooksByName(String name) {
+        ArrayList<Book> books = new ArrayList<>();
+        for (Book book : this.books.keySet()) {
+            if (book.getName().toLowerCase().contains(name.toLowerCase())) {
+                books.add(book);
+            }
+        }
+
+        return books;
+    }
+
+    public ArrayList<Book> getBooksByStore(String store) {
+        ArrayList<Book> books = new ArrayList<>();
+        for (Book book : this.books.keySet()) {
+            if (book.getStore().getName().toLowerCase().contains(store.toLowerCase())) {
+                books.add(book);
+            }
+        }
+
+        return books;
+    }
+
+    public ArrayList<Book> getBooksByDescription(String description) {
+        ArrayList<Book> books = new ArrayList<>();
+        for (Book book : this.books.keySet()) {
+            if (book.getDescription().toLowerCase().contains(description.toLowerCase())) {
+                books.add(book);
+            }
+        }
+
+        return books;
+    }
+
     public ArrayList<User> getUsers() {
         return users;
     }

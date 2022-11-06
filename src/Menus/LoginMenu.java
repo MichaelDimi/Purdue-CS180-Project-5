@@ -1,5 +1,9 @@
+package Menus;
+
+import Classes.User;
+
 import java.util.*;
-public class LoginUI {
+public class LoginMenu {
 
     public static User printLoginAndGetUser(Scanner scan, User[] users) {
         boolean loop = true;

@@ -1,3 +1,5 @@
+import Classes.Marketplace;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -6,10 +8,12 @@ public class BookApp {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
+        Marketplace marketplace = new Marketplace();
+
         System.out.println("WELCOME to BOOK APP");
         System.out.println("*******************");
 
-        // Figures out if user wants to login or sign up
+        // Figures out if user wants to log in or sign up
         String loginSignup;
         do {
             System.out.println("1. Login\n2. Sign Up");

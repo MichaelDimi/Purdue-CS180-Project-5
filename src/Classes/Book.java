@@ -1,3 +1,5 @@
+package Classes;
+
 public class Book {
     /**
      * The name of the book
@@ -12,7 +14,7 @@ public class Book {
     /**
      * The genre of the book
      */
-    private String genre; // TODO: Convert to genre class?
+    private String genre;
 
     /**
      * The description of the book
@@ -23,6 +25,11 @@ public class Book {
      * The price of the book
      */
     private double price;
+    /**
+     * The percent sale of the book.
+     * Eg $100 book at percentOff = 10 becomes $90
+     */
+    private double percentOff;
 
     public Book(String name, Store store, String genre, String description, double price) {
         this.name = name;
@@ -72,9 +79,17 @@ public class Book {
         this.price = price;
     }
 
+    public double getPercentOff() {
+        return percentOff;
+    }
+
+    public void setPercentOff(double percentOff) {
+        this.percentOff = percentOff;
+    }
+
     @Override
     public String toString() {
-        return "Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
+        return "Classes.Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
                 "description='" + description + '\'' + ", price=" + price + '}';
     }
 }

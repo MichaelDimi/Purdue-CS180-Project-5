@@ -1,6 +1,8 @@
 package Objects;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     /**
      * Name of the user
      */

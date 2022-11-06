@@ -5,17 +5,54 @@ import java.util.*;
 public class LoginMenu extends Menu {
 
     @Override
-    public void present(Scanner scan) {
+    public boolean present(Scanner scan) {
         System.out.println("*******************");
-        String[] input = Menu.validateLoginSignUpInput(scan);
+        String usernameEmail;
+        String email;
+        String password;
 
-        String username = input[0];
-        String email = input[1];
-        String password = input[2];
+        User returningUser = null;
 
-        // TODO: Validate in Marketplace
-        System.out.println(username + " | " + email + " | " + password);
+        String[] input = Menu.validateLoginInput(scan);
+
+        usernameEmail = input[0];
+        password = input[1];
+
+        System.out.println("Validating...");
+
+        try {
+            Thread.sleep(1000); // For dramatic effect
+        } catch (InterruptedException e) {
+            System.out.println("Error: Program interruption");
+        }
+
+        boolean foundUser = false;
+        // Validate in Marketplace
+        ArrayList<User> users = BookApp.marketplace.getUsers();
+        for (User user : users) {
+            if (user.getName().equals(usernameEmail) || user.getEmail().equals(usernameEmail)) {
+                if (user.getPassword().equals(password)) {
+                    if (user.getName().equals(usernameEmail)) {
+                        returningUser = BookApp.marketplace.getUserByUsername(usernameEmail);
+                    } else {
+                        returningUser = BookApp.marketplace.getUserByEmail(usernameEmail);
+                    }
+                    System.out.println("Welcome back " + returningUser.getName() + "!");
+                    foundUser = true;
+                    break;
+                }
+            }
+        }
+        if (!foundUser) {
+            System.out.println("Invalid username or password");
+            return false;
+        }
+
+        BookApp.marketplace.setCurrentUser(returningUser);
+        System.out.println(BookApp.marketplace.getCurrentUser());
+
         System.out.println("*******************");
+        return true;
     }
 
     public static User printLoginAndGetUser(Scanner scan, User[] users) {

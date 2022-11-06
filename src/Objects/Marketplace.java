@@ -1,8 +1,10 @@
 package Objects;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
+
 /**
  * TODO: Add javadoc headers to all classes
  */
@@ -21,10 +23,79 @@ public class Marketplace implements Serializable {
      */
     User currentUser;
 
+    static String filename = "marketplace.ser";
+
     public Marketplace() {
-        // TODO: Deserialize books and users
-        this.users = new ArrayList<>();
+        // Deserialize books and users
+        this.users = Objects.requireNonNull(Marketplace.readMarketplace()).getUsers();
+        this.books = Objects.requireNonNull(Marketplace.readMarketplace()).getBooks();
         this.currentUser = null;
+    }
+
+    public void saveMarketplace() {
+        // serializes data
+        try {
+            FileOutputStream file = new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(file);
+
+            // Method for serialization of object
+            out.writeObject(this);
+
+            out.close();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static public Marketplace readMarketplace() {
+        // deserializes data
+        try {
+            // Reading the object from a file
+            FileInputStream file = new FileInputStream(filename);
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            // Method for deserialization of object
+            Marketplace marketplace = (Marketplace) in.readObject();
+
+            in.close();
+            file.close();
+
+            return marketplace;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException ignored) {
+
+        }
+
+        return null;
+    }
+
+    /**
+     * Takes in a username and searches marketplace users to find user
+     * @param username The username of the user
+     * @return The user with that name
+     */
+    public User getUserByUsername(String username) {
+        for (User user : this.users) {
+            if (user.getName().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    /**
+     * Takes in an email and searches marketplace users to find user
+     * @param email The email of the user
+     * @return The user with that email
+     */
+    public User getUserByEmail(String email) {
+        for (User user : this.users) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     public ArrayList<User> getUsers() {

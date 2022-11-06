@@ -1,9 +1,10 @@
 package Objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Store {
+public class Store implements Serializable {
 
     /**
      * The store name

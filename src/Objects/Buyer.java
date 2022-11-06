@@ -67,9 +67,11 @@ public class Buyer extends User implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "cart=" + cart +
-                ", purchaseHistory=" + purchaseHistory +
-                '}';
+        return "Buyer<" + this.getName() + ", " +
+                this.getEmail() + ", " +
+                this.getPassword() + ", " +
+                cart + ", " +
+                purchaseHistory +
+                ">";
     }
 }

@@ -8,7 +8,6 @@ public class BookApp {
     public static Marketplace marketplace;
 
     public static void main(String[] args) {
-        Save save = new Save(marketplace, "marketplace.ser");
         Scanner scan = new Scanner(System.in);
 
         BookApp.marketplace = new Marketplace();
@@ -37,5 +36,7 @@ public class BookApp {
         } while (!validUser);
 
         System.out.println(marketplace);
+
+        marketplace.saveMarketplace();
     }
 }

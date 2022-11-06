@@ -3,7 +3,6 @@ package Objects;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * TODO: Add javadoc headers to all classes
@@ -26,10 +25,25 @@ public class Marketplace implements Serializable {
     static String filename = "marketplace.ser";
 
     public Marketplace() {
-        // Deserialize books and users
-        this.users = Objects.requireNonNull(Marketplace.readMarketplace()).getUsers();
-        this.books = Objects.requireNonNull(Marketplace.readMarketplace()).getBooks();
         this.currentUser = null;
+
+        // Deserialize books and users
+        Marketplace readMarket = Marketplace.readMarketplace();
+        if (readMarket == null) {
+            this.users = new ArrayList<>();
+            this.books = new HashMap<>();
+            System.out.println("HERE");
+            return;
+        }
+        try {
+            this.users = readMarket.getUsers();
+            this.books = readMarket.getBooks();
+            System.out.println(readMarket);
+        } catch (NullPointerException e) {
+            this.users = new ArrayList<>();
+            this.books = new HashMap<>();
+            System.out.println("HERE2");
+        }
     }
 
     public void saveMarketplace() {

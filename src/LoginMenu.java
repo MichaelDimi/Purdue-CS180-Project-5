@@ -18,7 +18,7 @@ public class LoginMenu extends Menu {
         usernameEmail = input[0];
         password = input[1];
 
-        System.out.println("Validating...");
+        System.out.println("Validating..." + usernameEmail + " " + password); // TODO: REMOVE
 
         try {
             Thread.sleep(1000); // For dramatic effect
@@ -30,6 +30,7 @@ public class LoginMenu extends Menu {
         // Validate in Marketplace
         ArrayList<User> users = BookApp.marketplace.getUsers();
         for (User user : users) {
+            System.out.println(user);
             if (user.getName().equals(usernameEmail) || user.getEmail().equals(usernameEmail)) {
                 if (user.getPassword().equals(password)) {
                     if (user.getName().equals(usernameEmail)) {

@@ -11,6 +11,7 @@ public class BookApp {
         Scanner scan = new Scanner(System.in);
 
         BookApp.marketplace = new Marketplace();
+        System.out.println(marketplace);
 
         System.out.println("WELCOME to BOOK APP");
         System.out.println("*******************");
@@ -35,5 +36,7 @@ public class BookApp {
         }
 
         System.out.println(marketplace);
+
+        marketplace.saveMarketplace();
     }
 }

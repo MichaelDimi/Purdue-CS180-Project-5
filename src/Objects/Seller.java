@@ -1,8 +1,9 @@
 package Objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Seller extends User {
+public class Seller extends User implements Serializable {
     /**
      * List of the stores owned by Seller
      */

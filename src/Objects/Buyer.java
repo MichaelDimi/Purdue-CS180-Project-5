@@ -1,9 +1,11 @@
 package Objects;
 
 import Exceptions.BookNotFoundException;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Buyer extends User {
+public class Buyer extends User implements Serializable {
     private HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
     private HashMap<Book, Integer> purchaseHistory = new HashMap<Book, Integer>();
 

@@ -1,6 +1,8 @@
 package Objects;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
     /**
      * The name of the book
      */

@@ -32,7 +32,6 @@ public class Marketplace implements Serializable {
         if (readMarket == null) {
             this.users = new ArrayList<>();
             this.books = new HashMap<>();
-            System.out.println("HERE");
             return;
         }
         try {
@@ -42,7 +41,6 @@ public class Marketplace implements Serializable {
         } catch (NullPointerException e) {
             this.users = new ArrayList<>();
             this.books = new HashMap<>();
-            System.out.println("HERE2");
         }
     }
 
@@ -77,6 +75,7 @@ public class Marketplace implements Serializable {
 
             return marketplace;
         } catch (ClassNotFoundException e) {
+            // serialized object type was not a Marketplace object
             e.printStackTrace();
         } catch (IOException ignored) {
 

@@ -35,8 +35,6 @@ public class BookApp {
             }
         } while (!validUser);
 
-        System.out.println(marketplace);
-
         marketplace.saveMarketplace();
     }
 }

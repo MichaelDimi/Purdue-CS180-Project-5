@@ -8,7 +8,6 @@ public class LoginMenu extends Menu {
     public boolean present(Scanner scan) {
         System.out.println("*******************");
         String usernameEmail;
-        String email;
         String password;
 
         User returningUser = null;
@@ -18,7 +17,7 @@ public class LoginMenu extends Menu {
         usernameEmail = input[0];
         password = input[1];
 
-        System.out.println("Validating..." + usernameEmail + " " + password); // TODO: REMOVE
+        System.out.println("Validating...");
 
         try {
             Thread.sleep(1000); // For dramatic effect
@@ -50,45 +49,8 @@ public class LoginMenu extends Menu {
         }
 
         BookApp.marketplace.setCurrentUser(returningUser);
-        System.out.println(BookApp.marketplace.getCurrentUser());
 
         System.out.println("*******************");
         return true;
     }
-
-    public static User printLoginAndGetUser(Scanner scan, User[] users) {
-        boolean loop = true;
-        User currentUser = null;
-        while (loop) {
-            while (loop) {
-                System.out.println("Enter your email");
-                String email = scan.nextLine();
-                System.out.println("Enter your password");
-                String password = scan.nextLine();
-                if (email.isEmpty() || password.isEmpty()) {
-                    loop = true;
-                    break;
-                }
-                currentUser = checkUserData(email, password, users);
-                if (currentUser == null) {
-                    System.out.println("Incorrect Email or Password");
-                    loop = true;
-                    break;
-                } 
-                loop = false;
-            } 
-        }
-        return currentUser;
-    }
-    public static User checkUserData(String email, String password, User[] users) {
-        for (int i = 0; i < users.length; i++) {
-            if (users[i].getEmail().equals(email) && users[i].getPassword().equals(password)) {
-                return users[i];
-            }
-        }
-        return null;
-    }
-
-
-
 }

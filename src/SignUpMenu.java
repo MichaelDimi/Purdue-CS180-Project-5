@@ -32,7 +32,7 @@ public class SignUpMenu extends Menu {
                 System.out.println("Error: Program interruption");
             }
 
-            // Validate in Marketplace // TODO: Test
+            // Validate in Marketplace
             ArrayList<User> users = BookApp.marketplace.getUsers();
             for (User user : users) {
                 if (user.getName().equals(username)) {
@@ -49,7 +49,7 @@ public class SignUpMenu extends Menu {
         do {
             System.out.println("Are you a\n1. Buyer\n2. Seller");
             String buyerSeller = scan.nextLine();
-            if (Objects.equals(buyerSeller, "1") || Objects.equals(buyerSeller, "2")) {
+            if (buyerSeller.equals("1") || buyerSeller.equals("2")) {
                 isBuyer = Objects.equals(buyerSeller, "1");
                 break;
             }

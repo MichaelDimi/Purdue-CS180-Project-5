@@ -7,8 +7,9 @@ public abstract class Menu {
     /**
      * Presents a menu
      */
-    public void present(Scanner scan) {
+    public boolean present(Scanner scan) {
         System.out.println("Override this method to make your custom menu");
+        return false;
     }
 
     /**
@@ -17,7 +18,7 @@ public abstract class Menu {
      * @param scan The scanner that is passed by reference
      * @return Returns an array with the username, email, and password
      */
-    public static String[] validateLoginSignUpInput(Scanner scan) {
+    public static String[] validateSignUpInput(Scanner scan) {
         String username;
         do {
             System.out.println("Enter your username: ");
@@ -55,5 +56,35 @@ public abstract class Menu {
         } while(password.isEmpty());
 
         return new String[]{username, email, password};
+    }
+
+    /**
+     * Queries the user for username or email, and password, and ensures
+     * the user is entering valid input before returning.
+     * @param scan The scanner that is passed by reference
+     * @return Returns an array with the username or email, and password
+     */
+    public static String[] validateLoginInput(Scanner scan) {
+        String input;
+        do {
+            System.out.println("Enter your username or email: ");
+            input = scan.nextLine();
+
+            if (input.isEmpty()) {
+                System.out.println("Whoops: Please enter a valid username or email");
+            }
+        } while(input.isEmpty());
+
+        String password;
+        do {
+            System.out.println("Enter your password: ");
+            password = scan.nextLine();
+
+            if (password.isEmpty()) {
+                System.out.println("Whoops: Please enter a valid password");
+            }
+        } while(password.isEmpty());
+
+        return new String[]{input, password};
     }
 }

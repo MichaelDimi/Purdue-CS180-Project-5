@@ -32,9 +32,15 @@ public class Marketplace implements Serializable {
         if (readMarket == null) {
             this.users = new ArrayList<>();
             this.books = new HashMap<>();
-        } else {
+            return;
+        }
+        try {
             this.users = readMarket.getUsers();
             this.books = readMarket.getBooks();
+            System.out.println(readMarket);
+        } catch (NullPointerException e) {
+            this.users = new ArrayList<>();
+            this.books = new HashMap<>();
         }
     }
 
@@ -44,7 +50,7 @@ public class Marketplace implements Serializable {
             FileOutputStream file = new FileOutputStream(filename);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
-            // method for serialization of object
+            // Method for serialization of object
             out.writeObject(this);
 
             out.close();
@@ -66,7 +72,7 @@ public class Marketplace implements Serializable {
 
             in.close();
             file.close();
-            System.out.println("read");
+
             return marketplace;
         } catch (ClassNotFoundException e) {
             // serialized object type was not a Marketplace object

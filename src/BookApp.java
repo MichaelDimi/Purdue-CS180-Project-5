@@ -18,22 +18,23 @@ public class BookApp {
 
         // Figures out if user wants to log in or sign up
         String loginSignup;
+        boolean validUser = false;
         do {
             System.out.println("1. Login\n2. Sign Up");
             loginSignup = scan.nextLine();
-            if (Objects.equals(loginSignup, "1") || Objects.equals(loginSignup, "2")) {
-                break;
+            if (!Objects.equals(loginSignup, "1") && !Objects.equals(loginSignup, "2")) {
+                System.out.println("Whoops: Please enter (1) or (2)");
+                continue;
             }
-            System.out.println("Whoops: Please enter (1) or (2)");
-        } while (true);
 
-        if (loginSignup.equals("1")) {
-            LoginMenu loginMenu = new LoginMenu();
-            loginMenu.present(scan);
-        } else {
-            SignUpMenu signUpMenu = new SignUpMenu();
-            signUpMenu.present(scan);
-        }
+            if (loginSignup.equals("1")) {
+                LoginMenu loginMenu = new LoginMenu();
+                validUser = loginMenu.present(scan); // if false, return to login or signup
+            } else {
+                SignUpMenu signUpMenu = new SignUpMenu();
+                validUser = signUpMenu.present(scan); // Ignore this if we are signing up
+            }
+        } while (!validUser);
 
         System.out.println(marketplace);
 

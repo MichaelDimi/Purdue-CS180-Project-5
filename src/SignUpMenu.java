@@ -17,7 +17,6 @@ public class SignUpMenu extends Menu {
         String password;
         boolean error;
         do {
-            error = false;
             String[] input = Menu.validateSignUpInput(scan);
 
             username = input[0];
@@ -34,14 +33,10 @@ public class SignUpMenu extends Menu {
 
             // Validate in Marketplace
             ArrayList<User> users = BookApp.marketplace.getUsers();
-            for (User user : users) {
-                if (user.getName().equals(username)) {
-                    System.out.println("That username is taken, please try a different one");
-                    error = true;
-                } else if (user.getEmail().equals(email)) {
-                    System.out.println("That email is already in use, please try again");
-                    error = true;
-                }
+
+            error = !BookApp.marketplace.validateName(username) && !BookApp.marketplace.validateEmail(email);
+            if (!error) {
+                System.out.println("Validation successful!");
             }
         } while (error);
 

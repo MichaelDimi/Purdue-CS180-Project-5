@@ -50,7 +50,6 @@ public class LoginMenu extends Menu {
 
         BookApp.marketplace.setCurrentUser(returningUser);
 
-        System.out.println("*******************");
         return true;
     }
 }

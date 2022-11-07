@@ -40,7 +40,12 @@ public class Seller extends User implements Serializable {
     }
 
     @Override
-    public String toString() { // TODO: Combine this with the super toString()
-        return "Seller{" + "stores=" + stores + ", stats=" + stats + '}';
+    public String toString() {
+        return "Seller<" + this.getName() + ", " +
+                this.getEmail() + ", " +
+                this.getPassword() + ", " +
+                stores + ", " +
+                stats +
+                ">";
     }
 }

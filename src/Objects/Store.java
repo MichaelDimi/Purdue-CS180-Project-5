@@ -22,14 +22,17 @@ public class Store implements Serializable {
      */
     private ArrayList<Review> reviews;
 
-    public Store(String name, HashMap<Book, Integer> stock, ArrayList<Review> reviews) {
+    public Store(String name, ArrayList<Review> reviews) {
         this.name = name;
-        this.stock = stock;
+        // This gets set later by the seller. For each book, you give a quantity declaring the stock
+        this.stock = null;
         this.reviews = reviews;
     }
 
     public Store(String name) {
         this.name = name;
+        this.stock = null;
+        this.reviews = null;
     }
 
     public String getName() {

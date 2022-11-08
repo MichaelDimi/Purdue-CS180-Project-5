@@ -1,8 +1,11 @@
 package Objects;
 
+import Exceptions.IdenticalStoreException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class Seller extends User implements Serializable {
     /**
@@ -20,13 +23,28 @@ public class Seller extends User implements Serializable {
         this.stores = new ArrayList<>();
     }
 
+    public void createNewStore(String storeName) throws IdenticalStoreException {
+        // Check that the name is not identical
+        if (this.getStoreByName(storeName) != null) {
+            // TODO: Catch this exception wherever this function is used.
+            throw new IdenticalStoreException("You cannot have an identical store");
+        }
+        stores.add(new Store(storeName));
+    }
+
     // lets user add new store which gets added to seller's store arraylist
-    public void createNewStore() {
+    public void createNewStore() throws IdenticalStoreException {
         System.out.println("CREATING A NEW STORE");
         System.out.println("*******************");
         System.out.println("Please enter a new store name (enter 0 to cancel):");
         Scanner scanner = new Scanner(System.in);
         String storeName = scanner.nextLine();
+
+        // Check that the name is not identical
+        if (this.getStoreByName(storeName) != null) {
+            // TODO: Catch this exception wherever this function is used.
+            throw new IdenticalStoreException("You cannot have an identical store");
+        }
 
         if (storeName.equals("0")) {
             System.out.println("STORE CREATION CANCELED");
@@ -48,8 +66,12 @@ public class Seller extends User implements Serializable {
 
             // brings up prompt to create a new store
             if (scanner.nextLine().equals("1")) {
-                createNewStore();
-
+                // TODO: IdenticalStoreException not needed?
+                try {
+                    createNewStore();
+                } catch (IdenticalStoreException e) {
+                    System.out.println(e.getMessage());
+                }
                 // prompts user to select store again from the updated list
                 return selectStore();
             }
@@ -103,6 +125,30 @@ public class Seller extends User implements Serializable {
 
     public void editStoreInventory(Store store) {
         // TODO: ADD AND REMOVE BOOK LISTINGS
+    }
+
+    public HashMap<Book, Integer> getSellerBooks() {
+        HashMap<Book, Integer> sellersBooks = new HashMap<>();
+        for (Store store : this.stores) {
+            HashMap<Book, Integer> stock = store.getStock();
+            for (Book book : stock.keySet()) {
+                if (sellersBooks.get(book) == null) {
+                    sellersBooks.put(book, stock.get(book));
+                } else {
+                    sellersBooks.put(book, stock.get(book) + sellersBooks.get(book));
+                }
+            }
+        }
+        return sellersBooks;
+    }
+
+    public Store getStoreByName(String storeName) {
+        for (Store store : this.stores) {
+            if (storeName.equals(store.getName())) {
+                return store;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Store> getStores() {

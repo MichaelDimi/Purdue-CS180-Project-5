@@ -136,7 +136,7 @@ public class Marketplace implements Serializable {
     public ArrayList<Book> getBooksByStore(String storeName) {
         ArrayList<Book> books = new ArrayList<>();
         for (Book book : this.books.keySet()) {
-            if (book.getStore().getName().toLowerCase().contains(storeName.toLowerCase())) {
+            if (book.getStore().toLowerCase().contains(storeName.toLowerCase())) {
                 books.add(book);
             }
         }

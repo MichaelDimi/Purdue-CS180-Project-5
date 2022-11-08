@@ -9,9 +9,9 @@ public class Book implements Serializable {
     private String name;
 
     /**
-     * The store selling the book.
+     * The name of the store selling the book.
      */
-    private Store store;
+    private String store;
 
     /**
      * The genre of the book
@@ -33,7 +33,7 @@ public class Book implements Serializable {
      */
     private double percentOff;
 
-    public Book(String name, Store store, String genre, String description, double price) {
+    public Book(String name, String store, String genre, String description, double price) {
         this.name = name;
         this.store = store;
         this.genre = genre;
@@ -49,11 +49,11 @@ public class Book implements Serializable {
         this.name = name;
     }
 
-    public Store getStore() {
+    public String getStore() {
         return store;
     }
 
-    public void setStore(Store store) {
+    public void setStore(String store) {
         this.store = store;
     }
 

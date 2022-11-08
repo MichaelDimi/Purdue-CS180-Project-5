@@ -35,3 +35,5 @@ hs_err_pid*
 
 # PROJECT REALTED FILES
 *.ser
+
+*.csv

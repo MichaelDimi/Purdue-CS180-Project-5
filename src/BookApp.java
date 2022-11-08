@@ -18,6 +18,8 @@ public class BookApp {
         // Figures out if user wants to log in or sign up
         // Login or Sign up Loop TODO: add exit
         do {
+            System.out.println(marketplace.getUsers()); // TODO: REMOVE THIS (useful for logging in correctly)
+
             String loginSignup;
             boolean validUser = false;
             do {
@@ -41,6 +43,12 @@ public class BookApp {
 
             // Main loop
             do {
+                User currentUser = marketplace.getCurrentUser();
+
+                FileIOMenu fileIOMenu = new FileIOMenu();
+                fileIOMenu.sellerExport(currentUser);
+
+
                 // ACCOUNT MENU
                 AccountMenu accountMenu = new AccountMenu();
                 boolean accountMenuResult = accountMenu.present(scan); // If false, sign out

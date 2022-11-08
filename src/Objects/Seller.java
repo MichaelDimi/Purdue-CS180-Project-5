@@ -125,6 +125,64 @@ public class Seller extends User implements Serializable {
 
     public void editStoreInventory(Store store) {
         // TODO: ADD AND REMOVE BOOK LISTINGS
+        HashMap<Book, Integer> stock = store.getStock();
+
+        System.out.println("Would you like to:");
+        System.out.println("1. Add new books");
+        System.out.println("2. Remove books");
+        System.out.println("3. Edit existing books");
+        System.out.println("4. View books in store");
+        System.out.println("5. DONE");
+
+        Scanner scanner = new Scanner(System.in);
+
+        switch (scanner.nextLine()) {
+            case "1":
+                // add books
+                System.out.println("Enter a book name:");
+                String bookName = scanner.nextLine();
+
+                System.out.println("Enter book genre(s):");
+                String genre = scanner.nextLine();
+
+                System.out.println("Enter book description:");
+                String description = scanner.nextLine();
+
+                System.out.println("Enter book genre(s):");
+                double price = scanner.nextDouble();
+                scanner.nextLine();
+
+                System.out.println("Enter quantity:");
+                int quantity = scanner.nextInt();
+                scanner.nextLine();
+
+                Book book = new Book(bookName, store.getName(), genre, description, price);
+
+                // loops and adds the quantity of books specified to store's stock
+                for (int i = 0; i < quantity; i++) {
+                    // current quantity of specified book
+                    Integer currentCount = store.getStock().get(book);
+
+                    // checks if user already has book in cart, increments current quantity if so
+                    if (currentCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+                        stock.put(book, quantity);
+                    } else {
+                        stock.put(book, currentCount + quantity);
+                    }
+                }
+                break;
+            case "2":
+                // remove books
+                break;
+            case "3":
+                // edit books
+                break;
+            case "4":
+                // displays all books
+                break;
+            default:
+                break;
+        }
     }
 
     public HashMap<Book, Integer> getSellerBooks() {

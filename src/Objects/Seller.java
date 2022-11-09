@@ -1,5 +1,6 @@
 package Objects;
 
+import Exceptions.BookNotFoundException;
 import Exceptions.IdenticalStoreException;
 
 import java.io.Serializable;
@@ -55,6 +56,7 @@ public class Seller extends User implements Serializable {
     }
 
     // displays all stores a seller owns and lets seller select a store
+    // returns user selected Store and null if operation cancelled
     public Store selectStore() {
         Scanner scanner = new Scanner(System.in);
 
@@ -80,6 +82,7 @@ public class Seller extends User implements Serializable {
             System.out.println("CHOOSE STORE TO EDIT");
             System.out.println("*******************");
 
+            // loops until a valid input is inputted
             int storeSelection = -1;
             while (storeSelection > stores.size() || storeSelection < 0) {
                 // displays stores the seller owns
@@ -97,7 +100,7 @@ public class Seller extends User implements Serializable {
                     System.out.println("That is not a valid input.");
             }
 
-            //  selection was not the cancel option or invalid
+            //  ensures selection was not the cancel option or invalid
             if (storeSelection < stores.size()) {
                 System.out.println("CURRENT STORE SELECTION: " + stores.get(storeSelection).getName());
                 return stores.get(storeSelection);
@@ -125,11 +128,10 @@ public class Seller extends User implements Serializable {
 
     public void editStoreInventory(Store store) {
         // TODO: ADD AND REMOVE BOOK LISTINGS
+        HashMap<Book, Integer> stock = store.getStock();
 
         boolean isEditingInventory = true;
         while (isEditingInventory) {
-            HashMap<Book, Integer> stock = store.getStock();
-
             System.out.println("Would you like to:");
             System.out.println("1. Add new books");
             System.out.println("2. Remove books");
@@ -176,13 +178,42 @@ public class Seller extends User implements Serializable {
                     break;
                 case "2":
                     // remove books
+                    System.out.println("SELECT BOOK TO REMOVE");
+                    System.out.println("*******************");
+
+                    // cant select from hashmap by index
+                    // gets key object from books arraylist with same order as hashmap
+                    Book bookToRemove = selectBook(stock);
+
+                    // current quantity of specified book
+                    Integer currentCount = stock.get(bookToRemove);
+
+                    System.out.println("Please input the quantity you would like to remove:");
+                    int quantityToRemove = scanner.nextInt();
+                    scanner.nextLine();
+
+                    // removes book from hashmap if final quantity is less than or equal 0
+                    if (currentCount - quantityToRemove <= 0) {
+                        stock.remove(bookToRemove);
+                    } else {
+                        stock.put(bookToRemove, currentCount - quantityToRemove);
+                    }
                     break;
                 case "3":
                     // edit books
+                    System.out.println("SELECT BOOK TO EDIT");
+                    System.out.println("*******************");
+
+                    // cant select from hashmap by index
+                    // gets key object from books arraylist with same order as hashmap
+                    Book bookToEdit = selectBook(stock);
+
+                    // menu to edit book
+
                     break;
                 case "4":
                     // displays all books
-                    System.out.println("CURRENT STOCK");
+                    System.out.println("CURRENT STOCK of " + store.getName());
                     System.out.println("*******************");
 
                     for (Book book : stock.keySet()) {
@@ -197,6 +228,48 @@ public class Seller extends User implements Serializable {
                     isEditingInventory = false;
             }
         }
+
+        // updates the store's stock with the new modified stock
+        store.setStock(stock);
+    }
+
+    // displays all books in a store lets user select a book
+    // returns user selected Book and null if operation cancelled
+    public Book selectBook(HashMap<Book, Integer> stock) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Book> books = new ArrayList<>();
+
+        // loops until a valid input is inputted
+        int bookSelection = -1;
+        while (bookSelection > stock.size() || bookSelection < 0) {
+            books.clear();
+
+            // prints out all books and their quantities; adds them to arraylist to preserve order
+            int i = 1;
+            for (Book book : stock.keySet()) {
+                System.out.println(i + ". " + book.getName() + " | Qty: " + stock.get(book));
+                books.add(book);
+                i++;
+            }
+
+            System.out.println((books.size() + 1) + ". CANCEL");
+
+            bookSelection = scanner.nextInt() - 1;
+            scanner.nextLine();
+
+            // invalid input
+            if (bookSelection > books.size())
+                System.out.println("That is not a valid input.");
+        }
+
+        // ensures selection was not the cancel option or invalid
+        if (bookSelection < books.size()) {
+            // cant select from hashmap by index
+            // gets key object from books arraylist with same order as hashmap
+            return books.get(bookSelection);
+        }
+
+        return null;
     }
 
     public HashMap<Book, Integer> getSellerBooks() {

@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
-// TODO: handle null selected stores or books
+/* TODO:
+    - handle null selected stores or books
+    - check for duplicate books
+    - fix weird cancel behavior
+ */
 public class Seller extends User implements Serializable {
     /**
      * List of the stores owned by Seller
@@ -115,35 +119,62 @@ public class Seller extends User implements Serializable {
     // menu when creating/editing stores or adding/editing books
     public void editStore() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("SELLER PAGE");
-        System.out.println("*******************");
-        System.out.println("1. Edit store or manage stock");
-        System.out.println("2. Create new store");
-        System.out.println("3. DONE");
 
-        switch (scanner.nextLine()) {
-            case "1":
-                Store selectedStore = selectStore();
+        boolean isViewingSellerPage = true;
+        while (isViewingSellerPage) {
+            System.out.println("SELLER PAGE");
+            System.out.println("*******************");
+            System.out.println("1. Edit store or manage stock");
+            System.out.println("2. Create new store");
+            System.out.println("3. Delete store");
+            System.out.println("4. View your stores");
+            System.out.println("5. DONE");
 
-                System.out.println("What would you like to do?");
-                System.out.println("1. Edit Store");
-                System.out.println("2. Edit Inventory");
-                System.out.println("3. Cancel");
+            switch (scanner.nextLine()) {
+                case "1":
+                    // editing store and manging stock
+                    Store selectedStore = selectStore();
 
-                switch (scanner.nextLine()) {
-                    case "1":
-                        editStoreName(selectedStore);
-                        break;
-                    case "2":
-                        editStoreInventory(selectedStore);
-                        break;
-                }
-                break;
-            case "2":
-                try {
-                    createNewStore();
-                } catch (IdenticalStoreException ignored) {}
-                break;
+                    System.out.println("What would you like to do?");
+                    System.out.println("1. Edit store name");
+                    System.out.println("2. Mange stock");
+                    System.out.println("3. Cancel");
+
+                    switch (scanner.nextLine()) {
+                        case "1":
+                            editStoreName(selectedStore);
+                            break;
+                        case "2":
+                            editStoreInventory(selectedStore);
+                            break;
+                    }
+                    break;
+                case "2":
+                    // create new store
+                    try {
+                        createNewStore();
+                    } catch (IdenticalStoreException ignored) {
+                    }
+                    break;
+                case "3":
+                    // delete store
+                    // TODO Handle cancel request
+                    Store storeToDelete = selectStore();
+                    for (int i = 0; i < stores.size(); i++) {
+                        // store references should be the same (see selectStore() method)
+                        if (stores.get(i) == storeToDelete) {
+                            stores.remove(i);
+                        }
+                    }
+                    break;
+                case "4":
+                    // lists out all owned stores
+                    for (Store store : stores)
+                        System.out.println(store.getName());
+                    break;
+                default:
+                    isViewingSellerPage = false;
+            }
         }
     }
 
@@ -159,6 +190,7 @@ public class Seller extends User implements Serializable {
         }
     }
 
+    // edit, create, and delete books in specified store
     public void editStoreInventory(Store store) {
         // TODO: ADD AND REMOVE BOOK LISTINGS
         HashMap<Book, Integer> stock = store.getStock();

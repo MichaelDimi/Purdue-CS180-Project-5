@@ -39,8 +39,10 @@ public class BookApp {
                 }
             } while (!validUser);
 
-            Seller newSeller = (Seller) marketplace.getCurrentUser();
-            newSeller.editStore();
+            // Seller test
+//            Seller newSeller = (Seller) marketplace.getCurrentUser();
+//            newSeller.editStore();
+
             marketplace.saveMarketplace();
 
             // Main loop

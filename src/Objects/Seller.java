@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
+// TODO: handle null selected stores or books
 public class Seller extends User implements Serializable {
     /**
      * List of the stores owned by Seller
@@ -67,6 +68,7 @@ public class Seller extends User implements Serializable {
             System.out.println("2. No");
 
             // brings up prompt to create a new store
+            // recursion; could infinitely loop?
             if (scanner.nextLine().equals("1")) {
                 // TODO: IdenticalStoreException not needed?
                 try {
@@ -79,7 +81,7 @@ public class Seller extends User implements Serializable {
             }
 
         } else {
-            System.out.println("CHOOSE STORE TO EDIT");
+            System.out.println("CHOOSE A STORE");
             System.out.println("*******************");
 
             // loops until a valid input is inputted
@@ -110,8 +112,39 @@ public class Seller extends User implements Serializable {
         return null;
     }
 
+    // menu when creating/editing stores or adding/editing books
     public void editStore() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("SELLER PAGE");
+        System.out.println("*******************");
+        System.out.println("1. Edit store or manage stock");
+        System.out.println("2. Create new store");
+        System.out.println("3. DONE");
 
+        switch (scanner.nextLine()) {
+            case "1":
+                Store selectedStore = selectStore();
+
+                System.out.println("What would you like to do?");
+                System.out.println("1. Edit Store");
+                System.out.println("2. Edit Inventory");
+                System.out.println("3. Cancel");
+
+                switch (scanner.nextLine()) {
+                    case "1":
+                        editStoreName(selectedStore);
+                        break;
+                    case "2":
+                        editStoreInventory(selectedStore);
+                        break;
+                }
+                break;
+            case "2":
+                try {
+                    createNewStore();
+                } catch (IdenticalStoreException ignored) {}
+                break;
+        }
     }
 
     public void editStoreName(Store store) {
@@ -129,6 +162,10 @@ public class Seller extends User implements Serializable {
     public void editStoreInventory(Store store) {
         // TODO: ADD AND REMOVE BOOK LISTINGS
         HashMap<Book, Integer> stock = store.getStock();
+
+        // makes sure that stock is always initialized
+        if (stock == null)
+            stock = new HashMap<>();
 
         boolean isEditingInventory = true;
         while (isEditingInventory) {
@@ -153,7 +190,7 @@ public class Seller extends User implements Serializable {
                     System.out.println("Enter book description:");
                     String description = scanner.nextLine();
 
-                    System.out.println("Enter book genre(s):");
+                    System.out.println("Enter book price:");
                     double price = scanner.nextDouble();
                     scanner.nextLine();
 
@@ -278,7 +315,7 @@ public class Seller extends User implements Serializable {
                         System.out.println("Name: " + book.getName());
                         System.out.println("Genre: " + book.getGenre());
                         System.out.println("Description: " + book.getDescription());
-                        System.out.printf("Price: $%.2f", book.getPrice());
+                        System.out.printf("Price: $%.2f\n", book.getPrice());
                         System.out.println("Quantity: " + stock.get(book));
                     }
                     break;

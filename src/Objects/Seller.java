@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
-/* TODO:
-    - handle null selected stores or books
+/* TODO
     - check for duplicate books
-    - fix weird cancel behavior
  */
 public class Seller extends User implements Serializable {
     /**
@@ -135,17 +133,23 @@ public class Seller extends User implements Serializable {
                     // editing store and manging stock
                     Store selectedStore = selectStore();
 
+                    // checks if selectStore was cancelled and returned null
+                    if (selectedStore == null)
+                        break;
+
                     System.out.println("What would you like to do?");
-                    System.out.println("1. Edit store name");
-                    System.out.println("2. Mange stock");
-                    System.out.println("3. Cancel");
+                    System.out.println("1. Mange stock");
+                    System.out.println("2. Edit store name");
+                    System.out.println("3. CANCEL");
 
                     switch (scanner.nextLine()) {
                         case "1":
-                            editStoreName(selectedStore);
+                            // manage stock
+                            editStoreInventory(selectedStore);
                             break;
                         case "2":
-                            editStoreInventory(selectedStore);
+                            // edit store name
+                            editStoreName(selectedStore);
                             break;
                     }
                     break;
@@ -158,8 +162,12 @@ public class Seller extends User implements Serializable {
                     break;
                 case "3":
                     // delete store
-                    // TODO Handle cancel request
                     Store storeToDelete = selectStore();
+
+                    // checks if selectStore was cancelled and returned null
+                    if (storeToDelete == null)
+                        break;
+
                     for (int i = 0; i < stores.size(); i++) {
                         // store references should be the same (see selectStore() method)
                         if (stores.get(i) == storeToDelete) {
@@ -168,9 +176,13 @@ public class Seller extends User implements Serializable {
                     }
                     break;
                 case "4":
-                    // lists out all owned stores
-                    for (Store store : stores)
-                        System.out.println(store.getName());
+                    if (stores.size() == 0) {
+                        System.out.println("YOU CURRENTLY DO NOT OWN ANY STORES");
+                    } else {
+                        // lists out all owned stores
+                        for (Store store : stores)
+                            System.out.println(store.getName());
+                    }
                     break;
                 default:
                     isViewingSellerPage = false;
@@ -192,7 +204,6 @@ public class Seller extends User implements Serializable {
 
     // edit, create, and delete books in specified store
     public void editStoreInventory(Store store) {
-        // TODO: ADD AND REMOVE BOOK LISTINGS
         HashMap<Book, Integer> stock = store.getStock();
 
         // makes sure that stock is always initialized
@@ -201,7 +212,7 @@ public class Seller extends User implements Serializable {
 
         boolean isEditingInventory = true;
         while (isEditingInventory) {
-            System.out.println("Would you like to:");
+            System.out.println("What would you like to do:");
             System.out.println("1. Add new books");
             System.out.println("2. Remove books");
             System.out.println("3. Edit existing books");
@@ -232,123 +243,140 @@ public class Seller extends User implements Serializable {
 
                     Book newBook = new Book(bookName, store.getName(), genre, description, price);
 
-                    // loops and adds the quantity of books specified to store's stock
-                    for (int i = 0; i < quantity; i++) {
-                        // current quantity of specified book
-                        Integer currentCount = stock.get(newBook);
+                    // current quantity of specified book
+                    Integer newBookCount = stock.get(newBook);
 
-                        // checks if user already has book in cart, increments current quantity if so
-                        if (currentCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-                            stock.put(newBook, quantity);
-                        } else {
-                            stock.put(newBook, currentCount + quantity);
-                        }
+                    // checks if user already has book in cart, increments current quantity if so
+                    if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+                        stock.put(newBook, quantity);
+                    } else {
+                        stock.put(newBook, newBookCount + quantity);
                     }
+
                     break;
                 case "2":
-                    // remove books
-                    System.out.println("SELECT BOOK TO REMOVE");
-                    System.out.println("*******************");
-
-                    // cant select from hashmap by index
-                    // gets key object from books arraylist with same order as hashmap
-                    Book bookToRemove = selectBook(stock);
-
-                    // current quantity of specified book
-                    Integer currentCount = stock.get(bookToRemove);
-
-                    System.out.println("Please input the quantity you would like to remove:");
-                    int quantityToRemove = scanner.nextInt();
-                    scanner.nextLine();
-
-                    // removes book from hashmap if final quantity is less than or equal 0
-                    if (currentCount - quantityToRemove <= 0) {
-                        stock.remove(bookToRemove);
+                    if (stock.size() == 0) {
+                        System.out.println("THERE ARE CURRENTLY NO BOOKS in " + store.getName());
                     } else {
-                        stock.put(bookToRemove, currentCount - quantityToRemove);
+                        // remove books
+                        System.out.println("SELECT BOOK TO REMOVE");
+                        System.out.println("*******************");
+
+                        // cant select from hashmap by index
+                        // gets key object from books arraylist with same order as hashmap
+                        Book bookToRemove = selectBook(stock);
+
+                        // checks if selectBook was cancelled and returned null
+                        if (bookToRemove == null)
+                            break;
+
+                        // current quantity of specified book
+                        Integer bookToRemoveCount = stock.get(bookToRemove);
+
+                        System.out.println("Please input the quantity you would like to remove:");
+                        int quantityToRemove = scanner.nextInt();
+                        scanner.nextLine();
+
+                        // removes book from hashmap if final quantity is less than or equal 0
+                        if (bookToRemoveCount - quantityToRemove <= 0) {
+                            stock.remove(bookToRemove);
+                        } else {
+                            stock.put(bookToRemove, bookToRemoveCount - quantityToRemove);
+                        }
                     }
                     break;
                 case "3":
-                    // edit books
-                    System.out.println("SELECT BOOK TO EDIT");
-                    System.out.println("*******************");
-
-                    // cant select from hashmap by index
-                    // gets key object from books arraylist with same order as hashmap
-                    Book bookToEdit = selectBook(stock);
-
-                    boolean isEditingBook = true;
-                    while (isEditingBook) {
-                        System.out.println("EDITING BOOK " + bookToEdit.getName());
+                    if (stock.size() == 0) {
+                        System.out.println("THERE ARE CURRENTLY NO BOOKS in " + store.getName());
+                    } else {
+                        // edit books
+                        System.out.println("SELECT BOOK TO EDIT");
                         System.out.println("*******************");
-                        System.out.println("Name: " + bookToEdit.getName());
-                        System.out.println("Genre: " + bookToEdit.getGenre());
-                        System.out.println("Description: " + bookToEdit.getDescription());
-                        System.out.printf("Price: $%.2f", bookToEdit.getPrice());
 
-                        System.out.println("What would you like to edit?");
-                        System.out.println("1. Name");
-                        System.out.println("2. Genre");
-                        System.out.println("3. Description");
-                        System.out.println("4. Price");
-                        System.out.println("5. DONE");
+                        // cant select from hashmap by index
+                        // gets key object from books arraylist with same order as hashmap
+                        Book bookToEdit = selectBook(stock);
 
-                        int currentBookQuantity = stock.get(bookToEdit);
-                        switch (scanner.nextLine()) {
-                            case "1":
-                                System.out.println("Input a new name:");
-                                String newName = scanner.nextLine();
+                        // checks if selectBook was cancelled and returned null
+                        if (bookToEdit == null)
+                            break;
 
-                                // removes old Book object and adds new Book object with the updated name
-                                bookToEdit.setName(newName);
-                                stock.remove(bookToEdit);
-                                stock.put(bookToEdit, currentBookQuantity);
-                                break;
-                            case "2":
-                                System.out.println("Input new genre(s):");
-                                String newGenre = scanner.nextLine();
+                        boolean isEditingBook = true;
+                        while (isEditingBook) {
+                            System.out.println("EDITING BOOK " + bookToEdit.getName());
+                            System.out.println("*******************");
+                            System.out.println("Name: " + bookToEdit.getName());
+                            System.out.println("Genre: " + bookToEdit.getGenre());
+                            System.out.println("Description: " + bookToEdit.getDescription());
+                            System.out.printf("Price: $%.2f\n", bookToEdit.getPrice());
 
-                                // removes old Book object and adds new Book object with the updated genre(s)
-                                bookToEdit.setGenre(newGenre);
-                                stock.remove(bookToEdit);
-                                stock.put(bookToEdit, currentBookQuantity);
-                                break;
-                            case "3":
-                                System.out.println("Input new description:");
-                                String newDescription = scanner.nextLine();
+                            System.out.println("What would you like to edit?");
+                            System.out.println("1. Name");
+                            System.out.println("2. Genre");
+                            System.out.println("3. Description");
+                            System.out.println("4. Price");
+                            System.out.println("5. DONE");
 
-                                // removes old Book object and adds new Book object with the updated description
-                                bookToEdit.setDescription(newDescription);
-                                stock.remove(bookToEdit);
-                                stock.put(bookToEdit, currentBookQuantity);
-                                break;
-                            case "4":
-                                System.out.println("Input new price:");
-                                double newPrice = scanner.nextDouble();
-                                scanner.nextLine();
+                            int currentBookQuantity = stock.get(bookToEdit);
+                            switch (scanner.nextLine()) {
+                                case "1":
+                                    System.out.println("Input a new name:");
+                                    String newName = scanner.nextLine();
 
-                                // removes old Book object and adds new Book object with the updated price
-                                bookToEdit.setPrice(newPrice);
-                                stock.remove(bookToEdit);
-                                stock.put(bookToEdit, currentBookQuantity);
-                                break;
-                            default:
-                                isEditingBook = false;
+                                    // removes old Book object and adds new Book object with the updated name
+                                    bookToEdit.setName(newName);
+                                    stock.remove(bookToEdit);
+                                    stock.put(bookToEdit, currentBookQuantity);
+                                    break;
+                                case "2":
+                                    System.out.println("Input new genre(s):");
+                                    String newGenre = scanner.nextLine();
+
+                                    // removes old Book object and adds new Book object with the updated genre(s)
+                                    bookToEdit.setGenre(newGenre);
+                                    stock.remove(bookToEdit);
+                                    stock.put(bookToEdit, currentBookQuantity);
+                                    break;
+                                case "3":
+                                    System.out.println("Input new description:");
+                                    String newDescription = scanner.nextLine();
+
+                                    // removes old Book object and adds new Book object with the updated description
+                                    bookToEdit.setDescription(newDescription);
+                                    stock.remove(bookToEdit);
+                                    stock.put(bookToEdit, currentBookQuantity);
+                                    break;
+                                case "4":
+                                    System.out.println("Input new price:");
+                                    double newPrice = scanner.nextDouble();
+                                    scanner.nextLine();
+
+                                    // removes old Book object and adds new Book object with the updated price
+                                    bookToEdit.setPrice(newPrice);
+                                    stock.remove(bookToEdit);
+                                    stock.put(bookToEdit, currentBookQuantity);
+                                    break;
+                                default:
+                                    isEditingBook = false;
+                            }
                         }
                     }
-
                     break;
                 case "4":
-                    // displays all books
-                    System.out.println("CURRENT STOCK of " + store.getName());
-                    System.out.println("*******************");
+                    if (stock.size() == 0) {
+                        System.out.println("THERE ARE CURRENTLY NO BOOKS in " + store.getName());
+                    } else {
+                        // displays all books
+                        System.out.println("CURRENT STOCK of " + store.getName());
+                        System.out.println("*******************");
 
-                    for (Book book : stock.keySet()) {
-                        System.out.println("Name: " + book.getName());
-                        System.out.println("Genre: " + book.getGenre());
-                        System.out.println("Description: " + book.getDescription());
-                        System.out.printf("Price: $%.2f\n", book.getPrice());
-                        System.out.println("Quantity: " + stock.get(book));
+                        for (Book book : stock.keySet()) {
+                            System.out.println("Name: " + book.getName());
+                            System.out.println("Genre: " + book.getGenre());
+                            System.out.println("Description: " + book.getDescription());
+                            System.out.printf("Price: $%.2f\n", book.getPrice());
+                            System.out.println("Quantity: " + stock.get(book) + "\n");
+                        }
                     }
                     break;
                 default:

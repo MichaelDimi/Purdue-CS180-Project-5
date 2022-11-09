@@ -208,7 +208,65 @@ public class Seller extends User implements Serializable {
                     // gets key object from books arraylist with same order as hashmap
                     Book bookToEdit = selectBook(stock);
 
-                    // menu to edit book
+                    boolean isEditingBook = true;
+                    while (isEditingBook) {
+                        System.out.println("EDITING BOOK " + bookToEdit.getName());
+                        System.out.println("*******************");
+                        System.out.println("Name: " + bookToEdit.getName());
+                        System.out.println("Genre: " + bookToEdit.getGenre());
+                        System.out.println("Description: " + bookToEdit.getDescription());
+                        System.out.printf("Price: $%.2f", bookToEdit.getPrice());
+
+                        System.out.println("What would you like to edit?");
+                        System.out.println("1. Name");
+                        System.out.println("2. Genre");
+                        System.out.println("3. Description");
+                        System.out.println("4. Price");
+                        System.out.println("5. DONE");
+
+                        int currentBookQuantity = stock.get(bookToEdit);
+                        switch (scanner.nextLine()) {
+                            case "1":
+                                System.out.println("Input a new name:");
+                                String newName = scanner.nextLine();
+
+                                // removes old Book object and adds new Book object with the updated name
+                                bookToEdit.setName(newName);
+                                stock.remove(bookToEdit);
+                                stock.put(bookToEdit, currentBookQuantity);
+                                break;
+                            case "2":
+                                System.out.println("Input new genre(s):");
+                                String newGenre = scanner.nextLine();
+
+                                // removes old Book object and adds new Book object with the updated genre(s)
+                                bookToEdit.setGenre(newGenre);
+                                stock.remove(bookToEdit);
+                                stock.put(bookToEdit, currentBookQuantity);
+                                break;
+                            case "3":
+                                System.out.println("Input new description:");
+                                String newDescription = scanner.nextLine();
+
+                                // removes old Book object and adds new Book object with the updated description
+                                bookToEdit.setDescription(newDescription);
+                                stock.remove(bookToEdit);
+                                stock.put(bookToEdit, currentBookQuantity);
+                                break;
+                            case "4":
+                                System.out.println("Input new price:");
+                                double newPrice = scanner.nextDouble();
+                                scanner.nextLine();
+
+                                // removes old Book object and adds new Book object with the updated price
+                                bookToEdit.setPrice(newPrice);
+                                stock.remove(bookToEdit);
+                                stock.put(bookToEdit, currentBookQuantity);
+                                break;
+                            default:
+                                isEditingBook = false;
+                        }
+                    }
 
                     break;
                 case "4":

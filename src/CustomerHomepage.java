@@ -6,7 +6,7 @@ import java.util.*;
 
 
 
-public abstract class CustomerHomepage implements Serializable {
+public abstract class CustomerHomepage implements Serializable, Comparable<Double> {
     /**
      * Displays homepage view for buyer type user.
      * 1. Access Stores
@@ -26,17 +26,40 @@ public abstract class CustomerHomepage implements Serializable {
             choice = scan.nextLine();
             if (choice.equalsIgnoreCase("1")) {
                 //get stores from .ser and desirialize and list them
-                HashMap<Book, Integer> books = BookApp.marketplace.getBooks(); //getting hashmap of books
+                HashMap<Book, Integer> books = new HashMap<>(); //BookApp.marketplace.getBooks(); //getting hashmap of books
+                for (int i = 0; i < 3; i++) {
+                    String name = scan.nextLine();
+                    String store = scan.nextLine();
+                    String genre = scan.nextLine();
+                    String desc = scan.nextLine();
+                    double price = scan.nextDouble();
+                    scan.nextLine();
+                    int qty = Integer.parseInt(scan.nextLine());
+                    books.put(new Book(name, store, genre, desc, price), qty);
+                }
+                System.out.println("How would you like to view the products?\n1. Sorted by price\n2. Sorted by quantity\n3. Not sorted");
+                choice = scan.nextLine();
+                if (choice.equals("1")) { //Lowest to highest
+                    HashMap<Book, Double> bookPrice = new HashMap<>();
+                    for (Book book: books.keySet()) {
+                        bookPrice.put(book, book.getPrice());
+                    }
+                    List<Double> sortedbooks = new ArrayList<>(bookPrice.values());
+                    Collections.sort(sortedbooks, Collections.reverseOrder());
+                    System.out.println(sortedbooks);
+                }
                 for (Book book: books.keySet()) { //Printing list of books available for sale
-                    System.out.println(book.toString());
+                    System.out.println(book.toString() + "Qty: " + books.get(book));
                 }
             } else if (choice.equalsIgnoreCase("2")) {
                 System.out.println("Enter search query: ");
                 String searchBook = scan.nextLine();
                 HashMap<Book, Integer> books = BookApp.marketplace.getBooks(); //getting hashmap of books
                 for (Book book: books.keySet()) { //Printing list of books available for sale
+                    //String name = book.getName();
                     Book b = new Book(book);
-                    if(b.getName().equalsIgnoreCase(searchBook) || b.getStore().equalsIgnoreCase(searchBook)
+                    //b.getName() changed
+                    if(book.getName().equalsIgnoreCase(searchBook) || b.getStore().equalsIgnoreCase(searchBook)
                             || b.getDescription().equalsIgnoreCase(searchBook)) {
                         System.out.println(b.toString()); //need to format properly
                     }

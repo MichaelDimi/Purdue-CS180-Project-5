@@ -31,21 +31,26 @@ public abstract class CustomerHomepage implements Serializable {
                     System.out.println(book.toString());
                 }
             } else if (choice.equalsIgnoreCase("2")) {
+                System.out.println("Enter search query: ");
                 String searchBook = scan.nextLine();
                 HashMap<Book, Integer> books = BookApp.marketplace.getBooks(); //getting hashmap of books
                 for (Book book: books.keySet()) { //Printing list of books available for sale
-                    if(BookApp.marketplace.book.getName().equalsIgnoreCase(searchBook) || book.getStore().getName().equalsIgnoreCase(searchBook)
-                            || book.getDescription().equalsIgnoreCase(searchBook)) {
-                        System.out.println(book.toString()); //need to format properly
+                    Book b = new Book(book);
+                    if(b.getName().equalsIgnoreCase(searchBook) || b.getStore().getName().equalsIgnoreCase(searchBook)
+                            || b.getDescription().equalsIgnoreCase(searchBook)) {
+                        System.out.println(b.toString()); //need to format properly
                     }
                 }
             } else if (choice.equalsIgnoreCase("3")) {
-                HashMap<Book, Integer> purchaseHist = BookApp.marketplace.Buyer.getPurchaseHistory();
-                for (Book book: purchaseHist.keySet()) {
-                    System.out.println(book.toString() + "\t" + String.valueOf(purchaseHist[book]));
+                if (BookApp.marketplace.getCurrentUser() instanceof Buyer) {
+                    HashMap<Book, Integer> purchaseHist = ((Buyer) BookApp.marketplace.getCurrentUser()).getPurchaseHistory();
+                    for (Book book: purchaseHist.keySet()) {
+                        System.out.println(book.toString() + "\t" + String.valueOf(purchaseHist.get(book)));
+                    }
                 }
+                
             } else if (choice.equalsIgnoreCase("4")) {
-                HashMap<Book, Integer> cart = Buyer.getCart();
+                HashMap<Book, Integer> cart = ((Buyer) BookApp.marketplace.getCurrentUser()).getCart();
                 for (Book book: cart.keySet()) {
                     System.out.println(book.toString() + "\t" + String.valueOf(cart.get(book)));
                 }

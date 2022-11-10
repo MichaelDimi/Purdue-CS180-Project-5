@@ -24,14 +24,19 @@ public class Buyer extends User implements Serializable {
     // TODO: do error handling and catch negative inputs
     // adds new books to user's cart
     public void addToCart(Book book, int quantity) {
-        // current quantity of specified book
-        Integer currentCount = cart.get(book);
+        boolean identicalEntry = false;
+        for (Book b : cart.keySet()) {
+            if (b.equals(book)) {
+                identicalEntry = true;
+                break;
+            }
+        }
 
         // checks if user already has book in cart, increments current quantity if so
-        if (currentCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-            cart.put(book, quantity);
+        if (identicalEntry) { // could be replaced with merge, not sure if Vocareum will like?
+            cart.put(book, cart.get(book) + quantity);
         } else {
-            cart.put(book, currentCount + quantity);
+            cart.put(book, quantity);
         }
     }
 
@@ -55,13 +60,9 @@ public class Buyer extends User implements Serializable {
 
     public void checkoutCart() {
         for (HashMap.Entry<Book, Integer> entry : cart.entrySet()) {
-            Integer currentCount = cart.get(entry.getKey());
+            purchaseHistory.merge(entry.getKey(), entry.getValue(), Integer::sum);
 
-            if (currentCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-                cart.put(entry.getKey(), entry.getValue());
-            } else {
-                cart.put(entry.getKey(), currentCount + entry.getValue());
-            }
+            cart.remove(entry.getKey());
         }
     }
 

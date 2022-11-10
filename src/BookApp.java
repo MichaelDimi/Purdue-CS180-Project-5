@@ -50,8 +50,10 @@ public class BookApp {
                 User currentUser = marketplace.getCurrentUser();
 
                 FileIOMenu fileIOMenu = new FileIOMenu();
-                fileIOMenu.sellerExport(currentUser);
-
+//                fileIOMenu.sellerExport(scan, currentUser);
+//
+//                fileIOMenu.sellerImportMenu(currentUser, scan);
+                fileIOMenu.buyerExport(scan, currentUser);
 
                 // ACCOUNT MENU
                 AccountMenu accountMenu = new AccountMenu();

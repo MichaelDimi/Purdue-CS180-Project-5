@@ -88,6 +88,7 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
         Buyer buyer = (Buyer) user;
 
         buyer.addToCart(new Book("Book 1", "Store 1", "Scary", "Very scary book", 12.50), 10);
+        buyer.addToCart(new Book("Book 2", "Store 1", "Funny", "heheheheh", 20.50), 8);
         buyer.checkoutCart();
         System.out.println(buyer.getCart());
         System.out.println(buyer.getPurchaseHistory());

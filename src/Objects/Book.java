@@ -1,6 +1,7 @@
 package Objects;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Book implements Serializable {
     /**
@@ -99,7 +100,7 @@ public class Book implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + name.hashCode() + store.hashCode() + genre.hashCode() + description.hashCode();
+        result = prime * result + name.hashCode();
         return result;
     }
 
@@ -113,7 +114,7 @@ public class Book implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Book other = (Book) obj;
-        if (name != other.getName())
+        if (!Objects.equals(name, other.getName()))
             return false;
         return true;
     }

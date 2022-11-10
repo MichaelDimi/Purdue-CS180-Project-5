@@ -53,7 +53,9 @@ public class BookApp {
 //                fileIOMenu.sellerExport(scan, currentUser);
 //
 //                fileIOMenu.sellerImportMenu(currentUser, scan);
-                fileIOMenu.buyerExport(scan, currentUser);
+//                fileIOMenu.buyerExport(scan, currentUser);
+
+                marketplace.saveMarketplace();
 
                 // ACCOUNT MENU
                 AccountMenu accountMenu = new AccountMenu();

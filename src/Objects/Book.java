@@ -96,15 +96,23 @@ public class Book implements Serializable {
                 "description='" + description + '\'' + ", price=" + price + '}';
     }
 
+    /**
+     * Overrides the hashcode so that when iterating over sets, the set compares books correctly.
+     * The hashcode is based on the properties of the book.
+     * @return Return the hashcode
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + name.hashCode();
+        result = prime * result + name.hashCode() + store.hashCode() + genre.hashCode() + description.hashCode();
         return result;
     }
 
-    //Compare only account numbers
+    /**
+     * Overrides the equals to work with new hashcode
+     * @return Returns true if the objects are equal, false if not
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

@@ -11,43 +11,35 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
     /**
      * Exports the stock of all a seller's stores to a .csv file
      * @param user The seller that whose stock will be exported
+     * @param scan The scanner to get where the user wants to save the file
      */
-    public void sellerExport(User user) {
+    public void sellerExport(Scanner scan, User user) {
+        System.out.println("*******************");
         if (!(user instanceof Seller)) {
             System.out.println("Buyers cannot export using this function!");
             return;
         }
 
         Seller seller = (Seller) user;
+        File file;
+        do {
+            System.out.println("Where would you like to save: ");
+            String filepath = scan.nextLine();
+            if (!filepath.endsWith(".csv")) {
+                System.out.println("Whoops: Invalid filetype - Must be '.csv'");
+                continue;
+            }
+            try {
+                file = new File(filepath);
+                file.createNewFile();
+                break;
+            } catch (Exception e) {
+                System.out.println("Whoops: Invalid filepath");
+            }
+        } while (true);
 
-        // Give the seller some test data // TODO: REMOVE
         try {
-            seller.createNewStore("Store 1");
-        } catch (IdenticalStoreException e) {
-            System.out.println("Whoops: You cannot create a store with the same name");
-            return;
-        }
-        try {
-            seller.createNewStore("Store 2");
-        } catch (IdenticalStoreException e) {
-            System.out.println("Whoops: You cannot create a store with the same name");
-            return;
-        }
-        Store store = seller.getStoreByName("Store 1");
-        Store store2 = seller.getStoreByName("Store 2");
-        HashMap<Book, Integer> stock1 = new HashMap<>();
-        HashMap<Book, Integer> stock2 = new HashMap<>();
-        stock1.put(new Book("Book 1", store.getName(), "Spooky", "Super spooky book 1", 20), 4);
-        stock1.put(new Book("Book 2", store.getName(), "Funny", "He said \"Haha\"", 50), 2);
-        stock1.put(new Book("Book 3", store.getName(), "Bad", "Terrible book, don't recommend", 5), 6);
-        store.setStock(stock1);
-        stock2.put(new Book("Book 3", store2.getName(), "Bad", "\"\"", 5), 6);
-        store2.setStock(stock2);
-        // End of test data
-
-        // Save to CSV
-        try {
-            PrintWriter pw = new PrintWriter(new FileWriter(seller.getName() + "-stock.csv"));
+            PrintWriter pw = new PrintWriter(new FileWriter(file));
 
             for (Book book : seller.getSellerBooks().keySet()) {
                 // Escape with "...", if you see " anywhere add another. Anything containing quotes must also "..."
@@ -55,10 +47,10 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
                 if (name.contains("\"") || name.contains(",")) {
                     name = "\"" + name.replace("\"", "\"\"") + "\"";
                 }
-                String storeName = "null"; // The seller will set the store when importing
-//                if (storeName.contains("\"") || storeName.contains(",")) {
-//                    storeName = "\"" + "null" + "\"";
-//                }
+                String storeName = book.getStore(); // The seller will set the store when importing
+                if (storeName.contains("\"") || storeName.contains(",")) {
+                    storeName = "\"" + storeName.replace("\"", "\"\"") + "\"";
+                }
                 String genre = book.getGenre();
                 if (genre.contains("\"") || genre.contains(",")) {
                     genre = "\"" + genre.replace("\"", "\"\"") + "\"";
@@ -79,6 +71,75 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
             pw.write("");
             pw.flush();
             pw.close();
+        } catch (IOException e) {
+            System.out.println("Whoops: Failed to export. Please try again");
+            return;
+        }
+    }
+
+    // TODO: Test
+    public void buyerExport(Scanner scan, User user) {
+        System.out.println("*******************");
+        if (!(user instanceof Buyer)) {
+            System.out.println("Sellers cannot export using this function!");
+            return;
+        }
+
+        Buyer buyer = (Buyer) user;
+
+        
+
+        File file;
+        do {
+            System.out.println("Where would you like to save: ");
+            String filepath = scan.nextLine();
+            if (!filepath.endsWith(".csv")) {
+                System.out.println("Whoops: Invalid filetype - Must be '.csv'");
+                continue;
+            }
+            try {
+                file = new File(filepath);
+                file.createNewFile();
+                break;
+            } catch (Exception e) {
+                System.out.println("Whoops: Invalid filepath");
+            }
+        } while (true);
+
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter(file));
+
+            for (Book book : buyer.getPurchaseHistory().keySet()) {
+                // Escape with "...", if you see " anywhere add another. Anything containing quotes must also "..."
+                String name = book.getName();
+                if (name.contains("\"") || name.contains(",")) {
+                    name = "\"" + name.replace("\"", "\"\"") + "\"";
+                }
+                String storeName = book.getStore();
+                if (storeName.contains("\"") || storeName.contains(",")) {
+                    storeName = "\"" + storeName.replace("\"", "\"\"") + "\"";
+                }
+                String genre = book.getGenre();
+                if (genre.contains("\"") || genre.contains(",")) {
+                    genre = "\"" + genre.replace("\"", "\"\"") + "\"";
+                }
+                String description = book.getDescription();
+                if (description.contains("\"") || description.contains(",")) {
+                    description = "\"" + description.replace("\"", "\"\"") + "\"";
+                }
+
+                pw.print(name + ",");
+                pw.print(storeName + ",");
+                pw.print(genre + ",");
+                pw.print(description + ",");
+                pw.print(book.getPrice() + ",");
+                pw.println("");
+            }
+
+            pw.write("");
+            pw.flush();
+            pw.close();
+
         } catch (IOException e) {
             System.out.println("Whoops: Failed to export. Please try again");
             return;

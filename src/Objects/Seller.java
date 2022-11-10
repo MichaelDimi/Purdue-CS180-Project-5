@@ -23,6 +23,10 @@ public class Seller extends User implements Serializable {
         this.stores = new ArrayList<>();
     }
 
+    /**
+     * Gets all sellers books
+     * @return The hashmap of sellers books across stores
+     */
     public HashMap<Book, Integer> getSellerBooks() {
         HashMap<Book, Integer> sellersBooks = new HashMap<>();
         for (Store store : this.stores) {
@@ -39,6 +43,12 @@ public class Seller extends User implements Serializable {
         return sellersBooks;
     }
 
+    /**
+     * Creates a new store providing a store with that name does not exist
+     *  - Might be redundant to stuff Aaron did
+     * @param storeName The name of the store
+     * @throws IdenticalStoreException If a store with that name exists
+     */
     public void createNewStore(String storeName) throws IdenticalStoreException {
         // Check that the name is not identical
         if (this.getStoreByName(storeName) != null) {
@@ -48,6 +58,11 @@ public class Seller extends User implements Serializable {
         stores.add(new Store(storeName));
     }
 
+    /**
+     * Get a seller's store by the name
+     * @param storeName name of the store
+     * @return the store found, null if no store with that name
+     */
     public Store getStoreByName(String storeName) {
         for (Store store : this.stores) {
             if (storeName.equals(store.getName())) {

@@ -27,6 +27,7 @@ public class Seller extends User implements Serializable {
         HashMap<Book, Integer> sellersBooks = new HashMap<>();
         for (Store store : this.stores) {
             HashMap<Book, Integer> stock = store.getStock();
+            System.out.println(stock);
             for (Book book : stock.keySet()) {
                 if (sellersBooks.get(book) == null) {
                     sellersBooks.put(book, stock.get(book));

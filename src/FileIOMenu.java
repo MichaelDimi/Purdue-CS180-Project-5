@@ -8,6 +8,10 @@ import java.util.Scanner;
 
 public class FileIOMenu extends Menu { // TODO: Make sure this function works
 
+    /**
+     * Exports the stock of all a seller's stores to a .csv file
+     * @param user The seller that whose stock will be exported
+     */
     public void sellerExport(User user) {
         if (!(user instanceof Seller)) {
             System.out.println("Buyers cannot export using this function!");
@@ -23,17 +27,27 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
             System.out.println("Whoops: You cannot create a store with the same name");
             return;
         }
+        try {
+            seller.createNewStore("Store 2");
+        } catch (IdenticalStoreException e) {
+            System.out.println("Whoops: You cannot create a store with the same name");
+            return;
+        }
         Store store = seller.getStoreByName("Store 1");
+        Store store2 = seller.getStoreByName("Store 2");
         HashMap<Book, Integer> stock1 = new HashMap<>();
+        HashMap<Book, Integer> stock2 = new HashMap<>();
         stock1.put(new Book("Book 1", store.getName(), "Spooky", "Super spooky book 1", 20), 4);
         stock1.put(new Book("Book 2", store.getName(), "Funny", "He said \"Haha\"", 50), 2);
         stock1.put(new Book("Book 3", store.getName(), "Bad", "Terrible book, don't recommend", 5), 6);
-        stock1.put(new Book("Book 3", store.getName(), "Bad", "\"\"", 5), 6);
         store.setStock(stock1);
+        stock2.put(new Book("Book 3", store2.getName(), "Bad", "\"\"", 5), 6);
+        store2.setStock(stock2);
+        // End of test data
 
         // Save to CSV
         try {
-            PrintWriter pw = new PrintWriter(new FileWriter(seller.getName() + ".csv"));
+            PrintWriter pw = new PrintWriter(new FileWriter(seller.getName() + "-stock.csv"));
 
             for (Book book : seller.getSellerBooks().keySet()) {
                 // Escape with "...", if you see " anywhere add another. Anything containing quotes must also "..."
@@ -41,10 +55,10 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
                 if (name.contains("\"") || name.contains(",")) {
                     name = "\"" + name.replace("\"", "\"\"") + "\"";
                 }
-                String storeName = book.getStore();
-                if (storeName.contains("\"") || storeName.contains(",")) {
-                    storeName = "\"" + storeName.replace("\"", "\"\"") + "\"";
-                }
+                String storeName = "null"; // The seller will set the store when importing
+//                if (storeName.contains("\"") || storeName.contains(",")) {
+//                    storeName = "\"" + "null" + "\"";
+//                }
                 String genre = book.getGenre();
                 if (genre.contains("\"") || genre.contains(",")) {
                     genre = "\"" + genre.replace("\"", "\"\"") + "\"";
@@ -71,6 +85,11 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
         }
     }
 
+    /**
+     * Presents a menu where the seller will type the data they want to import
+     * @param user The seller whose data will import
+     * @param scan The scanner for getting user input
+     */
     public void sellerImportMenu(User user, Scanner scan) {
         if (!(user instanceof Seller)) {
             System.out.println("Buyers cannot import using this function!");
@@ -78,15 +97,19 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
         }
 
         Seller seller = (Seller) user;
-        System.out.println(seller.getSellerBooks());
+//        System.out.println(seller.getSellerBooks());
 
         System.out.println("*******************");
 
         boolean error;
         do {
             System.out.println("Please enter the path to the data to import: ");
+            System.out.println("Importing overrides your current stock - type \"CANCEL\" to stop");
             System.out.println("- Note: Must be .csv ");
             String filePath = scan.nextLine();
+            if (filePath.equals("CANCEL")) {
+                return;
+            }
 
             // check for .csv
             while (!filePath.endsWith(".csv")) {
@@ -104,10 +127,17 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
         } while (error);
     }
 
+    /**
+     * Handles importing user data. Data imported overrides current data for the seller.
+     * @param scan The scanner to get user input
+     * @param seller The seller where the data will go
+     * @param filePath The filepath for the data
+     * @return True if the data was imported successfully, false if not
+     */
     public boolean sellerImport(Scanner scan, Seller seller, String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
-            System.out.println("Whoops: We couldn't find your file. ");
+            System.out.println("Whoops: We couldn't find your file.");
             return false;
         }
 
@@ -168,7 +198,7 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
                     return false;
                 }
                 String bookName = splitLine.get(0);
-                String storeName = splitLine.get(1);
+                String storeName = splitLine.get(1); // This won't matter
                 String genre = splitLine.get(2);
                 String description = splitLine.get(3);
                 double price;
@@ -185,14 +215,25 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
                 do {
                     try {
                         quantity = Integer.parseInt(scan.nextLine());
+                        if (quantity < 1) {
+                            System.out.println("Whoops: Try that again");
+                            continue;
+                        }
                         break;
                     } catch (NumberFormatException e) {
                         System.out.println("Whoops: Try that again");
                     }
                 } while (true);
+                System.out.println("Which store do you want to set the stock to?");
+                do {
+                    storeName = scan.nextLine();
+                    if (seller.getStoreByName(storeName) != null) {
+                        break;
+                    }
+                    System.out.println("Whoops: Couldn't find your store, please try again");
+                } while (true);
 
                 Book addedBook = new Book(bookName, storeName, genre, description, price);
-                System.out.println(addedBook);
 
                 newStock.put(addedBook, quantity);
 
@@ -202,8 +243,6 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
             } else {
                 System.out.println("Whoops: Error, check your csv file and try again");
             }
-
-            System.out.println(seller.getStores().get(0).getStock());
 
         } catch (IOException e) {
             System.out.println("Whoops: Couldn't read the contents of your file");

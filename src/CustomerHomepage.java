@@ -36,7 +36,7 @@ public abstract class CustomerHomepage implements Serializable {
                 HashMap<Book, Integer> books = BookApp.marketplace.getBooks(); //getting hashmap of books
                 for (Book book: books.keySet()) { //Printing list of books available for sale
                     Book b = new Book(book);
-                    if(b.getName().equalsIgnoreCase(searchBook) || b.getStore().getName().equalsIgnoreCase(searchBook)
+                    if(b.getName().equalsIgnoreCase(searchBook) || b.getStore().equalsIgnoreCase(searchBook)
                             || b.getDescription().equalsIgnoreCase(searchBook)) {
                         System.out.println(b.toString()); //need to format properly
                     }

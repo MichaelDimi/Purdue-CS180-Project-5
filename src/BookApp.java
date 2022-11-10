@@ -48,6 +48,7 @@ public class BookApp {
                 FileIOMenu fileIOMenu = new FileIOMenu();
                 fileIOMenu.sellerExport(currentUser);
 
+                fileIOMenu.sellerImportMenu(currentUser, scan);
 
                 // ACCOUNT MENU
                 AccountMenu accountMenu = new AccountMenu();

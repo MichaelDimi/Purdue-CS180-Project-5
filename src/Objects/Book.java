@@ -91,7 +91,7 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Classes.Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
+        return "Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
                 "description='" + description + '\'' + ", price=" + price + '}';
     }
 }

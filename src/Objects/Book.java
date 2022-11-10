@@ -94,5 +94,28 @@ public class Book implements Serializable {
         return "Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
                 "description='" + description + '\'' + ", price=" + price + '}';
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + name.hashCode() + store.hashCode() + genre.hashCode() + description.hashCode();
+        return result;
+    }
+
+    //Compare only account numbers
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Book other = (Book) obj;
+        if (name != other.getName())
+            return false;
+        return true;
+    }
 }
 

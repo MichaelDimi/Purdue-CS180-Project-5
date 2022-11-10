@@ -3,6 +3,7 @@ package Objects;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 /**
  * TODO: Add javadoc headers to all classes
@@ -111,6 +112,11 @@ public class Marketplace implements Serializable {
         return null;
     }
 
+    /**
+     * Gets all books in the marketplace by their name
+     * @param name Name of book
+     * @return A book
+     */
     public ArrayList<Book> getBooksByName(String name) {
         ArrayList<Book> books = new ArrayList<>();
         for (Book book : this.books.keySet()) {
@@ -122,10 +128,15 @@ public class Marketplace implements Serializable {
         return books;
     }
 
-    public ArrayList<Book> getBooksByStore(String store) {
+    /**
+     * Gets all books in the marketplace by the store that sells them
+     * @param storeName Name of store
+     * @return A book
+     */
+    public ArrayList<Book> getBooksByStore(String storeName) {
         ArrayList<Book> books = new ArrayList<>();
         for (Book book : this.books.keySet()) {
-            if (book.getStore().getName().toLowerCase().contains(store.toLowerCase())) {
+            if (book.getStore().toLowerCase().contains(storeName.toLowerCase())) {
                 books.add(book);
             }
         }
@@ -133,6 +144,11 @@ public class Marketplace implements Serializable {
         return books;
     }
 
+    /**
+     * Gets all books in the marketplace by their description
+     * @param description Description of book
+     * @return A book
+     */
     public ArrayList<Book> getBooksByDescription(String description) {
         ArrayList<Book> books = new ArrayList<>();
         for (Book book : this.books.keySet()) {
@@ -144,12 +160,47 @@ public class Marketplace implements Serializable {
         return books;
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
+    /**
+     * Make sure the name provided is not in the marketplace
+     * @param name The username being validated
+     * @return if the username is taken
+     */
+    public boolean validateName(String name) {
+        if (name.isEmpty()) {
+            return false;
+        }
+        for (User user : this.users) {
+            if (user.getName().equals(name)) {
+                System.out.println("That username is taken, please try a different one");
+                return false;
+            }
+        }
+        return true;
     }
-
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
+    /**
+     * Make sure the email provided is not in the marketplace
+     * @param email The email being validated
+     * @return if the email is taken
+     */
+    public boolean validateEmail(String email) {
+        if (email.isEmpty()) {
+            return false;
+        }
+        // Email regex that I got from here:
+        // https://www.baeldung.com/java-email-validation-regex
+        // Supports all types of valid emails
+        Pattern regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
+        if (!regexPattern.matcher(email).matches()) {
+            System.out.println("Whoops: Please enter a valid email");
+            return false;
+        }
+        for (User user : this.users) {
+            if (user.getEmail().equals(email)) {
+                System.out.println("That email is taken, please try a different one");
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -158,6 +209,14 @@ public class Marketplace implements Serializable {
      */
     public void addToUsers(User user) {
         this.users.add(user);
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
     }
 
     public HashMap<Book, Integer> getBooks() {

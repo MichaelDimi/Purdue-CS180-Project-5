@@ -9,9 +9,9 @@ public class Book implements Serializable {
     private String name;
 
     /**
-     * The store selling the book.
+     * The name of the store selling the book.
      */
-    private Store store;
+    private String store;
 
     /**
      * The genre of the book
@@ -33,7 +33,7 @@ public class Book implements Serializable {
      */
     private double percentOff;
 
-    public Book(String name, Store store, String genre, String description, double price) {
+    public Book(String name, String store, String genre, String description, double price) {
         this.name = name;
         this.store = store;
         this.genre = genre;
@@ -57,11 +57,11 @@ public class Book implements Serializable {
         this.name = name;
     }
 
-    public Store getStore() {
+    public String getStore() {
         return store;
     }
 
-    public void setStore(Store store) {
+    public void setStore(String store) {
         this.store = store;
     }
 
@@ -99,8 +99,31 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Classes.Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
+        return "Book{" + "name='" + name + '\'' + ", store='" + store + '\'' + ", genre='" + genre + '\'' + ", " +
                 "description='" + description + '\'' + ", price=" + price + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + name.hashCode() + store.hashCode() + genre.hashCode() + description.hashCode();
+        return result;
+    }
+
+    //Compare only account numbers
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Book other = (Book) obj;
+        if (name != other.getName())
+            return false;
+        return true;
     }
 }
 

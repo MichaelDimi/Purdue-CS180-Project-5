@@ -22,14 +22,17 @@ public class Store implements Serializable {
      */
     private ArrayList<Review> reviews;
 
-    public Store(String name, HashMap<Book, Integer> stock, ArrayList<Review> reviews) {
+    public Store(String name, ArrayList<Review> reviews) {
         this.name = name;
-        this.stock = stock;
+        // This gets set later by the seller. For each book, you give a quantity declaring the stock
+        this.stock = null;
         this.reviews = reviews;
     }
 
     public Store(String name) {
         this.name = name;
+        this.stock = null;
+        this.reviews = null;
     }
 
     public String getName() {
@@ -48,6 +51,10 @@ public class Store implements Serializable {
         this.stock = stock;
     }
 
+    public void addStock(int quantity, Book book) {
+        this.stock.put(book, quantity);
+    }
+
     public ArrayList<Review> getReviews() {
         return reviews;
     }
@@ -58,6 +65,6 @@ public class Store implements Serializable {
 
     @Override
     public String toString() {
-        return "Store{" + "name='" + name + '\'' + ", stock=" + stock + ", reviews=" + reviews + '}';
+        return String.format("Store{name=%s,\nstock=%s,\nreviews=%s}", name, stock, reviews);
     }
 }

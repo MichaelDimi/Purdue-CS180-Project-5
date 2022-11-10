@@ -11,31 +11,60 @@ public class BookApp {
         Scanner scan = new Scanner(System.in);
 
         BookApp.marketplace = new Marketplace();
-        System.out.println(marketplace);
 
         System.out.println("WELCOME to BOOK APP");
         System.out.println("*******************");
 
         // Figures out if user wants to log in or sign up
-        String loginSignup;
-        boolean validUser = false;
+        // Login or Sign up Loop TODO: add exit
         do {
-            System.out.println("1. Login\n2. Sign Up");
-            loginSignup = scan.nextLine();
-            if (!Objects.equals(loginSignup, "1") && !Objects.equals(loginSignup, "2")) {
-                System.out.println("Whoops: Please enter (1) or (2)");
-                continue;
-            }
+            System.out.println(marketplace.getUsers()); // TODO: REMOVE THIS (useful for logging in correctly)
 
-            if (loginSignup.equals("1")) {
-                LoginMenu loginMenu = new LoginMenu();
-                validUser = loginMenu.present(scan); // if false, return to login or signup
-            } else {
-                SignUpMenu signUpMenu = new SignUpMenu();
-                validUser = signUpMenu.present(scan); // Ignore this if we are signing up
-            }
-        } while (!validUser);
+            String loginSignup;
+            boolean validUser = false;
+            do {
+                System.out.println("1. Login\n2. Sign Up");
+                loginSignup = scan.nextLine();
+                if (!Objects.equals(loginSignup, "1") && !Objects.equals(loginSignup, "2")) {
+                    System.out.println("Whoops: Please enter (1) or (2)");
+                    continue;
+                }
 
-        marketplace.saveMarketplace();
+                if (loginSignup.equals("1")) {
+                    LoginMenu loginMenu = new LoginMenu();
+                    validUser = loginMenu.present(scan); // if false, return to login or signup
+                } else {
+                    SignUpMenu signUpMenu = new SignUpMenu();
+                    validUser = signUpMenu.present(scan); // Ignore this if we are signing up
+                }
+            } while (!validUser);
+
+            // Seller test
+//            Seller newSeller = (Seller) marketplace.getCurrentUser();
+//            newSeller.editStore();
+
+            marketplace.saveMarketplace();
+
+            // Main loop
+            do {
+                User currentUser = marketplace.getCurrentUser();
+
+                FileIOMenu fileIOMenu = new FileIOMenu();
+//                fileIOMenu.sellerExport(scan, currentUser);
+//
+//                fileIOMenu.sellerImportMenu(currentUser, scan);
+                fileIOMenu.buyerExport(scan, currentUser);
+
+                // ACCOUNT MENU
+                AccountMenu accountMenu = new AccountMenu();
+                boolean accountMenuResult = accountMenu.present(scan); // If false, sign out
+                if (!accountMenuResult) {
+                    // Sign out
+                    marketplace.setCurrentUser(null);
+                    BookApp.marketplace.saveMarketplace();
+                    break; // Should break main loop
+                }
+            } while (true); // Main loop
+        } while (true); // Login or Sign up Loop
     }
 }

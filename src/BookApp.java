@@ -7,12 +7,14 @@ public class BookApp {
 
     public static Marketplace marketplace;
 
+    public static String appName = "BOOK APP"; // TODO: make a pun-y name
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
         BookApp.marketplace = new Marketplace();
 
-        System.out.println("WELCOME to BOOK APP");
+        System.out.println("WELCOME to " + appName);
         System.out.println("*******************");
 
         // Figures out if user wants to log in or sign up
@@ -37,7 +39,7 @@ public class BookApp {
                     SignUpMenu signUpMenu = new SignUpMenu();
                     validUser = signUpMenu.present(scan); // Ignore this if we are signing up
                 } else {
-                    System.out.println("Thanks for using BOOK APP\nGoodbye!");
+                    System.out.println("Thanks for using " + appName + "\nGoodbye!");
                     return;
                 }
             } while (!validUser);
@@ -58,11 +60,20 @@ public class BookApp {
                 marketplace.saveMarketplace();
 
                 // REVIEWS MENUS
+//                marketplace.addToUsers(new Seller("seller", "asd@asd.asd", "blah"));
                 ReviewsMenu reviewsMenu = new ReviewsMenu();
 //                Seller seller = (Seller) marketplace.getUserByUsername("seller");
 //                seller.getStores().add(new Store("Store 1", seller.getName()));
 //                Store store = marketplace.getStoreByName("Store 1");
 //                reviewsMenu.leaveReview(scan, currentUser, store);
+
+                marketplace.saveMarketplace();
+
+                marketplace.addToUsers(new Seller("seller", "asd@asd.asd", "blah"));
+                Seller seller = (Seller) marketplace.getUserByUsername("seller");
+                seller.getStores().add(new Store("Store 1", seller.getName()));
+                Store store = marketplace.getStoreByName("Store 1");
+                reviewsMenu.viewStoreReviews(scan, store);
 
                 marketplace.saveMarketplace();
 
@@ -75,6 +86,9 @@ public class BookApp {
                     BookApp.marketplace.saveMarketplace();
                     break; // Should break main loop
                 }
+
+                marketplace.saveMarketplace();
+
             } while (true); // Main loop
         } while (true); // Login or Sign up Loop
     }

@@ -164,7 +164,7 @@ public class ReviewsMenu {
                 return;
             }
             System.out.println("===================");
-            System.out.println(reviews[--option].print());
+            System.out.println(reviews[option-1].print());
             System.out.println("Press ENTER to go back");
             scan.nextLine();
         } while (true);

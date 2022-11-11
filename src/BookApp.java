@@ -69,11 +69,15 @@ public class BookApp {
 
                 marketplace.saveMarketplace();
 
-                marketplace.addToUsers(new Seller("seller", "asd@asd.asd", "blah"));
-                Seller seller = (Seller) marketplace.getUserByUsername("seller");
-                seller.getStores().add(new Store("Store 1", seller.getName()));
-                Store store = marketplace.getStoreByName("Store 1");
-                reviewsMenu.viewStoreReviews(scan, store);
+//                marketplace.addToUsers(new Seller("seller", "asd@asd.asd", "blah"));
+//                Seller seller = (Seller) marketplace.getUserByUsername("seller");
+//                seller.getStores().add(new Store("Store 1", seller.getName()));
+//                Store store = marketplace.getStoreByName("Store 1");
+//                reviewsMenu.viewStoreReviews(scan, store);
+
+                SalesMenu salesMenu = new SalesMenu();
+                Seller seller = (Seller) currentUser;
+                salesMenu.createSale(scan, currentUser);
 
                 marketplace.saveMarketplace();
 
@@ -93,3 +97,5 @@ public class BookApp {
         } while (true); // Login or Sign up Loop
     }
 }
+
+

@@ -76,8 +76,8 @@ public class BookApp {
 //                reviewsMenu.viewStoreReviews(scan, store);
 
                 SalesMenu salesMenu = new SalesMenu();
-                Seller seller = (Seller) currentUser;
-                salesMenu.createSale(scan, currentUser);
+//                Seller seller = (Seller) currentUser;
+//                salesMenu.createSale(scan, currentUser);
 
                 marketplace.saveMarketplace();
 

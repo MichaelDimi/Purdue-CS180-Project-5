@@ -1,10 +1,10 @@
+package App;
+
 import Objects.Book;
 import Objects.Marketplace;
 import Objects.*;
 import java.io.*;
 import java.util.*;
-
-
 
 public abstract class CustomerHomepage implements Serializable, Comparable<Double> {
     /**

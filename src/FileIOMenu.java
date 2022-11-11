@@ -96,7 +96,7 @@ public class FileIOMenu extends Menu {
                 pw.print(storeName + ",");
                 pw.print(genre + ",");
                 pw.print(description + ",");
-                pw.print(book.getPrice() + ",");
+                pw.print(book.finalPrice() + ",");
                 pw.println("");
             }
 
@@ -168,7 +168,7 @@ public class FileIOMenu extends Menu {
                 pw.print(storeName + ",");
                 pw.print(genre + ",");
                 pw.print(description + ",");
-                pw.print(book.getPrice() + ",");
+                pw.print(book.finalPrice() + ",");
                 pw.println("");
             }
 

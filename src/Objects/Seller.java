@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
-/* TODO
-    - check for duplicate books
- */
+// TODO - check for duplicate books
+
 public class Seller extends User implements Serializable {
     /**
      * List of the stores owned by Seller

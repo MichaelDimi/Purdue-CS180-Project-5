@@ -1,4 +1,5 @@
-import java.sql.SQLOutput;
+package App;
+
 import java.util.HashMap;
 import java.util.Scanner;
 import Objects.*;
@@ -22,7 +23,7 @@ public class SalesMenu {
         HashMap<Book, Integer> books = seller.getSellerBooks();
         if (books.isEmpty()) {
             System.out.println("You have no books.");
-            System.out.println("Would you like to add a book? (Y/N):"); // TODO: FINISH
+            System.out.println("Would you like to add a book? (Y/N):");
             String response = scan.nextLine();
             if (response.equalsIgnoreCase("y")) {
                 if (!seller.addBookMenu(scan, null)) {

@@ -1,4 +1,3 @@
-import Exceptions.IdenticalStoreException;
 import Objects.*;
 
 import java.io.*;
@@ -6,7 +5,40 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class FileIOMenu extends Menu { // TODO: Make sure this function works
+public class FileIOMenu extends Menu {
+
+    public void fileIOMenu(Scanner scan, User user) {
+        System.out.println("*******************");
+
+        if (user instanceof Seller) {
+            String response;
+            do {
+                System.out.println("Would you like to ");
+                System.out.println("1. Export your stock");
+                System.out.println("2. Import stock list");
+                response = scan.nextLine();
+                if (!response.equals("1") && !response.equals("2")) {
+                    System.out.println("Whoops: Please enter (1) or (2)");
+                }
+            } while (!response.equals("1") && !response.equals("2"));
+
+            if (response.equals("1")) {
+                sellerExport(scan, user);
+            } else {
+                sellerImportMenu(user, scan);
+            }
+        } else {
+            System.out.println("For your own privacy please confirm that you want to export your purchase history:");
+            System.out.println("- Enter 'CONFIRM':");
+            String response = scan.nextLine();
+            response = response.trim();
+            if (!response.equals("CONFIRM")) {
+                System.out.println("Whoops: Confirmation failed");
+            } else {
+                buyerExport(scan, user);
+            }
+        }
+    }
 
     /**
      * Exports the stock of all a seller's stores to a .csv file
@@ -64,7 +96,7 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
                 pw.print(storeName + ",");
                 pw.print(genre + ",");
                 pw.print(description + ",");
-                pw.print(book.getPrice() + ",");
+                pw.print(book.finalPrice() + ",");
                 pw.println("");
             }
 
@@ -77,7 +109,7 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
         }
     }
 
-    // TODO: Test
+
     public void buyerExport(Scanner scan, User user) {
         System.out.println("*******************");
         if (!(user instanceof Buyer)) {
@@ -87,10 +119,11 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
 
         Buyer buyer = (Buyer) user;
 
-        buyer.addToCart(new Book("Book 1", "Store 1", "Scary", "Very scary book", 12.50), 10);
-        buyer.checkoutCart();
-        System.out.println(buyer.getCart());
-        System.out.println(buyer.getPurchaseHistory());
+//        buyer.addToCart(new Book("Book 1", "Store 1", "Scary", "Very scary book", 12.50), 10);
+//        buyer.addToCart(new Book("Book 2", "Store 1", "Funny", "heheheheh", 20.50), 8);
+//        buyer.checkoutCart();
+//        System.out.println(buyer.getCart());
+//        System.out.println(buyer.getPurchaseHistory());
 
         File file;
         do {
@@ -135,7 +168,7 @@ public class FileIOMenu extends Menu { // TODO: Make sure this function works
                 pw.print(storeName + ",");
                 pw.print(genre + ",");
                 pw.print(description + ",");
-                pw.print(book.getPrice() + ",");
+                pw.print(book.finalPrice() + ",");
                 pw.println("");
             }
 

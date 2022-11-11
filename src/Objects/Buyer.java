@@ -9,8 +9,8 @@ public class Buyer extends User implements Serializable {
     private HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
     private HashMap<Book, Integer> purchaseHistory = new HashMap<Book, Integer>();
 
-    public Buyer(String username, String email, String password) {
-        super(username, email, password);
+    public Buyer(String username, String email, String password, String rawPassword) {
+        super(username, email, password, rawPassword);
     }
 
     public HashMap<Book, Integer> getCart() {
@@ -59,11 +59,23 @@ public class Buyer extends User implements Serializable {
     }
 
     public void checkoutCart() {
-        for (HashMap.Entry<Book, Integer> entry : cart.entrySet()) {
-            purchaseHistory.merge(entry.getKey(), entry.getValue(), Integer::sum);
+        for (Book book : cart.keySet()) {
+            boolean identicalEntry = false;
+            for (Book b : purchaseHistory.keySet()) {
+                if (b.equals(book)) {
+                    identicalEntry = true;
+                    break;
+                }
+            }
 
-            cart.remove(entry.getKey());
+            // checks if user already has book in cart, increments current quantity if so
+            if (identicalEntry) {
+                purchaseHistory.put(book, purchaseHistory.get(book) + cart.get(book));
+            } else {
+                purchaseHistory.put(book, cart.get(book));
+            }
         }
+        cart.clear();
     }
 
     @Override

@@ -1,5 +1,8 @@
 import Objects.User;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class LoginMenu extends Menu {
@@ -7,6 +10,8 @@ public class LoginMenu extends Menu {
     @Override
     public boolean present(Scanner scan) {
         System.out.println("*******************");
+        System.out.println("Type 'CANCEL at anytime to go back to start");
+
         String usernameEmail;
         String password;
 
@@ -14,10 +19,20 @@ public class LoginMenu extends Menu {
 
         String[] input = Menu.validateLoginInput(scan);
 
+        if (input == null) {
+            return false;
+        }
+
         usernameEmail = input[0];
         password = input[1];
 
         System.out.println("Validating...");
+
+        // PASSWORD HASHING
+        String hashedPassword = User.hashPassword(password);
+        if (hashedPassword == null) {
+            return false;
+        }
 
         try {
             Thread.sleep(1000); // For dramatic effect
@@ -31,7 +46,7 @@ public class LoginMenu extends Menu {
         for (User user : users) {
             System.out.println(user);
             if (user.getName().equals(usernameEmail) || user.getEmail().equals(usernameEmail)) {
-                if (user.getPassword().equals(password)) {
+                if (user.getPassword().equals(hashedPassword)) {
                     if (user.getName().equals(usernameEmail)) {
                         returningUser = BookApp.marketplace.getUserByUsername(usernameEmail);
                     } else {

@@ -1,6 +1,7 @@
 package Objects;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Book implements Serializable {
     /**
@@ -27,6 +28,7 @@ public class Book implements Serializable {
      * The price of the book
      */
     private double price;
+
     /**
      * The percent sale of the book.
      * Eg $100 book at percentOff = 10 becomes $90
@@ -81,8 +83,16 @@ public class Book implements Serializable {
         this.description = description;
     }
 
+    public double finalPrice() {
+        return price - ((price/100)*percentOff); // Calculates percent off
+    }
+
+    /**
+     * Returns the raw price of the book.<br><br>
+     * <STRONG>YOU MUST USE: finalPrice() to get the price of a book with the sale</STRONG>
+     */
     public double getPrice() {
-        return price;
+        return this.price;
     }
 
     public void setPrice(double price) {
@@ -103,6 +113,11 @@ public class Book implements Serializable {
                 "description='" + description + '\'' + ", price=" + price + '}';
     }
 
+    /**
+     * Overrides the hashcode so that when iterating over sets, the set compares books correctly.
+     * The hashcode is based on the properties of the book.
+     * @return Return the hashcode
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -111,7 +126,10 @@ public class Book implements Serializable {
         return result;
     }
 
-    //Compare only account numbers
+    /**
+     * Overrides the equals to work with new hashcode
+     * @return Returns true if the objects are equal, false if not
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -121,7 +139,7 @@ public class Book implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Book other = (Book) obj;
-        if (name != other.getName())
+        if (!Objects.equals(name, other.getName()))
             return false;
         return true;
     }

@@ -1,9 +1,10 @@
 import Objects.Buyer;
 import Objects.Seller;
 import Objects.User;
-import com.sun.security.jgss.GSSUtil;
 
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
+import java.security.*;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -11,13 +12,19 @@ public class SignUpMenu extends Menu {
 
     @Override
     public boolean present(Scanner scan) {
+        System.out.println("*******************");
+        System.out.println("Type 'CANCEL at anytime to go back to start");
 
         String username;
         String email;
         String password;
-        boolean error;
+        boolean validationSuccess;
         do {
             String[] input = Menu.validateSignUpInput(scan);
+
+            if (input == null) {
+                return false;
+            }
 
             username = input[0];
             email = input[1];
@@ -32,13 +39,17 @@ public class SignUpMenu extends Menu {
             }
 
             // Validate in Marketplace
-            ArrayList<User> users = BookApp.marketplace.getUsers();
-
-            error = !BookApp.marketplace.validateName(username) && !BookApp.marketplace.validateEmail(email);
-            if (!error) {
+            validationSuccess = BookApp.marketplace.validateName(username) && BookApp.marketplace.validateEmail(email);
+            if (validationSuccess) {
                 System.out.println("Validation successful!");
             }
-        } while (error);
+        } while (!validationSuccess);
+
+        // PASSWORD HASHING
+        String hashedPassword = User.hashPassword(password);
+        if (hashedPassword == null) {
+            return false;
+        }
 
         boolean isBuyer;
         do {
@@ -54,9 +65,9 @@ public class SignUpMenu extends Menu {
         // Saves to marketplace and logs the user in
         User newUser;
         if (isBuyer) {
-            newUser = new Buyer(username, email, password);
+            newUser = new Buyer(username, email, hashedPassword, password);
         } else {
-            newUser = new Seller(username, email, password);
+            newUser = new Seller(username, email, hashedPassword, password);
         }
 
         BookApp.marketplace.addToUsers(newUser);

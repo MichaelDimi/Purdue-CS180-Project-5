@@ -24,6 +24,9 @@ public abstract class Menu {
             System.out.println("Enter your username: ");
             username = scan.nextLine();
 
+            if (username.equals("CANCEL")) {
+                return null;
+            }
             if (username.isEmpty()) {
                 System.out.println("Whoops: Please enter a valid username");
             }
@@ -38,6 +41,9 @@ public abstract class Menu {
             // https://www.baeldung.com/java-email-validation-regex
             // Supports all types of valid emails
             regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
+            if (email.equals("CANCEL")) {
+                return null;
+            }
             if (!regexPattern.matcher(email).matches()) {
                 System.out.println("Whoops: Please enter a valid email");
             } else if (email.isEmpty()) {
@@ -49,7 +55,9 @@ public abstract class Menu {
         do {
             System.out.println("Enter your password: ");
             password = scan.nextLine();
-
+            if (password.equals("CANCEL")) {
+                return null;
+            }
             if (password.isEmpty()) {
                 System.out.println("Whoops: Please enter a valid password");
             }
@@ -69,7 +77,9 @@ public abstract class Menu {
         do {
             System.out.println("Enter your username or email: ");
             input = scan.nextLine();
-
+            if (input.equals("CANCEL")) {
+                return null;
+            }
             if (input.isEmpty()) {
                 System.out.println("Whoops: Please enter a valid username or email");
             }
@@ -79,7 +89,9 @@ public abstract class Menu {
         do {
             System.out.println("Enter your password: ");
             password = scan.nextLine();
-
+            if (password.equals("CANCEL")) {
+                return null;
+            }
             if (password.isEmpty()) {
                 System.out.println("Whoops: Please enter a valid password");
             }

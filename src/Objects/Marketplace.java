@@ -72,6 +72,8 @@ public class Marketplace implements Serializable {
             // Method for deserialization of object
             Marketplace marketplace = (Marketplace) in.readObject();
 
+            marketplace.setCurrentUser(null);
+
             in.close();
             file.close();
 

@@ -80,4 +80,8 @@ public class ReviewsMenu {
             System.out.println("Whoops: Please enter 'Y' or 'N' to confirm");
         } while (true);
     }
+
+    public void viewStoreReviews(Scanner scan) {
+
+    }
 }

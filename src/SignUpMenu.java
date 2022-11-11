@@ -11,6 +11,8 @@ public class SignUpMenu extends Menu {
 
     @Override
     public boolean present(Scanner scan) {
+        System.out.println("*******************");
+        System.out.println("Type 'CANCEL at anytime to go back to start");
 
         String username;
         String email;
@@ -18,6 +20,10 @@ public class SignUpMenu extends Menu {
         boolean validationSuccess;
         do {
             String[] input = Menu.validateSignUpInput(scan);
+
+            if (input == null) {
+                return false;
+            }
 
             username = input[0];
             email = input[1];

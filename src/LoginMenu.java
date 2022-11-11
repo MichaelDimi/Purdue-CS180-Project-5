@@ -7,12 +7,18 @@ public class LoginMenu extends Menu {
     @Override
     public boolean present(Scanner scan) {
         System.out.println("*******************");
+        System.out.println("Type 'CANCEL at anytime to go back to start");
+
         String usernameEmail;
         String password;
 
         User returningUser = null;
 
         String[] input = Menu.validateLoginInput(scan);
+
+        if (input == null) {
+            return false;
+        }
 
         usernameEmail = input[0];
         password = input[1];

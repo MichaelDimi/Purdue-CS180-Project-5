@@ -20,7 +20,6 @@ public class AccountMenu extends Menu {
                     );
             System.out.println("Username: " + user.getName());
             System.out.println("Email: " + user.getEmail());
-            System.out.println("Password: " + user.getPassword());
             System.out.println("=======");
             System.out.println("1. Reset Username");
             System.out.println("2. Reset Email");
@@ -61,19 +60,6 @@ public class AccountMenu extends Menu {
                     } while (askEmailAgain);
                     break;
                 case "3":
-                    boolean askPasswordAgain;
-                    do {
-                        System.out.println("New Password:");
-                        String newPassword = scan.nextLine();
-                        askPasswordAgain = newPassword.isEmpty();
-                        if (!askPasswordAgain) {
-                            BookApp.marketplace.getCurrentUser().setPassword(newPassword);
-                            BookApp.marketplace.saveMarketplace();
-                        }
-                    } while (askPasswordAgain);
-                    break;
-                case "4": // Delete Account
-
                     System.out.println("Confirm by entering your password...");
                     String confirmPassword = scan.nextLine();
                     System.out.println("Validating...");
@@ -82,7 +68,48 @@ public class AccountMenu extends Menu {
                     } catch (InterruptedException e) {
                         System.out.println("Error: Program interruption");
                     }
-                    if (confirmPassword.equals(user.getPassword())) {
+
+                    String hashedPassword = User.hashPassword(confirmPassword);
+                    if (hashedPassword == null) {
+                        return false;
+                    }
+
+                    if (hashedPassword.equals(user.getPassword())) {
+                        boolean askPasswordAgain;
+                        do {
+                            System.out.println("New Password:");
+                            String newPassword = scan.nextLine();
+                            askPasswordAgain = newPassword.isEmpty();
+                            if (!askPasswordAgain) {
+                                hashedPassword = User.hashPassword(newPassword);
+                                if (hashedPassword == null) {
+                                    return false;
+                                }
+                                BookApp.marketplace.getCurrentUser().setPassword(hashedPassword);
+                                BookApp.marketplace.saveMarketplace();
+                            }
+                        } while (askPasswordAgain);
+                    } else {
+                        System.out.println("Invalid password");
+                        System.out.println("Press Enter to continue...");
+                        scan.nextLine();
+                    }
+
+                    break;
+                case "4": // Delete Account
+                    System.out.println("Confirm by entering your password...");
+                    String confirmPassword2 = scan.nextLine();
+                    System.out.println("Validating...");
+                    try {
+                        Thread.sleep(1000); // For dramatic effect
+                    } catch (InterruptedException e) {
+                        System.out.println("Error: Program interruption");
+                    }
+                    String hashedPassword2 = User.hashPassword(confirmPassword2);
+                    if (hashedPassword2 == null) {
+                        return false;
+                    }
+                    if (hashedPassword2.equals(user.getPassword())) {
                         // Remove from marketplace and sign out
                         BookApp.marketplace.getUsers().remove(user);
                         return false;

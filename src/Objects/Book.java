@@ -43,6 +43,14 @@ public class Book implements Serializable {
         this.price = price;
     }
 
+    public Book(Book book) {
+        this.name = book.getName();
+        this.store = book.getStore();
+        this.genre = book.getGenre();
+        this.description = book.getDescription();
+        this.price = book.getPrice();
+    }
+
     public String getName() {
         return name;
     }

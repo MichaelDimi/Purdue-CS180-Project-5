@@ -23,19 +23,22 @@ public class BookApp {
             String loginSignup;
             boolean validUser = false;
             do {
-                System.out.println("1. Login\n2. Sign Up");
+                System.out.println("1. Login\n2. Sign Up\n3. EXIT");
                 loginSignup = scan.nextLine();
-                if (!Objects.equals(loginSignup, "1") && !Objects.equals(loginSignup, "2")) {
-                    System.out.println("Whoops: Please enter (1) or (2)");
+                if (!Objects.equals(loginSignup, "1") && !Objects.equals(loginSignup, "2") && !Objects.equals(loginSignup, "3")) {
+                    System.out.println("Whoops: Please enter (1), (2), or (3)");
                     continue;
                 }
 
                 if (loginSignup.equals("1")) {
                     LoginMenu loginMenu = new LoginMenu();
                     validUser = loginMenu.present(scan); // if false, return to login or signup
-                } else {
+                } else if (loginSignup.equals("2")) {
                     SignUpMenu signUpMenu = new SignUpMenu();
                     validUser = signUpMenu.present(scan); // Ignore this if we are signing up
+                } else {
+                    System.out.println("Thanks for using BOOK APP\nGoodbye!");
+                    return;
                 }
             } while (!validUser);
 

@@ -1,9 +1,8 @@
+package App;
+
 import Objects.Buyer;
 import Objects.Seller;
 import Objects.User;
-
-import java.nio.charset.StandardCharsets;
-import java.security.*;
 
 import java.util.Objects;
 import java.util.Scanner;

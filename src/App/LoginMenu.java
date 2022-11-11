@@ -1,8 +1,7 @@
+package App;
+
 import Objects.User;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class LoginMenu extends Menu {

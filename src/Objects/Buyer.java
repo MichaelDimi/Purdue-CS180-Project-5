@@ -58,7 +58,8 @@ public class Buyer extends User implements Serializable {
         }
     }
 
-    public void checkoutCart() {
+    // adds books to Buyer's purchase history, clears cart's contents, and then returns hashmap will all books purchased
+    public HashMap<Book, Integer> checkoutCart() {
         for (Book book : cart.keySet()) {
             boolean identicalEntry = false;
             for (Book b : purchaseHistory.keySet()) {
@@ -75,7 +76,12 @@ public class Buyer extends User implements Serializable {
                 purchaseHistory.put(book, cart.get(book));
             }
         }
+
+        // saves purchased books to be returned before clearing
+        HashMap<Book, Integer> purchasedBooks = cart;
         cart.clear();
+
+        return purchasedBooks;
     }
 
     @Override

@@ -33,11 +33,11 @@ public class Seller extends User implements Serializable {
             // TODO: Catch this exception wherever this function is used.
             throw new IdenticalStoreException("You cannot have an identical store");
         }
-        stores.add(new Store(storeName));
+        stores.add(new Store(storeName, this.getName()));
     }
 
     // lets user add new store which gets added to seller's store arraylist
-    public void createNewStore() throws IdenticalStoreException {
+    public void createNewStore(Seller seller) throws IdenticalStoreException {
         System.out.println("CREATING A NEW STORE");
         System.out.println("*******************");
         System.out.println("Please enter a new store name (enter 0 to cancel):");
@@ -53,7 +53,7 @@ public class Seller extends User implements Serializable {
         if (storeName.equals("0")) {
             System.out.println("STORE CREATION CANCELED");
         } else {
-            stores.add(new Store(storeName));
+            stores.add(new Store(storeName, seller.getName()));
             System.out.println("STORE SUCCESSFULLY CREATED");
         }
     }
@@ -74,7 +74,7 @@ public class Seller extends User implements Serializable {
             if (scanner.nextLine().equals("1")) {
                 // TODO: IdenticalStoreException not needed?
                 try {
-                    createNewStore();
+                    createNewStore(this);
                 } catch (IdenticalStoreException e) {
                     System.out.println(e.getMessage());
                 }
@@ -156,7 +156,7 @@ public class Seller extends User implements Serializable {
                 case "2":
                     // create new store
                     try {
-                        createNewStore();
+                        createNewStore(this);
                     } catch (IdenticalStoreException ignored) {
                     }
                     break;

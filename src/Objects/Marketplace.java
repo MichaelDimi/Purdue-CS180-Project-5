@@ -1,6 +1,7 @@
 package Objects;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -217,6 +218,39 @@ public class Marketplace implements Serializable {
 
     public void setUsers(ArrayList<User> users) {
         this.users = users;
+    }
+
+    /**
+     * Gets the stores of all the sellers in the marketplace
+     * @return an array list of stores
+     */
+    public ArrayList<Store> getStores() {
+        ArrayList<Store> stores = new ArrayList<>();
+        for (User user : users) {
+            if (user instanceof Seller) {
+                Seller seller = (Seller) user;
+
+                stores.addAll(seller.getStores());
+            }
+        }
+
+        return stores;
+    }
+
+    /**
+     * Gets a specific store from all the stores in the market
+     * @param storeName The name of the store you want
+     * @return The store with that name. Null if none was found
+     */
+    public Store getStoreByName(String storeName) {
+        ArrayList<Store> stores = getStores();
+        for (Store store : stores) {
+            if (store.getName().equals(storeName)) {
+                return store;
+            }
+        }
+
+        return null;
     }
 
     public HashMap<Book, Integer> getBooks() {

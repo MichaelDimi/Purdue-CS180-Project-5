@@ -61,4 +61,9 @@ public class Review implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Review{" + "rating=" + rating + ", buyer=" + buyer + ", seller=" + seller + ", title='" + title + '\'' + ", description='" + description + '\'' + '}';
+    }
 }

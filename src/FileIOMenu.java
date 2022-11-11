@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class FileIOMenu extends Menu { // TODO: Make sure this function works
+public class FileIOMenu extends Menu {
 
     public void fileIOMenu(Scanner scan, User user) {
         System.out.println("*******************");

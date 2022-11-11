@@ -22,17 +22,21 @@ public class Store implements Serializable {
      */
     private ArrayList<Review> reviews;
 
-    public Store(String name, ArrayList<Review> reviews) {
+    private String sellerName;
+
+    public Store(String name, String sellerName, ArrayList<Review> reviews) {
         this.name = name;
         // This gets set later by the seller. For each book, you give a quantity declaring the stock
-        this.stock = null;
+        this.stock = new HashMap<>();
         this.reviews = reviews;
+        this.sellerName = sellerName;
     }
 
-    public Store(String name) {
+    public Store(String name, String sellerName) {
         this.name = name;
-        this.stock = null;
-        this.reviews = null;
+        this.stock = new HashMap<>();
+        this.reviews = new ArrayList<>();
+        this.sellerName = sellerName;
     }
 
     public String getName() {
@@ -45,6 +49,14 @@ public class Store implements Serializable {
 
     public HashMap<Book, Integer> getStock() {
         return stock;
+    }
+
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
     }
 
     public void setStock(HashMap<Book, Integer> stock) {

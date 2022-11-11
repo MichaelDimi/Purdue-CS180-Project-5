@@ -1,9 +1,10 @@
 import Objects.Buyer;
 import Objects.Seller;
 import Objects.User;
-import com.sun.security.jgss.GSSUtil;
 
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
+import java.security.*;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -44,6 +45,22 @@ public class SignUpMenu extends Menu {
             }
         } while (!validationSuccess);
 
+        // PASSWORD HASHING
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Whoops: Unable to hash password");
+            return false;
+        }
+        md.update(password.getBytes(StandardCharsets.UTF_8));
+        byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+        StringBuilder s = new StringBuilder();
+        for(int i = 0; i < bytes.length; i++) {
+            s.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        String hashedPassword = s.toString();
+
         boolean isBuyer;
         do {
             System.out.println("Are you a\n1. Buyer\n2. Seller");
@@ -58,9 +75,9 @@ public class SignUpMenu extends Menu {
         // Saves to marketplace and logs the user in
         User newUser;
         if (isBuyer) {
-            newUser = new Buyer(username, email, password);
+            newUser = new Buyer(username, email, hashedPassword);
         } else {
-            newUser = new Seller(username, email, password);
+            newUser = new Seller(username, email, hashedPassword);
         }
 
         BookApp.marketplace.addToUsers(newUser);

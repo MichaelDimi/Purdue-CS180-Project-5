@@ -102,7 +102,7 @@ public class Review implements Serializable {
      * @return returns a formatted string
      */
     public String print() {
-        return String.format("%s\n%s says: %s\nDescription: %s\nSeller: %s", starDisplay(rating), buyer.getName(), title,
+        return String.format("%s\n%s says: %s\nDescription: %s\nOwner: %s", starDisplay(rating), buyer.getName(), title,
                 description,
                 sellerName);
     }

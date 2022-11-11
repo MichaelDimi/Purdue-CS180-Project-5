@@ -21,8 +21,8 @@ public class Seller extends User implements Serializable {
      */
     private Stats stats;
 
-    public Seller(String name, String email, String password) {
-        super(name, email, password);
+    public Seller(String name, String email, String password, String rawPassword) {
+        super(name, email, password, rawPassword);
 
         this.stores = new ArrayList<>();
     }

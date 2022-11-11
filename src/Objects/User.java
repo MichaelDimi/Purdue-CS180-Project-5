@@ -19,10 +19,17 @@ public class User implements Serializable {
      */
     private String password;
 
-    public User(String name, String email, String password) {
+    /**
+     * Version of the password that is for display only in account menu
+     * Ex: "pas....."
+     */
+    private String displayPassword;
+
+    public User(String name, String email, String password, String rawPassword) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.displayPassword = rawPassword.substring(0, 3) + "*".repeat(rawPassword.length()-3);
     }
 
     public static String hashPassword(String password) {
@@ -54,12 +61,17 @@ public class User implements Serializable {
         return this.name;
     }
 
+    public String getDisplayPassword() {
+        return displayPassword;
+    }
+
     //setters
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setPassword(String password) {
+    public void setPassword(String password, String rawPassword) {
         this.password = password;
+        this.displayPassword = rawPassword.substring(0, 3) + "*".repeat(rawPassword.length()-3);
     }
     public void setName(String name) {
         this.name = name;

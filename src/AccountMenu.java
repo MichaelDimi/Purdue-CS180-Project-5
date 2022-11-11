@@ -20,6 +20,7 @@ public class AccountMenu extends Menu {
                     );
             System.out.println("Username: " + user.getName());
             System.out.println("Email: " + user.getEmail());
+            System.out.println("Password: " + user.getDisplayPassword());
             System.out.println("=======");
             System.out.println("1. Reset Username");
             System.out.println("2. Reset Email");
@@ -85,7 +86,7 @@ public class AccountMenu extends Menu {
                                 if (hashedPassword == null) {
                                     return false;
                                 }
-                                BookApp.marketplace.getCurrentUser().setPassword(hashedPassword);
+                                BookApp.marketplace.getCurrentUser().setPassword(hashedPassword, confirmPassword);
                                 BookApp.marketplace.saveMarketplace();
                             }
                         } while (askPasswordAgain);

@@ -65,9 +65,9 @@ public class SignUpMenu extends Menu {
         // Saves to marketplace and logs the user in
         User newUser;
         if (isBuyer) {
-            newUser = new Buyer(username, email, hashedPassword);
+            newUser = new Buyer(username, email, hashedPassword, password);
         } else {
-            newUser = new Seller(username, email, hashedPassword);
+            newUser = new Seller(username, email, hashedPassword, password);
         }
 
         BookApp.marketplace.addToUsers(newUser);

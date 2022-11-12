@@ -208,6 +208,26 @@ public class Marketplace implements Serializable {
     }
 
     /**
+     * Gets the Seller of a book
+     * @param book the book whose Seller is to be found
+     * @return Seller of the book
+     */
+    public Seller getSellerByBook(Book book) {
+        for (User user : users) {
+            if (user instanceof Seller) {
+                for (Book sellerBooks : ((Seller) user).getSellerBooks().keySet()) {
+                    // makes sure that the book is the exact same book and an exact copy
+                    if (sellerBooks == book) {
+                        return ((Seller) user);
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Adds a new user to the marketplace
      * @param user The user to add to marketplace
      */

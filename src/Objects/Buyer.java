@@ -1,5 +1,8 @@
 package Objects;
-
+// remove from cart
+// check cart quantity
+// change print format
+import App.BookApp;
 import Exceptions.BookNotFoundException;
 
 import java.io.Serializable;
@@ -58,6 +61,7 @@ public class Buyer extends User implements Serializable {
         }
     }
 
+    // adds books to Buyer's purchase history, clears cart's contents, and then returns hashmap will all books purchased
     public void checkoutCart() {
         for (Book book : cart.keySet()) {
             boolean identicalEntry = false;
@@ -74,7 +78,11 @@ public class Buyer extends User implements Serializable {
             } else {
                 purchaseHistory.put(book, cart.get(book));
             }
+
+            Seller bookSeller = BookApp.marketplace.getSellerByBook(book);
+            bookSeller.updateStock(book, cart.get(book), this);
         }
+
         cart.clear();
     }
 

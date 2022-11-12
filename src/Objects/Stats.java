@@ -13,9 +13,9 @@ public class Stats implements Serializable {
     /**
      * The Buyers who has bought books from this Seller
      */
-    private ArrayList<Buyer> buyers;
+    private HashMap<User, Integer> buyers;
 
-    public Stats(HashMap<Book, Integer> booksSold, ArrayList<Buyer> buyers) {
+    public Stats(HashMap<Book, Integer> booksSold, HashMap<User, Integer> buyers) {
         this.booksSold = booksSold;
         this.buyers = buyers;
     }
@@ -28,11 +28,11 @@ public class Stats implements Serializable {
         this.booksSold = booksSold;
     }
 
-    public ArrayList<Buyer> getBuyers() {
+    public HashMap<User, Integer> getBuyers() {
         return buyers;
     }
 
-    public void setBuyers(ArrayList<Buyer> buyers) {
+    public void setBuyers(HashMap<User, Integer> buyers) {
         this.buyers = buyers;
     }
 

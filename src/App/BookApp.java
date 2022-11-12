@@ -9,7 +9,7 @@ public class BookApp {
 
     public static Marketplace marketplace;
 
-    public static String appName = "BOOK APP"; // TODO: make a pun-y name
+    public static String appName = "BOOK APP"; // TODO: make a pun-y name +bruh
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);

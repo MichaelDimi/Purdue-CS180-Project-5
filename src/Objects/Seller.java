@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
-// TODO - check for duplicate books
+/* TODO
+    - check for duplicate books
+    - check for duplicate stores
+ */
 
 public class Seller extends User implements Serializable {
     /**
@@ -20,12 +23,13 @@ public class Seller extends User implements Serializable {
     /**
      * Reference to class containing the statistics for Seller
      */
-    private Stats stats;
+    private SellerStats stats;
 
     public Seller(String name, String email, String password, String rawPassword) {
         super(name, email, password, rawPassword);
 
         this.stores = new ArrayList<>();
+        this.stats = new SellerStats();
     }
 
     public void createNewStore(String storeName) throws IdenticalStoreException {
@@ -583,6 +587,52 @@ public class Seller extends User implements Serializable {
         return null;
     }
 
+    // TODO move this
+    // runs when a Buyer purchases a book
+    public void updateStock(Book purchasedBook, int quantity, Buyer buyer) {
+        // gets store where book was bought
+        Store store = getStoreByName(purchasedBook.getStore());
+        for (Book book : store.getStock().keySet()) {
+            if (book.equals(purchasedBook)) {
+                // removes book quantity bought from store
+                // current quantity of specified book
+                Integer bookToRemoveCount = store.getStock().get(book);
+
+                // removes book from hashmap if final quantity is less than or equal 0
+                if (bookToRemoveCount - quantity <= 0) {
+                    store.getStock().remove(book);
+                } else {
+                    store.getStock().put(book, bookToRemoveCount - quantity);
+                }
+
+                // increments Seller's revenue
+                stats.incrementRevenue(book.getPrice());
+
+                // adds Buyer to Seller's buyers stat
+                Integer buyerCount = stats.getBuyers().get(buyer);
+
+                // checks if Buyer has boughten from Seller before and increments if so, else adds new Buyer
+                if (buyerCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+                    stats.getBuyers().put(buyer, 1);
+                } else {
+                    stats.getBuyers().put(buyer, buyerCount + 1);
+                }
+
+                // adds Buyer to Seller's buyers stat
+                Integer booksSoldCount = stats.getBuyers().get(book);
+
+                // checks if Buyer has boughten from Seller before and increments if so, else adds new Buyer
+                if (booksSoldCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+                    stats.getBooksSold().put(book, 1);
+                } else {
+                    stats.getBooksSold().put(book, booksSoldCount + 1);
+                }
+
+            }
+
+        }
+    }
+
     public HashMap<Book, Integer> getSellerBooks() {
         HashMap<Book, Integer> sellersBooks = new HashMap<>();
         for (Store store : this.stores) {
@@ -616,11 +666,11 @@ public class Seller extends User implements Serializable {
         this.stores = stores;
     }
 
-    public Stats getStats() {
+    public SellerStats getStats() {
         return stats;
     }
 
-    public void setStats(Stats stats) {
+    public void setStats(SellerStats stats) {
         this.stats = stats;
     }
 

@@ -25,24 +25,30 @@ public class CustomerHomepage extends Menu {
         System.out.println("CUSTOMER HOME");
         System.out.println("*******************");
 
+        Buyer buyer = (Buyer) BookApp.marketplace.getCurrentUser();
+
+        // stores the number of items in user's cart
+        int cartCount = 0;
+        for (Book book : buyer.getCart().keySet())
+            cartCount += buyer.getCart().get(book);
+
         String choice;
         do {
             System.out.println("What would you like to do?\n" +
-                    "1. Purchase a book\n" +
-                    "2. Search for a book\n" +
+                    "1. Purchase a Book\n" +
+                    "2. Search for a Book\n" +
                     "3. View Store's Inventory or Reviews\n" +
-                    "4. Leave a review\n" +
+                    "4. Leave a Review\n" +
                     "5. View / Export Purchase History\n" +
-                    "6. View Shopping Cart\n" +
+                    "6. Your Shopping Cart (" + cartCount + ")\n" +
                     "7. Edit Account\n" +
-                    "8. SIGN OUT");
+                    "8. Checkout\n" +
+                    "9. SIGN OUT");
             choice = scan.nextLine();
-            if (!"12345678".contains(choice)) {
+            if (!"123456789".contains(choice)) {
                 System.out.println("Whoops: Please enter a number from 1-5");
             }
-        } while (!"12345678".contains(choice));
-
-        Buyer buyer = (Buyer) BookApp.marketplace.getCurrentUser();
+        } while (!"123456789".contains(choice));
 
         if (choice.equalsIgnoreCase("1")) {
             System.out.println("PURCHASE A BOOK");
@@ -90,6 +96,8 @@ public class CustomerHomepage extends Menu {
             }
 
             System.out.println(selection); // Aaron, you can use this for buying a book
+            buyer.addToCart(selection, 1);
+            System.out.println("BOOK HAS BEEN ADDED TO CART");
 
             // TODO: Add buying a book here (2 more spots below) (may want to abstract as much as possible)
         } else if (choice.equals("2")) {
@@ -125,7 +133,8 @@ public class CustomerHomepage extends Menu {
             System.out.println(selection); // Aaron, you can use this for buying a book
 
             // TODO: Add buying a book here (one more below)
-
+            buyer.addToCart(selection, 1);
+            System.out.println("BOOK HAS BEEN ADDED TO CART");
         } else if (choice.equals("3")) {
             System.out.println("VIEW STORES");
             System.out.println("*******************");
@@ -200,6 +209,8 @@ public class CustomerHomepage extends Menu {
                 System.out.println(selectedBook); // Aaron, you can use this for buying a book
 
                 // TODO: Add buying a book here
+                buyer.addToCart(selectedBook, 1);
+                System.out.println("BOOK HAS BEEN ADDED TO CART");
             } else {
                 // REVIEWS
                 ReviewsMenu reviewsMenu = new ReviewsMenu();
@@ -287,6 +298,15 @@ public class CustomerHomepage extends Menu {
                 return false; // Should break main loop
             }
         } else if (choice.equals("8")) {
+            System.out.println("Thank you for your purchase!");
+            System.out.println("*******************");
+            // lists off all the books purchased
+            for (Book book : buyer.getCart().keySet()) {
+                book.printBookListItem(null, buyer.getCart().get(book));
+            }
+            buyer.checkoutCart();
+            return true;
+        } else if (choice.equals("9")) {
             BookApp.marketplace.saveMarketplace();
             return false;
         }

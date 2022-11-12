@@ -1,6 +1,5 @@
 package Objects;
-// remove from cart
-// change print format
+
 import App.BookApp;
 import Exceptions.BookNotFoundException;
 

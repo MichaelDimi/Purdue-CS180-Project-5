@@ -128,6 +128,7 @@ public class CustomerHomepage extends Menu {
             if (storesArr.length < 1) {
                 System.out.println("There are no stores in the market yet");
                 System.out.println("Create an new account and become a seller to start a store");
+                BookApp.marketplace.saveMarketplace();
                 return true;
             }
 
@@ -159,6 +160,7 @@ public class CustomerHomepage extends Menu {
             } while (!option.equals("1") && !option.equals("2") && !option.equals("3"));
 
             if (option.equals("3")) {
+                BookApp.marketplace.saveMarketplace();
                 return true;
             } else if (option.equals("1")) {
                 HashMap<Book, Integer> stock = storeSelected.getStock();
@@ -206,6 +208,7 @@ public class CustomerHomepage extends Menu {
             if (storesArr.length < 1) {
                 System.out.println("There are no stores in the market yet");
                 System.out.println("You can create an new account and become a seller to open a store");
+                BookApp.marketplace.saveMarketplace();
                 return true;
             }
 
@@ -274,6 +277,7 @@ public class CustomerHomepage extends Menu {
                 return false; // Should break main loop
             }
         } else if (choice.equals("8")) {
+            BookApp.marketplace.saveMarketplace();
             return false;
         }
         BookApp.marketplace.saveMarketplace();

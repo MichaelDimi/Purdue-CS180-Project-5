@@ -70,26 +70,9 @@ public class BookApp {
 
                 // FILE IO
 //                FileIOMenu fileIOMenu = new FileIOMenu();
-////                fileIOMenu.fileIOMenu(scan, currentUser);
+//                fileIOMenu.fileIOMenu(scan, currentUser);
 //                marketplace.saveMarketplace();
-//
-//                // REVIEWS MENUS
-////                marketplace.addToUsers(new Seller("seller", "asd@asd.asd", "blah"));
-//                ReviewsMenu reviewsMenu = new ReviewsMenu();
-////                Seller seller = (Seller) marketplace.getUserByUsername("seller");
-////                seller.getStores().add(new Store("Store 1", seller.getName()));
-////                Store store = marketplace.getStoreByName("Store 1");
-////                reviewsMenu.leaveReview(scan, currentUser, store);
-//
-//                marketplace.saveMarketplace();
-//
-////                marketplace.addToUsers(new Seller("seller", "asd@asd.asd", "blah"));
-////                Seller seller = (Seller) marketplace.getUserByUsername("seller");
-////                seller.getStores().add(new Store("Store 1", seller.getName()));
-////                Store store = marketplace.getStoreByName("Store 1");
-////                reviewsMenu.viewStoreReviews(scan, store);
-//
-//                marketplace.saveMarketplace();
+
 
             } while (true); // Main loop
 

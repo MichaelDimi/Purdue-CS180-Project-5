@@ -1,10 +1,14 @@
 package Objects;
 
+import App.BookApp;
+import App.Menu;
+import App.ReviewsMenu;
 import App.SalesMenu;
 import Exceptions.BookNotFoundException;
 import Exceptions.IdenticalStoreException;
 
 import java.io.Serializable;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -127,15 +131,18 @@ public class Seller extends User implements Serializable {
             System.out.println("3. Delete store");
             System.out.println("4. View your stores");
             System.out.println("5. Add a SALE");
-            System.out.println("6. View seller stats");
-            System.out.println("7. SIGN OUT");
+            System.out.println("6. View reviews");
+            System.out.println("7. View seller stats");
+            System.out.println("8. SIGN OUT");
 
             option = scanner.nextLine();
 
-        } while (!"1234567".contains(option));
+        } while (!"12345678".contains(option));
 
         switch (option) {
             case "1":
+                System.out.println("MANAGE STORE");
+                System.out.println("*******************");
                 // editing store and manging stock
                 Store selectedStore = selectStore();
 
@@ -160,13 +167,18 @@ public class Seller extends User implements Serializable {
                 }
                 break;
             case "2":
-                // create new store
+                System.out.println("CREATE STORE");
+                System.out.println("*******************");
+
                 try {
                     createNewStore(this);
                 } catch (IdenticalStoreException ignored) {
+                    System.out.println("Whoops: You cannot create a store with the same name as another");
                 }
                 break;
             case "3":
+                System.out.println("DELETE STORE");
+                System.out.println("*******************");
                 // delete store
                 Store storeToDelete = selectStore();
 
@@ -182,6 +194,9 @@ public class Seller extends User implements Serializable {
                 }
                 break;
             case "4":
+                System.out.println("VIEW STORES");
+                System.out.println("*******************");
+
                 if (stores.size() == 0) {
                     System.out.println("YOU CURRENTLY DO NOT OWN ANY STORES");
                 } else {
@@ -191,14 +206,59 @@ public class Seller extends User implements Serializable {
                 }
                 break;
             case "5":
+                System.out.println("ADD A SALE");
+                System.out.println("*******************");
+
                 SalesMenu salesMenu = new SalesMenu();
                 salesMenu.createSale(scanner, this);
                 break;
             case "6":
+                System.out.println("VIEW STORE REVIEWS");
+                System.out.println("*******************");
+
+                // Convert the arraylist to an array, since its easier to manipulate
+                Store[] storesArr = new Store[stores.size()];
+                storesArr = stores.toArray(storesArr);
+
+                if (storesArr.length < 1) {
+                    System.out.println("There are no stores in the market yet");
+                    System.out.println("Be the first to open a store");
+                    BookApp.marketplace.saveMarketplace();
+                    return true;
+                }
+
+                System.out.println("Select a store to see their books or reviews:");
+                int i = 1;
+                for (Store store : storesArr) { //Printing list of books available for sale
+                    System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                    i++;
+                }
+                System.out.println(i + ". BACK");
+
+                int response = Menu.selectFromList(i, scanner);
+
+                Store storeSelected;
+                if (response == i) {
+                    BookApp.marketplace.saveMarketplace();
+                    return true; // Go back
+                } else {
+                    storeSelected = storesArr[response - 1];
+                }
+
+                ReviewsMenu reviewsMenu = new ReviewsMenu();
+                reviewsMenu.viewStoreReviews(scanner, storeSelected);
+
                 break;
             case "7":
+                System.out.println("VIEW STORE REVIEWS");
+                System.out.println("*******************");
+                // TODO: Stats for aaron
+                break;
+            case "8":
+                BookApp.marketplace.saveMarketplace();
                 return false;
         }
+        BookApp.marketplace.saveMarketplace();
         return true;
     }
 

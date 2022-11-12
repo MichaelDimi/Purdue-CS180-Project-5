@@ -19,6 +19,7 @@ public class CustomerHomepage extends Menu {
      * 4. Shopping cart
      */
     public boolean present(Scanner scan) {
+        System.out.println("CUSTOMER HOME");
         System.out.println("*******************");
 
         String choice;
@@ -26,7 +27,7 @@ public class CustomerHomepage extends Menu {
             System.out.println("What would you like to do?\n" +
                     "1. Purchase a book\n" +
                     "2. Search for a book\n" +
-                    "3. View Purchase History\n" +
+                    "3. View / Export Purchase History\n" +
                     "4. View Shopping Cart\n" +
                     "5. SIGN OUT");
             choice = scan.nextLine();
@@ -39,6 +40,8 @@ public class CustomerHomepage extends Menu {
 
         // TODO: Clean up:
         if (choice.equalsIgnoreCase("1")) {
+            System.out.println("PURCHASING A BOOK");
+            System.out.println("*******************");
             HashMap<Book, Integer> books = BookApp.marketplace.getBooks();
 
             // Convert the hashmap to an array, since its easier to manipulate
@@ -55,7 +58,8 @@ public class CustomerHomepage extends Menu {
             } else if (choice.equals("2")) {
                 booksArr = Marketplace.sortBooksByQuantity(books);
             }
-            
+
+            System.out.println("Select a book to buy:");
             int i = 1;
             for (Book book : booksArr) { //Printing list of books available for sale
                 book.printBookListItem(i, books.get(book));
@@ -63,58 +67,61 @@ public class CustomerHomepage extends Menu {
             }
             System.out.println(i + ". BACK");
 
-            int response = 0;
-            boolean error;
-            do {
-                error = false;
-                try {
-                    response = Integer.parseInt(scan.nextLine());
-                    if (response < 1 || response > i) {
-                        if (i == 1) {
-                            System.out.println("Whoops: Must be (1) or (2)");
-                        } else {
-                            System.out.printf("Whoops: Must be (1) -> (%d)\n", i);
-                        }
-                        error = true;
-                    }
-                } catch (NumberFormatException e) {
-                    if (i == 1) {
-                        System.out.println("Whoops: Must be (1) or (2)");
-                    } else {
-                        System.out.printf("Whoops: Must be (1) -> (%d)\n", i);
-                    }
-                    error = true;
-                }
-            } while (error);
+            int response = Menu.selectFromList(i, scan);
 
+            Book selection;
             if (response == i) {
                 return true; // Go back
             } else {
-
+                selection = booksArr[response-1];
             }
 
-            // TODO: Add buying a book here
+            System.out.println(selection); // Aaron, you can use this for buying a book
+
+            // TODO: Add buying a book here (Another spot below too)
         } else if (choice.equals("2")) {
+            System.out.println("SEARCH FOR A BOOK");
+            System.out.println("*******************");
             System.out.println("Enter search query: ");
-            String searchBook = scan.nextLine();
-            HashMap<Book, Integer> books = BookApp.marketplace.getBooks(); //getting hashmap of books
-            for (Book book: books.keySet()) { //Printing list of books available for sale
-                //String name = book.getName();
-                Book b = new Book(book);
-                //b.getName() changed
-                if(book.getName().equalsIgnoreCase(searchBook) || b.getStore().equalsIgnoreCase(searchBook)
-                        || b.getDescription().equalsIgnoreCase(searchBook)) {
-                    System.out.println(b.toString()); //need to format properly
-                }
+            System.out.println("- Note the query will be used to search for name, genre, and description.");
+            String query = scan.nextLine();
+            HashMap<Book, Integer> books = BookApp.marketplace.findBooks(query);
+
+            // Convert the hashmap to an array, since its easier to manipulate
+            Book[] booksArr = new Book[books.size()];
+            booksArr = books.keySet().toArray(booksArr);
+
+            System.out.println("Select a book to buy:");
+            int i = 1;
+            for (Book book : booksArr) { //Printing list of books available for sale
+                book.printBookListItem(i, books.get(book));
+                i++;
             }
+            System.out.println(i + ". BACK");
+
+            int response = Menu.selectFromList(i, scan);
+
+            Book selection;
+            if (response == i) {
+                return true; // Go back
+            } else {
+                selection = booksArr[response-1];
+            }
+
+            System.out.println(selection); // Aaron, you can use this for buying a book
 
             // TODO: Add buying a book here
         } else if (choice.equals("3")) {
-            if (BookApp.marketplace.getCurrentUser() instanceof Buyer) {
-                HashMap<Book, Integer> purchaseHist = ((Buyer) BookApp.marketplace.getCurrentUser()).getPurchaseHistory();
-                for (Book book: purchaseHist.keySet()) {
-                    System.out.println(book.toString() + "\t" + String.valueOf(purchaseHist.get(book)));
-                }
+            HashMap<Book, Integer> purchaseHistory = buyer.getPurchaseHistory();
+            for (Book book : purchaseHistory.keySet()) {
+                book.printBookListItem(null, purchaseHistory.get(book));
+            }
+            System.out.println("Would you like to export your purchase history? (Y)");
+            String answer = scan.nextLine();
+            if (answer.equalsIgnoreCase("y")) {
+                FileIOMenu fileIOMenu = new FileIOMenu();
+                fileIOMenu.fileIOMenu(scan, buyer);
+                BookApp.marketplace.saveMarketplace();
             }
 
         } else if (choice.equals("4")) { // TODO: Come back to this

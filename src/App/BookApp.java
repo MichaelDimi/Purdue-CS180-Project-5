@@ -20,7 +20,7 @@ public class BookApp {
         System.out.println("*******************");
 
         // Figures out if user wants to log in or sign up
-        // Login or Sign up Loop TODO: add exit
+        // Login or Sign up Loop
         do {
             System.out.println(marketplace.getUsers()); // TODO: REMOVE THIS (useful for logging in correctly)
 

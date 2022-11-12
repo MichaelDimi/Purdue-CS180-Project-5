@@ -48,29 +48,7 @@ public class SalesMenu {
             i++;
         }
         System.out.println(i + ". EXIT");
-        int response = 0;
-        boolean error;
-        do {
-            error = false;
-            try {
-                response = Integer.parseInt(scan.nextLine());
-                if (response < 1 || response > i) {
-                    if (i == 1) {
-                        System.out.println("Whoops: Must be (1) or (2)");
-                    } else {
-                        System.out.printf("Whoops: Must be (1) -> (%d)\n", i);
-                    }
-                    error = true;
-                }
-            } catch (NumberFormatException e) {
-                if (i == 1) {
-                    System.out.println("Whoops: Must be (1) or (2)");
-                } else {
-                    System.out.printf("Whoops: Must be (1) -> (%d)\n", i);
-                }
-                error = true;
-            }
-        } while (error);
+        int response = Menu.selectFromList(i, scan);
 
         if (response == i) {
             return;

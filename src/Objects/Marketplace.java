@@ -266,6 +266,21 @@ public class Marketplace implements Serializable {
         return books;
     }
 
+    public HashMap<Book, Integer> findBooks(String query) {
+        HashMap<Book, Integer> books = this.getBooks();
+
+        HashMap<Book, Integer> booksFound = new HashMap<>();
+        for (Book book : books.keySet()) {
+            if (book.getName().contains(query) ||
+                book.getGenre().contains(query) ||
+                book.getDescription().contains(query)) {
+
+                booksFound.put(book, books.get(book));
+            }
+        }
+        return booksFound;
+    }
+
     public static void sortBooksByPrice(Book[] books) {
         int n = books.length;
         for (int i = 0; i < n-1; i++) {

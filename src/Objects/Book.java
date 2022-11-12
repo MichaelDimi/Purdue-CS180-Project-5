@@ -113,7 +113,18 @@ public class Book implements Serializable {
                 "description='" + description + '\'' + ", price=" + price + '}';
     }
 
-    public void printBookListItem(int i, int q) {
+    /**
+     * Prints a list item for a book
+     * @param i the number item this book is in the list. If null, don't number the list
+     * @param q the quantity of the book, taken from the hashmap
+     */
+    public void printBookListItem(Integer i, int q) {
+        if (i == null) {
+            System.out.printf("- %s -- Original Price: $%.2f -- Percent off: %%%.2f -- Final price: $%.2f -- " +
+                            "Quantity: " + "[%d]\n",
+                    getName(), getPrice(), getPercentOff(), finalPrice(), q);
+            return;
+        }
         System.out.printf("%d. %s -- Original Price: $%.2f -- Percent off: %%%.2f -- Final price: $%.2f -- " +
                         "Quantity: " + "[%d]\n",
                 i, getName(), getPrice(), getPercentOff(), finalPrice(), q);

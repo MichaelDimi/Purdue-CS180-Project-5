@@ -94,7 +94,8 @@ public class SellerStats implements Serializable {
             // gets most popular genre
             String mostPopular = "";
             for (String genre : genres.keySet()) {
-                if (genres.get(genre) > genres.get(mostPopular)) {
+                int numOfOccurrence = (genres.get(mostPopular) == null) ? 0 : genres.get(mostPopular);
+                if (genres.get(genre) > numOfOccurrence) {
                     mostPopular = genre;
                 }
             }

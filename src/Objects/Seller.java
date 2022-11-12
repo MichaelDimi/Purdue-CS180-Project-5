@@ -13,6 +13,7 @@ import java.util.HashMap;
 /* TODO
     - check for duplicate books
     - check for duplicate stores
+    - update books in cart when something is edited
  */
 
 public class Seller extends User implements Serializable {
@@ -615,7 +616,6 @@ public class Seller extends User implements Serializable {
         return null;
     }
 
-    // TODO move this
     // runs when a Buyer purchases a book
     public void updateStock(Book purchasedBook, int quantity, Buyer buyer) {
         // gets store where book was bought
@@ -651,9 +651,9 @@ public class Seller extends User implements Serializable {
 
                 // checks if Buyer has boughten from Seller before and increments if so, else adds new Buyer
                 if (booksSoldCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-                    stats.getBooksSold().put(book, 1);
+                    stats.getBooksSold().put(book, quantity);
                 } else {
-                    stats.getBooksSold().put(book, booksSoldCount + 1);
+                    stats.getBooksSold().put(book, booksSoldCount + quantity);
                 }
 
             }

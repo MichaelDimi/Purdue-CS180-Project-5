@@ -75,6 +75,19 @@ public class Store implements Serializable {
         this.reviews = reviews;
     }
 
+    public Integer getAverageRating() {
+        Integer rating = 0;
+        for (Review review : this.reviews) {
+            rating += review.getRating();
+        }
+        try {
+            rating /= this.reviews.size();
+        } catch (ArithmeticException e) { // has no reviews
+            rating = null;
+        }
+        return rating;
+    }
+
     @Override
     public String toString() {
         return String.format("Store{name=%s,\nstock=%s,\nreviews=%s}", name, stock, reviews);

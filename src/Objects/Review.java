@@ -72,7 +72,10 @@ public class Review implements Serializable {
      * Formats the ratings into a star display
      * @return The string star display
      */
-    public String starDisplay(int amount) {
+    public static String starDisplay(Integer amount) {
+        if (amount == null) {
+            return "No Reviews";
+        }
         String stars = "";
         switch (amount) {
             case 0:

@@ -89,22 +89,6 @@ public class BookApp {
 ////                Store store = marketplace.getStoreByName("Store 1");
 ////                reviewsMenu.viewStoreReviews(scan, store);
 //
-//                SalesMenu salesMenu = new SalesMenu();
-////                Seller seller = (Seller) currentUser;
-////                salesMenu.createSale(scan, currentUser);
-//
-//                marketplace.saveMarketplace();
-//
-//                // ACCOUNT MENU
-//                AccountMenu accountMenu = new AccountMenu();
-//                boolean accountMenuResult = accountMenu.present(scan); // If false, sign out
-//                if (!accountMenuResult) {
-//                    // Sign out
-//                    marketplace.setCurrentUser(null);
-//                    BookApp.marketplace.saveMarketplace();
-//                    break; // Should break main loop
-//                }
-//
 //                marketplace.saveMarketplace();
 
             } while (true); // Main loop

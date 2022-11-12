@@ -278,8 +278,23 @@ public class Marketplace implements Serializable {
             }
         }
     }
-    public static void sortBooksByQuantity(Book[] books) {
+    public static Book[] sortBooksByQuantity(HashMap<Book, Integer> books) {
+        int n = books.size();
 
+        Book[] booksArr = new Book[books.size()];
+        booksArr = books.keySet().toArray(booksArr);
+
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (books.get(booksArr[j]) < books.get(booksArr[j+1])) {
+                    Book temp = booksArr[j];
+                    booksArr[j] = booksArr[j+1];
+                    booksArr[j+1] = temp;
+                }
+            }
+        }
+
+        return booksArr;
     }
 
 //    public void setBooks(HashMap<Book, Integer> books) {

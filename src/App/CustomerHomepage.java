@@ -39,8 +39,7 @@ public class CustomerHomepage extends Menu {
 
         // TODO: Clean up:
         if (choice.equalsIgnoreCase("1")) {
-            //get stores from .ser and desirialize and list them
-            HashMap<Book, Integer> books = BookApp.marketplace.getBooks(); //getting hashmap
+            HashMap<Book, Integer> books = BookApp.marketplace.getBooks();
 
             // Convert the hashmap to an array, since its easier to manipulate
             Book[] booksArr = new Book[books.size()];
@@ -53,11 +52,10 @@ public class CustomerHomepage extends Menu {
             choice = scan.nextLine();
             if (choice.equals("1")) { // Lowest to highest
                 Marketplace.sortBooksByPrice(booksArr);
-            } else if (choice.equals("2")) { // TODO: Fix this one
-
+            } else if (choice.equals("2")) {
+                booksArr = Marketplace.sortBooksByQuantity(books);
             }
-
-            // TODO: Finish sorting
+            
             int i = 1;
             for (Book book : booksArr) { //Printing list of books available for sale
                 book.printBookListItem(i, books.get(book));

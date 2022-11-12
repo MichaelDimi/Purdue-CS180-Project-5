@@ -40,11 +40,14 @@ public class SellerStats implements Serializable {
             System.out.println("*******************");
 
             for (Book book : booksSold.keySet()) {
-                System.out.println("Name: " + book.getName());
-                System.out.println("Genre: " + book.getGenre());
-                System.out.println("Description: " + book.getDescription());
-                System.out.printf("Price: $%.2f\n", book.getPrice());
-                System.out.println("Quantity: " + booksSold.get(book) + "\n");
+                book.printBookListItem(null, booksSold.get(book));
+
+                // OLD PRINT FORMAT
+//                System.out.println("Name: " + book.getName());
+//                System.out.println("Genre: " + book.getGenre());
+//                System.out.println("Description: " + book.getDescription());
+//                System.out.printf("Price: $%.2f\n", book.getPrice());
+//                System.out.println("Quantity: " + booksSold.get(book) + "\n");
             }
         }
     }
@@ -65,6 +68,7 @@ public class SellerStats implements Serializable {
         }
     }
 
+    // TODO: FIX THIS!!! GET MOST POPULAR STAT
     // prints the most popular genre the Seller sells
     public void listMostPopularGenre() {
         if (booksSold.size() == 0) {

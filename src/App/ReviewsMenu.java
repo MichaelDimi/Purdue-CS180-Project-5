@@ -13,7 +13,6 @@ public class ReviewsMenu {
      * @param user The buyer leaving the review
      * @param store The store the user is leaving a review for
      */
-    // TODO: add this as an option when viewing a store (as a buyer)
     public void leaveReview(Scanner scan, User user, Store store) {
         System.out.println("*******************");
 
@@ -107,7 +106,7 @@ public class ReviewsMenu {
 
         if (store.getReviews() == null || store.getReviews().isEmpty()) {
             System.out.println("Whoops: Looks like this store has no reviews");
-            System.out.println("Would you like to add a review? (Y)");
+            System.out.println("Would you like to add a review? (Y/N)");
             String response = scan.nextLine();
             if (response.equalsIgnoreCase("Y")) {
                 leaveReview(scan, BookApp.marketplace.getCurrentUser(), store);
@@ -132,7 +131,7 @@ public class ReviewsMenu {
 
             for (int i = 1; i <= reviews.length; i++) {
                 Review r = reviews[i - 1]; // zero index
-                System.out.printf("%d. %s %s\n", i, r.getTitle(), r.starDisplay(r.getRating()));
+                System.out.printf("%d. %s %s\n", i, r.getTitle(), Review.starDisplay(r.getRating()));
             }
             System.out.println(reviews.length + 1 + ". EXIT");
 

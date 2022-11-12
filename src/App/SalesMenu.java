@@ -7,7 +7,6 @@ import Objects.*;
 public class SalesMenu {
 
     public void createSale(Scanner scan, User user) {
-        System.out.println("*******************");
 
         if (user instanceof Buyer) {
             System.out.println("Whoops: Buyers cannot create sales");
@@ -44,35 +43,11 @@ public class SalesMenu {
         System.out.println("Select a book below to add a sale to it: ");
         int i = 1;
         for (Book book : booksArr) {
-            System.out.printf("%d. %s -- Original Price: $%.2f -- Percent off: %%%.2f -- Final price: $%.2f -- " +
-                            "Quantity: " + "[%d]\n",
-                    i, book.getName(), book.getPrice(), book.getPercentOff(), book.finalPrice(), books.get(book));
+            book.printBookListItem(i, books.get(book));
             i++;
         }
         System.out.println(i + ". EXIT");
-        int response = 0;
-        boolean error;
-        do {
-            error = false;
-            try {
-                response = Integer.parseInt(scan.nextLine());
-                if (response < 1 || response > i) {
-                    if (i == 1) {
-                        System.out.println("Whoops: Must be (1) or (2)");
-                    } else {
-                        System.out.printf("Whoops: Must be (1) -> (%d)\n", i);
-                    }
-                    error = true;
-                }
-            } catch (NumberFormatException e) {
-                if (i == 1) {
-                    System.out.println("Whoops: Must be (1) or (2)");
-                } else {
-                    System.out.printf("Whoops: Must be (1) -> (%d)\n", i);
-                }
-                error = true;
-            }
-        } while (error);
+        int response = Menu.selectFromList(i, scan);
 
         if (response == i) {
             return;

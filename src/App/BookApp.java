@@ -20,7 +20,7 @@ public class BookApp {
         System.out.println("*******************");
 
         // Figures out if user wants to log in or sign up
-        // Login or Sign up Loop TODO: add exit
+        // Login or Sign up Loop
         do {
             System.out.println(marketplace.getUsers()); // TODO: REMOVE THIS (useful for logging in correctly)
 
@@ -46,56 +46,37 @@ public class BookApp {
                 }
             } while (!validUser);
 
-            // Seller test
-//            Seller newSeller = (Seller) marketplace.getCurrentUser();
-//            newSeller.editStore();
-
             marketplace.saveMarketplace();
 
             // Main loop
             do {
                 User currentUser = marketplace.getCurrentUser();
 
-                // FILE IO
-                FileIOMenu fileIOMenu = new FileIOMenu();
-//                fileIOMenu.fileIOMenu(scan, currentUser);
-                marketplace.saveMarketplace();
-
-                // REVIEWS MENUS
-//                marketplace.addToUsers(new Seller("seller", "asd@asd.asd", "blah"));
-                ReviewsMenu reviewsMenu = new ReviewsMenu();
-//                Seller seller = (Seller) marketplace.getUserByUsername("seller");
-//                seller.getStores().add(new Store("Store 1", seller.getName()));
-//                Store store = marketplace.getStoreByName("Store 1");
-//                reviewsMenu.leaveReview(scan, currentUser, store);
-
-                marketplace.saveMarketplace();
-
-//                marketplace.addToUsers(new Seller("seller", "asd@asd.asd", "blah"));
-//                Seller seller = (Seller) marketplace.getUserByUsername("seller");
-//                seller.getStores().add(new Store("Store 1", seller.getName()));
-//                Store store = marketplace.getStoreByName("Store 1");
-//                reviewsMenu.viewStoreReviews(scan, store);
-
-                SalesMenu salesMenu = new SalesMenu();
-//                Seller seller = (Seller) currentUser;
-//                salesMenu.createSale(scan, currentUser);
-
-                marketplace.saveMarketplace();
-
-                // ACCOUNT MENU
-                AccountMenu accountMenu = new AccountMenu();
-                boolean accountMenuResult = accountMenu.present(scan); // If false, sign out
-                if (!accountMenuResult) {
-                    // Sign out
-                    marketplace.setCurrentUser(null);
-                    BookApp.marketplace.saveMarketplace();
-                    break; // Should break main loop
+                if (currentUser instanceof Buyer) {
+                    CustomerHomepage customerHomepage = new CustomerHomepage();
+                    boolean mainMenu = customerHomepage.present(scan);
+                    if (!mainMenu) {
+                        break;
+                    }
+                } else {
+                    Seller seller = (Seller) marketplace.getCurrentUser();
+                    boolean mainMenu = seller.editStore();
+                    if (!mainMenu) {
+                        break;
+                    }
                 }
 
-                marketplace.saveMarketplace();
+
+
+                // FILE IO
+//                FileIOMenu fileIOMenu = new FileIOMenu();
+//                fileIOMenu.fileIOMenu(scan, currentUser);
+//                marketplace.saveMarketplace();
+
 
             } while (true); // Main loop
+
+            marketplace.saveMarketplace();
         } while (true); // Login or Sign up Loop
     }
 }

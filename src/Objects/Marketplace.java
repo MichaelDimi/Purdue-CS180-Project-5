@@ -3,6 +3,7 @@ package Objects;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -17,7 +18,7 @@ public class Marketplace implements Serializable {
     /**
      * Stores frequency of books in the marketplace
      */
-    HashMap<Book, Integer> books;
+//    HashMap<Book, Integer> books;
     /**
      * The current user logged in.
      * Null before login
@@ -33,16 +34,16 @@ public class Marketplace implements Serializable {
         Marketplace readMarket = Marketplace.readMarketplace();
         if (readMarket == null) {
             this.users = new ArrayList<>();
-            this.books = new HashMap<>();
+//            this.books = new HashMap<>();
             return;
         }
         try {
             this.users = readMarket.getUsers();
-            this.books = readMarket.getBooks();
+//            this.books = readMarket.getBooks();
             System.out.println(readMarket);
         } catch (NullPointerException e) {
             this.users = new ArrayList<>();
-            this.books = new HashMap<>();
+//            this.books = new HashMap<>();
         }
     }
 
@@ -122,7 +123,7 @@ public class Marketplace implements Serializable {
      */
     public ArrayList<Book> getBooksByName(String name) {
         ArrayList<Book> books = new ArrayList<>();
-        for (Book book : this.books.keySet()) {
+        for (Book book : this.getBooks().keySet()) {
             if (book.getName().toLowerCase().contains(name.toLowerCase())) {
                 books.add(book);
             }
@@ -138,7 +139,7 @@ public class Marketplace implements Serializable {
      */
     public ArrayList<Book> getBooksByStore(String storeName) {
         ArrayList<Book> books = new ArrayList<>();
-        for (Book book : this.books.keySet()) {
+        for (Book book : this.getBooks().keySet()) {
             if (book.getStore().toLowerCase().contains(storeName.toLowerCase())) {
                 books.add(book);
             }
@@ -154,7 +155,7 @@ public class Marketplace implements Serializable {
      */
     public ArrayList<Book> getBooksByDescription(String description) {
         ArrayList<Book> books = new ArrayList<>();
-        for (Book book : this.books.keySet()) {
+        for (Book book : this.getBooks().keySet()) {
             if (book.getDescription().toLowerCase().contains(description.toLowerCase())) {
                 books.add(book);
             }
@@ -276,12 +277,64 @@ public class Marketplace implements Serializable {
     }
 
     public HashMap<Book, Integer> getBooks() {
+        HashMap<Book, Integer> books = new HashMap<>();
+        ArrayList<Store> stores = getStores();
+        for (Store store : stores) {
+            HashMap<Book, Integer> stock = store.getStock();
+            books.putAll(stock);
+        }
         return books;
     }
 
-    public void setBooks(HashMap<Book, Integer> books) {
-        this.books = books;
+    public HashMap<Book, Integer> findBooks(String query) {
+        HashMap<Book, Integer> books = this.getBooks();
+
+        HashMap<Book, Integer> booksFound = new HashMap<>();
+        for (Book book : books.keySet()) {
+            if (book.getName().contains(query) ||
+                book.getGenre().contains(query) ||
+                book.getDescription().contains(query)) {
+
+                booksFound.put(book, books.get(book));
+            }
+        }
+        return booksFound;
     }
+
+    public static void sortBooksByPrice(Book[] books) {
+        int n = books.length;
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (books[j].finalPrice() > books[j+1].finalPrice()) {
+                    Book temp = books[j];
+                    books[j] = books[j+1];
+                    books[j+1] = temp;
+                }
+            }
+        }
+    }
+    public static Book[] sortBooksByQuantity(HashMap<Book, Integer> books) {
+        int n = books.size();
+
+        Book[] booksArr = new Book[books.size()];
+        booksArr = books.keySet().toArray(booksArr);
+
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (books.get(booksArr[j]) < books.get(booksArr[j+1])) {
+                    Book temp = booksArr[j];
+                    booksArr[j] = booksArr[j+1];
+                    booksArr[j+1] = temp;
+                }
+            }
+        }
+
+        return booksArr;
+    }
+
+//    public void setBooks(HashMap<Book, Integer> books) {
+//        this.books = books;
+//    }
 
     public User getCurrentUser() {
         return currentUser;
@@ -293,6 +346,6 @@ public class Marketplace implements Serializable {
 
     @Override
     public String toString() {
-        return "Marketplace{" + "users=" + users.toString() + ", books=" + books + ", currentUser=" + currentUser + '}';
+        return "Marketplace{" + "users=" + users.toString() + ", currentUser=" + currentUser + '}';
     }
 }

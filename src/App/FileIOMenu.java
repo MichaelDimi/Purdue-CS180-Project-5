@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class FileIOMenu extends Menu {
 
     public void fileIOMenu(Scanner scan, User user) {
+        System.out.println("IMPORT OR EXPORT STOCK");
         System.out.println("*******************");
 
         if (user instanceof Seller) {
@@ -18,16 +19,19 @@ public class FileIOMenu extends Menu {
                 System.out.println("Would you like to ");
                 System.out.println("1. Export your stock");
                 System.out.println("2. Import stock list");
+                System.out.println("3. CANCEL");
                 response = scan.nextLine();
-                if (!response.equals("1") && !response.equals("2")) {
-                    System.out.println("Whoops: Please enter (1) or (2)");
+                if (!response.equals("1") && !response.equals("2") && !response.equals("3")) {
+                    System.out.println("Whoops: Please enter (1), (2), or (3)");
                 }
-            } while (!response.equals("1") && !response.equals("2"));
+            } while (!response.equals("1") && !response.equals("2") && !response.equals("3"));
 
             if (response.equals("1")) {
                 sellerExport(scan, user);
-            } else {
+            } else if (response.equals("2")) {
                 sellerImportMenu(user, scan);
+            } else {
+                return;
             }
         } else {
             System.out.println("For your own privacy please confirm that you want to export your purchase history:");
@@ -48,6 +52,7 @@ public class FileIOMenu extends Menu {
      * @param scan The scanner to get where the user wants to save the file
      */
     public void sellerExport(Scanner scan, User user) {
+        System.out.println("EXPORT STOCK");
         System.out.println("*******************");
         if (!(user instanceof Seller)) {
             System.out.println("Buyers cannot export using this function!");
@@ -55,6 +60,21 @@ public class FileIOMenu extends Menu {
         }
 
         Seller seller = (Seller) user;
+
+        boolean noStock = true;
+        for (Store store : seller.getStores()) {
+            if (!store.getStock().isEmpty() && store.getStock() != null) {
+                noStock = false;
+                break;
+            }
+        }
+        if (noStock) {
+            System.out.println("You have no inventory to export");
+            System.out.println("Press ENTER to continue");
+            scan.nextLine();
+            return;
+        }
+
         File file;
         do {
             System.out.println("Where would you like to save: ");
@@ -113,6 +133,7 @@ public class FileIOMenu extends Menu {
 
 
     public void buyerExport(Scanner scan, User user) {
+        System.out.println("EXPORT PURCHASE HISTORY");
         System.out.println("*******************");
         if (!(user instanceof Buyer)) {
             System.out.println("Sellers cannot export using this function!");
@@ -121,11 +142,12 @@ public class FileIOMenu extends Menu {
 
         Buyer buyer = (Buyer) user;
 
-//        buyer.addToCart(new Book("Book 1", "Store 1", "Scary", "Very scary book", 12.50), 10);
-//        buyer.addToCart(new Book("Book 2", "Store 1", "Funny", "heheheheh", 20.50), 8);
-//        buyer.checkoutCart();
-//        System.out.println(buyer.getCart());
-//        System.out.println(buyer.getPurchaseHistory());
+        if (buyer.getPurchaseHistory().isEmpty() || buyer.getPurchaseHistory() == null) {
+            System.out.println("You have no history to export");
+            System.out.println("Press ENTER to continue");
+            scan.nextLine();
+            return;
+        }
 
         File file;
         do {
@@ -190,6 +212,9 @@ public class FileIOMenu extends Menu {
      * @param scan The scanner for getting user input
      */
     public void sellerImportMenu(User user, Scanner scan) {
+        System.out.println("IMPORT STOCK");
+        System.out.println("*******************");
+
         if (!(user instanceof Seller)) {
             System.out.println("Buyers cannot import using this function!");
             return;
@@ -197,8 +222,6 @@ public class FileIOMenu extends Menu {
 
         Seller seller = (Seller) user;
 //        System.out.println(seller.getSellerBooks());
-
-        System.out.println("*******************");
 
         boolean error;
         do {

@@ -1,8 +1,11 @@
 package Objects;
 
+import App.*;
+import Exceptions.BookNotFoundException;
 import Exceptions.IdenticalStoreException;
 
 import java.io.Serializable;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -40,7 +43,7 @@ public class Seller extends User implements Serializable {
 
     // lets user add new store which gets added to seller's store arraylist
     public void createNewStore(Seller seller) throws IdenticalStoreException {
-        System.out.println("CREATING A NEW STORE");
+        System.out.println("CREATE NEW STORE");
         System.out.println("*******************");
         System.out.println("Please enter a new store name (enter 0 to cancel):");
         Scanner scanner = new Scanner(System.in);
@@ -53,7 +56,7 @@ public class Seller extends User implements Serializable {
         }
 
         if (storeName.equals("0")) {
-            System.out.println("STORE CREATION CANCELED");
+            System.out.println("STORE CREATION CANCELED\n");
         } else {
             stores.add(new Store(storeName, seller.getName()));
             System.out.println("STORE SUCCESSFULLY CREATED");
@@ -66,7 +69,7 @@ public class Seller extends User implements Serializable {
         Scanner scanner = new Scanner(System.in);
 
         // checks that seller owns at least 1 store and asks if user wants to make a new store
-        if (stores.size() <= 0) {
+        if (stores.size() == 0) {
             System.out.println("You currently do not own any stores.\nWould you like to create one?");
             System.out.println("1. Yes");
             System.out.println("2. No");
@@ -85,8 +88,8 @@ public class Seller extends User implements Serializable {
             }
 
         } else {
-            System.out.println("CHOOSE A STORE");
-            System.out.println("*******************");
+//            System.out.println("CHOOSE A STORE");
+//            System.out.println("*******************");
 
             // loops until a valid input is inputted
             int storeSelection = -1;
@@ -117,79 +120,155 @@ public class Seller extends User implements Serializable {
     }
 
     // menu when creating/editing stores or adding/editing books
-    public void editStore() {
+    public boolean editStore() {
         Scanner scanner = new Scanner(System.in);
 
-        boolean isViewingSellerPage = true;
-        while (isViewingSellerPage) {
+        String option;
+        do {
             System.out.println("SELLER PAGE");
             System.out.println("*******************");
             System.out.println("1. Edit store or manage stock");
             System.out.println("2. Create new store");
             System.out.println("3. Delete store");
             System.out.println("4. View your stores");
-            System.out.println("5. DONE");
+            System.out.println("5. Add a SALE");
+            System.out.println("6. View reviews");
+            System.out.println("7. View seller stats");
+            System.out.println("8. Import / Export Inventory");
+            System.out.println("9. SIGN OUT");
 
-            switch (scanner.nextLine()) {
-                case "1":
-                    // editing store and manging stock
-                    Store selectedStore = selectStore();
+            option = scanner.nextLine();
 
-                    // checks if selectStore was cancelled and returned null
-                    if (selectedStore == null)
+        } while (!"123456789".contains(option));
+
+        switch (option) {
+            case "1":
+                System.out.println("MANAGE STORE");
+                System.out.println("*******************");
+                // editing store and manging stock
+                Store selectedStore = selectStore();
+
+                // checks if selectStore was cancelled and returned null
+                if (selectedStore == null)
+                    break;
+
+                System.out.println("What would you like to do?");
+                System.out.println("1. Mange stock");
+                System.out.println("2. Edit store name");
+                System.out.println("3. CANCEL");
+
+                switch (scanner.nextLine()) {
+                    case "1":
+                        // manage stock
+                        editStoreInventory(selectedStore);
                         break;
-
-                    System.out.println("What would you like to do?");
-                    System.out.println("1. Mange stock");
-                    System.out.println("2. Edit store name");
-                    System.out.println("3. CANCEL");
-
-                    switch (scanner.nextLine()) {
-                        case "1":
-                            // manage stock
-                            editStoreInventory(selectedStore);
-                            break;
-                        case "2":
-                            // edit store name
-                            editStoreName(selectedStore);
-                            break;
-                    }
-                    break;
-                case "2":
-                    // create new store
-                    try {
-                        createNewStore(this);
-                    } catch (IdenticalStoreException ignored) {
-                    }
-                    break;
-                case "3":
-                    // delete store
-                    Store storeToDelete = selectStore();
-
-                    // checks if selectStore was cancelled and returned null
-                    if (storeToDelete == null)
+                    case "2":
+                        // edit store name
+                        editStoreName(selectedStore);
                         break;
+                }
+                break;
+            case "2":
+                try {
+                    createNewStore(this);
+                } catch (IdenticalStoreException ignored) {
+                    System.out.println("Whoops: You cannot create a store with the same name as another");
+                }
+                break;
+            case "3":
+                System.out.println("DELETE STORE");
+                System.out.println("*******************");
+                // delete store
+                Store storeToDelete = selectStore();
 
-                    for (int i = 0; i < stores.size(); i++) {
-                        // store references should be the same (see selectStore() method)
-                        if (stores.get(i) == storeToDelete) {
-                            stores.remove(i);
-                        }
-                    }
+                // checks if selectStore was cancelled and returned null
+                if (storeToDelete == null)
                     break;
-                case "4":
-                    if (stores.size() == 0) {
-                        System.out.println("YOU CURRENTLY DO NOT OWN ANY STORES");
-                    } else {
-                        // lists out all owned stores
-                        for (Store store : stores)
-                            System.out.println(store.getName());
+
+                for (int i = 0; i < stores.size(); i++) {
+                    // store references should be the same (see selectStore() method)
+                    if (stores.get(i) == storeToDelete) {
+                        stores.remove(i);
                     }
-                    break;
-                default:
-                    isViewingSellerPage = false;
-            }
+                }
+                break;
+            case "4":
+                System.out.println("VIEW STORES");
+                System.out.println("*******************");
+
+                if (this.getStores().size() == 0) {
+                    System.out.println("YOU CURRENTLY DO NOT OWN ANY STORES");
+                } else {
+                    // lists out all owned stores
+                    for (Store store : stores)
+                        System.out.println("- " + store.getName() + " -- Owner: " + store.getSellerName() + " -- " +
+                                "Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                }
+                System.out.println("Press ENTER to exit");
+                scanner.nextLine();
+                break;
+            case "5":
+                System.out.println("ADD A SALE");
+                System.out.println("*******************");
+
+                SalesMenu salesMenu = new SalesMenu();
+                salesMenu.createSale(scanner, this);
+                break;
+            case "6":
+                System.out.println("VIEW STORE REVIEWS");
+                System.out.println("*******************");
+
+                // Convert the arraylist to an array, since its easier to manipulate
+                Store[] storesArr = new Store[stores.size()];
+                storesArr = stores.toArray(storesArr);
+
+                if (storesArr.length < 1) {
+                    System.out.println("There are no stores in the market yet");
+                    System.out.println("Be the first to open a store");
+                    BookApp.marketplace.saveMarketplace();
+                    return true;
+                }
+
+                System.out.println("Select a store to see their books or reviews:");
+                int i = 1;
+                for (Store store : storesArr) { //Printing list of books available for sale
+                    System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                    i++;
+                }
+                System.out.println(i + ". BACK");
+
+                int response = Menu.selectFromList(i, scanner);
+
+                Store storeSelected;
+                if (response == i) {
+                    BookApp.marketplace.saveMarketplace();
+                    return true; // Go back
+                } else {
+                    storeSelected = storesArr[response - 1];
+                }
+
+                ReviewsMenu reviewsMenu = new ReviewsMenu();
+                reviewsMenu.viewStoreReviews(scanner, storeSelected);
+
+                break;
+            case "7":
+                System.out.println("VIEW STORE REVIEWS");
+                System.out.println("*******************");
+                // TODO: Stats for aaron
+                break;
+            case "8":
+                // Note: Menu header is provided in fileIOMenu
+                Seller seller = (Seller) BookApp.marketplace.getCurrentUser();
+
+                FileIOMenu fileIOMenu = new FileIOMenu();
+                fileIOMenu.fileIOMenu(scanner, seller);
+                break;
+            case "9":
+                BookApp.marketplace.saveMarketplace();
+                return false;
         }
+        BookApp.marketplace.saveMarketplace();
+        return true;
     }
 
     public void editStoreName(Store store) {

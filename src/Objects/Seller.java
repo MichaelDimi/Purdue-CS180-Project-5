@@ -261,10 +261,10 @@ public class Seller extends User implements Serializable {
                 System.out.println("4. CANCEL");
 
                 // TODO: Make loop
-                int statsSlection = scanner.nextInt();
+                int statsSelection = scanner.nextInt();
                 scanner.nextLine();
 
-                switch (statsSlection) {
+                switch (statsSelection) {
                     case 1:
                         stats.listAllSoldBooks();
                         break;

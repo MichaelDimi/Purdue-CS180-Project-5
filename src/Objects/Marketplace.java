@@ -285,10 +285,10 @@ public class Marketplace implements Serializable {
     public int getBookQuantity(Book book) {
         for (User user : users) {
             if (user instanceof Seller) {
-                // loops though all of the Seller's books
+                // loops through all the Seller's books
                 for (Book sellerBooks : ((Seller) user).getSellerBooks().keySet()) {
                     // makes sure that the book is the exact same book and an exact copy
-                    if (sellerBooks == book) {
+                    if (sellerBooks.equals(book)) {
                         return ((Seller) user).getSellerBooks().get(sellerBooks);
                     }
                 }

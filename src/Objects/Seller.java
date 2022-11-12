@@ -42,11 +42,10 @@ public class Seller extends User implements Serializable {
     }
 
     // lets user add new store which gets added to seller's store arraylist
-    public void createNewStore(Seller seller) throws IdenticalStoreException {
+    public void createNewStore(Scanner scanner, Seller seller) throws IdenticalStoreException {
         System.out.println("CREATE NEW STORE");
         System.out.println("*******************");
         System.out.println("Please enter a new store name (enter 0 to cancel):");
-        Scanner scanner = new Scanner(System.in);
         String storeName = scanner.nextLine();
 
         // Check that the name is not identical
@@ -65,8 +64,7 @@ public class Seller extends User implements Serializable {
 
     // displays all stores a seller owns and lets seller select a store
     // returns user selected Store and null if operation cancelled
-    public Store selectStore() {
-        Scanner scanner = new Scanner(System.in);
+    public Store selectStore(Scanner scanner) {
 
         // checks that seller owns at least 1 store and asks if user wants to make a new store
         if (stores.size() == 0) {
@@ -79,12 +77,12 @@ public class Seller extends User implements Serializable {
             if (scanner.nextLine().equals("1")) {
                 // TODO: IdenticalStoreException not needed?
                 try {
-                    createNewStore(this);
+                    createNewStore(scanner, this);
                 } catch (IdenticalStoreException e) {
                     System.out.println(e.getMessage());
                 }
                 // prompts user to select store again from the updated list
-                return selectStore();
+                return selectStore(scanner);
             }
 
         } else {
@@ -120,8 +118,7 @@ public class Seller extends User implements Serializable {
     }
 
     // menu when creating/editing stores or adding/editing books
-    public boolean editStore() {
-        Scanner scanner = new Scanner(System.in);
+    public boolean editStore(Scanner scanner) {
 
         String option;
         do {
@@ -146,7 +143,7 @@ public class Seller extends User implements Serializable {
                 System.out.println("MANAGE STORE");
                 System.out.println("*******************");
                 // editing store and manging stock
-                Store selectedStore = selectStore();
+                Store selectedStore = selectStore(scanner);
 
                 // checks if selectStore was cancelled and returned null
                 if (selectedStore == null)
@@ -160,17 +157,17 @@ public class Seller extends User implements Serializable {
                 switch (scanner.nextLine()) {
                     case "1":
                         // manage stock
-                        editStoreInventory(selectedStore);
+                        editStoreInventory(scanner, selectedStore);
                         break;
                     case "2":
                         // edit store name
-                        editStoreName(selectedStore);
+                        editStoreName(scanner, selectedStore);
                         break;
                 }
                 break;
             case "2":
                 try {
-                    createNewStore(this);
+                    createNewStore(scanner, this);
                 } catch (IdenticalStoreException ignored) {
                     System.out.println("Whoops: You cannot create a store with the same name as another");
                 }
@@ -179,7 +176,7 @@ public class Seller extends User implements Serializable {
                 System.out.println("DELETE STORE");
                 System.out.println("*******************");
                 // delete store
-                Store storeToDelete = selectStore();
+                Store storeToDelete = selectStore(scanner);
 
                 // checks if selectStore was cancelled and returned null
                 if (storeToDelete == null)
@@ -291,8 +288,7 @@ public class Seller extends User implements Serializable {
         return true;
     }
 
-    public void editStoreName(Store store) {
-        Scanner scanner = new Scanner(System.in);
+    public void editStoreName(Scanner scanner, Store store) {
         System.out.println("Enter a new name (enter 0 to cancel):");
         String storeName = scanner.nextLine();
 
@@ -411,7 +407,7 @@ public class Seller extends User implements Serializable {
     }
 
     // edit, create, and delete books in specified store
-    public void editStoreInventory(Store store) {
+    public void editStoreInventory(Scanner scanner, Store store) {
         HashMap<Book, Integer> stock = store.getStock();
 
         // makes sure that stock is always initialized
@@ -426,8 +422,6 @@ public class Seller extends User implements Serializable {
             System.out.println("3. Edit existing books");
             System.out.println("4. View books in store");
             System.out.println("5. DONE");
-
-            Scanner scanner = new Scanner(System.in);
 
             switch (scanner.nextLine()) {
                 case "1":
@@ -444,7 +438,7 @@ public class Seller extends User implements Serializable {
 
                         // cant select from hashmap by index
                         // gets key object from books arraylist with same order as hashmap
-                        Book bookToRemove = selectBook(stock);
+                        Book bookToRemove = selectBook(scanner, stock);
 
                         // checks if selectBook was cancelled and returned null
                         if (bookToRemove == null)
@@ -475,7 +469,7 @@ public class Seller extends User implements Serializable {
 
                         // cant select from hashmap by index
                         // gets key object from books arraylist with same order as hashmap
-                        Book bookToEdit = selectBook(stock);
+                        Book bookToEdit = selectBook(scanner, stock);
 
                         // checks if selectBook was cancelled and returned null
                         if (bookToEdit == null)
@@ -552,13 +546,6 @@ public class Seller extends User implements Serializable {
 
                         for (Book book : stock.keySet()) {
                             book.printBookListItem(null, stock.get(book));
-
-                            // OLD PRINT FORMAT
-//                            System.out.println("Name: " + book.getName());
-//                            System.out.println("Genre: " + book.getGenre());
-//                            System.out.println("Description: " + book.getDescription());
-//                            System.out.printf("Price: $%.2f\n", book.finalPrice());
-//                            System.out.println("Quantity: " + stock.get(book) + "\n");
                         }
                     }
                     break;
@@ -573,8 +560,7 @@ public class Seller extends User implements Serializable {
 
     // displays all books in a store lets user select a book
     // returns user selected Book and null if operation cancelled
-    public Book selectBook(HashMap<Book, Integer> stock) {
-        Scanner scanner = new Scanner(System.in);
+    public Book selectBook(Scanner scanner, HashMap<Book, Integer> stock) {
         ArrayList<Book> books = new ArrayList<>();
 
         // loops until a valid input is inputted

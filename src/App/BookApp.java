@@ -60,19 +60,11 @@ public class BookApp {
                     }
                 } else {
                     Seller seller = (Seller) marketplace.getCurrentUser();
-                    boolean mainMenu = seller.editStore();
+                    boolean mainMenu = seller.editStore(scan);
                     if (!mainMenu) {
                         break;
                     }
                 }
-
-
-
-                // FILE IO
-//                FileIOMenu fileIOMenu = new FileIOMenu();
-//                fileIOMenu.fileIOMenu(scan, currentUser);
-//                marketplace.saveMarketplace();
-
 
             } while (true); // Main loop
 

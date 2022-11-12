@@ -44,9 +44,7 @@ public class SalesMenu {
         System.out.println("Select a book below to add a sale to it: ");
         int i = 1;
         for (Book book : booksArr) {
-            System.out.printf("%d. %s -- Original Price: $%.2f -- Percent off: %%%.2f -- Final price: $%.2f -- " +
-                            "Quantity: " + "[%d]\n",
-                    i, book.getName(), book.getPrice(), book.getPercentOff(), book.finalPrice(), books.get(book));
+            book.printBookListItem(i, books.get(book));
             i++;
         }
         System.out.println(i + ". EXIT");

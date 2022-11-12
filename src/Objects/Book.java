@@ -113,6 +113,12 @@ public class Book implements Serializable {
                 "description='" + description + '\'' + ", price=" + price + '}';
     }
 
+    public void printBookListItem(int i, int q) {
+        System.out.printf("%d. %s -- Original Price: $%.2f -- Percent off: %%%.2f -- Final price: $%.2f -- " +
+                        "Quantity: " + "[%d]\n",
+                i, getName(), getPrice(), getPercentOff(), finalPrice(), q);
+    }
+
     /**
      * Overrides the hashcode so that when iterating over sets, the set compares books correctly.
      * The hashcode is based on the properties of the book.

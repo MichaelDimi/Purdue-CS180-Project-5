@@ -1,5 +1,6 @@
 package Objects;
 
+import App.SalesMenu;
 import Exceptions.BookNotFoundException;
 import Exceptions.IdenticalStoreException;
 
@@ -114,79 +115,91 @@ public class Seller extends User implements Serializable {
     }
 
     // menu when creating/editing stores or adding/editing books
-    public void editStore() {
+    public boolean editStore() {
         Scanner scanner = new Scanner(System.in);
 
-        boolean isViewingSellerPage = true;
-        while (isViewingSellerPage) {
+        String option;
+        do {
             System.out.println("SELLER PAGE");
             System.out.println("*******************");
             System.out.println("1. Edit store or manage stock");
             System.out.println("2. Create new store");
             System.out.println("3. Delete store");
             System.out.println("4. View your stores");
-            System.out.println("5. DONE");
+            System.out.println("5. Add a SALE");
+            System.out.println("6. View seller stats");
+            System.out.println("7. SIGN OUT");
 
-            switch (scanner.nextLine()) {
-                case "1":
-                    // editing store and manging stock
-                    Store selectedStore = selectStore();
+            option = scanner.nextLine();
 
-                    // checks if selectStore was cancelled and returned null
-                    if (selectedStore == null)
+        } while (!"1234567".contains(option));
+
+        switch (option) {
+            case "1":
+                // editing store and manging stock
+                Store selectedStore = selectStore();
+
+                // checks if selectStore was cancelled and returned null
+                if (selectedStore == null)
+                    break;
+
+                System.out.println("What would you like to do?");
+                System.out.println("1. Mange stock");
+                System.out.println("2. Edit store name");
+                System.out.println("3. CANCEL");
+
+                switch (scanner.nextLine()) {
+                    case "1":
+                        // manage stock
+                        editStoreInventory(selectedStore);
                         break;
-
-                    System.out.println("What would you like to do?");
-                    System.out.println("1. Mange stock");
-                    System.out.println("2. Edit store name");
-                    System.out.println("3. CANCEL");
-
-                    switch (scanner.nextLine()) {
-                        case "1":
-                            // manage stock
-                            editStoreInventory(selectedStore);
-                            break;
-                        case "2":
-                            // edit store name
-                            editStoreName(selectedStore);
-                            break;
-                    }
-                    break;
-                case "2":
-                    // create new store
-                    try {
-                        createNewStore(this);
-                    } catch (IdenticalStoreException ignored) {
-                    }
-                    break;
-                case "3":
-                    // delete store
-                    Store storeToDelete = selectStore();
-
-                    // checks if selectStore was cancelled and returned null
-                    if (storeToDelete == null)
+                    case "2":
+                        // edit store name
+                        editStoreName(selectedStore);
                         break;
+                }
+                break;
+            case "2":
+                // create new store
+                try {
+                    createNewStore(this);
+                } catch (IdenticalStoreException ignored) {
+                }
+                break;
+            case "3":
+                // delete store
+                Store storeToDelete = selectStore();
 
-                    for (int i = 0; i < stores.size(); i++) {
-                        // store references should be the same (see selectStore() method)
-                        if (stores.get(i) == storeToDelete) {
-                            stores.remove(i);
-                        }
-                    }
+                // checks if selectStore was cancelled and returned null
+                if (storeToDelete == null)
                     break;
-                case "4":
-                    if (stores.size() == 0) {
-                        System.out.println("YOU CURRENTLY DO NOT OWN ANY STORES");
-                    } else {
-                        // lists out all owned stores
-                        for (Store store : stores)
-                            System.out.println(store.getName());
+
+                for (int i = 0; i < stores.size(); i++) {
+                    // store references should be the same (see selectStore() method)
+                    if (stores.get(i) == storeToDelete) {
+                        stores.remove(i);
                     }
-                    break;
-                default:
-                    isViewingSellerPage = false;
-            }
+                }
+                break;
+            case "4":
+                if (stores.size() == 0) {
+                    System.out.println("YOU CURRENTLY DO NOT OWN ANY STORES");
+                } else {
+                    // lists out all owned stores
+                    for (Store store : stores)
+                        System.out.println(store.getName());
+                }
+                break;
+            case "5":
+                SalesMenu salesMenu = new SalesMenu();
+                salesMenu.createSale(scanner, this);
+                break;
+            case "6":
+                break;
+            case "7":
+                return false;
         }
+        return true;
     }
 
     public void editStoreName(Store store) {

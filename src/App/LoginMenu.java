@@ -1,3 +1,5 @@
+package App;
+
 import Objects.User;
 
 import java.util.*;
@@ -25,6 +27,12 @@ public class LoginMenu extends Menu {
 
         System.out.println("Validating...");
 
+        // PASSWORD HASHING
+        String hashedPassword = User.hashPassword(password);
+        if (hashedPassword == null) {
+            return false;
+        }
+
         try {
             Thread.sleep(1000); // For dramatic effect
         } catch (InterruptedException e) {
@@ -37,7 +45,7 @@ public class LoginMenu extends Menu {
         for (User user : users) {
             System.out.println(user);
             if (user.getName().equals(usernameEmail) || user.getEmail().equals(usernameEmail)) {
-                if (user.getPassword().equals(password)) {
+                if (user.getPassword().equals(hashedPassword)) {
                     if (user.getName().equals(usernameEmail)) {
                         returningUser = BookApp.marketplace.getUserByUsername(usernameEmail);
                     } else {

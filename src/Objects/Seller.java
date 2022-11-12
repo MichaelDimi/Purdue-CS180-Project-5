@@ -11,6 +11,7 @@ import java.util.HashMap;
     - check for duplicate books
     - check for duplicate stores
  */
+
 public class Seller extends User implements Serializable {
     /**
      * List of the stores owned by Seller
@@ -21,8 +22,9 @@ public class Seller extends User implements Serializable {
      */
     private SellerStats stats;
 
-    public Seller(String name, String email, String password) {
-        super(name, email, password);
+    public Seller(String name, String email, String password, String rawPassword) {
+        super(name, email, password, rawPassword);
+
         this.stores = new ArrayList<>();
         this.stats = new SellerStats();
     }
@@ -202,6 +204,113 @@ public class Seller extends User implements Serializable {
         }
     }
 
+    public Book getBookByName(String name) {
+        HashMap<Book, Integer> books = this.getSellerBooks();
+        for (Book book : books.keySet()) {
+            if (book.getName().equalsIgnoreCase(name)) {
+                return book;
+            }
+        }
+
+        return null;
+    }
+
+    public boolean addBookMenu(Scanner scanner, Store store) {
+        if (store == null) {
+            boolean error;
+            do {
+                if (stores == null || stores.isEmpty()) {
+                    // User has no stores
+                    return false;
+                }
+                error = false;
+                System.out.println("What store would you like to add a book to?");
+                String storeName = scanner.nextLine();
+
+                store = getStoreByName(storeName);
+                if (getStoreByName(storeName) == null) {
+                    error = true;
+                } else {
+                    store = getStoreByName(storeName);
+                }
+            } while (error);
+
+        }
+        HashMap<Book, Integer> stock = store.getStock();
+
+        // add books
+        String bookName;
+        do {
+            System.out.println("Enter a title:");
+            bookName = scanner.nextLine();
+            if (bookName.isEmpty()) {
+                System.out.println("Whoops: Book must have a title");
+            }
+        } while (bookName.isEmpty());
+
+        String genre;
+        do {
+            System.out.println("Enter a genre:");
+            genre = scanner.nextLine();
+            if (genre.isEmpty()) {
+                System.out.println("Whoops: Book must have a genre");
+            }
+        } while (genre.isEmpty());
+
+        String description;
+        do {
+            System.out.println("Enter a description:");
+            description = scanner.nextLine();
+            if (description.isEmpty()) {
+                System.out.println("Whoops: Book must have a description");
+            }
+        } while (description.isEmpty());
+
+        double price = 0;
+        boolean error;
+        do {
+            error = false;
+            System.out.println("Enter a price:");
+            try {
+                price = Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Whoops: Price must be a number");
+                error = true;
+            }
+        } while (error);
+
+        int quantity = 1;
+        boolean error2;
+        do {
+            error2 = false;
+            System.out.println("Enter quantity:");
+            try {
+                quantity = Integer.parseInt(scanner.nextLine());
+                if (quantity < 1) {
+                    System.out.println("Whoops: Quantity must be a number greater than 0");
+                    error2 = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Whoops: Quantity must be a number greater than 0");
+                error2 = true;
+            }
+        } while (error2);
+
+        Book newBook = new Book(bookName, store.getName(), genre, description, price);
+
+        // current quantity of specified book
+        Integer newBookCount = stock.get(newBook);
+
+        if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+            stock.put(newBook, quantity);
+            store.getStock().put(newBook, quantity);
+        } else {
+            stock.put(newBook, newBookCount + quantity);
+            store.getStock().put(newBook, newBookCount + quantity);
+        }
+        return true;
+    }
+
     // edit, create, and delete books in specified store
     public void editStoreInventory(Store store) {
         HashMap<Book, Integer> stock = store.getStock();
@@ -223,35 +332,7 @@ public class Seller extends User implements Serializable {
 
             switch (scanner.nextLine()) {
                 case "1":
-                    // add books
-                    System.out.println("Enter a book name:");
-                    String bookName = scanner.nextLine();
-
-                    System.out.println("Enter book genre(s):");
-                    String genre = scanner.nextLine();
-
-                    System.out.println("Enter book description:");
-                    String description = scanner.nextLine();
-
-                    System.out.println("Enter book price:");
-                    double price = scanner.nextDouble();
-                    scanner.nextLine();
-
-                    System.out.println("Enter quantity:");
-                    int quantity = scanner.nextInt();
-                    scanner.nextLine();
-
-                    Book newBook = new Book(bookName, store.getName(), genre, description, price);
-
-                    // current quantity of specified book
-                    Integer newBookCount = stock.get(newBook);
-
-                    // checks if user already has book in cart, increments current quantity if so
-                    if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-                        stock.put(newBook, quantity);
-                    } else {
-                        stock.put(newBook, newBookCount + quantity);
-                    }
+                    this.addBookMenu(scanner, store);
 
                     break;
                 case "2":
@@ -308,7 +389,7 @@ public class Seller extends User implements Serializable {
                             System.out.println("Name: " + bookToEdit.getName());
                             System.out.println("Genre: " + bookToEdit.getGenre());
                             System.out.println("Description: " + bookToEdit.getDescription());
-                            System.out.printf("Price: $%.2f\n", bookToEdit.getPrice());
+                            System.out.printf("Price: $%.2f\n", bookToEdit.finalPrice());
 
                             System.out.println("What would you like to edit?");
                             System.out.println("1. Name");
@@ -374,7 +455,7 @@ public class Seller extends User implements Serializable {
                             System.out.println("Name: " + book.getName());
                             System.out.println("Genre: " + book.getGenre());
                             System.out.println("Description: " + book.getDescription());
-                            System.out.printf("Price: $%.2f\n", book.getPrice());
+                            System.out.printf("Price: $%.2f\n", book.finalPrice());
                             System.out.println("Quantity: " + stock.get(book) + "\n");
                         }
                     }

@@ -28,6 +28,7 @@ public class Book implements Serializable {
      * The price of the book
      */
     private double price;
+
     /**
      * The percent sale of the book.
      * Eg $100 book at percentOff = 10 becomes $90
@@ -40,6 +41,14 @@ public class Book implements Serializable {
         this.genre = genre;
         this.description = description;
         this.price = price;
+    }
+
+    public Book(Book book) {
+        this.name = book.getName();
+        this.store = book.getStore();
+        this.genre = book.getGenre();
+        this.description = book.getDescription();
+        this.price = book.getPrice();
     }
 
     public String getName() {
@@ -74,8 +83,16 @@ public class Book implements Serializable {
         this.description = description;
     }
 
+    public double finalPrice() {
+        return price - ((price/100)*percentOff); // Calculates percent off
+    }
+
+    /**
+     * Returns the raw price of the book.<br><br>
+     * <STRONG>YOU MUST USE: finalPrice() to get the price of a book with the sale</STRONG>
+     */
     public double getPrice() {
-        return price;
+        return this.price;
     }
 
     public void setPrice(double price) {

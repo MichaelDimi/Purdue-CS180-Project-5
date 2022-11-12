@@ -9,8 +9,8 @@ public class Buyer extends User implements Serializable {
     private HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
     private HashMap<Book, Integer> purchaseHistory = new HashMap<Book, Integer>();
 
-    public Buyer(String username, String email, String password) {
-        super(username, email, password);
+    public Buyer(String username, String email, String password, String rawPassword) {
+        super(username, email, password, rawPassword);
     }
 
     public HashMap<Book, Integer> getCart() {

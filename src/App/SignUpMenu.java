@@ -1,9 +1,9 @@
+package App;
+
 import Objects.Buyer;
 import Objects.Seller;
 import Objects.User;
-import com.sun.security.jgss.GSSUtil;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -44,6 +44,12 @@ public class SignUpMenu extends Menu {
             }
         } while (!validationSuccess);
 
+        // PASSWORD HASHING
+        String hashedPassword = User.hashPassword(password);
+        if (hashedPassword == null) {
+            return false;
+        }
+
         boolean isBuyer;
         do {
             System.out.println("Are you a\n1. Buyer\n2. Seller");
@@ -58,9 +64,9 @@ public class SignUpMenu extends Menu {
         // Saves to marketplace and logs the user in
         User newUser;
         if (isBuyer) {
-            newUser = new Buyer(username, email, password);
+            newUser = new Buyer(username, email, hashedPassword, password);
         } else {
-            newUser = new Seller(username, email, password);
+            newUser = new Seller(username, email, hashedPassword, password);
         }
 
         BookApp.marketplace.addToUsers(newUser);

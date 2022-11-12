@@ -252,9 +252,29 @@ public class Seller extends User implements Serializable {
 
                 break;
             case "7":
-                System.out.println("VIEW STORE REVIEWS");
+                System.out.println("YOUR SALES STATS");
                 System.out.println("*******************");
                 // TODO: Stats for aaron
+                System.out.println("1. Sales history");
+                System.out.println("2. Your buyers");
+                System.out.println("3. Most popular genre");
+                System.out.println("4. CANCEL");
+
+                // TODO: Make loop
+                int statsSlection = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (statsSlection) {
+                    case 1:
+                        stats.listAllSoldBooks();
+                        break;
+                    case 2:
+                        stats.listAllBuyers();
+                        break;
+                    case 3:
+                        stats.listMostPopularGenre();
+                        break;
+                }
                 break;
             case "8":
                 // Note: Menu header is provided in fileIOMenu

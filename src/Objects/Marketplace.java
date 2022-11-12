@@ -215,6 +215,7 @@ public class Marketplace implements Serializable {
     public Seller getSellerByBook(Book book) {
         for (User user : users) {
             if (user instanceof Seller) {
+                // loops though all of the Seller's books
                 for (Book sellerBooks : ((Seller) user).getSellerBooks().keySet()) {
                     // makes sure that the book is the exact same book and an exact copy
                     if (sellerBooks == book) {
@@ -274,6 +275,27 @@ public class Marketplace implements Serializable {
         }
 
         return null;
+    }
+
+    /**
+     * Gets the quantity of a specific book
+     * @param book name of book being searched
+     * @return The quantity of that book. 0 if none was found
+     */
+    public int getBookQuantity(Book book) {
+        for (User user : users) {
+            if (user instanceof Seller) {
+                // loops though all of the Seller's books
+                for (Book sellerBooks : ((Seller) user).getSellerBooks().keySet()) {
+                    // makes sure that the book is the exact same book and an exact copy
+                    if (sellerBooks == book) {
+                        return ((Seller) user).getSellerBooks().get(sellerBooks);
+                    }
+                }
+            }
+        }
+
+        return 0;
     }
 
     public HashMap<Book, Integer> getBooks() {

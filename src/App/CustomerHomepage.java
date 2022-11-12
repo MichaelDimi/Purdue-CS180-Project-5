@@ -1,5 +1,6 @@
 package App;
 
+import Exceptions.BookNotFoundException;
 import Objects.Book;
 import Objects.Marketplace;
 import Objects.*;
@@ -42,13 +43,12 @@ public class CustomerHomepage extends Menu {
                     "5. View / Export Purchase History\n" +
                     "6. Your Shopping Cart (" + cartCount + ")\n" +
                     "7. Edit Account\n" +
-                    "8. Checkout\n" +
-                    "9. SIGN OUT");
+                    "8. SIGN OUT");
             choice = scan.nextLine();
-            if (!"123456789".contains(choice)) {
+            if (!"12345678".contains(choice)) {
                 System.out.println("Whoops: Please enter a number from 1-5");
             }
-        } while (!"123456789".contains(choice));
+        } while (!"12345678".contains(choice));
 
         if (choice.equalsIgnoreCase("1")) {
             System.out.println("PURCHASE A BOOK");
@@ -275,17 +275,79 @@ public class CustomerHomepage extends Menu {
             }
 
         } else if (choice.equals("6")) { // TODO: Come back to test this after buying is done
-            System.out.println("YOUR CART");
-            System.out.println("*******************");
-            HashMap<Book, Integer> cart = buyer.getCart();
-            if (cart.isEmpty()) {
-                System.out.println("Your cart is empty");
-                BookApp.marketplace.saveMarketplace();
-                return true;
-            }
+            boolean viewingCart = true;
+            while (viewingCart) {
+                System.out.println("YOUR CART");
+                System.out.println("*******************");
+                HashMap<Book, Integer> cart = buyer.getCart();
+                if (cart.isEmpty()) {
+                    System.out.println("Your cart is empty");
+                    BookApp.marketplace.saveMarketplace();
+                    return true;
+                }
 
-            for (Book book : cart.keySet()) {
-                book.printBookListItem(null, cart.get(book));
+                for (Book book : cart.keySet()) {
+                    book.printBookListItem(null, cart.get(book));
+                }
+
+                System.out.println("1. Remove items\n" +
+                                    "2. Checkout\n" +
+                                    "3. BACK");
+                String cartOptions = scan.nextLine();
+
+                switch (cartOptions) {
+                    case "1":
+                        // remove from cart
+
+                        // stores all cart book options in an ArrayList
+                        ArrayList<Book> booksInCart = new ArrayList<>(cart.keySet());
+                        int removeFromCartSelection;
+                        do {
+                            System.out.println("SELECT BOOK TO REMOVE");
+                            System.out.println("*******************");
+                            // prints all books in cart with cancel option at the end
+                            for (int i = 0; i < booksInCart.size(); i++) {
+                                System.out.println((i + 1) + ". " + booksInCart.get(i).getName());
+                            }
+                            System.out.println((booksInCart.size() + 1) + ". CANCEL");
+
+                            removeFromCartSelection = scan.nextInt();
+                            scan.nextLine();
+
+                            // looops until a valid input is entered
+                        } while (removeFromCartSelection > cart.size() + 1 || removeFromCartSelection < 0);
+
+                        // checks option selected was not the cancel option and then removes selected book by index
+                        if (removeFromCartSelection - 1 != cart.size()) {
+                            // asks user for how many books to remove from cart
+                            System.out.println("Please input the quantity you would like to remove:");
+                            int quantityToRemove = scan.nextInt();
+                            scan.nextLine();
+
+                            // removes book from cart
+                            try {
+                                buyer.removeFromCart(booksInCart.get(removeFromCartSelection - 1), quantityToRemove);
+                            } catch (BookNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
+                    case "2":
+                        // checkout
+                        System.out.println("Thank you for your purchase!");
+                        System.out.println("*******************");
+                        // lists off all the books purchased
+                        for (Book book : buyer.getCart().keySet()) {
+                            book.printBookListItem(null, buyer.getCart().get(book));
+                        }
+                        buyer.checkoutCart();
+                        viewingCart = false;
+                        break;
+                    case "3":
+                        // back
+                        viewingCart = false;
+                        break;
+                }
             }
         } else if (choice.equals("7")) {
             System.out.println("YOUR ACCOUNT MENU");
@@ -298,15 +360,6 @@ public class CustomerHomepage extends Menu {
                 return false; // Should break main loop
             }
         } else if (choice.equals("8")) {
-            System.out.println("Thank you for your purchase!");
-            System.out.println("*******************");
-            // lists off all the books purchased
-            for (Book book : buyer.getCart().keySet()) {
-                book.printBookListItem(null, buyer.getCart().get(book));
-            }
-            buyer.checkoutCart();
-            return true;
-        } else if (choice.equals("9")) {
             BookApp.marketplace.saveMarketplace();
             return false;
         }

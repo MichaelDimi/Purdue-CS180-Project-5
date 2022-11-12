@@ -1,7 +1,5 @@
 package Objects;
-// remove from cart
-// check cart quantity
-// change print format
+
 import App.BookApp;
 import Exceptions.BookNotFoundException;
 
@@ -16,7 +14,16 @@ public class Buyer extends User implements Serializable {
         super(username, email, password, rawPassword);
     }
 
+    // returns and validates that items in cart still exist
     public HashMap<Book, Integer> getCart() {
+        // TODO: handle if seller removes book while book is still in cart
+//        for (Book book : cart.keySet()) {
+//            boolean bookExists = false;
+//            // checks if there are enough books in stock to purchase
+//            if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
+//
+//            }
+//        }
         return cart;
     }
 
@@ -63,7 +70,17 @@ public class Buyer extends User implements Serializable {
 
     // adds books to Buyer's purchase history, clears cart's contents, and then returns hashmap will all books purchased
     public void checkoutCart() {
+        boolean canCheckout = true;
         for (Book book : cart.keySet()) {
+            // checks if there are enough books in stock to purchase
+            int availableQuantity = BookApp.marketplace.getBookQuantity(book);
+            if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
+                canCheckout = false;
+                System.out.println("Sorry, but there is not enough stock to purchase: " + book.getName());
+                System.out.println("Cart quantity: " + cart.get(book) + " | Available quantity: " + availableQuantity);
+                break;
+            }
+
             boolean identicalEntry = false;
             for (Book b : purchaseHistory.keySet()) {
                 if (b.equals(book)) {
@@ -83,7 +100,8 @@ public class Buyer extends User implements Serializable {
             bookSeller.updateStock(book, cart.get(book), this);
         }
 
-        cart.clear();
+        if (canCheckout)
+            cart.clear();
     }
 
     @Override

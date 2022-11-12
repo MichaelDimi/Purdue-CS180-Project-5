@@ -531,11 +531,14 @@ public class Seller extends User implements Serializable {
                         System.out.println("*******************");
 
                         for (Book book : stock.keySet()) {
-                            System.out.println("Name: " + book.getName());
-                            System.out.println("Genre: " + book.getGenre());
-                            System.out.println("Description: " + book.getDescription());
-                            System.out.printf("Price: $%.2f\n", book.finalPrice());
-                            System.out.println("Quantity: " + stock.get(book) + "\n");
+                            book.printBookListItem(null, stock.get(book));
+
+                            // OLD PRINT FORMAT
+//                            System.out.println("Name: " + book.getName());
+//                            System.out.println("Genre: " + book.getGenre());
+//                            System.out.println("Description: " + book.getDescription());
+//                            System.out.printf("Price: $%.2f\n", book.finalPrice());
+//                            System.out.println("Quantity: " + stock.get(book) + "\n");
                         }
                     }
                     break;

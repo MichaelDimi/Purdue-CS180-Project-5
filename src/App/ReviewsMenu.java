@@ -13,7 +13,6 @@ public class ReviewsMenu {
      * @param user The buyer leaving the review
      * @param store The store the user is leaving a review for
      */
-    // TODO: add this as an option when viewing a store (as a buyer)
     public void leaveReview(Scanner scan, User user, Store store) {
         System.out.println("*******************");
 

@@ -3,7 +3,10 @@ package App;
 import Objects.Book;
 import Objects.Marketplace;
 import Objects.*;
+import com.sun.security.jgss.GSSUtil;
+
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class CustomerHomepage extends Menu {
@@ -42,13 +45,20 @@ public class CustomerHomepage extends Menu {
         Buyer buyer = (Buyer) BookApp.marketplace.getCurrentUser();
 
         if (choice.equalsIgnoreCase("1")) {
-            System.out.println("PURCHASING A BOOK");
+            System.out.println("PURCHASE A BOOK");
             System.out.println("*******************");
             HashMap<Book, Integer> books = BookApp.marketplace.getBooks();
 
             // Convert the hashmap to an array, since its easier to manipulate
             Book[] booksArr = new Book[books.size()];
             booksArr = books.keySet().toArray(booksArr);
+
+            if (books.isEmpty()) {
+                System.out.println("There are no books for sale");
+                System.out.println("Create a new account and become a seller to start selling books");
+                BookApp.marketplace.saveMarketplace();
+                return true;
+            }
 
             System.out.println("How would you like to view the books?\n" +
                     "1. Sorted by price\n" +

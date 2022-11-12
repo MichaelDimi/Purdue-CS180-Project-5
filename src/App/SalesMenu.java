@@ -7,7 +7,6 @@ import Objects.*;
 public class SalesMenu {
 
     public void createSale(Scanner scan, User user) {
-        System.out.println("*******************");
 
         if (user instanceof Buyer) {
             System.out.println("Whoops: Buyers cannot create sales");

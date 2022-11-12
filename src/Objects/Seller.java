@@ -1,9 +1,6 @@
 package Objects;
 
-import App.BookApp;
-import App.Menu;
-import App.ReviewsMenu;
-import App.SalesMenu;
+import App.*;
 import Exceptions.BookNotFoundException;
 import Exceptions.IdenticalStoreException;
 
@@ -42,7 +39,7 @@ public class Seller extends User implements Serializable {
 
     // lets user add new store which gets added to seller's store arraylist
     public void createNewStore(Seller seller) throws IdenticalStoreException {
-        System.out.println("CREATING A NEW STORE");
+        System.out.println("CREATE NEW STORE");
         System.out.println("*******************");
         System.out.println("Please enter a new store name (enter 0 to cancel):");
         Scanner scanner = new Scanner(System.in);
@@ -55,7 +52,7 @@ public class Seller extends User implements Serializable {
         }
 
         if (storeName.equals("0")) {
-            System.out.println("STORE CREATION CANCELED");
+            System.out.println("STORE CREATION CANCELED\n");
         } else {
             stores.add(new Store(storeName, seller.getName()));
             System.out.println("STORE SUCCESSFULLY CREATED");
@@ -68,7 +65,7 @@ public class Seller extends User implements Serializable {
         Scanner scanner = new Scanner(System.in);
 
         // checks that seller owns at least 1 store and asks if user wants to make a new store
-        if (stores.size() <= 0) {
+        if (stores.size() == 0) {
             System.out.println("You currently do not own any stores.\nWould you like to create one?");
             System.out.println("1. Yes");
             System.out.println("2. No");
@@ -87,8 +84,8 @@ public class Seller extends User implements Serializable {
             }
 
         } else {
-            System.out.println("CHOOSE A STORE");
-            System.out.println("*******************");
+//            System.out.println("CHOOSE A STORE");
+//            System.out.println("*******************");
 
             // loops until a valid input is inputted
             int storeSelection = -1;
@@ -133,11 +130,12 @@ public class Seller extends User implements Serializable {
             System.out.println("5. Add a SALE");
             System.out.println("6. View reviews");
             System.out.println("7. View seller stats");
-            System.out.println("8. SIGN OUT");
+            System.out.println("8. Import / Export Inventory");
+            System.out.println("9. SIGN OUT");
 
             option = scanner.nextLine();
 
-        } while (!"12345678".contains(option));
+        } while (!"123456789".contains(option));
 
         switch (option) {
             case "1":
@@ -167,9 +165,6 @@ public class Seller extends User implements Serializable {
                 }
                 break;
             case "2":
-                System.out.println("CREATE STORE");
-                System.out.println("*******************");
-
                 try {
                     createNewStore(this);
                 } catch (IdenticalStoreException ignored) {
@@ -197,13 +192,16 @@ public class Seller extends User implements Serializable {
                 System.out.println("VIEW STORES");
                 System.out.println("*******************");
 
-                if (stores.size() == 0) {
+                if (this.getStores().size() == 0) {
                     System.out.println("YOU CURRENTLY DO NOT OWN ANY STORES");
                 } else {
                     // lists out all owned stores
                     for (Store store : stores)
-                        System.out.println(store.getName());
+                        System.out.println("- " + store.getName() + " -- Owner: " + store.getSellerName() + " -- " +
+                                "Rating:" + " " + Review.starDisplay(store.getAverageRating()));
                 }
+                System.out.println("Press ENTER to exit");
+                scanner.nextLine();
                 break;
             case "5":
                 System.out.println("ADD A SALE");
@@ -255,6 +253,13 @@ public class Seller extends User implements Serializable {
                 // TODO: Stats for aaron
                 break;
             case "8":
+                // Note: Menu header is provided in fileIOMenu
+                Seller seller = (Seller) BookApp.marketplace.getCurrentUser();
+
+                FileIOMenu fileIOMenu = new FileIOMenu();
+                fileIOMenu.fileIOMenu(scanner, seller);
+                break;
+            case "9":
                 BookApp.marketplace.saveMarketplace();
                 return false;
         }

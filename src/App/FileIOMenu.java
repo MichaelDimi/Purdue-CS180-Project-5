@@ -142,6 +142,13 @@ public class FileIOMenu extends Menu {
 
         Buyer buyer = (Buyer) user;
 
+        if (buyer.getPurchaseHistory().isEmpty() || buyer.getPurchaseHistory() == null) {
+            System.out.println("You have no history to export");
+            System.out.println("Press ENTER to continue");
+            scan.nextLine();
+            return;
+        }
+
         File file;
         do {
             System.out.println("Where would you like to save: ");

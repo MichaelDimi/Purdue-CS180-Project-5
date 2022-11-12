@@ -262,7 +262,7 @@ public class Seller extends User implements Serializable {
                     System.out.println("1. Sales history");
                     System.out.println("2. Your buyers");
                     System.out.println("3. Most popular genre");
-                    System.out.println("4. CANCEL");
+                    System.out.println("4. BACK");
 
                     statsSlection = scanner.nextInt();
                     scanner.nextLine();
@@ -646,16 +646,15 @@ public class Seller extends User implements Serializable {
                     stats.getBuyers().put(buyer, buyerCount + 1);
                 }
 
-                // adds Buyer to Seller's buyers stat
-                Integer booksSoldCount = stats.getBuyers().get(book);
+                // the number of that book the Seller has sold
+                Integer booksSoldCount = stats.getBooksSold().get(book);
 
-                // checks if Buyer has boughten from Seller before and increments if so, else adds new Buyer
+                // adds number of books bought to the Seller's stats
                 if (booksSoldCount == null) { // could be replaced with merge, not sure if Vocareum will like?
                     stats.getBooksSold().put(book, quantity);
                 } else {
                     stats.getBooksSold().put(book, booksSoldCount + quantity);
                 }
-
             }
 
         }

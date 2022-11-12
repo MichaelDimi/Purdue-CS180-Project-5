@@ -85,9 +85,9 @@ public class SellerStats implements Serializable {
 
                 // checks if user already has book in cart, increments current quantity if so
                 if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-                    genres.put(bookGenre, 1);
+                    genres.put(bookGenre, booksSold.get(book));
                 } else {
-                    genres.put(bookGenre, newBookCount + 1);
+                    genres.put(bookGenre, newBookCount + booksSold.get(book));
                 }
             }
 

@@ -5,6 +5,17 @@ import App.BookApp;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+* This class contains the fields and methods for 
+* a book.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class Book implements Serializable {
     /**
      * The name of the book

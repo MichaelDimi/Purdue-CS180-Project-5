@@ -4,6 +4,17 @@ import Objects.*;
 
 import java.util.Objects;
 import java.util.Scanner;
+/**
+* This class contains the main method and is the
+* center of our program. It runs on a loop until the
+* user exits.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
 
 public class BookApp {
 

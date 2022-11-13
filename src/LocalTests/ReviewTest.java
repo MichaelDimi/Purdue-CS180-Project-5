@@ -1,7 +1,5 @@
 package LocalTests;// Testing imports
 
-import App.BookApp;
-import Objects.Book;
 import Objects.*;
 import org.junit.After;
 import org.junit.Before;
@@ -15,22 +13,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
-import java.util.Scanner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-/**
-* This class contains test cases for 
-* Methods in Seller.java
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
 
-public class SellerTest {
+public class ReviewTest {
 
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(TestCase.class);
@@ -76,94 +64,109 @@ public class SellerTest {
         }
 
         @Test(timeout = 1000)
-        public void testStoreName() {
+        public void testPrint() {
             try {
-                Seller seller = new Seller("Seller 1",
-                        "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
-                        "CyberSecure");
-
-                seller.createNewStore("Store 1");
-
-                Store store = seller.getStoreByName("Store 1");
-                assertNotNull("Check that getting a store by name works", store);
-
-                store.setName("New Store Name");
-
-                assertEquals("New Store Name", store.getName());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                fail();
-            }
-        }
-
-        @Test(timeout = 1000)
-        public void testGetSellerBooks() {
-            try {
-                Book book1 = new Book("Book 1", "Store 1", "Horror", "Scary Book", 100);
-                Book book2 = new Book("Book 2", "Store 2", "Romance", "A romantic book", 100);
-
-                Seller seller = new Seller("Seller 1",
-                        "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
-                        "CyberSecure");
-
-                seller.createNewStore("Store 1");
-
-                Store store = seller.getStoreByName("Store 1");
-
-                store.addStock(10, book1);
-                store.addStock(5, book2);
-
-                HashMap<Book, Integer> expected = new HashMap<>();
-                expected.put(book1, 10);
-                expected.put(book2, 5);
-
-                assertEquals("", expected, seller.getSellerBooks());
-            } catch (Exception e) {
-                e.printStackTrace();
-                fail();
-            }
-        }
-
-        @Test(timeout = 1000)
-        public void testUpdateStock() {
-            try {
-                Book book1 = new Book("Book 1", "Store 1", "Horror", "Scary Book", 100);
-                Book book2 = new Book("Book 2", "Store 2", "Romance", "A romantic book", 100);
-
-                Seller seller = new Seller("Seller 1",
-                        "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
-                        "CyberSecure");
-
                 Buyer buyer = new Buyer("Buyer 1",
                         "Someone@email.com",
                         "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
-                seller.createNewStore("Store 1");
+                Review review = new Review(3, buyer,
+                        "Seller 1",
+                        "This store was okay",
+                        "The store could have been nicer, but it was okay");
 
-                Store store = seller.getStoreByName("Store 1");
+                System.out.println(review.print());
+                String output = getOutput().trim();
 
-                store.addStock(10, book1);
-                store.addStock(5, book2);
+                String expected = "★ ★ ★ ☆ ☆\n" + "Buyer 1 says: This store was okay\n" + "Description: The store " +
+                        "could have been nicer, but it was okay\n" + "Owner: Seller 1";
 
-                seller.updateStock(book1, 5, buyer);
+                assertEquals("Check the review print function is returning a string", expected, output);
 
-                HashMap<Book, Integer> expected = new HashMap<>();
-                expected.put(book1, 5);
-                expected.put(book2, 5);
-
-                assertEquals("", expected, seller.getSellerBooks());
             } catch (Exception e) {
                 e.printStackTrace();
                 fail();
             }
         }
 
+        @Test(timeout = 1000)
+        public void testAddReview() {
+            try {
+                Buyer buyer = new Buyer("Buyer 1",
+                        "Someone@email.com",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "CyberSecure");
 
+                Review review = new Review(3, buyer,
+                        "Seller 1",
+                        "This store was okay",
+                        "The store could have been nicer, but it was okay");
+                Review review2 = new Review(1, buyer,
+                        "Seller 1",
+                        "Actually its pretty bad",
+                        "I remember the store being really unfriendly");
+
+                Seller seller = new Seller("Seller 1",
+                        "Someone@email.com",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "CyberSecure");
+
+                seller.createNewStore("Store 1");
+
+                Store store = seller.getStoreByName("Store 1");
+
+                store.getReviews().add(review);
+                store.getReviews().add(review2);
+
+                for (Review r : store.getReviews()) {
+                    System.out.println(r.print());
+                }
+                String output = getOutput().trim();
+
+                String expected = "★ ★ ★ ☆ ☆\n" + "Buyer 1 says: This store was okay\n" + "Description: The store " +
+                        "could have been nicer, but it was okay\n" + "Owner: Seller 1\n" + "★ ☆ ☆ ☆ ☆\n" +
+                        "Buyer 1 says: Actually its pretty bad\n" + "Description: I remember the store being really unfriendly\n" +
+                        "Owner: Seller 1";
+
+                assertEquals("Check your reviews print and adding", expected, output);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail();
+            }
+        }
+
+        @Test(timeout = 1000)
+        public void testStarDisplay() {
+            try {
+                Buyer buyer = new Buyer("Buyer 1",
+                        "Someone@email.com",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "CyberSecure");
+
+                Review review = new Review(3, buyer,
+                        "Seller 1",
+                        "This store was okay",
+                        "The store could have been nicer, but it was okay");
+
+                System.out.println(Review.starDisplay(null));
+                String output = getOutput().trim();
+                String expected = "No Reviews";
+                assertEquals("Check your reviews starDisplay()", expected, output);
+
+                outputStart();
+
+                System.out.println(Review.starDisplay(review.getRating()));
+                output = getOutput().trim();
+                expected = "★ ★ ★ ☆ ☆";
+                assertEquals("Check your reviews starDisplay()", expected, output);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail();
+            }
+        }
 
 
     }

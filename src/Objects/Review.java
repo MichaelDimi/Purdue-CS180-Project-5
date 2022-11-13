@@ -2,6 +2,17 @@ package Objects;
 
 import java.io.Serializable;
 
+/**
+* This class contains fields and methods for
+* a review of a particular store.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class Review implements Serializable {
 
     private int rating;

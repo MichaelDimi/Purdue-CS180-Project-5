@@ -10,6 +10,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
+/**
+* Contains an ArrayList of Stores and
+* methods for creating, editing or deleting 
+* a seller’s store.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 /* TODO
     - check for duplicate books
     - check for duplicate stores
@@ -276,7 +288,7 @@ public class Seller extends User implements Serializable {
 
                             // if user selects cancel, select store will return null
                             if (storeSelectionStats != null)
-                                stats.listSoldBooks(storeSelectionStats);
+                                stats.listSoldBooks(scanner, storeSelectionStats);
                             break;
                         case 2:
                             // prompts user for store to view stats for
@@ -285,13 +297,13 @@ public class Seller extends User implements Serializable {
 
                             // if user selects cancel, select store will return null
                             if (storeSelectionStats != null)
-                                stats.listBuyers(storeSelectionStats);
+                                stats.listBuyers(scanner, storeSelectionStats);
                             break;
                         case 3:
-                            stats.listAllSoldBooks();
+                            stats.listAllSoldBooks(scanner);
                             break;
                         case 4:
-                            stats.listAllBuyers();
+                            stats.listAllBuyers(scanner);
                             break;
                         case 5:
                             System.out.printf("Total Revenue: $%.2f\n", stats.getRevenue());

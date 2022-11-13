@@ -6,6 +6,18 @@ import Exceptions.BookNotFoundException;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+* Contains a cart and purchase 
+* history as a Hashmap and has methods to 
+* modify a cart
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class Buyer extends User implements Serializable {
     private HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
     private HashMap<Book, Integer> purchaseHistory = new HashMap<Book, Integer>();

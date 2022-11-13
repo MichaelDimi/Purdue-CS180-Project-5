@@ -1,7 +1,9 @@
 package LocalTests;// Testing imports
 
-import App.BookApp;
 import Objects.*;
+import Objects.Buyer;
+import Objects.Seller;
+import Objects.Store;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +20,8 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 
 /**
-* This class contains test cases for adding
-* And removing books to a shopping cart.
+* This class contains test cases for 
+* Methods in Store.java
 *
 * @author Michael Dimitrov
 * @author Federico Lebron
@@ -28,7 +30,7 @@ import static org.junit.Assert.*;
 * @author Diya Singh
 */
 
-public class BuyerTest {
+public class StoreTest {
 
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(TestCase.class);
@@ -68,40 +70,65 @@ public class BuyerTest {
             return testOut.toString();
         }
 
+        private void receiveInput(String str) {
+            testIn = new ByteArrayInputStream(str.getBytes());
+            System.setIn(testIn);
+        }
+
         @Test(timeout = 1000)
-        public void testCart() {
+        public void testAddStock() {
             try {
-                Buyer buyer = new Buyer("Buyer 1",
-                        "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
-                        "CyberSecure");
                 Book book1 = new Book("Book 1", "Store 1", "Horror", "Scary Book", 100);
                 Book book2 = new Book("Book 2", "Store 2", "Romance", "A romantic book", 100);
 
-                buyer.addToCart(book1, 5);
-                buyer.addToCart(book2, 10);
+                Seller seller = new Seller("Seller 1",
+                        "Someone@email.com",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "CyberSecure");
+
+                seller.createNewStore("Store 1");
+
+                Store store = seller.getStoreByName("Store 1");
+
+                store.addStock(10, book1);
+                store.addStock(5, book2);
 
                 HashMap<Book, Integer> expected = new HashMap<>();
-                expected.put(book1, 5);
-                expected.put(book2, 10);
+                expected.put(book1, 10);
+                expected.put(book2, 5);
 
-                assertEquals("Check adding to cart", buyer.getCart(), expected);
+                assertEquals("", expected, store.getStock());
 
-                // Add two more
-                buyer.addToCart(book1, 2);
-                expected.put(book1, 7);
-                assertEquals("Adding to cart the same book should increase quantity", buyer.getCart(), expected);
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail();
+            }
+        }
 
-                // Remove 8
-                buyer.removeFromCart(book2, 8);
-                expected.put(book2, 2);
-                assertEquals("Removing from cart the same book should decrease quantity", buyer.getCart(), expected);
+        @Test(timeout = 1000)
+        public void testGetAverageRating() {
+            try {
+                Book book1 = new Book("Book 1", "Store 1", "Horror", "Scary Book", 100);
+                Book book2 = new Book("Book 2", "Store 2", "Romance", "A romantic book", 100);
 
-                // Try to remove more than are in there
-                buyer.removeFromCart(book2, 5);
-                expected.remove(book2);
-                assertEquals("Removing too many books, should remove as many as are in the cart", buyer.getCart(),
-                        expected);
+                Seller seller = new Seller("Seller 1",
+                        "Someone@email.com",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "CyberSecure");
+
+                seller.createNewStore("Store 1");
+
+                Store store = seller.getStoreByName("Store 1");
+
+                store.addStock(10, book1);
+                store.addStock(5, book2);
+
+                HashMap<Book, Integer> expected = new HashMap<>();
+                expected.put(book1, 10);
+                expected.put(book2, 5);
+
+                assertEquals("", expected, store.getStock());
+
             } catch (Exception e) {
                 e.printStackTrace();
                 fail();

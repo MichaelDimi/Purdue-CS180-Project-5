@@ -6,6 +6,17 @@ import Objects.User;
 
 import java.util.Objects;
 import java.util.Scanner;
+/**
+* This class contains the menu in which
+* the user can create an account that can 
+*  be a buyer or seller
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
 
 public class SignUpMenu extends Menu {
 

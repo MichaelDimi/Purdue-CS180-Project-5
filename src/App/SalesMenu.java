@@ -4,6 +4,17 @@ import java.util.HashMap;
 import java.util.Scanner;
 import Objects.*;
 
+/**
+* This class contains the menu in which a seller
+Can create sales for their books.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class SalesMenu {
 
     public void createSale(Scanner scan, User user) {

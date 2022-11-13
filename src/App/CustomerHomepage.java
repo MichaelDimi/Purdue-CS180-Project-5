@@ -7,6 +7,18 @@ import Objects.*;
 
 import java.util.*;
 
+/**
+* This class contains the menu in which a buyer
+* can search for books, buy books ,view their
+* shopping cart and purchase history
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class CustomerHomepage extends Menu {
     /**
      * Displays homepage view for buyer type user.
@@ -96,6 +108,7 @@ public class CustomerHomepage extends Menu {
 
             // shows more details about selected book and asks user how many copies of book to buy
             selectedBookMenu(scan, selection, buyer);
+
             // TODO: Add buying a book here (2 more spots below) (may want to abstract as much as possible)
         } else if (choice.equals("2")) {
             System.out.println("SEARCH FOR A BOOK");

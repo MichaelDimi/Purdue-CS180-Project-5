@@ -63,6 +63,27 @@ public class Marketplace implements Serializable {
         }
     }
 
+    /**
+     * Use with caution, used only for testing and clearing the marketplace each test
+     * - Note if a market is used then the test is run, the market will be cleared
+     */
+    public void clearMarketplace() {
+        try {
+            FileOutputStream file = new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(file);
+
+            // Method for serialization of object
+            this.users = new ArrayList<>();
+            this.currentUser = null;
+            out.writeObject(this);
+
+            out.close();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     static public Marketplace readMarketplace() {
         // deserializes data
         try {
@@ -353,10 +374,6 @@ public class Marketplace implements Serializable {
 
         return booksArr;
     }
-
-//    public void setBooks(HashMap<Book, Integer> books) {
-//        this.books = books;
-//    }
 
     public User getCurrentUser() {
         return currentUser;

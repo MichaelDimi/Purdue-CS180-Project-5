@@ -6,6 +6,17 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+/**
+* This class contains the menu in which 
+*A seller can import or export their stock
+*list
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
 
 public class FileIOMenu extends Menu {
 

@@ -3,6 +3,18 @@ package Objects;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+* This class contains detailed stats for sellers.
+This includes the books sold, who bought them 
+And the most purchased books.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class SellerStats implements Serializable {
 
     /**
@@ -32,11 +44,10 @@ public class SellerStats implements Serializable {
 
     // TODO: These suck: listAllSoldBooks, listSoldBooks, listAllBuyers, listBuyers - Abstract more!
     // formats and prints all books Seller has sold
-    public void listAllSoldBooks() {
+    public void listAllSoldBooks(Scanner scanner) {
         if (booksSold.size() == 0) {
             System.out.println("YOU CURRENTLY HAVE NO SOLD BOOKS");
         } else {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("How would you like to sort books?");
             System.out.println("1. Most frequently bought books");
@@ -81,11 +92,10 @@ public class SellerStats implements Serializable {
     }
 
     // prints all sold books from a specific store
-    public void listSoldBooks(Store store) {
+    public void listSoldBooks(Scanner scanner, Store store) {
         if (booksSold.size() == 0) {
             System.out.println("YOU CURRENTLY HAVE NO SOLD BOOKS");
         } else {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("How would you like to sort books?");
             System.out.println("1. Most frequently bought books");
@@ -137,11 +147,10 @@ public class SellerStats implements Serializable {
     }
 
     // formats and prints all the customers of Seller
-    public void listAllBuyers() {
+    public void listAllBuyers(Scanner scanner) {
         if (booksSold.size() == 0) {
             System.out.println("YOU CURRENTLY HAVE NO BUYERS");
         } else {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("How would you like to sort buyers?");
             System.out.println("1. Most frequent purchases");
@@ -196,11 +205,10 @@ public class SellerStats implements Serializable {
         }
     }
 
-    public void listBuyers(Store store) {
+    public void listBuyers(Scanner scanner, Store store) {
         if (booksSold.size() == 0) {
             System.out.println("YOU CURRENTLY HAVE NO BUYERS");
         } else {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("How would you like to sort buyers?");
             System.out.println("1. Most frequent purchases");
@@ -300,20 +308,20 @@ public class SellerStats implements Serializable {
     public Buyer[] sortBuyersByQuantity(HashMap<User, Integer> buyers) {
         int n = buyers.size();
 
-        Buyer[] booksArr = new Buyer[buyers.size()];
-        booksArr = buyers.keySet().toArray(booksArr);
+        Buyer[] buyersArr = new Buyer[buyers.size()];
+        buyersArr = buyers.keySet().toArray(buyersArr);
 
         for (int i = 0; i < n-1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (buyers.get(booksArr[j]) < buyers.get(booksArr[j+1])) {
-                    Buyer temp = booksArr[j];
-                    booksArr[j] = booksArr[j+1];
-                    booksArr[j+1] = temp;
+                if (buyers.get(buyersArr[j]) < buyers.get(buyersArr[j+1])) {
+                    Buyer temp = buyersArr[j];
+                    buyersArr[j] = buyersArr[j+1];
+                    buyersArr[j+1] = temp;
                 }
             }
         }
 
-        return booksArr;
+        return buyersArr;
     }
 
     public HashMap<Book, Integer> getBooksSold() {

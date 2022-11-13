@@ -272,7 +272,7 @@ public class Seller extends User implements Serializable {
                         case 1:
                             // prompts user for store to view stats for
                             System.out.println("Select a store: ");
-                            storeSelectionStats = selectStore();
+                            storeSelectionStats = selectStore(scanner);
 
                             // if user selects cancel, select store will return null
                             if (storeSelectionStats != null)
@@ -281,7 +281,7 @@ public class Seller extends User implements Serializable {
                         case 2:
                             // prompts user for store to view stats for
                             System.out.println("Select a store: ");
-                            storeSelectionStats = selectStore();
+                            storeSelectionStats = selectStore(scanner);
 
                             // if user selects cancel, select store will return null
                             if (storeSelectionStats != null)

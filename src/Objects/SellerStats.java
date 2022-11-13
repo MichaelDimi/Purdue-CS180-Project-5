@@ -3,6 +3,18 @@ package Objects;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+* This class contains detailed stats for sellers.
+This includes the books sold, who bought them 
+And the most purchased books.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class SellerStats implements Serializable {
 
     /**

@@ -15,6 +15,16 @@ import Objects.*;
 
 import static org.junit.Assert.*;
 
+/**
+* This class contains test cases for 
+* Methods in Book.java
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
 
 public class BookTest {
 

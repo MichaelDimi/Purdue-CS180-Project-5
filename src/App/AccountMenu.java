@@ -3,6 +3,17 @@ package App;
 import Objects.*;
 
 import java.util.Scanner;
+/**
+* This class is used to print a menu to modify a
+* user’s account. The options are reset email, 
+*  password, username or account deletion.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
 
 public class AccountMenu extends Menu {
 

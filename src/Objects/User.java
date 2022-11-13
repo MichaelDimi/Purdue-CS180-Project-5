@@ -5,6 +5,18 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+* Parent class of Buyers and Sellers.
+* contains fields and methods used in 
+* both of its child classes.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class User implements Serializable {
     /**
      * Name of the user

@@ -5,6 +5,17 @@ import Objects.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+* This class contains the menu in which a buyer
+* can create a review of a certain store.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class ReviewsMenu {
 
     /**

@@ -4,6 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+* This class mainly contains a hashmap of books sold
+* and an ArrayList of their buyers
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 public class Stats implements Serializable {
 
     /**

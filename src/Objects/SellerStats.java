@@ -32,11 +32,10 @@ public class SellerStats implements Serializable {
 
     // TODO: These suck: listAllSoldBooks, listSoldBooks, listAllBuyers, listBuyers - Abstract more!
     // formats and prints all books Seller has sold
-    public void listAllSoldBooks() {
+    public void listAllSoldBooks(Scanner scanner) {
         if (booksSold.size() == 0) {
             System.out.println("YOU CURRENTLY HAVE NO SOLD BOOKS");
         } else {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("How would you like to sort books?");
             System.out.println("1. Most frequently bought books");
@@ -81,11 +80,10 @@ public class SellerStats implements Serializable {
     }
 
     // prints all sold books from a specific store
-    public void listSoldBooks(Store store) {
+    public void listSoldBooks(Scanner scanner, Store store) {
         if (booksSold.size() == 0) {
             System.out.println("YOU CURRENTLY HAVE NO SOLD BOOKS");
         } else {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("How would you like to sort books?");
             System.out.println("1. Most frequently bought books");
@@ -137,11 +135,10 @@ public class SellerStats implements Serializable {
     }
 
     // formats and prints all the customers of Seller
-    public void listAllBuyers() {
+    public void listAllBuyers(Scanner scanner) {
         if (booksSold.size() == 0) {
             System.out.println("YOU CURRENTLY HAVE NO BUYERS");
         } else {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("How would you like to sort buyers?");
             System.out.println("1. Most frequent purchases");
@@ -196,11 +193,10 @@ public class SellerStats implements Serializable {
         }
     }
 
-    public void listBuyers(Store store) {
+    public void listBuyers(Scanner scanner, Store store) {
         if (booksSold.size() == 0) {
             System.out.println("YOU CURRENTLY HAVE NO BUYERS");
         } else {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("How would you like to sort buyers?");
             System.out.println("1. Most frequent purchases");

@@ -276,7 +276,7 @@ public class Seller extends User implements Serializable {
 
                             // if user selects cancel, select store will return null
                             if (storeSelectionStats != null)
-                                stats.listSoldBooks(storeSelectionStats);
+                                stats.listSoldBooks(scanner, storeSelectionStats);
                             break;
                         case 2:
                             // prompts user for store to view stats for
@@ -285,13 +285,13 @@ public class Seller extends User implements Serializable {
 
                             // if user selects cancel, select store will return null
                             if (storeSelectionStats != null)
-                                stats.listBuyers(storeSelectionStats);
+                                stats.listBuyers(scanner, storeSelectionStats);
                             break;
                         case 3:
-                            stats.listAllSoldBooks();
+                            stats.listAllSoldBooks(scanner);
                             break;
                         case 4:
-                            stats.listAllBuyers();
+                            stats.listAllBuyers(scanner);
                             break;
                         case 5:
                             System.out.printf("Total Revenue: $%.2f\n", stats.getRevenue());

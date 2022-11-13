@@ -98,8 +98,8 @@ public class CustomerHomepage extends Menu {
             }
 
             // prompts for the number of books to buy
-            System.out.println("Please input the quantity you would like to purchase:");
-            int quantityToBuy = scan.nextInt();
+            System.out.println("Please input the quantity you would like to purchase (0 to cancel):");
+            int quantityToBuy = scan.nextInt(); // TODO: fix to parse non numbers
             scan.nextLine();
 
             System.out.println(selection); // Aaron, you can use this for buying a book

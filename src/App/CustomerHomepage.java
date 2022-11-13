@@ -88,15 +88,22 @@ public class CustomerHomepage extends Menu {
             int response = Menu.selectFromList(i, scan);
 
             Book selection;
+            // if the back option is selected
             if (response == i) {
                 BookApp.marketplace.saveMarketplace();
                 return true; // Go back
             } else {
+                // book to be bought
                 selection = booksArr[response-1];
             }
 
+            // prompts for the number of books to buy
+            System.out.println("Please input the quantity you would like to purchase:");
+            int quantityToBuy = scan.nextInt();
+            scan.nextLine();
+
             System.out.println(selection); // Aaron, you can use this for buying a book
-            buyer.addToCart(selection, 1);
+            buyer.addToCart(selection, quantityToBuy);
             System.out.println("BOOK HAS BEEN ADDED TO CART");
 
             // TODO: Add buying a book here (2 more spots below) (may want to abstract as much as possible)
@@ -123,17 +130,24 @@ public class CustomerHomepage extends Menu {
             int response = Menu.selectFromList(i, scan);
 
             Book selection;
+            // if the back option is selected
             if (response == i) {
                 BookApp.marketplace.saveMarketplace();
                 return true; // Go back
             } else {
+                // book to be bought
                 selection = booksArr[response - 1];
             }
+
+            // prompts for the number of books to buy
+            System.out.println("Please input the quantity you would like to purchase:");
+            int quantityToBuy = scan.nextInt();
+            scan.nextLine();
 
             System.out.println(selection); // Aaron, you can use this for buying a book
 
             // TODO: Add buying a book here (one more below)
-            buyer.addToCart(selection, 1);
+            buyer.addToCart(selection, quantityToBuy);
             System.out.println("BOOK HAS BEEN ADDED TO CART");
         } else if (choice.equals("3")) {
             System.out.println("VIEW STORES");
@@ -199,17 +213,24 @@ public class CustomerHomepage extends Menu {
                 int bookSelectedIndex = Menu.selectFromList(j, scan);
 
                 Book selectedBook;
+                // if the back option is selected
                 if (bookSelectedIndex == j) {
                     BookApp.marketplace.saveMarketplace();
                     return true; // Go back
                 } else {
+                    // book to be bought
                     selectedBook = stockArr[bookSelectedIndex - 1];
                 }
+
+                // prompts for the number of books to buy
+                System.out.println("Please input the quantity you would like to purchase:");
+                int quantityToBuy = scan.nextInt();
+                scan.nextLine();
 
                 System.out.println(selectedBook); // Aaron, you can use this for buying a book
 
                 // TODO: Add buying a book here
-                buyer.addToCart(selectedBook, 1);
+                buyer.addToCart(selectedBook, quantityToBuy);
                 System.out.println("BOOK HAS BEEN ADDED TO CART");
             } else {
                 // REVIEWS
@@ -291,8 +312,9 @@ public class CustomerHomepage extends Menu {
                 }
 
                 System.out.println("1. Remove items\n" +
-                                    "2. Checkout\n" +
-                                    "3. BACK");
+                                    "2. Clear Cart\n" +
+                                    "3. Checkout\n" +
+                                    "4. BACK");
                 String cartOptions = scan.nextLine();
 
                 switch (cartOptions) {
@@ -333,6 +355,9 @@ public class CustomerHomepage extends Menu {
                         }
                         break;
                     case "2":
+                        buyer.clearCart();
+                        break;
+                    case "3":
                         // checkout
                         System.out.println("Thank you for your purchase!");
                         System.out.println("*******************");
@@ -343,7 +368,7 @@ public class CustomerHomepage extends Menu {
                         buyer.checkoutCart();
                         viewingCart = false;
                         break;
-                    case "3":
+                    case "4":
                         // back
                         viewingCart = false;
                         break;

@@ -120,14 +120,14 @@ public class Book implements Serializable {
      */
     public void printBookListItem(Integer i, int q) {
         if (i == null) {
-            System.out.printf("- %s -- Original Price: $%.2f -- Percent off: %%%.2f -- Final price: $%.2f -- " +
+            System.out.printf("- %s -- Store: %s -- Original Price: $%.2f -- Percent off: %.2f%% -- Final price: $%.2f -- " +
                             "Quantity: " + "[%d]\n",
-                    getName(), getPrice(), getPercentOff(), finalPrice(), q);
+                    getName(), getStore(), getPrice(), getPercentOff(), finalPrice(), q);
             return;
         }
-        System.out.printf("%d. %s -- Original Price: $%.2f -- Percent off: %%%.2f -- Final price: $%.2f -- " +
+        System.out.printf("%d. %s -- Store: %s -- Original Price: $%.2f -- Percent off: %.2f%% -- Final price: $%.2f -- " +
                         "Quantity: " + "[%d]\n",
-                i, getName(), getPrice(), getPercentOff(), finalPrice(), q);
+                i, getName(), getStore(), getPrice(), getPercentOff(), finalPrice(), q);
     }
 
     /**

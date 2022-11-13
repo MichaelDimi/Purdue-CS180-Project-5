@@ -104,6 +104,11 @@ public class Buyer extends User implements Serializable {
             cart.clear();
     }
 
+    // removes all items in the Buyer's cart
+    public void clearCart() {
+        cart.clear();
+    }
+
     @Override
     public String toString() {
         return "Buyer<" + this.getName() + ", " +

@@ -313,9 +313,9 @@ public class Marketplace implements Serializable {
 
         HashMap<Book, Integer> booksFound = new HashMap<>();
         for (Book book : books.keySet()) {
-            if (book.getName().contains(query) ||
-                book.getGenre().contains(query) ||
-                book.getDescription().contains(query)) {
+            if (book.getName().toLowerCase().contains(query.toLowerCase()) ||
+                book.getGenre().toLowerCase().contains(query.toLowerCase()) ||
+                book.getDescription().toLowerCase().contains(query.toLowerCase())) {
 
                 booksFound.put(book, books.get(book));
             }

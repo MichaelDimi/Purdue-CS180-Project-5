@@ -9,7 +9,7 @@ public class BookApp {
 
     public static Marketplace marketplace;
 
-    public static String appName = "BOOK APP"; // TODO: make a pun-y name +bruh
+    public static String appName = "BOOK APP"; // TODO: make a pun-y name
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -60,19 +60,11 @@ public class BookApp {
                     }
                 } else {
                     Seller seller = (Seller) marketplace.getCurrentUser();
-                    boolean mainMenu = seller.editStore();
+                    boolean mainMenu = seller.editStore(scan);
                     if (!mainMenu) {
                         break;
                     }
                 }
-
-
-
-                // FILE IO
-//                FileIOMenu fileIOMenu = new FileIOMenu();
-//                fileIOMenu.fileIOMenu(scan, currentUser);
-//                marketplace.saveMarketplace();
-
 
             } while (true); // Main loop
 

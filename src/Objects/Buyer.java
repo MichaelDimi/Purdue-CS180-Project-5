@@ -88,8 +88,8 @@ public class Buyer extends User implements Serializable {
             int availableQuantity = BookApp.marketplace.getBookQuantity(book);
             if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
                 canCheckout = false;
-                System.out.println("Sorry, but there is not enough stock to purchase: " + book.getName());
-                System.out.println("Cart quantity: " + cart.get(book) + " | Available quantity: " + availableQuantity);
+                System.out.println("SORRY, BUT THERE IS NOT ENOUGH STOCK TO PURCHASE: " + book.getName());
+                System.out.println("CART QUANTITY: " + cart.get(book) + " | AVAILABLE QUANTITY: " + availableQuantity);
                 break;
             }
 

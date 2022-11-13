@@ -13,6 +13,7 @@ import java.util.HashMap;
 /* TODO
     - check for duplicate books
     - check for duplicate stores
+    - update books in cart when something is edited
  */
 
 public class Seller extends User implements Serializable {
@@ -249,29 +250,59 @@ public class Seller extends User implements Serializable {
 
                 break;
             case "7":
-                System.out.println("YOUR SALES STATS");
-                System.out.println("*******************");
-                // TODO: Stats for aaron
-                System.out.println("1. Sales history");
-                System.out.println("2. Your buyers");
-                System.out.println("3. Most popular genre");
-                System.out.println("4. CANCEL");
+                // view stats
+                boolean viewingStats = true;
+                int statsSelection;
+                do {
+                    System.out.println("YOUR SALES STATS");
+                    System.out.println("*******************");
+                    System.out.println("1. Sales by store");
+                    System.out.println("2. Buyers by store");
+                    System.out.println("3. All sales");
+                    System.out.println("4. All buyers");
+                    System.out.println("5. Total Revenue");
+                    System.out.println("6. Most popular genre");
+                    System.out.println("7. BACK");
 
-                // TODO: Make loop
-                int statsSelection = scanner.nextInt();
-                scanner.nextLine();
+                    statsSelection = scanner.nextInt();
+                    scanner.nextLine();
 
-                switch (statsSelection) {
-                    case 1:
-                        stats.listAllSoldBooks();
-                        break;
-                    case 2:
-                        stats.listAllBuyers();
-                        break;
-                    case 3:
-                        stats.listMostPopularGenre();
-                        break;
-                }
+                    Store storeSelectionStats;
+                    switch (statsSelection) {
+                        case 1:
+                            // prompts user for store to view stats for
+                            System.out.println("Select a store: ");
+                            storeSelectionStats = selectStore();
+
+                            // if user selects cancel, select store will return null
+                            if (storeSelectionStats != null)
+                                stats.listSoldBooks(storeSelectionStats);
+                            break;
+                        case 2:
+                            // prompts user for store to view stats for
+                            System.out.println("Select a store: ");
+                            storeSelectionStats = selectStore();
+
+                            // if user selects cancel, select store will return null
+                            if (storeSelectionStats != null)
+                                stats.listBuyers(storeSelectionStats);
+                            break;
+                        case 3:
+                            stats.listAllSoldBooks();
+                            break;
+                        case 4:
+                            stats.listAllBuyers();
+                            break;
+                        case 5:
+                            System.out.printf("Total Revenue: $%.2f\n", stats.getRevenue());
+                            break;
+                        case 6:
+                            stats.listMostPopularGenre();
+                            break;
+                        case 7:
+                            viewingStats = false;
+                    }
+                } while (viewingStats);
                 break;
             case "8":
                 // Note: Menu header is provided in fileIOMenu
@@ -596,7 +627,6 @@ public class Seller extends User implements Serializable {
         return null;
     }
 
-    // TODO move this
     // runs when a Buyer purchases a book
     public void updateStock(Book purchasedBook, int quantity, Buyer buyer) {
         // gets store where book was bought
@@ -615,7 +645,7 @@ public class Seller extends User implements Serializable {
                 }
 
                 // increments Seller's revenue
-                stats.incrementRevenue(book.getPrice());
+                stats.incrementRevenue(book.getPrice() * quantity);
 
                 // adds Buyer to Seller's buyers stat
                 Integer buyerCount = stats.getBuyers().get(buyer);
@@ -627,16 +657,15 @@ public class Seller extends User implements Serializable {
                     stats.getBuyers().put(buyer, buyerCount + 1);
                 }
 
-                // adds Buyer to Seller's buyers stat
-                Integer booksSoldCount = stats.getBuyers().get(book);
+                // the number of that book the Seller has sold
+                Integer booksSoldCount = stats.getBooksSold().get(book);
 
-                // checks if Buyer has boughten from Seller before and increments if so, else adds new Buyer
+                // adds number of books bought to the Seller's stats
                 if (booksSoldCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-                    stats.getBooksSold().put(book, 1);
+                    stats.getBooksSold().put(book, quantity);
                 } else {
-                    stats.getBooksSold().put(book, booksSoldCount + 1);
+                    stats.getBooksSold().put(book, booksSoldCount + quantity);
                 }
-
             }
 
         }

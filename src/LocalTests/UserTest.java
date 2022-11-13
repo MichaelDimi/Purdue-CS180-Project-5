@@ -15,6 +15,18 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
+/**
+* This class contains test cases for 
+* making sure hashing password and 
+* creating and displaying user information
+* works
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
 
 public class UserTest {
 

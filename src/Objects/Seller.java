@@ -10,6 +10,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
+/**
+* Contains an ArrayList of Stores and
+* methods for creating, editing or deleting 
+* a seller’s store.
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
 /* TODO
     - check for duplicate books
     - check for duplicate stores

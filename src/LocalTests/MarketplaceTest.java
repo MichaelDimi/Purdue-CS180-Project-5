@@ -19,6 +19,17 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 
 /**
+* This class contains test cases for 
+* Methods in Marketplace.java
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
+
+/**
  * IMPORTANT: Running these tests WILL clear the market.
  * Do not use these tests if you have a market that you want to keep
  */

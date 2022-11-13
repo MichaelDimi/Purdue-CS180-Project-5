@@ -19,6 +19,16 @@ import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
+/**
+* This class contains test cases for 
+* Methods in Seller.java
+*
+* @author Michael Dimitrov
+* @author Federico Lebron
+* @author Sanya Mehra
+* @author Aaron Ni 
+* @author Diya Singh
+*/
 
 public class SellerTest {
 

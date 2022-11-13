@@ -41,7 +41,7 @@ public class SellerStats implements Serializable {
             System.out.println("How would you like to sort books?");
             System.out.println("1. Most frequently bought books");
             System.out.println("2. Least frequently bought books");
-            System.out.println("3. None");
+            System.out.println("3. Not sorted");
 
             // displays all books
             String sortSelection;
@@ -90,7 +90,7 @@ public class SellerStats implements Serializable {
             System.out.println("How would you like to sort books?");
             System.out.println("1. Most frequently bought books");
             System.out.println("2. Least frequently bought books");
-            System.out.println("3. None");
+            System.out.println("3. Not sorted");
 
             // displays all books
             String sortSelection;
@@ -146,7 +146,7 @@ public class SellerStats implements Serializable {
             System.out.println("How would you like to sort buyers?");
             System.out.println("1. Most frequent purchases");
             System.out.println("2. Least frequent purchases");
-            System.out.println("3. None");
+            System.out.println("3. Not sorted");
 
             String sortSelection;
             do {
@@ -205,7 +205,7 @@ public class SellerStats implements Serializable {
             System.out.println("How would you like to sort buyers?");
             System.out.println("1. Most frequent purchases");
             System.out.println("2. Least frequent purchases");
-            System.out.println("3. None");
+            System.out.println("3. Not sorted");
 
             String sortSelection;
             do {

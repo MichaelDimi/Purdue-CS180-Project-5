@@ -1,5 +1,7 @@
 package Objects;
 
+import App.BookApp;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -128,6 +130,17 @@ public class Book implements Serializable {
         System.out.printf("%d. %s -- Store: %s -- Original Price: $%.2f -- Percent off: %.2f%% -- Final price: $%.2f -- " +
                         "Quantity: " + "[%d]\n",
                 i, getName(), getStore(), getPrice(), getPercentOff(), finalPrice(), q);
+    }
+
+    /**
+     * Prints detailed information about the book
+     */
+    public void printBookDetails() {
+        System.out.println("Title: " + name);
+        System.out.printf("Price: $%.2f | Qty Available: %d\n", price, BookApp.marketplace.getBooks().get(this));
+        System.out.println("Store: " + store);
+        System.out.println("Genre(s): " + genre);
+        System.out.println("Description: " + description);
     }
 
     /**

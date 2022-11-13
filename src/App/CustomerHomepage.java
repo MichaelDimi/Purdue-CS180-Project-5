@@ -4,10 +4,7 @@ import Exceptions.BookNotFoundException;
 import Objects.Book;
 import Objects.Marketplace;
 import Objects.*;
-import com.sun.security.jgss.GSSUtil;
 
-import java.io.*;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class CustomerHomepage extends Menu {
@@ -97,15 +94,8 @@ public class CustomerHomepage extends Menu {
                 selection = booksArr[response-1];
             }
 
-            // prompts for the number of books to buy
-            System.out.println("Please input the quantity you would like to purchase:");
-            int quantityToBuy = scan.nextInt();
-            scan.nextLine();
-
-            System.out.println(selection); // Aaron, you can use this for buying a book
-            buyer.addToCart(selection, quantityToBuy);
-            System.out.println("BOOK HAS BEEN ADDED TO CART");
-
+            // shows more details about selected book and asks user how many copies of book to buy
+            selectedBookMenu(scan, selection, buyer);
             // TODO: Add buying a book here (2 more spots below) (may want to abstract as much as possible)
         } else if (choice.equals("2")) {
             System.out.println("SEARCH FOR A BOOK");
@@ -139,16 +129,8 @@ public class CustomerHomepage extends Menu {
                 selection = booksArr[response - 1];
             }
 
-            // prompts for the number of books to buy
-            System.out.println("Please input the quantity you would like to purchase:");
-            int quantityToBuy = scan.nextInt();
-            scan.nextLine();
-
-            System.out.println(selection); // Aaron, you can use this for buying a book
-
-            // TODO: Add buying a book here (one more below)
-            buyer.addToCart(selection, quantityToBuy);
-            System.out.println("BOOK HAS BEEN ADDED TO CART");
+            // shows more details about selected book and asks user how many copies of book to buy
+            selectedBookMenu(scan, selection, buyer);
         } else if (choice.equals("3")) {
             System.out.println("VIEW STORES");
             System.out.println("*******************");
@@ -205,33 +187,25 @@ public class CustomerHomepage extends Menu {
                 System.out.println("Select a book to buy:");
                 int j = 1;
                 for (Book book : stockArr) { //Printing list of books available for sale
-                    book.printBookListItem(i, stock.get(book));
+                    book.printBookListItem(j, stock.get(book));
                     j++;
                 }
-                System.out.println(i + ". BACK");
+                System.out.println(j + ". BACK");
 
                 int bookSelectedIndex = Menu.selectFromList(j, scan);
 
-                Book selectedBook;
+                Book selection;
                 // if the back option is selected
                 if (bookSelectedIndex == j) {
                     BookApp.marketplace.saveMarketplace();
                     return true; // Go back
                 } else {
                     // book to be bought
-                    selectedBook = stockArr[bookSelectedIndex - 1];
+                    selection = stockArr[bookSelectedIndex - 1];
                 }
 
-                // prompts for the number of books to buy
-                System.out.println("Please input the quantity you would like to purchase:");
-                int quantityToBuy = scan.nextInt();
-                scan.nextLine();
-
-                System.out.println(selectedBook); // Aaron, you can use this for buying a book
-
-                // TODO: Add buying a book here
-                buyer.addToCart(selectedBook, quantityToBuy);
-                System.out.println("BOOK HAS BEEN ADDED TO CART");
+                // shows more details about selected book and asks user how many copies of book to buy
+                selectedBookMenu(scan, selection, buyer);
             } else {
                 // REVIEWS
                 ReviewsMenu reviewsMenu = new ReviewsMenu();
@@ -287,7 +261,7 @@ public class CustomerHomepage extends Menu {
             for (Book book : purchaseHistory.keySet()) {
                 book.printBookListItem(null, purchaseHistory.get(book));
             }
-            System.out.println("Would you like to export your purchase history? (Y)");
+            System.out.println("Would you like to export your purchase history? (Y/N)");
             String answer = scan.nextLine();
             if (answer.equalsIgnoreCase("y")) {
                 FileIOMenu fileIOMenu = new FileIOMenu();
@@ -390,5 +364,40 @@ public class CustomerHomepage extends Menu {
         }
         BookApp.marketplace.saveMarketplace();
         return true;
+    }
+
+    /**
+     * Displays more details of the selected book and prompts the user to enter a quantity to buy
+     * @param selectedBook the book to be bought
+     * @param buyer the user who is buying the book
+     */
+    public void selectedBookMenu(Scanner scan, Book selectedBook, Buyer buyer) {
+        // loops until user inputs a valid quantity of books to buy
+        boolean buyingBooks = true;
+        while (buyingBooks) {
+            // prints more details about the book
+            selectedBook.printBookDetails();
+
+            // prompts for the quantity of books to buy
+            System.out.println("Please input the quantity you would like to purchase (0 to cancel):");
+            String quantityInput = scan.nextLine();
+
+            // try checks that user inputted a valid number by attempting to parse the string into an int
+            try {
+                //System.out.println(selectedBook);
+                int quantityToBuy = Integer.parseInt(quantityInput);
+
+                // makes sure user does not input negative number
+                if (quantityToBuy < 0)
+                    throw new NumberFormatException();
+
+                // adds books to the buyer's cart
+                buyer.addToCart(selectedBook, quantityToBuy);
+                System.out.println("BOOK HAS BEEN ADDED TO CART");
+                buyingBooks = false;
+            } catch (NumberFormatException e) {
+                System.out.println("PLEASE ENTER A VALID NUMBER");
+            }
+        }
     }
 }

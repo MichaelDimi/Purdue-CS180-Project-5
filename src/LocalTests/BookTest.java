@@ -77,7 +77,7 @@ public class BookTest {
                 String output = getOutput().trim(); // Call trim to ignore new lines
                 assertEquals("Check printBookListItem()",
                         output,
-                        "5. Book 1 -- Original Price: $100.00 -- Percent off: %0.00 -- Final price: $100.00 -- Quantity: [10]");
+                        "5. Book 1 -- Store: Store 1 -- Original Price: $100.00 -- Percent off: 0.00% -- Final price: $100.00 -- Quantity: [10]");
 
                 outputStart(); // Clears the output
 
@@ -85,7 +85,7 @@ public class BookTest {
                 output = getOutput().trim();
                 assertEquals("Check printBookListItem() with i = null",
                         output,
-                        "- Book 1 -- Original Price: $100.00 -- Percent off: %0.00 -- Final price: $100.00 -- Quantity: [10]");
+                        "- Book 1 -- Store: Store 1 -- Original Price: $100.00 -- Percent off: 0.00% -- Final price: $100.00 -- Quantity: [10]");
             } catch (Exception e) {
                 e.printStackTrace();
                 fail();

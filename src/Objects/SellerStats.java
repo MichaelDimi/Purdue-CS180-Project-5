@@ -296,20 +296,20 @@ public class SellerStats implements Serializable {
     public Buyer[] sortBuyersByQuantity(HashMap<User, Integer> buyers) {
         int n = buyers.size();
 
-        Buyer[] booksArr = new Buyer[buyers.size()];
-        booksArr = buyers.keySet().toArray(booksArr);
+        Buyer[] buyersArr = new Buyer[buyers.size()];
+        buyersArr = buyers.keySet().toArray(buyersArr);
 
         for (int i = 0; i < n-1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (buyers.get(booksArr[j]) < buyers.get(booksArr[j+1])) {
-                    Buyer temp = booksArr[j];
-                    booksArr[j] = booksArr[j+1];
-                    booksArr[j+1] = temp;
+                if (buyers.get(buyersArr[j]) < buyers.get(buyersArr[j+1])) {
+                    Buyer temp = buyersArr[j];
+                    buyersArr[j] = buyersArr[j+1];
+                    buyersArr[j+1] = temp;
                 }
             }
         }
 
-        return booksArr;
+        return buyersArr;
     }
 
     public HashMap<Book, Integer> getBooksSold() {

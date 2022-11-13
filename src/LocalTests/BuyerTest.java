@@ -98,52 +98,6 @@ public class BuyerTest {
             }
         }
 
-        // TODO: Delete comments or fix test
-//        @Test(timeout = 1000)
-//        public void testPurchaseHistory() {
-//            try {
-//                // Add books to market
-//                Book book1 = new Book("Book 1", "Store 1", "Horror", "Scary Book", 100);
-//                Book book2 = new Book("Book 2", "Store 2", "Romance", "A romantic book", 100);
-//
-//                BookApp.marketplace = new Marketplace();
-//                Marketplace market = BookApp.marketplace;
-//                Seller seller = new Seller("Seller 1",
-//                        "seller@email.com",
-//                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
-//                        "CyberSecure");
-//                seller.createNewStore("Store 1");
-//                Store store = seller.getStoreByName("Store 1");
-//                store.addStock(10, book1);
-//                store.addStock(10, book2);
-//
-//                assertEquals(market.getBookQuantity(book1), "");
-//
-//                // Add buyer
-//                Buyer buyer = new Buyer("Buyer 1",
-//                        "Someone@email.com",
-//                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
-//                        "CyberSecure");
-//
-//                // Add buyer to cart
-//                buyer.addToCart(book1, 5);
-//                buyer.addToCart(book2, 10);
-//                buyer.checkoutCart();
-//
-//                HashMap<Book, Integer> expected = new HashMap<>();
-//                expected.put(book1, 5);
-//                expected.put(book2, 10);
-//
-//                System.out.println(buyer.getPurchaseHistory());
-//                System.out.println(expected);
-//
-//                assertEquals("Check purchasing", expected, buyer.getPurchaseHistory());
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                fail();
-//            }
-//        }
 
     }
 }

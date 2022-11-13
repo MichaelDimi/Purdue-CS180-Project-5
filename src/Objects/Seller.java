@@ -253,31 +253,56 @@ public class Seller extends User implements Serializable {
 
                 break;
             case "7":
+                // view stats
                 boolean viewingStats = true;
-                int statsSlection;
+                int statsSelection;
                 do {
                     System.out.println("YOUR SALES STATS");
                     System.out.println("*******************");
-                    // TODO: Stats for aaron
-                    System.out.println("1. Sales history");
-                    System.out.println("2. Your buyers");
-                    System.out.println("3. Most popular genre");
-                    System.out.println("4. BACK");
+                    System.out.println("1. Sales by store");
+                    System.out.println("2. Buyers by store");
+                    System.out.println("3. All sales");
+                    System.out.println("4. All buyers");
+                    System.out.println("5. Total Revenue");
+                    System.out.println("6. Most popular genre");
+                    System.out.println("7. BACK");
 
-                    statsSlection = scanner.nextInt();
+                    statsSelection = scanner.nextInt();
                     scanner.nextLine();
 
-                    switch (statsSlection) {
+                    Store storeSelectionStats;
+                    switch (statsSelection) {
                         case 1:
-                            stats.listAllSoldBooks();
+                            // prompts user for store to view stats for
+                            System.out.println("Select a store: ");
+                            storeSelectionStats = selectStore();
+
+                            // if user selects cancel, select store will return null
+                            if (storeSelectionStats != null)
+                                stats.listSoldBooks(storeSelectionStats);
                             break;
                         case 2:
-                            stats.listAllBuyers();
+                            // prompts user for store to view stats for
+                            System.out.println("Select a store: ");
+                            storeSelectionStats = selectStore();
+
+                            // if user selects cancel, select store will return null
+                            if (storeSelectionStats != null)
+                                stats.listBuyers(storeSelectionStats);
                             break;
                         case 3:
-                            stats.listMostPopularGenre();
+                            stats.listAllSoldBooks();
                             break;
                         case 4:
+                            stats.listAllBuyers();
+                            break;
+                        case 5:
+                            System.out.printf("Total Revenue: $%.2f\n", stats.getRevenue());
+                            break;
+                        case 6:
+                            stats.listMostPopularGenre();
+                            break;
+                        case 7:
                             viewingStats = false;
                     }
                 } while (viewingStats);
@@ -634,7 +659,7 @@ public class Seller extends User implements Serializable {
                 }
 
                 // increments Seller's revenue
-                stats.incrementRevenue(book.getPrice());
+                stats.incrementRevenue(book.getPrice() * quantity);
 
                 // adds Buyer to Seller's buyers stat
                 Integer buyerCount = stats.getBuyers().get(buyer);

@@ -52,6 +52,30 @@ public class SellerStats implements Serializable {
         }
     }
 
+    // prints all sold books from a specific store
+    public void listSoldBooks(Store store) {
+        if (booksSold.size() == 0) {
+            System.out.println("YOU CURRENTLY HAVE NO SOLD BOOKS");
+        } else {
+            // displays all books
+            System.out.println("YOUR SOLD BOOKS");
+            System.out.println("*******************");
+
+            for (Book book : booksSold.keySet()) {
+                // checks book is from the specified store
+                if (book.getStore().equals(store.getName())) {
+                    book.printBookListItem(null, booksSold.get(book));
+                }
+                // OLD PRINT FORMAT
+//                System.out.println("Name: " + book.getName());
+//                System.out.println("Genre: " + book.getGenre());
+//                System.out.println("Description: " + book.getDescription());
+//                System.out.printf("Price: $%.2f\n", book.getPrice());
+//                System.out.println("Quantity: " + booksSold.get(book) + "\n");
+            }
+        }
+    }
+
     // formats and prints all the customers of Seller
     public void listAllBuyers() {
         if (booksSold.size() == 0) {
@@ -68,7 +92,28 @@ public class SellerStats implements Serializable {
         }
     }
 
-    // TODO: FIX THIS!!! GET MOST POPULAR STAT
+    public void listBuyers(Store store) {
+        if (booksSold.size() == 0) {
+            System.out.println("YOU CURRENTLY HAVE NO SOLD BOOKS");
+        } else {
+            // displays all books
+            System.out.println("YOUR CUSTOMERS");
+            System.out.println("*******************");
+
+            for (User buyer : buyers.keySet()) {
+                System.out.println("Buyer username: " + buyer.getName());
+
+                // loops through all user's purchase history and checks if user has made a purchase in the past
+                for (Book book : ((Buyer) buyer).getPurchaseHistory().keySet()) {
+                    if (book.getStore().equals(store.getName())) {
+                        book.printBookListItem(null, ((Buyer) buyer).getPurchaseHistory().get(book));
+                    }
+                }
+                // TODO: get the number of products this user has bought from specific seller
+            }
+        }
+    }
+
     // prints the most popular genre the Seller sells
     public void listMostPopularGenre() {
         if (booksSold.size() == 0) {

@@ -76,9 +76,9 @@ The Book class contains the mutator and accessor methods for the product's attri
 ### Stats
 
 ### Store
-
+Store is the class used to initialzed Store objects created by a Seller. It contains the fields name, stock, reviews and Seller name. The constructor of this class initializes all of these fields. The class contains getters and setters for all of those fields. It has methods for adding and removing books to its stock. Contains a method to get the average rating of all reviews. Also has a ToString method that was overriden from the Object parent class.
 ### User
-
+User is the parent class of both Buyer and Seller classes. This class has the fields name, email, password and displayPassowrd. The constructor of this class initializes all of these fields. The class contains getters and setters for all of those fields. It also has a method for hashing a password using SHA-512. 
 ## Exceptions Package
 All custom exceptions are handled in the app and none cause a crash.
 

@@ -27,7 +27,9 @@ When you run the project, for the best experience we suggest making the terminal
 | Person 1 | Submitted Report on Brightspace |
 | Person 2 | Submitted Vocareum workspace |
 
-## Classes
+# Classes
+
+## App Package:
 
 ### BookApp
 BookApp is where the main method exists for our program. It contains two loops, the outer one, is the logging in loop, and the inner one is the main screen loop. The login loop will always show the login menu when the user is not signed in, and break when the user exits the program. The main menu loop either shows the customer hompage or seller homepage, depending on if the user is a buyer or seller. To test this class we went through all the possible inputs the user could enter to break the menu or cause a crash. This class is the central hub where all other menus connect to. 
@@ -53,4 +55,48 @@ The sales menu is where sellers can create sales for books. The menu ensures tha
 ### ReviewMenu
 The ReviewMenu class contains funcitonality for buyers to leave a review, and for any user to view the reviews of a particular store. There is custom display for the ratings that this class makes use of. During testing we found, that sellers were able to leave reviews, which was not the correct functionality, so we added a check for that. This class interacts with the Review class, the Buyer and Seller classes, and the Marketplace. 
 
+### Menu
+The Menu is an abstract class that the other menus should subclass. It provides some useful functions used across multiple of the methods. It acts like an interface except the subclasses do not need to inherit all the methods, only the ones they need. The testing for this class is part of the testing for other classes, since the methods are used as part of other menus. This class is a parent of the other menus in the app, and interacts with them. It also interacts with the Marketplace. 
 
+## Objects Package
+
+### Book
+The Book class contains the mutator and accessor methods for the product's attributes. These include a book's name, store, genre, description, price, and sale percentage. The class also contains a method to display all of these attributes in addition to the quantity of books. There is a method that generates a hash code based on the properties of a book, and an equals method that compares two Book objects.
+
+### Buyer
+The Buyer class is a subclass of the User superclass. It contains methods to add and remove books from the buyer's cart. There are functionalities that increment the quantity of a book if a buyer already contains a book in the cart and to add a purchase to the buyer's purchase history. The personal information of the buyer including name, email, password, cart, and purchase history is displayed by the class's toString.
+
+### Marketplace
+The Marketplace class initializes an ArrayList of User objects consisting of buyers and sellers and identifies the current user logged in. It contains methods to validate the user’s username and email to ensure they are not already taken or of an invalid format. Additionally, there are several methods to sort books by different attributes such as price and quantity and stores by variety and frequency of purchases.
+
+### Review
+The Review class creates several attributes for a book rating that include rating, buyer, seller's name, title, and description. The numerical value of the rating attribute is converted to a string of stars that reflect the rating. The class's toString displays buyer, seller, and book information, along with the stars rating given to the book.
+
+### Seller
+
+
+### SellerStats
+
+
+### Stats
+The Stats class contains a HashMap for the books sold by a particular Seller and another HashMap for the buyers who bought books from the particular Seller. The class uses mutator and accessor methods to set and retrieve the values for these two HashMaps and then displays the books sold and buyers for a Seller in its toString.
+
+### Store
+Store is the class used to initialzed Store objects created by a Seller. It contains the fields name, stock, reviews and Seller name. The constructor of this class initializes all of these fields. The class contains getters and setters for all of those fields. It has methods for adding and removing books to its stock. Contains a method to get the average rating of all reviews. Also has a ToString method that was overriden from the Object parent class.
+
+### User
+User is the parent class of both Buyer and Seller classes. This class has the fields name, email, password and displayPassowrd. The constructor of this class initializes all of these fields. The class contains getters and setters for all of those fields. It also has a method for hashing a password using SHA-512. 
+
+## Exceptions Package
+All custom exceptions are handled in the app and none cause a crash.
+
+### BookNotFoundException
+BookNotFoundException is thrown whenever a book is being searched for but cannot be found.
+
+### StoreNotFoundException
+StoreNotFoundException is thrown whenever a store is being searched for but cannot be found.
+
+### IdenticalStoreException
+This is an exception that is thrown whenever a store is created, but one with the same name already exists. 
+
+## LocalTests Package

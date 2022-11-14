@@ -5,9 +5,8 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * This class contains the exception that will
- * be thrown when a book is not found in the
- * database.
+ * This class contains is a parent class to other menus,
+ * and contains useful features for child menus
  *
  * @author Aaron Ni
  * @author Diya Singh

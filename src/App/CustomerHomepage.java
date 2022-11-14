@@ -310,7 +310,7 @@ public class CustomerHomepage extends Menu {
 
                         // stores all cart book options in an ArrayList
                         ArrayList<Book> booksInCart = new ArrayList<>(cart.keySet());
-                        int removeFromCartSelection;
+                        int removeFromCartSelection = -1;
                         do {
                             System.out.println("SELECT BOOK TO REMOVE");
                             System.out.println("*******************");
@@ -320,18 +320,48 @@ public class CustomerHomepage extends Menu {
                             }
                             System.out.println((booksInCart.size() + 1) + ". CANCEL");
 
-                            removeFromCartSelection = scan.nextInt();
-                            scan.nextLine();
+                            String selectionInput = scan.nextLine();
 
-                            // looops until a valid input is entered
+                            // try checks user inputted a valid number by attempting to parse the string into an int
+                            try {
+                                removeFromCartSelection = Integer.parseInt(selectionInput);
+
+                                // makes sure user does not input negative number or a number that isn't an option
+                                if (removeFromCartSelection < 0 || removeFromCartSelection > booksInCart.size())
+                                    throw new NumberFormatException();
+
+                            } catch (NumberFormatException e) {
+                                System.out.println("PLEASE ENTER A VALID NUMBER");
+                            }
+
+
+                            // loops until a valid input is entered
                         } while (removeFromCartSelection > cart.size() + 1 || removeFromCartSelection < 0);
 
                         // checks option selected was not the cancel option and then removes selected book by index
                         if (removeFromCartSelection - 1 != cart.size()) {
-                            // asks user for how many books to remove from cart
-                            System.out.println("Please input the quantity you would like to remove:");
-                            int quantityToRemove = scan.nextInt();
-                            scan.nextLine();
+
+                            // loops until a valid input is received
+                            int quantityToRemove = -1;
+                            while (quantityToRemove < 0) {
+                                // asks user for how many books to remove from cart
+                                System.out.println("Please input the quantity you would like to remove:");
+
+                                // prompts for the quantity of books to buy
+                                String quantityInput = scan.nextLine();
+
+                                // try checks user inputted a valid number by attempting to parse the str into an int
+                                try {
+                                    quantityToRemove = Integer.parseInt(quantityInput);
+
+                                    // makes sure user does not input negative number
+                                    if (quantityToRemove < 0)
+                                        throw new NumberFormatException();
+
+                                } catch (NumberFormatException e) {
+                                    System.out.println("PLEASE ENTER A VALID NUMBER");
+                                }
+                            }
 
                             // removes book from cart
                             try {

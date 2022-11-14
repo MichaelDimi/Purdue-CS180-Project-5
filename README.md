@@ -102,7 +102,7 @@ The Marketplace class initializes an ArrayList of User objects consisting of buy
 The Review class creates several attributes for a book rating that include rating, buyer, seller's name, title, and description. The numerical value of the rating attribute is converted to a string of stars that reflect the rating. The class's toString displays buyer, seller, and book information, along with the stars rating given to the book.
 
 ### Seller
-
+The Seller class is a subclass of the User superclass. The Seller class contains all the general menu options for the seller’s dashboard. The Seller class contains attributes that store information related to the seller’s stores. The class also contains methods that allow the user to create new stores, manage their current stores, update the sock in their stores, add sales to products within stores, view reviews of stores, see their selling statistics, and see the carts of buyers that contain items that they sell. Sellers can view all the products they sell in stores and modify any attributes about the stores or products in the store.
 
 ### SellerStats
 

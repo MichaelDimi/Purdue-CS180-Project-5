@@ -67,6 +67,7 @@ The Book class contains the mutator and accessor methods for the product's attri
 The Buyer class is a subclass of the User superclass. It contains methods to add and remove books from the buyer's cart. There are functionalities that increment the quantity of a book if a buyer already contains a book in the cart and to add a purchase to the buyer's purchase history. The personal information of the buyer including name, email, password, cart, and purchase history is displayed by the class's toString.
 
 ### Marketplace
+The Marketplace class initializes an ArrayList of User objects consisting of buyers and sellers and identifies the current user logged in. It contains methods to validate the user’s username and email to ensure they are not already taken or of an invalid format. Additionally, there are several methods to sort books by different attributes such as price and quantity and stores by variety and frequency of purchases.
 
 ### Review
 The Review class creates several attributes for a book rating that include rating, buyer, seller's name, title, and description. The numerical value of the rating attribute is converted to a string of stars that reflect the rating. The class's toString displays buyer, seller, and book information, along with the stars rating given to the book.
@@ -78,6 +79,7 @@ The Review class creates several attributes for a book rating that include ratin
 
 
 ### Stats
+The Stats class contains a HashMap for the books sold by a particular Seller and another HashMap for the buyers who bought books from the particular Seller. The class uses mutator and accessor methods to set and retrieve the values for these two HashMaps and then displays the books sold and buyers for a Seller in its toString.
 
 ### Store
 Store is the class used to initialzed Store objects created by a Seller. It contains the fields name, stock, reviews and Seller name. The constructor of this class initializes all of these fields. The class contains getters and setters for all of those fields. It has methods for adding and removing books to its stock. Contains a method to get the average rating of all reviews. Also has a ToString method that was overriden from the Object parent class.

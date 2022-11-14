@@ -72,16 +72,19 @@ The Buyer class is a subclass of the User superclass. It contains methods to add
 The Review class creates several attributes for a book rating that include rating, buyer, seller's name, title, and description. The numerical value of the rating attribute is converted to a string of stars that reflect the rating. The class's toString displays buyer, seller, and book information, along with the stars rating given to the book.
 
 ### Seller
-The Seller class is a subclass of the User superclass. It prompts the user to enter information about the store they are creating such as store name and displays a menu that displays several options to the seller such as the ability for them to edit their book stock or view their seller or buyer statistics. The class throws exceptions in the case a book is not found or there are duplicate stores.
+
 
 ### SellerStats
+
 
 ### Stats
 
 ### Store
 Store is the class used to initialzed Store objects created by a Seller. It contains the fields name, stock, reviews and Seller name. The constructor of this class initializes all of these fields. The class contains getters and setters for all of those fields. It has methods for adding and removing books to its stock. Contains a method to get the average rating of all reviews. Also has a ToString method that was overriden from the Object parent class.
+
 ### User
 User is the parent class of both Buyer and Seller classes. This class has the fields name, email, password and displayPassowrd. The constructor of this class initializes all of these fields. The class contains getters and setters for all of those fields. It also has a method for hashing a password using SHA-512. 
+
 ## Exceptions Package
 All custom exceptions are handled in the app and none cause a crash.
 

@@ -27,7 +27,9 @@ When you run the project, for the best experience we suggest making the terminal
 | Person 1 | Submitted Report on Brightspace |
 | Person 2 | Submitted Vocareum workspace |
 
-## Classes
+# Classes
+
+## App Package:
 
 ### BookApp
 BookApp is where the main method exists for our program. It contains two loops, the outer one, is the logging in loop, and the inner one is the main screen loop. The login loop will always show the login menu when the user is not signed in, and break when the user exits the program. The main menu loop either shows the customer hompage or seller homepage, depending on if the user is a buyer or seller. To test this class we went through all the possible inputs the user could enter to break the menu or cause a crash. This class is the central hub where all other menus connect to. 
@@ -52,5 +54,10 @@ The sales menu is where sellers can create sales for books. The menu ensures tha
 
 ### ReviewMenu
 The ReviewMenu class contains funcitonality for buyers to leave a review, and for any user to view the reviews of a particular store. There is custom display for the ratings that this class makes use of. During testing we found, that sellers were able to leave reviews, which was not the correct functionality, so we added a check for that. This class interacts with the Review class, the Buyer and Seller classes, and the Marketplace. 
+
+### Menu
+The Menu is an abstract class that the other menus should subclass. It provides some useful functions used across multiple of the methods. It acts like an interface except the subclasses do not need to inherit all the methods, only the ones they need. The testing for this class is part of the testing for other classes, since the methods are used as part of other menus. This class is a parent of the other menus in the app, and interacts with them. It also interacts with the Marketplace. 
+
+
 
 

@@ -61,6 +61,7 @@ The Menu is an abstract class that the other menus should subclass. It provides 
 ## Objects Package
 
 ### Book
+The Book class contains the mutator and accessor methods for the product's attributes. These include a book's name, store, genre, description, price, and sale percentage. The class also contains a method to display all of these attributes in addition to the quantity of books. There is a method that generates a hash code based on the properties of a book, and an equals method that compares two Book objects.
 
 ### Buyer
 

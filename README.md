@@ -33,8 +33,15 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
     - [BookNotFoundException](#BookNotFoundException)
     - [StoreNotFoundException](#StoreNotFoundException)
     - [IdenticalStoreException](#IdenticalStoreException)
-
-
+  - [LocalTests Package](#LocalTests-Package)
+    - [BookTest](#BookTest)
+    - [BuyerTest](#BuyerTest)
+    - [MarketplaceTest](#MarketplaceTest)
+    - [ReviewTest](#ReviewTest)
+    - [SellerTest](#SellerTest)
+    - [StatsTest](#StatsTest)
+    - [StoreTest](#StoreTest)
+    - [UserTest](#UserTest)
 
 ## How to compile and run the project
 The easiest way to run our project is to download the "work" folder from Vocareum, unzip it, and compile and run through an IDE like IntelliJ.  Inside the work folder is a folder called "cs180-project-4", which is what you should open in your IDE to run. 
@@ -122,3 +129,27 @@ StoreNotFoundException is thrown whenever a store is being searched for but cann
 This is an exception that is thrown whenever a store is created, but one with the same name already exists. 
 
 ## LocalTests Package
+
+### BookTest
+The BookTest class handles testing of the Book class. This tests all the important methods, including the hashCode and equals methods. The test makes several books to ensure they are correct, and uses them to test the methods, to make sure they don't break even as we add new features. This class interacts directly with the Book class. 
+
+### BuyerTest
+The BuyerTest class tests the buyer's cart, and makes sure that Buyer classes are being created and accessed correctly. This test interacts with both the User and Buyer classes. 
+
+### MarketplaceTest
+This class tests the Marketplace class, and the saving of the marketplace object. The test makes sure that all important methods of the marketplace work appropriately, and that the marketplace can be saved as needed. **When using this test, the marketplace.ser file will be cleared, so be careful.** This class also makes sure the Marketplace interacts with Books, Stores, and Users correctly, since the marketplace object is the root of our datastructure. 
+
+### ReviewTest
+The ReviewTest class tests adding a review, printing a review, and displaying the star system, all key aspects of the review object. This test interacts with the Review, Buyer, and Seller classes. 
+
+### SellerTest
+This test makes sure that creating a store, creating books, saving books to a store, and updating stock, work as intended. This test works with the Book, Store, and Seller classes. 
+
+### StatsTest
+The stats test ensures that all apsects of Stats work. This test must interact with the Buyer, Seller, and Stats objects. The test makes sure that Stats can be created and work with the buyers and sellers classes. 
+
+### StoreTest
+This class tests the Store object of the marketplace. It makes sure that stock is added to a user's store correctly, and that the average rating is calculated correctly. This class interacts with Store and Seller primarily. 
+
+### UserTest
+The UserTest tests aspects of the User class. The test makes sure that users are being created correctly and that passwords are hashed correectly. The test also checks displayPassword is working. This class primarily interacts with the User class. 

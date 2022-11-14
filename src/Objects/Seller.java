@@ -11,16 +11,16 @@ import java.util.Scanner;
 import java.util.HashMap;
 
 /**
-* Contains an ArrayList of Stores and
-* methods for creating, editing or deleting 
-* a seller’s store.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
+ * Contains an ArrayList of Stores and
+ * methods for creating, editing or deleting
+ * a seller’s store.
+ *
+ * @author Michael Dimitrov
+ * @author Federico Lebron
+ * @author Sanya Mehra
+ * @author Aaron Ni
+ * @author Diya Singh
+ */
 
 /* TODO
     - check for duplicate books
@@ -89,12 +89,13 @@ public class Seller extends User implements Serializable {
             System.out.println("5. Add a SALE");
             System.out.println("6. View reviews");
             System.out.println("7. View seller stats");
-            System.out.println("8. Import / Export Inventory");
-            System.out.println("9. SIGN OUT");
+            System.out.println("8. View buyer carts");
+            System.out.println("9. Import / Export Inventory");
+            System.out.println("10. SIGN OUT");
 
             option = scanner.nextLine();
 
-        } while (!"123456789".contains(option));
+        } while (!"12345678910".contains(option));
 
         switch (option) {
             case "1":
@@ -267,13 +268,51 @@ public class Seller extends User implements Serializable {
                 } while (!"1234567".contains(statsSelectionInput));
                 break;
             case "8":
+                // lists off all users that have a cart with the Seller's product and prints the contents of the carts
+                System.out.println("*******************");
+                System.out.println("NOTE: You can only see the products you sell in carts for privacy");
+
+                // loops through all users
+                boolean isCartWithProduct = false;
+                for (User user : BookApp.marketplace.getUsers()) {
+                    // checks if user is a buyer
+                    if (user instanceof Buyer) {
+                        // string lists all of Buyer's books in cart that are sold by the Seller
+                        String cartContents = "";
+                        // loops through each book in that buyers cart
+                        for (Book bookInCart : ((Buyer) user).getCart().keySet()) {
+                            // loops through Seller's stores and cross-references to see if the book belongs
+                            // to one of the Seller's store
+                            for (Store store : stores) {
+                                // checks if book's store is one of the Seller's
+                                if (bookInCart.getStore().equals(store.getName())) {
+                                    isCartWithProduct = true;
+                                    cartContents += String.format("- %s | Qty: %d",
+                                            bookInCart.getName(), ((Buyer) user).getCart().get(bookInCart));
+                                }
+                            }
+                        }
+
+                        // prints Buyer's name and cart if user had any books in cart that are sold by the seller
+                        // ONLY PRINTS CART CONTENTS THAT ARE SOLD BY THE SELLER; WILL NOT SHOW EVERYTHING IN CART
+                        if (cartContents.length() > 0) {
+                            System.out.println("CART CONTENTS OF: " + user.getName());
+                            System.out.println(cartContents);
+                        }
+                    }
+                }
+
+                if (!isCartWithProduct)
+                    System.out.println("NO CARTS CONTAIN PRODUCTS YOU SELL");
+                break;
+            case "9":
                 // Note: Menu header is provided in fileIOMenu
                 Seller seller = (Seller) BookApp.marketplace.getCurrentUser();
 
                 FileIOMenu fileIOMenu = new FileIOMenu();
                 fileIOMenu.fileIOMenu(scanner, seller);
                 break;
-            case "9":
+            case "10":
                 BookApp.marketplace.saveMarketplace();
                 return false;
         }

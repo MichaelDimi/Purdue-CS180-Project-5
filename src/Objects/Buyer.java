@@ -28,14 +28,6 @@ public class Buyer extends User implements Serializable {
 
     // returns and validates that items in cart still exist
     public HashMap<Book, Integer> getCart() {
-        // TODO: handle if seller removes book while book is still in cart
-//        for (Book book : cart.keySet()) {
-//            boolean bookExists = false;
-//            // checks if there are enough books in stock to purchase
-//            if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
-//
-//            }
-//        }
         return cart;
     }
 

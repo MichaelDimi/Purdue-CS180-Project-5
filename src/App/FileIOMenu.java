@@ -10,7 +10,8 @@ import java.util.Scanner;
 /**
  * This class contains the menu in which
  * A seller can import or export their stock
- * list
+ * list, and where buyers can export their
+ * purchase history
  *
  * @author Aaron Ni
  * @author Diya Singh

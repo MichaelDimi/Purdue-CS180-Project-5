@@ -6,7 +6,7 @@ import Objects.*;
 
 /**
  * This class contains the menu in which a seller
- * Can create sales for their books.
+ * can create sales for their books.
  *
  * @author Aaron Ni
  * @author Diya Singh

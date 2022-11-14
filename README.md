@@ -53,8 +53,8 @@ When you run the project, for the best experience we suggest making the terminal
 ## Parts Submitted
 | Person | Assignment Part |
 |--|--|
-| Person 1 | Submitted Report on Brightspace |
-| Person 2 | Submitted Vocareum workspace |
+| Aaron Ni | Submitted Report on Brightspace |
+| Michael Dimitrov | Submitted Vocareum workspace |
 
 # Classes
 

@@ -26,10 +26,6 @@ public class SalesMenu {
 
         Seller seller = (Seller) user;
 
-        // TEST DATA -- Uncomment to add a store if data gets remove
-        // seller.getStores().add(new Store("Store 1", seller.getName(),null));
-        // End of test data
-
         HashMap<Book, Integer> books = seller.getSellerBooks();
         if (books.isEmpty()) {
             System.out.println("You have no books.");

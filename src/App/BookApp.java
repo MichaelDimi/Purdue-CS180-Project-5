@@ -20,7 +20,7 @@ public class BookApp {
 
     public static Marketplace marketplace;
 
-    public static String appName = "BOOK APP"; // TODO: make a pun-y name
+    public static String appName = "BOOK APP";
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -33,7 +33,6 @@ public class BookApp {
         // Figures out if user wants to log in or sign up
         // Login or Sign up Loop
         do {
-            System.out.println(marketplace.getUsers()); // TODO: REMOVE THIS (useful for logging in correctly)
 
             String loginSignup;
             boolean validUser = false;

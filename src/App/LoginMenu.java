@@ -4,6 +4,17 @@ import Objects.User;
 
 import java.util.*;
 
+/**
+ * This class displays the menu
+ * for logging in as a user.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class LoginMenu extends Menu {
 
     @Override

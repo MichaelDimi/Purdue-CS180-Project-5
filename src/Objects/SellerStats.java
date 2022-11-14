@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
-* This class contains detailed stats for sellers.
-This includes the books sold, who bought them 
-And the most purchased books.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains detailed stats for sellers.
+ * This includes the books sold, who bought them
+ * And the most purchased books.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class SellerStats implements Serializable {
 
     /**
@@ -182,7 +182,9 @@ public class SellerStats implements Serializable {
                         // sorted by least frequent
                         // prints the sorted array in reverse
                         for (int i = sortedBuyers.length - 1; i >= 0; i--) {
-                            System.out.println(sortedBuyers[i].getName() + " | Purchases: " + buyers.get(sortedBuyers[i]));
+                            System.out.println(sortedBuyers[i].getName() +
+                                    " | Purchases: " +
+                                    buyers.get(sortedBuyers[i]));
 
                             for (Book book : sortedBuyers[i].getPurchaseHistory().keySet()) {
                                 book.printBookListItem(null, sortedBuyers[i].getPurchaseHistory().get(book));
@@ -242,7 +244,9 @@ public class SellerStats implements Serializable {
                         // sorted by least frequent
                         // prints the sorted array in reverse
                         for (int i = sortedBuyers.length - 1; i >= 0; i--) {
-                            System.out.println(sortedBuyers[i].getName() + " | Purchases: " + buyers.get(sortedBuyers[i]));
+                            System.out.println(sortedBuyers[i].getName() +
+                                    " | Purchases: " +
+                                    buyers.get(sortedBuyers[i]));
 
                             for (Book book : sortedBuyers[i].getPurchaseHistory().keySet()) {
                                 if (book.getStore().equals(store.getName())) {
@@ -311,12 +315,12 @@ public class SellerStats implements Serializable {
         Buyer[] buyersArr = new Buyer[buyers.size()];
         buyersArr = buyers.keySet().toArray(buyersArr);
 
-        for (int i = 0; i < n-1; i++) {
+        for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (buyers.get(buyersArr[j]) < buyers.get(buyersArr[j+1])) {
+                if (buyers.get(buyersArr[j]) < buyers.get(buyersArr[j + 1])) {
                     Buyer temp = buyersArr[j];
-                    buyersArr[j] = buyersArr[j+1];
-                    buyersArr[j+1] = temp;
+                    buyersArr[j] = buyersArr[j + 1];
+                    buyersArr[j + 1] = temp;
                 }
             }
         }

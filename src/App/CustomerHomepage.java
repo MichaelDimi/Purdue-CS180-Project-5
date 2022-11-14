@@ -8,17 +8,17 @@ import Objects.*;
 import java.util.*;
 
 /**
-* This class contains the menu in which a buyer
-* can search for books, buy books ,view their
-* shopping cart and purchase history
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains the menu in which a buyer
+ * can search for books, buy books ,view their
+ * shopping cart and purchase history
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class CustomerHomepage extends Menu {
     /**
      * Displays homepage view for buyer type user.
@@ -103,7 +103,7 @@ public class CustomerHomepage extends Menu {
                 return true; // Go back
             } else {
                 // book to be bought
-                selection = booksArr[response-1];
+                selection = booksArr[response - 1];
             }
 
             // shows more details about selected book and asks user how many copies of book to buy
@@ -163,7 +163,9 @@ public class CustomerHomepage extends Menu {
             System.out.println("Select a store to see their books or reviews:");
             int i = 1;
             for (Store store : storesArr) { //Printing list of books available for sale
-                System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                System.out.println(i + ". " + store.getName() +
+                        " -- Owner: " + store.getSellerName() +
+                        " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
                 i++;
             }
             System.out.println(i + ". BACK");
@@ -244,7 +246,9 @@ public class CustomerHomepage extends Menu {
             System.out.println("Select a store:");
             int i = 1;
             for (Store store : storesArr) { //Printing list of books available for sale
-                System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                System.out.println(i + ". " + store.getName() +
+                        " -- Owner: " + store.getSellerName() +
+                        " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
                 i++;
             }
             System.out.println(i + ". BACK");

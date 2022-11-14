@@ -5,16 +5,16 @@ import java.util.Scanner;
 import Objects.*;
 
 /**
-* This class contains the menu in which a seller
-Can create sales for their books.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains the menu in which a seller
+ * Can create sales for their books.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class SalesMenu {
 
     public void createSale(Scanner scan, User user) {
@@ -63,48 +63,48 @@ public class SalesMenu {
         if (response == i) {
             return;
         } else {
-             Book selectedBook = booksArr[response-1];
-             for (Book b : books.keySet()) {
-                 if (b.equals(selectedBook)) {
-                     String confirm;
-                     do {
-                         System.out.println("What would you like the percent sale to be?");
-                         System.out.println("- Eg. 20 = 20% off");
-                         double percentOff = 0;
-                         boolean percentOffInputError;
-                         do {
-                             percentOffInputError = false;
-                             try {
-                                 percentOff = Double.parseDouble(scan.nextLine());
-                                 if (percentOff < 0 || percentOff > 100) {
-                                     System.out.println("Percent off must be a number between 0 and 100");
-                                     percentOffInputError = true;
-                                 }
-                             } catch (NumberFormatException e) {
-                                 System.out.println("Percent off must be a number between 0 and 100");
-                                 percentOffInputError = true;
-                             }
-                         } while (percentOffInputError);
+            Book selectedBook = booksArr[response - 1];
+            for (Book b : books.keySet()) {
+                if (b.equals(selectedBook)) {
+                    String confirm;
+                    do {
+                        System.out.println("What would you like the percent sale to be?");
+                        System.out.println("- Eg. 20 = 20% off");
+                        double percentOff = 0;
+                        boolean percentOffInputError;
+                        do {
+                            percentOffInputError = false;
+                            try {
+                                percentOff = Double.parseDouble(scan.nextLine());
+                                if (percentOff < 0 || percentOff > 100) {
+                                    System.out.println("Percent off must be a number between 0 and 100");
+                                    percentOffInputError = true;
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Percent off must be a number between 0 and 100");
+                                percentOffInputError = true;
+                            }
+                        } while (percentOffInputError);
 
-                         b.setPercentOff(percentOff);
+                        b.setPercentOff(percentOff);
 
-                         // Confirmation
-                         System.out.println("Is this the final price you want: " + b.finalPrice() + " (Y/N)");
-                         confirm = scan.nextLine();
+                        // Confirmation
+                        System.out.println("Is this the final price you want: " + b.finalPrice() + " (Y/N)");
+                        confirm = scan.nextLine();
 
-                     } while (!confirm.equalsIgnoreCase("y"));
+                    } while (!confirm.equalsIgnoreCase("y"));
 
-                     System.out.println("Setting percent off...");
-                     try {
-                         Thread.sleep(1000); // For dramatic effect
-                     } catch (InterruptedException e) {
-                         System.out.println("Error: Program interruption");
-                     }
-                     System.out.println("Done!");
+                    System.out.println("Setting percent off...");
+                    try {
+                        Thread.sleep(1000); // For dramatic effect
+                    } catch (InterruptedException e) {
+                        System.out.println("Error: Program interruption");
+                    }
+                    System.out.println("Done!");
 
-                     break;
-                 }
-             }
+                    break;
+                }
+            }
         }
     }
 }

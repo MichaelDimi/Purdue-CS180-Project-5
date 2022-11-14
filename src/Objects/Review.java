@@ -3,16 +3,16 @@ package Objects;
 import java.io.Serializable;
 
 /**
-* This class contains fields and methods for
-* a review of a particular store.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains fields and methods for
+ * a review of a particular store.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class Review implements Serializable {
 
     private int rating;
@@ -75,7 +75,11 @@ public class Review implements Serializable {
 
     @Override
     public String toString() {
-        return "Review{" + "rating=" + rating + ", buyer=" + buyer + ", seller=" + sellerName + ", title='" + title + '\'' +
+        return "Review{" +
+                "rating=" + rating +
+                ", buyer=" + buyer +
+                ", seller=" + sellerName +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' + '}';
     }
 

@@ -8,7 +8,16 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
- * TODO: Add javadoc headers to all classes
+ * This class is the place which
+ * stores the books and users and important
+ * methods related to them.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
  */
 public class Marketplace implements Serializable {
     /**
@@ -214,7 +223,8 @@ public class Marketplace implements Serializable {
         // Email regex that I got from here:
         // https://www.baeldung.com/java-email-validation-regex
         // Supports all types of valid emails
-        Pattern regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
+        Pattern regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)" +
+                "*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
         if (!regexPattern.matcher(email).matches()) {
             System.out.println("Whoops: Please enter a valid email");
             return false;
@@ -346,12 +356,12 @@ public class Marketplace implements Serializable {
 
     public static void sortBooksByPrice(Book[] books) {
         int n = books.length;
-        for (int i = 0; i < n-1; i++) {
+        for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (books[j].finalPrice() > books[j+1].finalPrice()) {
+                if (books[j].finalPrice() > books[j + 1].finalPrice()) {
                     Book temp = books[j];
-                    books[j] = books[j+1];
-                    books[j+1] = temp;
+                    books[j] = books[j + 1];
+                    books[j + 1] = temp;
                 }
             }
         }
@@ -362,12 +372,12 @@ public class Marketplace implements Serializable {
         Book[] booksArr = new Book[books.size()];
         booksArr = books.keySet().toArray(booksArr);
 
-        for (int i = 0; i < n-1; i++) {
+        for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (books.get(booksArr[j]) < books.get(booksArr[j+1])) {
+                if (books.get(booksArr[j]) < books.get(booksArr[j + 1])) {
                     Book temp = booksArr[j];
-                    booksArr[j] = booksArr[j+1];
-                    booksArr[j+1] = temp;
+                    booksArr[j] = booksArr[j + 1];
+                    booksArr[j + 1] = temp;
                 }
             }
         }

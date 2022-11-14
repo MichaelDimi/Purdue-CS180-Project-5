@@ -1,4 +1,4 @@
-package LocalTests;// Testing imports
+package LocalTests; // Testing imports
 
 import App.BookApp;
 import Objects.*;
@@ -19,19 +19,18 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 
 /**
-* This class contains test cases for 
-* Methods in Marketplace.java
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
-/**
  * IMPORTANT: Running these tests WILL clear the market.
  * Do not use these tests if you have a market that you want to keep
+ *
+ * This class contains test cases for
+ * Methods in Marketplace.java
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
  */
 
 public class MarketplaceTest {
@@ -47,6 +46,10 @@ public class MarketplaceTest {
         }
     }
 
+    /**
+     * @author Group
+     * @version 11/13/22
+     */
     public static class TestCase {
 
         private final PrintStream originalOutput = System.out;
@@ -81,7 +84,8 @@ public class MarketplaceTest {
                 Marketplace market = BookApp.marketplace;
                 Seller seller = new Seller("Seller",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4" +
+                                "b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 market.setCurrentUser(seller);
 
@@ -105,7 +109,8 @@ public class MarketplaceTest {
 
                 Seller seller = new Seller("Seller",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 market.setCurrentUser(seller);
                 market.addToUsers(seller);
@@ -115,7 +120,8 @@ public class MarketplaceTest {
                 Marketplace newMarket = Marketplace.readMarketplace();
 
                 String expected = "Marketplace{users=[Seller<Seller, Someone@email.com, " +
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144, " +
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b8" +
+                        "6a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144, " +
                         "[], Stats{booksSold={}, buyers={}}>], currentUser=null}";
 
                 assertNotNull(newMarket);
@@ -142,15 +148,18 @@ public class MarketplaceTest {
 
                 Seller seller1 = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a" +
+                                "6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Seller seller2 = new Seller("Seller 2",
                         "AnotherEmail2gmail.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b8" +
+                                "6a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Buyer buyer1 = new Buyer("Buyer 1",
                         "buyer@yahoo.bg",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6" +
+                                "b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 market.addToUsers(seller1);
                 market.addToUsers(seller2);
@@ -159,13 +168,16 @@ public class MarketplaceTest {
 
                 assertNull("Getting a user that does not exist should return null", market.getUserByUsername("Null"));
 
-                assertEquals("Make sure getting user by username works", seller1.toString().trim(), market.getUserByUsername("Seller 1").toString().trim());
+                assertEquals("Make sure getting user by username works",
+                        seller1.toString().trim(),
+                        market.getUserByUsername("Seller 1").toString().trim());
 
                 assertNull("Getting a user with a non-existent email should return null",
                         market.getUserByEmail("randomEmail@hotmail.com"));
 
-                assertEquals("Make sure getting user by username works", buyer1.toString().trim(), market.getUserByEmail("buyer@yahoo" +
-                        ".bg").toString().trim());
+                assertEquals("Make sure getting user by username works",
+                        buyer1.toString().trim(),
+                        market.getUserByEmail("buyer@yahoo" + ".bg").toString().trim());
 
                 market.clearMarketplace();
 
@@ -184,15 +196,18 @@ public class MarketplaceTest {
 
                 Seller seller1 = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Seller seller2 = new Seller("Seller 1",
                         "AnotherEmail2gmail.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b" +
+                                "86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Buyer buyer1 = new Buyer("Buyer 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a" +
+                                "6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 market.addToUsers(seller1);
@@ -219,11 +234,13 @@ public class MarketplaceTest {
 
                 Seller seller1 = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4" +
+                                "b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Seller seller2 = new Seller("Seller 1",
                         "AnotherEmail2gmail.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b6" +
+                                "6a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 market.addToUsers(seller1);
                 market.addToUsers(seller2);
@@ -258,11 +275,13 @@ public class MarketplaceTest {
 
                 Seller seller1 = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b" +
+                                "66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Seller seller2 = new Seller("Seller 1",
                         "AnotherEmail2gmail.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 market.addToUsers(seller1);
                 market.addToUsers(seller2);
@@ -293,11 +312,13 @@ public class MarketplaceTest {
 
                 Seller seller1 = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b" +
+                                "66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Seller seller2 = new Seller("Seller 1",
                         "AnotherEmail2gmail.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a" +
+                                "6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 market.addToUsers(seller1);
                 market.addToUsers(seller2);
@@ -306,7 +327,8 @@ public class MarketplaceTest {
                 seller1.createNewStore("Store 1");
                 seller2.createNewStore("Store 2");
 
-                String expected = "[Store{name=Store 1,\n" + "stock={},\n" + "reviews=[]}, Store{name=Store 2,\n" + "stock={},\n" + "reviews=[]}]";
+                String expected = "[Store{name=Store 1,\nstock={},\nreviews=[]}, " +
+                        "Store{name=Store 2,\n" + "stock={},\n" + "reviews=[]}]";
 
                 assertEquals("Check getting all market stores", expected.trim(), market.getStores().toString().trim());
 
@@ -326,11 +348,13 @@ public class MarketplaceTest {
 
                 Seller seller1 = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a" +
+                                "6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Seller seller2 = new Seller("Seller 1",
                         "AnotherEmail2gmail.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b6" +
+                                "6a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 market.addToUsers(seller1);
                 market.addToUsers(seller2);
@@ -348,13 +372,16 @@ public class MarketplaceTest {
 
                 assertEquals("Check getting the quantity of a book", 10, market.getBookQuantity(book1));
 
-                String expected = "{Book{name='Book 2', store='Store 2', genre='Romance', description='A romantic book', " +
-                        "price=100.0}=17, Book{name='Book 1', store='Store 1', genre='Horror', description='Scary Book', " +
-                        "price=100.0}=10}";
+                String expected = "{Book{name='Book 2', store='Store 2', genre='Romance', " +
+                        "description='A romantic book', price=100.0}=17, " +
+                        "Book{name='Book 1', store='Store 1', genre='Horror', " +
+                        "description='Scary Book', price=100.0}=10}";
                 assertEquals("Check getting all books from market", expected, market.getBooks().toString().trim());
 
-                expected = "{Book{name='Book 1', store='Store 1', genre='Horror', description='Scary Book', price=100.0}=10}";
-                assertEquals("Check that searching books works", expected, market.findBooks("Horror").toString().trim());
+                expected = "{Book{name='Book 1', store='Store 1', genre='Horror', " +
+                        "description='Scary Book', price=100.0}=10}";
+                assertEquals("Check that searching books works",
+                        expected, market.findBooks("Horror").toString().trim());
 
                 market.clearMarketplace();
             } catch (Exception e) {
@@ -373,11 +400,13 @@ public class MarketplaceTest {
 
                 Seller seller1 = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Seller seller2 = new Seller("Seller 1",
                         "AnotherEmail2gmail.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 market.addToUsers(seller1);
                 market.addToUsers(seller2);
@@ -400,15 +429,21 @@ public class MarketplaceTest {
                 booksArr = books.keySet().toArray(booksArr);
 
                 Marketplace.sortBooksByPrice(booksArr);
-                String expected = "[Book{name='Book 3', store='Store 2', genre='Romance', description='A romantic book', " +
-                        "price=20.0}, Book{name='Book 1', store='Store 1', genre='Horror', description='Scary Book', price=50.0}, " +
-                        "Book{name='Book 2', store='Store 2', genre='Romance', description='A romantic book', price=100.0}]";
+                String expected = "[Book{name='Book 3', store='Store 2', genre='Romance', " +
+                        "description='A romantic book', price=20.0}, " +
+                        "Book{name='Book 1', store='Store 1', genre='Horror', " +
+                        "description='Scary Book', price=50.0}, " +
+                        "Book{name='Book 2', store='Store 2', genre='Romance', " +
+                        "description='A romantic book', price=100.0}]";
                 assertEquals("", expected, Arrays.toString(booksArr).trim());
 
                 booksArr = Marketplace.sortBooksByQuantity(books);
-                expected = "[Book{name='Book 2', store='Store 2', genre='Romance', description='A romantic book', price=100.0}, " +
-                        "Book{name='Book 1', store='Store 1', genre='Horror', description='Scary Book', price=50.0}, " +
-                        "Book{name='Book 3', store='Store 2', genre='Romance', description='A romantic book', price=20.0}]";
+                expected = "[Book{name='Book 2', store='Store 2', genre='Romance', " +
+                        "description='A romantic book', price=100.0}, " +
+                        "Book{name='Book 1', store='Store 1', genre='Horror', " +
+                        "description='Scary Book', price=50.0}, " +
+                        "Book{name='Book 3', store='Store 2', genre='Romance', " +
+                        "description='A romantic book', price=20.0}]";
                 assertEquals("", expected, Arrays.toString(booksArr).trim());
 
                 market.clearMarketplace();

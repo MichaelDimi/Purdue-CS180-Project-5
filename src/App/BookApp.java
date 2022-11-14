@@ -4,18 +4,19 @@ import Objects.*;
 
 import java.util.Objects;
 import java.util.Scanner;
-/**
-* This class contains the main method and is the
-* center of our program. It runs on a loop until the
-* user exits.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
 
+/**
+ * This class contains the main method and is the
+ * center of our program. It runs on a loop until the
+ * user exits.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class BookApp {
 
     public static Marketplace marketplace;
@@ -40,7 +41,9 @@ public class BookApp {
             do {
                 System.out.println("1. Login\n2. Sign Up\n3. EXIT");
                 loginSignup = scan.nextLine();
-                if (!Objects.equals(loginSignup, "1") && !Objects.equals(loginSignup, "2") && !Objects.equals(loginSignup, "3")) {
+                if (!Objects.equals(loginSignup, "1") &&
+                        !Objects.equals(loginSignup, "2") &&
+                        !Objects.equals(loginSignup, "3")) {
                     System.out.println("Whoops: Please enter (1), (2), or (3)");
                     continue;
                 }

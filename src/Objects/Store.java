@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
-* This class mainly contains a hashmap of books 
-* an ArrayList of Reviews
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class mainly contains a hashmap of books
+ * an ArrayList of Reviews
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class Store implements Serializable {
 
     /**

@@ -3,18 +3,19 @@ package App;
 import Objects.*;
 
 import java.util.Scanner;
-/**
-* This class is used to print a menu to modify a
-* user’s account. The options are reset email, 
-*  password, username or account deletion.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
 
+/**
+ * This class is used to print a menu to modify a
+ * user’s account. The options are reset email,
+ * password, username or account deletion.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class AccountMenu extends Menu {
 
     @Override
@@ -26,11 +27,9 @@ public class AccountMenu extends Menu {
 
         do {
 
-            System.out.printf(
-                    "You are a %s. Create a new account to become a %s.\n",
+            System.out.printf("You are a %s. Create a new account to become a %s.\n",
                     user instanceof Buyer ? "BUYER" : "SELLER",
-                    user instanceof Buyer ? "SELLER" : "BUYER"
-                    );
+                    user instanceof Buyer ? "SELLER" : "BUYER");
             System.out.println("Username: " + user.getName());
             System.out.println("Email: " + user.getEmail());
             System.out.println("Password: " + user.getDisplayPassword());

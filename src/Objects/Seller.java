@@ -10,24 +10,24 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
-/**
- * Contains an ArrayList of Stores and
- * methods for creating, editing or deleting
- * a seller’s store.
- *
- * @author Michael Dimitrov
- * @author Federico Lebron
- * @author Sanya Mehra
- * @author Aaron Ni
- * @author Diya Singh
- */
-
 /* TODO
     - check for duplicate books
     - check for duplicate stores
     - update books in cart when something is edited
  */
 
+/**
+ * Contains an ArrayList of Stores and
+ * methods for creating, editing or deleting
+ * a seller’s store.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class Seller extends User implements Serializable {
     /**
      * List of the stores owned by Seller
@@ -74,7 +74,6 @@ public class Seller extends User implements Serializable {
             System.out.println("STORE SUCCESSFULLY CREATED");
         }
     }
-
     // menu when creating/editing stores or adding/editing books
     public boolean editStore(Scanner scanner) {
 
@@ -188,7 +187,10 @@ public class Seller extends User implements Serializable {
                 System.out.println("Select a store to see their books or reviews:");
                 int i = 1;
                 for (Store store : storesArr) { //Printing list of books available for sale
-                    System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                    System.out.println(i + ". " + store.getName() +
+                            " -- Owner: " + store.getSellerName() +
+                            " -- Rating:" + " " +
+                            Review.starDisplay(store.getAverageRating()));
                     i++;
                 }
                 System.out.println(i + ". BACK");

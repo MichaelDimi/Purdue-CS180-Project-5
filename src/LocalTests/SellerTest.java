@@ -1,4 +1,4 @@
-package LocalTests;// Testing imports
+package LocalTests; // Testing imports
 
 import App.BookApp;
 import Objects.Book;
@@ -20,16 +20,16 @@ import java.util.Scanner;
 import static org.junit.Assert.*;
 
 /**
-* This class contains test cases for 
-* Methods in Seller.java
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains test cases for
+ * Methods in Seller.java
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class SellerTest {
 
     public static void main(String[] args) {
@@ -43,6 +43,10 @@ public class SellerTest {
         }
     }
 
+    /**
+     * @author Group
+     * @version 11/13/22
+     */
     public static class TestCase {
 
         private final PrintStream originalOutput = System.out;
@@ -80,7 +84,8 @@ public class SellerTest {
             try {
                 Seller seller = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 seller.createNewStore("Store 1");
@@ -106,7 +111,8 @@ public class SellerTest {
 
                 Seller seller = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 seller.createNewStore("Store 1");
@@ -135,12 +141,14 @@ public class SellerTest {
 
                 Seller seller = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 Buyer buyer = new Buyer("Buyer 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 seller.createNewStore("Store 1");

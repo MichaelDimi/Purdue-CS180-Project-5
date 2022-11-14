@@ -6,18 +6,19 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-/**
-* This class contains the menu in which 
-*A seller can import or export their stock
-*list
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
 
+/**
+ * This class contains the menu in which
+ * A seller can import or export their stock
+ * list
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class FileIOMenu extends Menu {
 
     public void fileIOMenu(Scanner scan, User user) {
@@ -301,21 +302,21 @@ public class FileIOMenu extends Menu {
                 int beginIndex = 0;
                 for (int i = 0; i < 5; i++) { // We know the csv is 5 long
                     // If no quotes in the substring, then go from beginning to next comma
-                    int nextIndex = ln.indexOf(',', beginIndex+1);
+                    int nextIndex = ln.indexOf(',', beginIndex + 1);
                     String s = ln.substring(beginIndex, nextIndex);
                     if (s.contains("\"")) {
                         String traverse = ln.substring(beginIndex);
                         for (int j = 1; j < traverse.length(); j++) {
-                            if (traverse.charAt(j) == '\"' && traverse.charAt(j+1) == '\"') {
+                            if (traverse.charAt(j) == '\"' && traverse.charAt(j + 1) == '\"') {
                                 j++; // Skip the double quotes
                                 continue;
                             }
                             if (traverse.charAt(j) == '\"') {
-                                nextIndex = beginIndex+j; // Stop before end quote
+                                nextIndex = beginIndex + j; // Stop before end quote
                                 break;
                             }
                         }
-                        s = ln.substring(beginIndex+1, nextIndex); // +1 to exclude start quote
+                        s = ln.substring(beginIndex + 1, nextIndex); // +1 to exclude start quote
                         nextIndex++; // skip end quote to start the next substring
                         // Replace double quotes with single
                         s = s.replace("\"\"", "\"");

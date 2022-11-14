@@ -9,8 +9,30 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
 - [Compiling and Running](#How-to-compile-and-run-the-project)
 - [Parts Submitted](#Parts-Submitted)
 - [Classes](#Classes)
-    - [ClassOne](#ClassOne)
-    - [ClassTwo](#ClassTwo)
+  - [App Package](#App-Package)
+    - [BookApp](#BookApp)
+    - [CustomerHomepage](#CustomerHomepage)
+    - [AccountMenu](#AccountMenu)
+    - [FileIOMenu](#FileIOMenu)
+    - [LoginMenu](#LoginMenu)
+    - [SignUpMenu](#SignUpMenu)
+    - [SalesMenu](#SalesMenu)
+    - [ReviewMenu](#ReviewMenu)
+    - [Menu](#Menu)
+  - [Objects Package](#Objects-Package)
+    - [Book](#Book)
+    - [Buyer](#Buyer)
+    - [Marketplace](#Marketplace)
+    - [Review](#Review)
+    - [Seller](#Seller)
+    - [SellerStats](#SellerStats)
+    - [Stats](#Stats)
+    - [Store](#Store)
+    - [User](#User)
+  - [Objects Package](#Objects-Package)
+    - [BookNotFoundException](#BookNotFoundException)
+    - [StoreNotFoundException](#StoreNotFoundException)
+    - [IdenticalStoreException](#IdenticalStoreException)
 
 
 
@@ -29,7 +51,7 @@ When you run the project, for the best experience we suggest making the terminal
 
 # Classes
 
-## App Package:
+## App Package
 
 ### BookApp
 BookApp is where the main method exists for our program. It contains two loops, the outer one, is the logging in loop, and the inner one is the main screen loop. The login loop will always show the login menu when the user is not signed in, and break when the user exits the program. The main menu loop either shows the customer hompage or seller homepage, depending on if the user is a buyer or seller. To test this class we went through all the possible inputs the user could enter to break the menu or cause a crash. This class is the central hub where all other menus connect to. 

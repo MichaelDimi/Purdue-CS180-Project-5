@@ -1,4 +1,4 @@
-package LocalTests;// Testing imports
+package LocalTests; // Testing imports
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,16 +16,16 @@ import Objects.*;
 import static org.junit.Assert.*;
 
 /**
-* This class contains test cases for 
-* Methods in Book.java
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains test cases for
+ * Methods in Book.java
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class BookTest {
 
     public static void main(String[] args) {
@@ -39,6 +39,10 @@ public class BookTest {
         }
     }
 
+    /**
+     * @author Group
+     * @version 11/13/2022
+     */
     public static class TestCase {
 
         private final PrintStream originalOutput = System.out;
@@ -85,17 +89,17 @@ public class BookTest {
                 Book book = new Book("Book 1", "Store 1", "Horror", "Scary Book", 100);
                 book.printBookListItem(5, 10);
                 String output = getOutput().trim(); // Call trim to ignore new lines
-                assertEquals("Check printBookListItem()",
-                        output,
-                        "5. Book 1 -- Store: Store 1 -- Original Price: $100.00 -- Percent off: 0.00% -- Final price: $100.00 -- Quantity: [10]");
+                assertEquals("Check printBookListItem()", output,
+                        "5. Book 1 -- Store: Store 1 -- Original Price: $100.00 " +
+                                "-- Percent off: 0.00% -- Final price: $100.00 -- Quantity: [10]");
 
                 outputStart(); // Clears the output
 
                 book.printBookListItem(null, 10);
                 output = getOutput().trim();
-                assertEquals("Check printBookListItem() with i = null",
-                        output,
-                        "- Book 1 -- Store: Store 1 -- Original Price: $100.00 -- Percent off: 0.00% -- Final price: $100.00 -- Quantity: [10]");
+                assertEquals("Check printBookListItem() with i = null", output,
+                        "- Book 1 -- Store: Store 1 -- Original Price: $100.00 " +
+                                "-- Percent off: 0.00% -- Final price: $100.00 -- Quantity: [10]");
             } catch (Exception e) {
                 e.printStackTrace();
                 fail();

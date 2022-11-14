@@ -1,4 +1,4 @@
-package LocalTests;// Testing imports
+package LocalTests; // Testing imports
 
 import Objects.Book;
 import Objects.Buyer;
@@ -21,7 +21,17 @@ import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-
+/**
+ * This class contains test cases
+ * for the Stats.java class.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class StatsTest {
 
     public static void main(String[] args) {
@@ -34,6 +44,11 @@ public class StatsTest {
             }
         }
     }
+
+    /**
+     * @author Group
+     * @version 11/13/22
+     */
 
     public static class TestCase {
 
@@ -67,15 +82,18 @@ public class StatsTest {
             try {
                 Buyer buyer1 = new Buyer("Buyer 1",
                         "buyer@yahoo.bg",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Buyer buyer2 = new Buyer("Buyer 2",
                         "newBuyer@yahoo.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
                 Buyer buyer3 = new Buyer("Buyer 3",
                         "anotherBuyer@gmial.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 HashMap<User, Integer> buyers = new HashMap<User, Integer>();
@@ -85,11 +103,14 @@ public class StatsTest {
 
                 SellerStats sellerStats = new SellerStats();
 
-                String expected = "[Buyer<Buyer 1, buyer@yahoo.bg, 135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586" +
-                        "b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144, {}, {}>, Buyer<Buyer 3, " +
-                        "anotherBuyer@gmial.com, 135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f" +
-                        "0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144, {}, {}>, Buyer<Buyer 2, newBuyer@yahoo.com, " +
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028" +
+                String expected = "[Buyer<Buyer 1, buyer@yahoo.bg, " +
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586" +
+                        "b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144, " +
+                        "{}, {}>, Buyer<Buyer 3, " + "anotherBuyer@gmial.com, " +
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f" +
+                        "0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144, {}, {}>, " +
+                        "Buyer<Buyer 2, newBuyer@yahoo.com, " + "135ddb0636296c1cb0aa3f74bd852867a4dc64" +
+                        "b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028" +
                         "740caf671f2f50526f8e5a13ebcf144, {}, {}>]";
                 assertEquals("Check the sort buyers by quantity function", expected,
                         Arrays.toString(sellerStats.sortBuyersByQuantity(buyers)).trim());
@@ -99,7 +120,7 @@ public class StatsTest {
                 fail();
             }
         }
-        
+
 
     }
 }

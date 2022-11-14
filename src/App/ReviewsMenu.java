@@ -4,18 +4,17 @@ import Objects.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
 /**
-* This class contains the menu in which a buyer
-* can create a review of a certain store.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains the menu in which a buyer
+ * can create a review of a certain store.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class ReviewsMenu {
 
     /**
@@ -175,7 +174,7 @@ public class ReviewsMenu {
                 return;
             }
             System.out.println("===================");
-            System.out.println(reviews[option-1].print());
+            System.out.println(reviews[option - 1].print());
             System.out.println("Press ENTER to go back");
             scan.nextLine();
         } while (true);

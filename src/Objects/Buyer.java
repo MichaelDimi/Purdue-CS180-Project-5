@@ -7,17 +7,17 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
-* Contains a cart and purchase 
-* history as a Hashmap and has methods to 
-* modify a cart
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * Contains a cart and purchase
+ * history as a Hashmap and has methods to
+ * modify a cart
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class Buyer extends User implements Serializable {
     private HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
     private HashMap<Book, Integer> purchaseHistory = new HashMap<Book, Integer>();
@@ -28,14 +28,6 @@ public class Buyer extends User implements Serializable {
 
     // returns and validates that items in cart still exist
     public HashMap<Book, Integer> getCart() {
-        // TODO: handle if seller removes book while book is still in cart
-//        for (Book book : cart.keySet()) {
-//            boolean bookExists = false;
-//            // checks if there are enough books in stock to purchase
-//            if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
-//
-//            }
-//        }
         return cart;
     }
 

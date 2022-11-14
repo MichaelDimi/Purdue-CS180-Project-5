@@ -6,16 +6,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
-* This class contains the fields and methods for 
-* a book.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains the fields and methods for
+ * a book.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class Book implements Serializable {
     /**
      * The name of the book
@@ -97,7 +97,7 @@ public class Book implements Serializable {
     }
 
     public double finalPrice() {
-        return price - ((price/100)*percentOff); // Calculates percent off
+        return price - ((price / 100) * percentOff); // Calculates percent off
     }
 
     /**
@@ -133,12 +133,14 @@ public class Book implements Serializable {
      */
     public void printBookListItem(Integer i, int q) {
         if (i == null) {
-            System.out.printf("- %s -- Store: %s -- Original Price: $%.2f -- Percent off: %.2f%% -- Final price: $%.2f -- " +
+            System.out.printf("- %s -- Store: %s -- Original Price: $%.2f -- " +
+                            "Percent off: %.2f%% -- Final price: $%.2f -- " +
                             "Quantity: " + "[%d]\n",
                     getName(), getStore(), getPrice(), getPercentOff(), finalPrice(), q);
             return;
         }
-        System.out.printf("%d. %s -- Store: %s -- Original Price: $%.2f -- Percent off: %.2f%% -- Final price: $%.2f -- " +
+        System.out.printf("%d. %s -- Store: %s -- Original Price: $%.2f " +
+                        "-- Percent off: %.2f%% -- Final price: $%.2f -- " +
                         "Quantity: " + "[%d]\n",
                 i, getName(), getStore(), getPrice(), getPercentOff(), finalPrice(), q);
     }
@@ -180,9 +182,7 @@ public class Book implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Book other = (Book) obj;
-        if (!Objects.equals(name, other.getName()))
-            return false;
-        return true;
+        return Objects.equals(name, other.getName());
     }
 }
 

@@ -5,17 +5,17 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
-* This class contains the exception that will
-* be thrown when a book is not found in the
-* database.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains the exception that will
+ * be thrown when a book is not found in the
+ * database.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public abstract class Menu {
 
     /**
@@ -87,7 +87,8 @@ public abstract class Menu {
             // Email regex that I got from here:
             // https://www.baeldung.com/java-email-validation-regex
             // Supports all types of valid emails
-            regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
+            regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)" +
+                    "*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
             if (email.equals("CANCEL")) {
                 return null;
             }

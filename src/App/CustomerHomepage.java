@@ -8,17 +8,17 @@ import Objects.*;
 import java.util.*;
 
 /**
-* This class contains the menu in which a buyer
-* can search for books, buy books ,view their
-* shopping cart and purchase history
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
+ * This class contains the menu in which a buyer
+ * can search for books, buy books ,view their
+ * shopping cart and purchase history
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class CustomerHomepage extends Menu {
     /**
      * Displays homepage view for buyer type user.
@@ -47,7 +47,7 @@ public class CustomerHomepage extends Menu {
             System.out.println("What would you like to do?\n" +
                     "1. Purchase a Book\n" +
                     "2. Search for a Book\n" +
-                    "3. View Store's Inventory or Reviews\n" +
+                    "3. View List of Stores / Store's Inventory or Reviews\n" +
                     "4. Leave a Review\n" +
                     "5. View / Export Purchase History\n" +
                     "6. Your Shopping Cart (" + cartCount + ")\n" +
@@ -103,7 +103,7 @@ public class CustomerHomepage extends Menu {
                 return true; // Go back
             } else {
                 // book to be bought
-                selection = booksArr[response-1];
+                selection = booksArr[response - 1];
             }
 
             // shows more details about selected book and asks user how many copies of book to buy
@@ -160,12 +160,95 @@ public class CustomerHomepage extends Menu {
                 return true;
             }
 
-            System.out.println("Select a store to see their books or reviews:");
+            System.out.println("How would you like to sort stores?");
+            System.out.println("1. Most number of products offered");
+            System.out.println("2. Least number of products offered");
+            System.out.println("3. Your most frequently shopped at");
+            System.out.println("4. Your least frequently shopped at");
+            System.out.println("5. Not sorted");
+
+            // store index - used to make numbered list
             int i = 1;
-            for (Store store : storesArr) { //Printing list of books available for sale
-                System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
-                i++;
-            }
+
+            // displays all books
+            String sortSelection;
+            do {
+                sortSelection = scan.nextLine();
+
+                System.out.println("Select a store to see their books or reviews:");
+
+                // Books sorted by quantity sold
+                Store[] sortedStore;
+                switch (sortSelection) {
+                    case "1":
+                        sortedStore = Marketplace.sortStoresByVarietyOfProducts(stores);
+                        // sorted by most number of products offered
+                        for (Store store : sortedStore) { //Printing list of books available for sale
+                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                                    + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                                    + " -- Products Offered: " + store.getStock().size());
+                            i++;
+                        }
+
+                        // updates the store array with the sorted one
+                        storesArr = sortedStore;
+                        break;
+                    case "2":
+                        sortedStore = Marketplace.sortStoresByVarietyOfProducts(stores);
+                        // sorted by least number of products offered
+                        // prints the sorted array in reverse
+                        for (int k = sortedStore.length - 1; k >= 0; k--) {
+                            // updates store array with reversed sorted array
+                            storesArr[sortedStore.length - k - 1] = sortedStore[k];
+                            System.out.println(i + ". " + sortedStore[k].getName() + " -- Owner: "
+                                    + sortedStore[k].getSellerName() + " -- Rating: "
+                                    + Review.starDisplay(sortedStore[k].getAverageRating())
+                                    + " -- Products Offered: " + sortedStore[k].getStock().size());
+                            i++;
+                        }
+
+                        break;
+                    case "3":
+                        sortedStore = Marketplace.sortStoreByMostFrequentPurchases(buyer, stores);
+                        // sorted by your most frequently shopped at
+                        for (Store store : sortedStore) { //Printing list of books available for sale
+                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                                    + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                                    + " -- Purchases Made at Store: "
+                                    + Marketplace.getNumPurchasesFromStore(buyer, store));
+                            i++;
+                        }
+
+                        // updates the store array with the sorted one
+                        storesArr = sortedStore;
+                        break;
+                    case "4":
+                        sortedStore = Marketplace.sortStoreByMostFrequentPurchases(buyer, stores);
+                        // sorted by your least frequently shopped at
+                        // prints the sorted array in reverse
+                        for (int k = sortedStore.length - 1; k >= 0; k--) {
+                            // updates store array with reversed sorted array
+                            storesArr[sortedStore.length - k - 1] = sortedStore[k];
+                            System.out.println(i + ". " + sortedStore[k].getName() + " -- Owner: "
+                                    + sortedStore[k].getSellerName() + " -- Rating: "
+                                    + Review.starDisplay(sortedStore[k].getAverageRating())
+                                    + " -- Purchases Made at Store: "
+                                    + Marketplace.getNumPurchasesFromStore(buyer, sortedStore[k]));
+                            i++;
+                        }
+
+                        break;
+                    case "5":
+                        // no sort
+                        for (Store store : storesArr) { //Printing list of books available for sale
+                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                                    + " -- Rating: " + Review.starDisplay(store.getAverageRating()));
+                            i++;
+                        }
+                        break;
+                }
+            } while (!"12345".contains(sortSelection));
+
             System.out.println(i + ". BACK");
 
             int response = Menu.selectFromList(i, scan);
@@ -177,6 +260,8 @@ public class CustomerHomepage extends Menu {
             } else {
                 storeSelected = storesArr[response - 1];
             }
+
+            System.out.println("Selected store: " + storeSelected.getName());
 
             String option;
             do {
@@ -244,7 +329,9 @@ public class CustomerHomepage extends Menu {
             System.out.println("Select a store:");
             int i = 1;
             for (Store store : storesArr) { //Printing list of books available for sale
-                System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                System.out.println(i + ". " + store.getName() +
+                        " -- Owner: " + store.getSellerName() +
+                        " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
                 i++;
             }
             System.out.println(i + ". BACK");
@@ -310,7 +397,7 @@ public class CustomerHomepage extends Menu {
 
                         // stores all cart book options in an ArrayList
                         ArrayList<Book> booksInCart = new ArrayList<>(cart.keySet());
-                        int removeFromCartSelection;
+                        int removeFromCartSelection = -1;
                         do {
                             System.out.println("SELECT BOOK TO REMOVE");
                             System.out.println("*******************");
@@ -320,18 +407,48 @@ public class CustomerHomepage extends Menu {
                             }
                             System.out.println((booksInCart.size() + 1) + ". CANCEL");
 
-                            removeFromCartSelection = scan.nextInt();
-                            scan.nextLine();
+                            String selectionInput = scan.nextLine();
 
-                            // looops until a valid input is entered
+                            // try checks user inputted a valid number by attempting to parse the string into an int
+                            try {
+                                removeFromCartSelection = Integer.parseInt(selectionInput);
+
+                                // makes sure user does not input negative number or a number that isn't an option
+                                if (removeFromCartSelection < 0 || removeFromCartSelection > booksInCart.size())
+                                    throw new NumberFormatException();
+
+                            } catch (NumberFormatException e) {
+                                System.out.println("PLEASE ENTER A VALID NUMBER");
+                            }
+
+
+                            // loops until a valid input is entered
                         } while (removeFromCartSelection > cart.size() + 1 || removeFromCartSelection < 0);
 
                         // checks option selected was not the cancel option and then removes selected book by index
                         if (removeFromCartSelection - 1 != cart.size()) {
-                            // asks user for how many books to remove from cart
-                            System.out.println("Please input the quantity you would like to remove:");
-                            int quantityToRemove = scan.nextInt();
-                            scan.nextLine();
+
+                            // loops until a valid input is received
+                            int quantityToRemove = -1;
+                            while (quantityToRemove < 0) {
+                                // asks user for how many books to remove from cart
+                                System.out.println("Please input the quantity you would like to remove:");
+
+                                // prompts for the quantity of books to buy
+                                String quantityInput = scan.nextLine();
+
+                                // try checks user inputted a valid number by attempting to parse the str into an int
+                                try {
+                                    quantityToRemove = Integer.parseInt(quantityInput);
+
+                                    // makes sure user does not input negative number
+                                    if (quantityToRemove < 0)
+                                        throw new NumberFormatException();
+
+                                } catch (NumberFormatException e) {
+                                    System.out.println("PLEASE ENTER A VALID NUMBER");
+                                }
+                            }
 
                             // removes book from cart
                             try {

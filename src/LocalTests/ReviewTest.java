@@ -1,4 +1,4 @@
-package LocalTests;// Testing imports
+package LocalTests; // Testing imports
 
 import Objects.*;
 import org.junit.After;
@@ -17,7 +17,17 @@ import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-
+/**
+ * This class contains all the test cases
+ * for the Review.java class in Objects
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class ReviewTest {
 
     public static void main(String[] args) {
@@ -31,6 +41,10 @@ public class ReviewTest {
         }
     }
 
+    /**
+     * @author Group
+     * @version 11/13/22
+     */
     public static class TestCase {
 
         private final PrintStream originalOutput = System.out;
@@ -68,7 +82,8 @@ public class ReviewTest {
             try {
                 Buyer buyer = new Buyer("Buyer 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 Review review = new Review(3, buyer,
@@ -79,7 +94,8 @@ public class ReviewTest {
                 System.out.println(review.print());
                 String output = getOutput().trim();
 
-                String expected = "★ ★ ★ ☆ ☆\n" + "Buyer 1 says: This store was okay\n" + "Description: The store " +
+                String expected = "★ ★ ★ ☆ ☆\n" + "Buyer 1 says: This store was okay\n" +
+                        "Description: The store " +
                         "could have been nicer, but it was okay\n" + "Owner: Seller 1";
 
                 assertEquals("Check the review print function is returning a string", expected, output);
@@ -95,7 +111,8 @@ public class ReviewTest {
             try {
                 Buyer buyer = new Buyer("Buyer 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 Review review = new Review(3, buyer,
@@ -109,7 +126,8 @@ public class ReviewTest {
 
                 Seller seller = new Seller("Seller 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 seller.createNewStore("Store 1");
@@ -123,10 +141,11 @@ public class ReviewTest {
                     System.out.println(r.print());
                 }
                 String output = getOutput().trim();
-
-                String expected = "★ ★ ★ ☆ ☆\n" + "Buyer 1 says: This store was okay\n" + "Description: The store " +
-                        "could have been nicer, but it was okay\n" + "Owner: Seller 1\n" + "★ ☆ ☆ ☆ ☆\n" +
-                        "Buyer 1 says: Actually its pretty bad\n" + "Description: I remember the store being really unfriendly\n" +
+                output = output.replaceAll("\r\n", "\n");
+                String expected = "★ ★ ★ ☆ ☆\n" + "Buyer 1 says: This store was okay\n" +
+                        "Description: The store could have been nicer, but it was okay\n" +
+                        "Owner: Seller 1\n" + "★ ☆ ☆ ☆ ☆\n" + "Buyer 1 says: Actually its pretty bad\n" +
+                        "Description: I remember the store being really unfriendly\n" +
                         "Owner: Seller 1";
 
                 assertEquals("Check your reviews print and adding", expected, output);
@@ -142,7 +161,8 @@ public class ReviewTest {
             try {
                 Buyer buyer = new Buyer("Buyer 1",
                         "Someone@email.com",
-                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
+                        "135ddb0636296c1cb0aa3f74bd852867a4dc64b97a9f4eb5d68586b47a4b66" +
+                                "a6b86a17658fd95f0d28702b4f76ec1c028740caf671f2f50526f8e5a13ebcf144",
                         "CyberSecure");
 
                 Review review = new Review(3, buyer,

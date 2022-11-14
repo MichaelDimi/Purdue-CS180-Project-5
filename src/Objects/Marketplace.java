@@ -8,7 +8,16 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
- * TODO: Add javadoc headers to all classes
+ * This class is the place which
+ * stores the books and users and important
+ * methods related to them.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
  */
 public class Marketplace implements Serializable {
     /**
@@ -214,7 +223,8 @@ public class Marketplace implements Serializable {
         // Email regex that I got from here:
         // https://www.baeldung.com/java-email-validation-regex
         // Supports all types of valid emails
-        Pattern regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
+        Pattern regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)" +
+                "*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
         if (!regexPattern.matcher(email).matches()) {
             System.out.println("Whoops: Please enter a valid email");
             return false;
@@ -346,12 +356,12 @@ public class Marketplace implements Serializable {
 
     public static void sortBooksByPrice(Book[] books) {
         int n = books.length;
-        for (int i = 0; i < n-1; i++) {
+        for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (books[j].finalPrice() > books[j+1].finalPrice()) {
+                if (books[j].finalPrice() > books[j + 1].finalPrice()) {
                     Book temp = books[j];
-                    books[j] = books[j+1];
-                    books[j+1] = temp;
+                    books[j] = books[j + 1];
+                    books[j + 1] = temp;
                 }
             }
         }
@@ -362,17 +372,70 @@ public class Marketplace implements Serializable {
         Book[] booksArr = new Book[books.size()];
         booksArr = books.keySet().toArray(booksArr);
 
-        for (int i = 0; i < n-1; i++) {
+        for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (books.get(booksArr[j]) < books.get(booksArr[j+1])) {
+                if (books.get(booksArr[j]) < books.get(booksArr[j + 1])) {
                     Book temp = booksArr[j];
-                    booksArr[j] = booksArr[j+1];
-                    booksArr[j+1] = temp;
+                    booksArr[j] = booksArr[j + 1];
+                    booksArr[j + 1] = temp;
                 }
             }
         }
 
         return booksArr;
+    }
+
+    // returns array of Stores sorted by the amount of unique products they sell
+    public static Store[] sortStoresByVarietyOfProducts(ArrayList<Store> stores) {
+        int n = stores.size();
+
+        Store[] storeArr = new Store[stores.size()];
+        storeArr = stores.toArray(storeArr);
+
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (stores.get(j).getStock().size() < stores.get(j+1).getStock().size()) {
+                    Store temp = storeArr[j];
+                    storeArr[j] = storeArr[j+1];
+                    storeArr[j+1] = temp;
+                }
+            }
+        }
+
+        return storeArr;
+    }
+
+    // returns array of Stores sorted by the frequency of purchases from store
+    public static Store[] sortStoreByMostFrequentPurchases(Buyer buyer, ArrayList<Store> stores) {
+        int n = stores.size();
+
+        Store[] storeArr = new Store[stores.size()];
+        storeArr = stores.toArray(storeArr);
+
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (getNumPurchasesFromStore(buyer, stores.get(j))
+                        < getNumPurchasesFromStore(buyer, stores.get(j + 1))) {
+                    Store temp = storeArr[j];
+                    storeArr[j] = storeArr[j+1];
+                    storeArr[j+1] = temp;
+                }
+            }
+        }
+
+        return storeArr;
+    }
+
+    // returns an int with the number of purchases the current user has made at specified store
+    public static int getNumPurchasesFromStore(Buyer buyer, Store store) {
+        int purchaseCount = 0;
+        for (Book book : buyer.getPurchaseHistory().keySet()) {
+            if (book.getStore().equals(store.getName())) {
+                purchaseCount += buyer.getPurchaseHistory().get(book);
+            }
+        }
+
+        return purchaseCount;
     }
 
     public User getCurrentUser() {

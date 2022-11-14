@@ -10,24 +10,24 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
-/**
-* Contains an ArrayList of Stores and
-* methods for creating, editing or deleting 
-* a seller’s store.
-*
-* @author Michael Dimitrov
-* @author Federico Lebron
-* @author Sanya Mehra
-* @author Aaron Ni 
-* @author Diya Singh
-*/
-
 /* TODO
     - check for duplicate books
     - check for duplicate stores
     - update books in cart when something is edited
  */
 
+/**
+ * Contains an ArrayList of Stores and
+ * methods for creating, editing or deleting
+ * a seller’s store.
+ *
+ * @author Aaron Ni
+ * @author Diya Singh
+ * @author Federico Lebron
+ * @author Michael Dimitrov
+ * @author Sanya Mehra
+ * @version 11/13/2022
+ */
 public class Seller extends User implements Serializable {
     /**
      * List of the stores owned by Seller
@@ -74,62 +74,6 @@ public class Seller extends User implements Serializable {
             System.out.println("STORE SUCCESSFULLY CREATED");
         }
     }
-
-    // displays all stores a seller owns and lets seller select a store
-    // returns user selected Store and null if operation cancelled
-    public Store selectStore(Scanner scanner) {
-
-        // checks that seller owns at least 1 store and asks if user wants to make a new store
-        if (stores.size() == 0) {
-            System.out.println("You currently do not own any stores.\nWould you like to create one?");
-            System.out.println("1. Yes");
-            System.out.println("2. No");
-
-            // brings up prompt to create a new store
-            // recursion; could infinitely loop?
-            if (scanner.nextLine().equals("1")) {
-                // TODO: IdenticalStoreException not needed?
-                try {
-                    createNewStore(scanner, this);
-                } catch (IdenticalStoreException e) {
-                    System.out.println(e.getMessage());
-                }
-                // prompts user to select store again from the updated list
-                return selectStore(scanner);
-            }
-
-        } else {
-//            System.out.println("CHOOSE A STORE");
-//            System.out.println("*******************");
-
-            // loops until a valid input is inputted
-            int storeSelection = -1;
-            while (storeSelection > stores.size() || storeSelection < 0) {
-                // displays stores the seller owns
-                for (int i = 0; i < stores.size(); i++) {
-                    System.out.println((i + 1) + ". " + stores.get(i).getName());
-                }
-
-                System.out.println((stores.size() + 1) + ". CANCEL");
-
-                storeSelection = scanner.nextInt() - 1;
-                scanner.nextLine();
-
-                // invalid input
-                if (storeSelection > stores.size())
-                    System.out.println("That is not a valid input.");
-            }
-
-            //  ensures selection was not the cancel option or invalid
-            if (storeSelection < stores.size()) {
-                System.out.println("CURRENT STORE SELECTION: " + stores.get(storeSelection).getName());
-                return stores.get(storeSelection);
-            }
-        }
-
-        return null;
-    }
-
     // menu when creating/editing stores or adding/editing books
     public boolean editStore(Scanner scanner) {
 
@@ -144,12 +88,13 @@ public class Seller extends User implements Serializable {
             System.out.println("5. Add a SALE");
             System.out.println("6. View reviews");
             System.out.println("7. View seller stats");
-            System.out.println("8. Import / Export Inventory");
-            System.out.println("9. SIGN OUT");
+            System.out.println("8. View buyer carts");
+            System.out.println("9. Import / Export Inventory");
+            System.out.println("10. SIGN OUT");
 
             option = scanner.nextLine();
 
-        } while (!"123456789".contains(option));
+        } while (!"12345678910".contains(option));
 
         switch (option) {
             case "1":
@@ -242,7 +187,10 @@ public class Seller extends User implements Serializable {
                 System.out.println("Select a store to see their books or reviews:");
                 int i = 1;
                 for (Store store : storesArr) { //Printing list of books available for sale
-                    System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                    System.out.println(i + ". " + store.getName() +
+                            " -- Owner: " + store.getSellerName() +
+                            " -- Rating:" + " " +
+                            Review.starDisplay(store.getAverageRating()));
                     i++;
                 }
                 System.out.println(i + ". BACK");
@@ -263,8 +211,7 @@ public class Seller extends User implements Serializable {
                 break;
             case "7":
                 // view stats
-                boolean viewingStats = true;
-                int statsSelection;
+                String statsSelectionInput;
                 do {
                     System.out.println("YOUR SALES STATS");
                     System.out.println("*******************");
@@ -276,12 +223,12 @@ public class Seller extends User implements Serializable {
                     System.out.println("6. Most popular genre");
                     System.out.println("7. BACK");
 
-                    statsSelection = scanner.nextInt();
-                    scanner.nextLine();
+                    statsSelectionInput = scanner.nextLine();
 
                     Store storeSelectionStats;
-                    switch (statsSelection) {
-                        case 1:
+                    switch (statsSelectionInput) {
+                        case "1":
+                            // get sales by store
                             // prompts user for store to view stats for
                             System.out.println("Select a store: ");
                             storeSelectionStats = selectStore(scanner);
@@ -290,7 +237,8 @@ public class Seller extends User implements Serializable {
                             if (storeSelectionStats != null)
                                 stats.listSoldBooks(scanner, storeSelectionStats);
                             break;
-                        case 2:
+                        case "2":
+                            // get all buyers by store
                             // prompts user for store to view stats for
                             System.out.println("Select a store: ");
                             storeSelectionStats = selectStore(scanner);
@@ -299,31 +247,74 @@ public class Seller extends User implements Serializable {
                             if (storeSelectionStats != null)
                                 stats.listBuyers(scanner, storeSelectionStats);
                             break;
-                        case 3:
+                        case "3":
+                            // get all books sold
                             stats.listAllSoldBooks(scanner);
                             break;
-                        case 4:
+                        case "4":
+                            // get all buyers
                             stats.listAllBuyers(scanner);
                             break;
-                        case 5:
+                        case "5":
+                            // get total revenue
                             System.out.printf("Total Revenue: $%.2f\n", stats.getRevenue());
                             break;
-                        case 6:
+                        case "6":
+                            // get most popular genre
                             stats.listMostPopularGenre();
                             break;
-                        case 7:
-                            viewingStats = false;
+                        case "7":
+                            // go back
+                            break;
                     }
-                } while (viewingStats);
+                } while (!"1234567".contains(statsSelectionInput));
                 break;
             case "8":
+                // lists off all users that have a cart with the Seller's product and prints the contents of the carts
+                System.out.println("*******************");
+                System.out.println("NOTE: You can only see the products you sell in carts for privacy");
+
+                // loops through all users
+                boolean isCartWithProduct = false;
+                for (User user : BookApp.marketplace.getUsers()) {
+                    // checks if user is a buyer
+                    if (user instanceof Buyer) {
+                        // string lists all of Buyer's books in cart that are sold by the Seller
+                        String cartContents = "";
+                        // loops through each book in that buyers cart
+                        for (Book bookInCart : ((Buyer) user).getCart().keySet()) {
+                            // loops through Seller's stores and cross-references to see if the book belongs
+                            // to one of the Seller's store
+                            for (Store store : stores) {
+                                // checks if book's store is one of the Seller's
+                                if (bookInCart.getStore().equals(store.getName())) {
+                                    isCartWithProduct = true;
+                                    cartContents += String.format("- %s | Qty: %d",
+                                            bookInCart.getName(), ((Buyer) user).getCart().get(bookInCart));
+                                }
+                            }
+                        }
+
+                        // prints Buyer's name and cart if user had any books in cart that are sold by the seller
+                        // ONLY PRINTS CART CONTENTS THAT ARE SOLD BY THE SELLER; WILL NOT SHOW EVERYTHING IN CART
+                        if (cartContents.length() > 0) {
+                            System.out.println("CART CONTENTS OF: " + user.getName());
+                            System.out.println(cartContents);
+                        }
+                    }
+                }
+
+                if (!isCartWithProduct)
+                    System.out.println("NO CARTS CONTAIN PRODUCTS YOU SELL");
+                break;
+            case "9":
                 // Note: Menu header is provided in fileIOMenu
                 Seller seller = (Seller) BookApp.marketplace.getCurrentUser();
 
                 FileIOMenu fileIOMenu = new FileIOMenu();
                 fileIOMenu.fileIOMenu(scanner, seller);
                 break;
-            case "9":
+            case "10":
                 BookApp.marketplace.saveMarketplace();
                 return false;
         }
@@ -490,9 +481,27 @@ public class Seller extends User implements Serializable {
                         // current quantity of specified book
                         Integer bookToRemoveCount = stock.get(bookToRemove);
 
-                        System.out.println("Please input the quantity you would like to remove:");
-                        int quantityToRemove = scanner.nextInt();
-                        scanner.nextLine();
+                        // loops until a valid input is received
+                        int quantityToRemove = -1;
+                        while (quantityToRemove < 0) {
+                            // asks Seller for quantity of items to remove
+                            System.out.println("Please input the quantity you would like to remove:");
+
+                            // prompts for the quantity of books to remove
+                            String quantityInput = scanner.nextLine();
+
+                            // try checks user inputted a valid number by attempting to parse the str into an int
+                            try {
+                                quantityToRemove = Integer.parseInt(quantityInput);
+
+                                // makes sure user does not input negative number
+                                if (quantityToRemove < 0)
+                                    throw new NumberFormatException();
+
+                            } catch (NumberFormatException e) {
+                                System.out.println("PLEASE ENTER A VALID NUMBER");
+                            }
+                        }
 
                         // removes book from hashmap if final quantity is less than or equal 0
                         if (bookToRemoveCount - quantityToRemove <= 0) {
@@ -621,12 +630,19 @@ public class Seller extends User implements Serializable {
 
             System.out.println((books.size() + 1) + ". CANCEL");
 
-            bookSelection = scanner.nextInt() - 1;
-            scanner.nextLine();
+            String selectionInput = scanner.nextLine();
 
-            // invalid input
-            if (bookSelection > books.size())
-                System.out.println("That is not a valid input.");
+            // try checks user inputted a valid number by attempting to parse the string into an int
+            try {
+                bookSelection = Integer.parseInt(selectionInput) - 1;
+
+                // makes sure user does not input negative number or a number that isn't an option
+                if (bookSelection < 0 || bookSelection > stores.size())
+                    throw new NumberFormatException();
+
+            } catch (NumberFormatException e) {
+                System.out.println("PLEASE ENTER A VALID NUMBER");
+            }
         }
 
         // ensures selection was not the cancel option or invalid
@@ -634,6 +650,67 @@ public class Seller extends User implements Serializable {
             // cant select from hashmap by index
             // gets key object from books arraylist with same order as hashmap
             return books.get(bookSelection);
+        }
+
+        return null;
+    }
+
+    // displays all stores a seller owns and lets seller select a store
+    // returns user selected Store and null if operation cancelled
+    public Store selectStore(Scanner scanner) {
+
+        // checks that seller owns at least 1 store and asks if user wants to make a new store
+        if (stores.size() == 0) {
+            System.out.println("You currently do not own any stores.\nWould you like to create one?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+
+            // brings up prompt to create a new store
+            // recursion; could infinitely loop?
+            if (scanner.nextLine().equals("1")) {
+                // TODO: IdenticalStoreException not needed?
+                try {
+                    createNewStore(scanner, this);
+                } catch (IdenticalStoreException e) {
+                    System.out.println(e.getMessage());
+                }
+                // prompts user to select store again from the updated list
+                return selectStore(scanner);
+            }
+
+        } else {
+//            System.out.println("CHOOSE A STORE");
+//            System.out.println("*******************");
+
+            // loops until a valid input is inputted
+            int storeSelection = -1;
+            while (storeSelection > stores.size() || storeSelection < 0) {
+                // displays stores the seller owns
+                for (int i = 0; i < stores.size(); i++) {
+                    System.out.println((i + 1) + ". " + stores.get(i).getName());
+                }
+                System.out.println((stores.size() + 1) + ". CANCEL");
+
+                String selectionInput = scanner.nextLine();
+
+                // try checks user inputted a valid number by attempting to parse the string into an int
+                try {
+                    storeSelection = Integer.parseInt(selectionInput) - 1;
+
+                    // makes sure user does not input negative number or a number that isn't an option
+                    if (storeSelection < 0 || storeSelection > stores.size())
+                        throw new NumberFormatException();
+
+                } catch (NumberFormatException e) {
+                    System.out.println("PLEASE ENTER A VALID NUMBER");
+                }
+            }
+
+            //  ensures selection was not the cancel option or invalid
+            if (storeSelection < stores.size()) {
+                System.out.println("CURRENT STORE SELECTION: " + stores.get(storeSelection).getName());
+                return stores.get(storeSelection);
+            }
         }
 
         return null;

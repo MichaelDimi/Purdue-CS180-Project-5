@@ -64,6 +64,7 @@ The Menu is an abstract class that the other menus should subclass. It provides 
 The Book class contains the mutator and accessor methods for the product's attributes. These include a book's name, store, genre, description, price, and sale percentage. The class also contains a method to display all of these attributes in addition to the quantity of books. There is a method that generates a hash code based on the properties of a book, and an equals method that compares two Book objects.
 
 ### Buyer
+The Buyer class is a subclass of the User superclass. It contains methods to add and remove books from the buyer's cart. There are functionalities that increment the quantity of a book if a buyer already contains a book in the cart and to add a purchase to the buyer's purchase history. The personal information of the buyer including name, email, password, cart, and purchase history is displayed by the class's toString.
 
 ### Marketplace
 

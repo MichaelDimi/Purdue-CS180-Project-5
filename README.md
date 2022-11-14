@@ -1,5 +1,5 @@
 # CS 180 Project 4
-About the project here
+For Project 4 we made a Bookstore app, where users can create accounts for buying or selling books. Our project runs in the command line, and uses text menus and text user input to navigate the app. There are several security features and user experience design choices that went into making our app.
 
 ### Authors
 Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra

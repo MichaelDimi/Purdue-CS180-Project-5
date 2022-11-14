@@ -69,6 +69,7 @@ The Buyer class is a subclass of the User superclass. It contains methods to add
 ### Marketplace
 
 ### Review
+The Review class creates several attributes for a book rating that include rating, buyer, seller's name, title, and description. The numerical value of the rating attribute is converted to a string of stars that reflect the rating. The class's toString displays buyer, seller, and book information, along with the stars rating given to the book.
 
 ### Seller
 

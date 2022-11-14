@@ -60,7 +60,23 @@ The Menu is an abstract class that the other menus should subclass. It provides 
 
 ## Objects Package
 
-### Class 1
+### Book
+
+### Buyer
+
+### Marketplace
+
+### Review
+
+### Seller
+
+### SellerStats
+
+### Stats
+
+### Store
+
+### User
 
 ## Exceptions Package
 All custom exceptions are handled in the app and none cause a crash.

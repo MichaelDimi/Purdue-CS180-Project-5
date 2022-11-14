@@ -58,6 +58,20 @@ The ReviewMenu class contains funcitonality for buyers to leave a review, and fo
 ### Menu
 The Menu is an abstract class that the other menus should subclass. It provides some useful functions used across multiple of the methods. It acts like an interface except the subclasses do not need to inherit all the methods, only the ones they need. The testing for this class is part of the testing for other classes, since the methods are used as part of other menus. This class is a parent of the other menus in the app, and interacts with them. It also interacts with the Marketplace. 
 
+## Objects Package
 
+### Class 1
 
+## Exceptions Package
+All custom exceptions are handled in the app and none cause a crash.
 
+### BookNotFoundException
+BookNotFoundException is thrown whenever a book is being searched for but cannot be found.
+
+### StoreNotFoundException
+StoreNotFoundException is thrown whenever a store is being searched for but cannot be found.
+
+### IdenticalStoreException
+This is an exception that is thrown whenever a store is created, but one with the same name already exists. 
+
+## LocalTests Package

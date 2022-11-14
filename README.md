@@ -152,4 +152,4 @@ The stats test ensures that all apsects of Stats work. This test must interact w
 This class tests the Store object of the marketplace. It makes sure that stock is added to a user's store correctly, and that the average rating is calculated correctly. This class interacts with Store and Seller primarily. 
 
 ### UserTest
-The UserTest tests aspects of the User class. The test makes sure that users are being created correctly and that passwords are hashed correectly. The test also checks displayPassword is working. This class primarily interacts with the User class. 
+The UserTest tests aspects of the User class. The test makes sure that users are being created correctly and that passwords are hashed correctly. The test also checks displayPassword is working. This class primarily interacts with the User class. 

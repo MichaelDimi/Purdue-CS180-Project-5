@@ -29,7 +29,7 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
     - [Stats](#Stats)
     - [Store](#Store)
     - [User](#User)
-  - [Objects Package](#Objects-Package)
+  - [Exceptions Package](#Exceptions-Package)
     - [BookNotFoundException](#BookNotFoundException)
     - [StoreNotFoundException](#StoreNotFoundException)
     - [IdenticalStoreException](#IdenticalStoreException)
@@ -102,10 +102,10 @@ The Marketplace class initializes an ArrayList of User objects consisting of buy
 The Review class creates several attributes for a book rating that include rating, buyer, seller's name, title, and description. The numerical value of the rating attribute is converted to a string of stars that reflect the rating. The class's toString displays buyer, seller, and book information, along with the stars rating given to the book.
 
 ### Seller
-The Seller class is a subclass of the User superclass. The Seller class contains all the general menu options for the seller’s dashboard. The Seller class contains attributes that store information related to the seller’s stores. The class also contains methods that allow the user to create new stores, manage their current stores, update the sock in their stores, add sales to products within stores, view reviews of stores, see their selling statistics, and see the carts of buyers that contain items that they sell. Sellers can view all the products they sell in stores and modify any attributes about the stores or products in the store.
+The Seller class is a subclass of the User superclass. The Seller class contains all the general menu options for the seller’s dashboard. The Seller class contains attributes that store information related to the seller’s stores. The class also contains methods that allow the user to create new stores, manage their current stores, update the sock in their stores, add sales to products within stores, view reviews of stores, see their selling statistics, and see the carts of buyers that contain items that they sell. Sellers can view all the products they sell in stores and modify any attributes about the stores or products in the store. Each Seller class also contains a SellerStats attribute which holds things such as their books sold, their buyers, revenue, and related methods.
 
 ### SellerStats
-
+There is a unique SellerStats attribute for each seller. The SellerStats class contains various attributes and methods related to a seller’s stats such as what books they’ve sold, their revenue, what the most popular genre they sell is, and who has bought what books. For listing off books sold and their buyers, sellers can choose to sort the lists. For listing off books sold, sellers can choose to sort their book list by the most/least popular and frequently bought books. For listing off buyers, sellers can choose to sort the buyer list by most/least frequent and repeat buyers.
 
 ### Stats
 The Stats class contains a HashMap for the books sold by a particular Seller and another HashMap for the buyers who bought books from the particular Seller. The class uses mutator and accessor methods to set and retrieve the values for these two HashMaps and then displays the books sold and buyers for a Seller in its toString.

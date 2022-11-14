@@ -184,7 +184,9 @@ public class CustomerHomepage extends Menu {
                         sortedStore = Marketplace.sortStoresByVarietyOfProducts(stores);
                         // sorted by most number of products offered
                         for (Store store : sortedStore) { //Printing list of books available for sale
-                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating: " + Review.starDisplay(store.getAverageRating()) + " -- Products Offered: " + store.getStock().size());
+                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                                    + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                                    + " -- Products Offered: " + store.getStock().size());
                             i++;
                         }
 
@@ -198,7 +200,10 @@ public class CustomerHomepage extends Menu {
                         for (int k = sortedStore.length - 1; k >= 0; k--) {
                             // updates store array with reversed sorted array
                             storesArr[sortedStore.length - k - 1] = sortedStore[k];
-                            System.out.println(i + ". " + sortedStore[k].getName() + " -- Owner: " + sortedStore[k].getSellerName() + " -- Rating: " + Review.starDisplay(sortedStore[k].getAverageRating()) + " -- Products Offered: " + sortedStore[k].getStock().size());
+                            System.out.println(i + ". " + sortedStore[k].getName() + " -- Owner: "
+                                    + sortedStore[k].getSellerName() + " -- Rating: "
+                                    + Review.starDisplay(sortedStore[k].getAverageRating())
+                                    + " -- Products Offered: " + sortedStore[k].getStock().size());
                             i++;
                         }
 
@@ -207,7 +212,10 @@ public class CustomerHomepage extends Menu {
                         sortedStore = Marketplace.sortStoreByMostFrequentPurchases(buyer, stores);
                         // sorted by your most frequently shopped at
                         for (Store store : sortedStore) { //Printing list of books available for sale
-                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating: " + Review.starDisplay(store.getAverageRating()) + " -- Purchases Made at Store: " + Marketplace.getNumPurchasesFromStore(buyer, store));
+                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                                    + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                                    + " -- Purchases Made at Store: "
+                                    + Marketplace.getNumPurchasesFromStore(buyer, store));
                             i++;
                         }
 
@@ -221,7 +229,11 @@ public class CustomerHomepage extends Menu {
                         for (int k = sortedStore.length - 1; k >= 0; k--) {
                             // updates store array with reversed sorted array
                             storesArr[sortedStore.length - k - 1] = sortedStore[k];
-                            System.out.println(i + ". " + sortedStore[k].getName() + " -- Owner: " + sortedStore[k].getSellerName() + " -- Rating: " + Review.starDisplay(sortedStore[k].getAverageRating()) + " -- Purchases Made at Store: " + Marketplace.getNumPurchasesFromStore(buyer, sortedStore[k]));
+                            System.out.println(i + ". " + sortedStore[k].getName() + " -- Owner: "
+                                    + sortedStore[k].getSellerName() + " -- Rating: "
+                                    + Review.starDisplay(sortedStore[k].getAverageRating())
+                                    + " -- Purchases Made at Store: "
+                                    + Marketplace.getNumPurchasesFromStore(buyer, sortedStore[k]));
                             i++;
                         }
 
@@ -229,7 +241,8 @@ public class CustomerHomepage extends Menu {
                     case "5":
                         // no sort
                         for (Store store : storesArr) { //Printing list of books available for sale
-                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating: " + Review.starDisplay(store.getAverageRating()));
+                            System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                                    + " -- Rating: " + Review.starDisplay(store.getAverageRating()));
                             i++;
                         }
                         break;
@@ -316,7 +329,8 @@ public class CustomerHomepage extends Menu {
             System.out.println("Select a store:");
             int i = 1;
             for (Store store : storesArr) { //Printing list of books available for sale
-                System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName() + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
+                System.out.println(i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                        + " -- Rating:" + " " + Review.starDisplay(store.getAverageRating()));
                 i++;
             }
             System.out.println(i + ". BACK");

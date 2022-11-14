@@ -40,3 +40,17 @@ This class controls the functionality and display for the edit account menu. Her
 
 ### FileIOMenu
 This menu controls imports and exports for sellers or buyers. The menu that is presented checks if the user is buyer or seller, and displays the appropriate messages. The other methods of this class handle the CSV writing and parsing. This class was tested with all possible characters. The first obvious issue is having commas in the user input, given that the data in the CSV file is comma separated. Thus, double quotes are used around inputs where there are commas, however, this presents another problem. Now quotation marks must also be delimited. If there is commas or quotes anywhere in the input, the quotes are replaced by two double quotes, and quotes are put around the input. This is taken into account when reading the file. This class interacts with the user and marketplace primarily, as well as with the customer and seller homepages.
+
+### LoginMenu
+This menu control logging a user in. It is pretty straightforward, as it gets the input for a user's email or username, and password hashes the password, and tries to find the user in the marketplace. If the user logs in successfully, they are set as the current user of the marketplace. We tested many different ways the user could break the input to cause an error, but there is not much that can be done to break it. This class works with the User and Marketplace classes primarily. 
+
+### SignUpMenu
+This class is simialirly straightforward as LoginMenu. Here, the user can create their account for the app, and decide if their account will be for buyer or seller. Before the account can be created, the name and email are validated to make sure they don't already exist in the marketplace. The password is also hashed with SHA-512 before saving to the marketplace. We tested this by making numerous accounts, and making sure the password always saves correctly, and can be used to log back in. We also tested to make sure dulicate accounts cannot be created. This class interacts with User and Marketplace. 
+
+### SalesMenu
+The sales menu is where sellers can create sales for books. The menu ensures that the input is valid, ie in range [0,100], and that it is the correct final price a seller wants to add. If the user does not have any books, the menu also guides them through making a book, if they want. This class was tested to make sure the final price was correct, and that the interface was inuitive. It interacts directly with the Book class and Marketplace. 
+
+### ReviewMenu
+The ReviewMenu class contains funcitonality for buyers to leave a review, and for any user to view the reviews of a particular store. There is custom display for the ratings that this class makes use of. During testing we found, that sellers were able to leave reviews, which was not the correct functionality, so we added a check for that. This class interacts with the Review class, the Buyer and Seller classes, and the Marketplace. 
+
+

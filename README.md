@@ -72,6 +72,7 @@ The Buyer class is a subclass of the User superclass. It contains methods to add
 The Review class creates several attributes for a book rating that include rating, buyer, seller's name, title, and description. The numerical value of the rating attribute is converted to a string of stars that reflect the rating. The class's toString displays buyer, seller, and book information, along with the stars rating given to the book.
 
 ### Seller
+The Seller class is a subclass of the User superclass. It prompts the user to enter information about the store they are creating such as store name and displays a menu that displays several options to the seller such as the ability for them to edit their book stock or view their seller or buyer statistics. The class throws exceptions in the case a book is not found or there are duplicate stores.
 
 ### SellerStats
 

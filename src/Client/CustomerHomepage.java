@@ -1,4 +1,4 @@
-package App;
+package Client;
 
 import Exceptions.BookNotFoundException;
 import Objects.Book;

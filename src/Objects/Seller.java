@@ -1,11 +1,9 @@
 package Objects;
 
-import App.*;
-import Exceptions.BookNotFoundException;
+import Client.*;
 import Exceptions.IdenticalStoreException;
 
 import java.io.Serializable;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;

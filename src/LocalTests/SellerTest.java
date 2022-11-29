@@ -1,6 +1,5 @@
 package LocalTests; // Testing imports
 
-import App.BookApp;
 import Objects.Book;
 import Objects.*;
 import org.junit.After;
@@ -15,7 +14,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import static org.junit.Assert.*;
 

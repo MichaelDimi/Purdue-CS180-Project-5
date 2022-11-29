@@ -9,7 +9,7 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
 - [Compiling and Running](#How-to-compile-and-run-the-project)
 - [Parts Submitted](#Parts-Submitted)
 - [Classes](#Classes)
-  - [App Package](#App-Package)
+  - [Client Package](#App-Package)
     - [BookApp](#BookApp)
     - [CustomerHomepage](#CustomerHomepage)
     - [AccountMenu](#AccountMenu)
@@ -58,7 +58,7 @@ When you run the project, for the best experience we suggest making the terminal
 
 # Classes
 
-## App Package
+## Client Package
 
 ### BookApp
 BookApp is where the main method exists for our program. It contains two loops, the outer one, is the logging in loop, and the inner one is the main screen loop. The login loop will always show the login menu when the user is not signed in, and break when the user exits the program. The main menu loop either shows the customer hompage or seller homepage, depending on if the user is a buyer or seller. To test this class we went through all the possible inputs the user could enter to break the menu or cause a crash. This class is the central hub where all other menus connect to. 

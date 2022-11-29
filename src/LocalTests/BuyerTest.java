@@ -1,6 +1,5 @@
 package LocalTests; // Testing imports
 
-import App.BookApp;
 import Objects.*;
 import org.junit.After;
 import org.junit.Before;

@@ -1,6 +1,6 @@
 package Objects;
 
-import App.BookApp;
+import Client.BookApp;
 
 import java.io.Serializable;
 import java.util.Objects;

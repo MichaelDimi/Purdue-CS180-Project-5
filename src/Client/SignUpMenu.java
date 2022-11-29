@@ -1,4 +1,4 @@
-package App;
+package Client;
 
 import Objects.Buyer;
 import Objects.Seller;

@@ -1,6 +1,5 @@
-import Objects.Marketplace;
+import Objects.*;
 
-import javax.management.openmbean.OpenMBeanConstructorInfo;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -58,9 +57,12 @@ public class Server implements Runnable {
                 Object o = reader.readObject();
                 System.out.println(o.toString());
 
+                writer.writeObject(marketplace);
+
+                reader.close();
+                writer.close();
             } catch (IOException e) {
                 System.out.println("Client disconnected");
-                e.printStackTrace(); // TODO: Maybe remove
                 return;
             } catch (ClassNotFoundException e) {
                 // Not a valid object

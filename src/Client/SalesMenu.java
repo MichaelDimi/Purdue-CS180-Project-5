@@ -1,4 +1,4 @@
-package App;
+package Client;
 
 import java.util.HashMap;
 import java.util.Scanner;

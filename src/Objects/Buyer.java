@@ -1,6 +1,6 @@
 package Objects;
 
-import App.BookApp;
+import Client.BookApp;
 import Exceptions.BookNotFoundException;
 
 import java.io.Serializable;

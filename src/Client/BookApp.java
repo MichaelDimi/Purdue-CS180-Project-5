@@ -22,6 +22,8 @@ import java.util.Scanner;
  * @version 11/13/2022
  */
 public class BookApp {
+    public static ObjectOutputStream writer;
+    public static ObjectInputStream reader;
 
     public static Marketplace marketplace;
 
@@ -40,8 +42,8 @@ public class BookApp {
         try {
             Socket socket = new Socket("localhost", 1111);
 
-            ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream reader = new ObjectInputStream(socket.getInputStream());
+            writer = new ObjectOutputStream(socket.getOutputStream());
+            reader = new ObjectInputStream(socket.getInputStream());
 
             writer.writeObject("I need marketplace");
             BookApp.marketplace = (Marketplace) reader.readObject();
@@ -77,7 +79,13 @@ public class BookApp {
 
                 // Main loop
                 do {
-                    User currentUser = marketplace.getCurrentUser();
+                    // TODO: Wrap in method
+                    Query currentUserQuery = queryServer(Query.Action.GET, null, "currentUser");
+                    User currentUser = (User) currentUserQuery.getObject();
+                    if (currentUser == null) {
+                        break;
+                    }
+//                    User currentUser = marketplace.getCurrentUser();
 
                     if (currentUser instanceof Buyer) {
                         CustomerHomepage customerHomepage = new CustomerHomepage();
@@ -105,6 +113,18 @@ public class BookApp {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Query queryServer(Query.Action a, Object o, String opt) {
+        try {
+            Query query = new Query(a, o, opt);
+            writer.writeObject(query);
+            return (Query) reader.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return new Query();
     }
 }
 

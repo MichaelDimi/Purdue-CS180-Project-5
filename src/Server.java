@@ -40,7 +40,7 @@ public class Server implements Runnable {
     public static class ClientHandler implements Runnable {
         private final Socket client;
 
-        private Marketplace marketplace;
+        public Marketplace marketplace;
 
         public ClientHandler(Socket client, Marketplace marketplace) {
             this.client = client;
@@ -54,8 +54,21 @@ public class Server implements Runnable {
                 ObjectInputStream reader = new ObjectInputStream(client.getInputStream());
                 ObjectOutputStream writer = new ObjectOutputStream(client.getOutputStream());
 
-                Object o = reader.readObject();
-                System.out.println(o.toString());
+                Query query = (Query) reader.readObject();
+
+                switch (query.getAction()) {
+                    case GET:
+                        get(query);
+                        break;
+                    case DELETE:
+                        delete(query);
+                        marketplace.saveMarketplace();
+                        break;
+                    case UPDATE:
+                        update(query);
+                         marketplace.saveMarketplace();
+                        break;
+                }
 
                 writer.writeObject(marketplace);
 
@@ -69,5 +82,20 @@ public class Server implements Runnable {
                 throw new RuntimeException(e);
             }
         }
+
+        public Query get(Query query) {
+            String opt = query.getOptions();
+            switch (opt) {
+                case "currentUser":
+                    query.setObject(this.marketplace.getCurrentUser());
+                    break;
+            }
+
+            return new Query();
+        }
+
+
+
+
     }
 }

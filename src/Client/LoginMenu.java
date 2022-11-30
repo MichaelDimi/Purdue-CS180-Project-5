@@ -1,8 +1,10 @@
 package Client;
 
-import Objects.User;
+import Objects.*;
+import Query.*;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * This class displays the menu
@@ -25,8 +27,6 @@ public class LoginMenu extends Menu {
         String usernameEmail;
         String password;
 
-        User returningUser = null;
-
         String[] input = Menu.validateLoginInput(scan);
 
         if (input == null) {
@@ -47,33 +47,19 @@ public class LoginMenu extends Menu {
         try {
             Thread.sleep(1000); // For dramatic effect
         } catch (InterruptedException e) {
-            System.out.println("Error: Program interruption");
+            System.out.println("Whoops: Program interruption");
         }
 
-        boolean foundUser = false;
-        // Validate in Marketplace
-        ArrayList<User> users = BookApp.marketplace.getUsers();
-        for (User user : users) {
-            System.out.println(user);
-            if (user.getName().equals(usernameEmail) || user.getEmail().equals(usernameEmail)) {
-                if (user.getPassword().equals(hashedPassword)) {
-                    if (user.getName().equals(usernameEmail)) {
-                        returningUser = BookApp.marketplace.getUserByUsername(usernameEmail);
-                    } else {
-                        returningUser = BookApp.marketplace.getUserByEmail(usernameEmail);
-                    }
-                    System.out.println("Welcome back " + returningUser.getName() + "!");
-                    foundUser = true;
-                    break;
-                }
-            }
-        }
-        if (!foundUser) {
+        User returningUser;
+
+        Query loginQuery = BookApp.computeQuery(new String[]{usernameEmail, hashedPassword}, "users", "login");
+        if (loginQuery.getObject().equals(false) || loginQuery.getObject() == null) {
             System.out.println("Invalid username or password");
             return false;
         }
+        returningUser = (User) loginQuery.getObject();
 
-        BookApp.marketplace.setCurrentUser(returningUser);
+        BookApp.currentUser = returningUser;
 
         return true;
     }

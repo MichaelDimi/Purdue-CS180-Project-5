@@ -1,3 +1,5 @@
+package Server;
+
 import Objects.*;
 import Query.*;
 
@@ -27,7 +29,7 @@ public class Server implements Runnable {
                 try {
                     client = serverSocket.accept();
                 } catch (IOException e) {
-                    System.out.println("Server Stopped.");
+                    System.out.println("Server.Server Stopped.");
                     e.printStackTrace(); // TODO: may remove
                     return;
                 }
@@ -51,6 +53,8 @@ public class Server implements Runnable {
         // All communication with client happens here
         @Override
         public void run() {
+            Helpers helpers = new Helpers(marketplace);
+
             try {
                 ObjectInputStream reader = new ObjectInputStream(client.getInputStream());
                 ObjectOutputStream writer = new ObjectOutputStream(client.getOutputStream());
@@ -59,15 +63,15 @@ public class Server implements Runnable {
 
                 if (query instanceof GetQuery) {
                     if (query instanceof ComputeQuery) {
-                        writer.writeObject(compute((ComputeQuery) query));
+                        writer.writeObject(helpers.compute((ComputeQuery) query));
                     } else {
-                        writer.writeObject(get((GetQuery) query));
+                        writer.writeObject(helpers.get((GetQuery) query));
                     }
                 } else if (query instanceof DeleteQuery) {
-                    writer.writeObject(delete((DeleteQuery) query));
+                    writer.writeObject(helpers.delete((DeleteQuery) query));
                     marketplace.saveMarketplace();
                 } else if (query instanceof UpdateQuery) {
-                    writer.writeObject(update((UpdateQuery) query));
+                    writer.writeObject(helpers.update((UpdateQuery) query));
                     marketplace.saveMarketplace();
                 }
 
@@ -84,43 +88,7 @@ public class Server implements Runnable {
             }
         }
 
-        public GetQuery get(GetQuery get) {
-            String opt = get.getOptions();
-            String params = get.getParams();
-            switch (opt) {
-                case "currentUser":
-                    get.setObject(this.marketplace.getCurrentUser());
-                    break;
-            }
-            return get;
-        }
 
-        public Query compute(ComputeQuery compute) {
-            String opt = compute.getOptions();
-            String params = compute.getParams();
-            switch (opt) {
-
-            }
-            return new Query(false, "err: Couldn't find opt/params");
-        }
-
-        public Query update(UpdateQuery update) {
-            String opt = update.getOptions();
-            String params = update.getParams();
-            switch (opt) {
-
-            }
-            return new Query(false, "err: Couldn't find opt/params");
-        }
-
-        public Query delete(DeleteQuery delete) {
-            String opt = delete.getOptions();
-            String params = delete.getParams();
-            switch (opt) {
-
-            }
-            return new Query(false, "err: Couldn't find opt/params");
-        }
 
 
 

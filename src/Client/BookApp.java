@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -26,7 +25,7 @@ public class BookApp {
     public static ObjectOutputStream writer;
     public static ObjectInputStream reader;
 
-    public static Marketplace marketplace;
+//    public static Marketplace marketplace;
 
     public static User currentUser;
 
@@ -48,18 +47,14 @@ public class BookApp {
             writer = new ObjectOutputStream(socket.getOutputStream());
             reader = new ObjectInputStream(socket.getInputStream());
 
-            writer.writeObject("I need marketplace");
-            BookApp.marketplace = (Marketplace) reader.readObject();
-
-            System.out.println(marketplace);
-
             do {
                 String loginSignup;
                 boolean validUser = false;
                 do {
+                    currentUser = null;
                     System.out.println("1. Login\n2. Sign Up\n3. EXIT");
                     loginSignup = scan.nextLine();
-                    if (!Objects.equals(loginSignup, "1") && !Objects.equals(loginSignup, "2") && !Objects.equals(loginSignup, "3")) {
+                    if (!loginSignup.equals("1") && !loginSignup.equals("2") && !loginSignup.equals("3")) {
                         System.out.println("Whoops: Please enter (1), (2), or (3)");
                         continue;
                     }
@@ -78,16 +73,11 @@ public class BookApp {
                     }
                 } while (!validUser);
 
-                marketplace.saveMarketplace();
-
                 // Main loop
                 do {
-                    Query currentUserQuery = getQuery(Query.Action.GET, null, "currentUser");
-                    User currentUser = (User) currentUserQuery.getObject();
                     if (currentUser == null) {
-                        break;
+                        break; // Exit to the login loop
                     }
-//                    User currentUser = marketplace.getCurrentUser();
 
                     if (currentUser instanceof Buyer) {
                         CustomerHomepage customerHomepage = new CustomerHomepage();
@@ -96,7 +86,7 @@ public class BookApp {
                             break;
                         }
                     } else {
-                        Seller seller = (Seller) marketplace.getCurrentUser();
+                        Seller seller = (Seller) currentUser;
                         boolean mainMenu = seller.editStore(scan);
                         if (!mainMenu) {
                             break;
@@ -105,15 +95,12 @@ public class BookApp {
 
                 } while (true); // Main loop
 
-                marketplace.saveMarketplace();
             } while (true); // Login or Sign up Loop
 
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("ERROR CONNECTING TO SERVER");
             System.out.println("Tip: Make sure to start the server first");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -129,9 +116,9 @@ public class BookApp {
         return new Query(false, "err");
     }
 
-    public static Query computeQuery(Object o, String opt, String params) {
+    public static Query computeQuery(String[] input, String opt, String params) {
         try {
-            ComputeQuery get = new ComputeQuery(o, opt, params);
+            ComputeQuery get = new ComputeQuery(input, opt, params);
             writer.writeObject(get);
             return (Query) reader.readObject();
         } catch (IOException | ClassNotFoundException e) {

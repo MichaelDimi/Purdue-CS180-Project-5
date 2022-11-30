@@ -129,6 +129,18 @@ public class BookApp {
         return new Query(false, "err");
     }
 
+    public static Query computeQuery(Object o, String opt, String params) {
+        try {
+            ComputeQuery get = new ComputeQuery(o, opt, params);
+            writer.writeObject(get);
+            return (Query) reader.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return new Query(false, "err");
+    }
+
     public static Query updateQuery(Object o, String opt, String params, Object newVal) {
         try {
             UpdateQuery update = new UpdateQuery(o, opt, params, newVal);

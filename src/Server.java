@@ -58,7 +58,11 @@ public class Server implements Runnable {
                 Query query = (Query) reader.readObject();
 
                 if (query instanceof GetQuery) {
-                    writer.writeObject(get((GetQuery) query));
+                    if (query instanceof ComputeQuery) {
+                        writer.writeObject(compute((ComputeQuery) query));
+                    } else {
+                        writer.writeObject(get((GetQuery) query));
+                    }
                 } else if (query instanceof DeleteQuery) {
                     writer.writeObject(delete((DeleteQuery) query));
                     marketplace.saveMarketplace();
@@ -89,6 +93,15 @@ public class Server implements Runnable {
                     break;
             }
             return get;
+        }
+
+        public Query compute(ComputeQuery compute) {
+            String opt = compute.getOptions();
+            String params = compute.getParams();
+            switch (opt) {
+
+            }
+            return new Query(false, "err: Couldn't find opt/params");
         }
 
         public Query update(UpdateQuery update) {

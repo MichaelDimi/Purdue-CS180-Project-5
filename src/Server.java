@@ -1,5 +1,5 @@
 import Objects.*;
-import Query.Query;
+import Query.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -57,18 +57,14 @@ public class Server implements Runnable {
 
                 Query query = (Query) reader.readObject();
 
-                switch (query.getAction()) {
-                    case GET:
-                        get(query);
-                        break;
-                    case DELETE:
-                        delete(query);
-                        marketplace.saveMarketplace();
-                        break;
-                    case UPDATE:
-                        update(query);
-                         marketplace.saveMarketplace();
-                        break;
+                if (query instanceof GetQuery) {
+                    writer.writeObject(get((GetQuery) query));
+                } else if (query instanceof DeleteQuery) {
+                    writer.writeObject(delete((DeleteQuery) query));
+                    marketplace.saveMarketplace();
+                } else if (query instanceof UpdateQuery) {
+                    writer.writeObject(update((UpdateQuery) query));
+                    marketplace.saveMarketplace();
                 }
 
                 writer.writeObject(marketplace);
@@ -84,16 +80,36 @@ public class Server implements Runnable {
             }
         }
 
-        public Query get(Query query) {
-            String opt = query.getOptions();
+        public GetQuery get(GetQuery get) {
+            String opt = get.getOptions();
+            String params = get.getParams();
             switch (opt) {
                 case "currentUser":
-                    query.setObject(this.marketplace.getCurrentUser());
+                    get.setObject(this.marketplace.getCurrentUser());
                     break;
             }
-
-            return new Query();
+            return get;
         }
+
+        public Query update(UpdateQuery update) {
+            String opt = update.getOptions();
+            String params = update.getParams();
+            switch (opt) {
+
+            }
+            return new Query(false, "err: Couldn't find opt/params");
+        }
+
+        public Query delete(DeleteQuery delete) {
+            String opt = delete.getOptions();
+            String params = delete.getParams();
+            switch (opt) {
+
+            }
+            return new Query(false, "err: Couldn't find opt/params");
+        }
+
+
 
 
 

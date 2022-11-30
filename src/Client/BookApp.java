@@ -1,7 +1,7 @@
 package Client;
 
 import Objects.*;
-import Query.Query;
+import Query.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -82,7 +82,7 @@ public class BookApp {
 
                 // Main loop
                 do {
-                    Query currentUserQuery = queryServer(Query.Action.GET, null, "currentUser");
+                    Query currentUserQuery = getQuery(Query.Action.GET, null, "currentUser");
                     User currentUser = (User) currentUserQuery.getObject();
                     if (currentUser == null) {
                         break;
@@ -117,16 +117,40 @@ public class BookApp {
         }
     }
 
-    public static Query queryServer(Query.Action a, Object o, String opt) {
-        try { // TODO: FINSIH
-            Query query = new Query(o, opt);
-            writer.writeObject(query);
+    public static Query getQuery(Object o, String opt, String params) {
+        try {
+            GetQuery get = new GetQuery(o, opt, params);
+            writer.writeObject(get);
             return (Query) reader.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        return new Query();
+        return new Query(false, "err");
+    }
+
+    public static Query updateQuery(Object o, String opt, String params, Object newVal) {
+        try {
+            UpdateQuery update = new UpdateQuery(o, opt, params, newVal);
+            writer.writeObject(update);
+            return (Query) reader.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return new Query(false, "err");
+    }
+
+    public static Query deleteQuery(String opt, String params) {
+        try {
+            DeleteQuery delete = new DeleteQuery(opt, params);
+            writer.writeObject(delete);
+            return (Query) reader.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return new Query(false, "err");
     }
 }
 

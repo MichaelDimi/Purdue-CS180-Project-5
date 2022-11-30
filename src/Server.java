@@ -1,4 +1,5 @@
 import Objects.*;
+import Query.Query;
 
 import java.io.*;
 import java.net.ServerSocket;

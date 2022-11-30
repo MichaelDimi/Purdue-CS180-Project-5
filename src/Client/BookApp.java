@@ -1,6 +1,7 @@
 package Client;
 
 import Objects.*;
+import Query.Query;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,6 +27,8 @@ public class BookApp {
     public static ObjectInputStream reader;
 
     public static Marketplace marketplace;
+
+    public static User currentUser;
 
     public static String appName = "BOOK APP";
 
@@ -79,7 +82,6 @@ public class BookApp {
 
                 // Main loop
                 do {
-                    // TODO: Wrap in method
                     Query currentUserQuery = queryServer(Query.Action.GET, null, "currentUser");
                     User currentUser = (User) currentUserQuery.getObject();
                     if (currentUser == null) {
@@ -116,8 +118,8 @@ public class BookApp {
     }
 
     public static Query queryServer(Query.Action a, Object o, String opt) {
-        try {
-            Query query = new Query(a, o, opt);
+        try { // TODO: FINSIH
+            Query query = new Query(o, opt);
             writer.writeObject(query);
             return (Query) reader.readObject();
         } catch (IOException | ClassNotFoundException e) {

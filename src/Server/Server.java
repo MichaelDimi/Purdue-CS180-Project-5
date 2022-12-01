@@ -31,7 +31,6 @@ public class Server implements Runnable {
                 try {
                     client = serverSocket.accept();
                     System.out.println("NEW CONNECTION: " + client.getPort()); // Implies a new query
-                    System.out.println(marketplace);
                 } catch (IOException e) {
                     System.out.println("Server Stopped.");
                     e.printStackTrace(); // TODO: may remove
@@ -73,12 +72,15 @@ public class Server implements Runnable {
                     } else {
                         writer.writeObject(helpers.get((GetQuery) query));
                     }
+                    System.out.println(marketplace);
                 } else if (query instanceof DeleteQuery) {
                     writer.writeObject(helpers.delete((DeleteQuery) query));
                     marketplace.saveMarketplace();
+                    System.out.println(marketplace);
                 } else if (query instanceof UpdateQuery) {
                     writer.writeObject(helpers.update((UpdateQuery) query));
                     marketplace.saveMarketplace();
+                    System.out.println(marketplace);
                 }
 
                 writer.flush();

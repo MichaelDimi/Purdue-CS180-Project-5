@@ -88,7 +88,8 @@ public class Seller extends User implements Serializable {
             System.out.println("7. View seller stats");
             System.out.println("8. View buyer carts");
             System.out.println("9. Import / Export Inventory");
-            System.out.println("10. SIGN OUT");
+            System.out.println("10. Edit Account");
+            System.out.println("11. SIGN OUT");
 
             option = scanner.nextLine();
 
@@ -314,6 +315,16 @@ public class Seller extends User implements Serializable {
                 fileIOMenu.fileIOMenu(scanner, seller);
                 break;
             case "10":
+                System.out.println("YOUR ACCOUNT MENU");
+                AccountMenu accountMenu = new AccountMenu();
+                boolean accountMenuResult = accountMenu.present(scanner); // If false, sign out
+                if (!accountMenuResult) {
+                    // Sign out
+                    BookApp.currentUser = null;
+                    return false; // Should break main loop
+                }
+                break;
+            case "11":
 //                BookApp.marketplace.saveMarketplace();
                 return false;
         }

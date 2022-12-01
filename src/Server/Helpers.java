@@ -95,7 +95,13 @@ public class Helpers {
         String opt = delete.getOptions();
         switch (opt) {
             case "users":
-                marketplace.getUsers().remove((User) delete.getObject());
+                User user = (User) delete.getObject();
+                if (user == null) break;
+                String username = user.getName();
+                if (username == null) break;
+                user = marketplace.getUserByUsername(username);
+                if (user == null) break;
+                marketplace.getUsers().remove(user);
                 return new Query(true, "");
         }
         return new Query(false, "err: Couldn't find opt/params");

@@ -110,7 +110,7 @@ public class BookApp {
 
             return q;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Connection refused: Please make sure the server has been started");
         }
 
         return new Query(false, "err");
@@ -134,7 +134,7 @@ public class BookApp {
 
             return q;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Connection refused: Please make sure the server has been started");
         }
 
         return new Query(false, "err");
@@ -157,7 +157,7 @@ public class BookApp {
 
             return q;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Connection refused: Please make sure the server has been started");
         }
 
         return new Query(false, "err");
@@ -180,7 +180,7 @@ public class BookApp {
 
             return q;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Connection refused: Please make sure the server has been started");
         }
 
         return new Query(false, "err");

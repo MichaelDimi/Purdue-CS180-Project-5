@@ -61,6 +61,8 @@ public class LoginMenu extends Menu {
 
         BookApp.currentUser = returningUser;
 
+        System.out.println("Welcome back " + returningUser.getName() + "!");
+
         return true;
     }
 }

@@ -27,6 +27,22 @@ public class Helpers {
                         break; // Sends the query back as null
                 }
                 break;
+            case "books":
+                switch (params) {
+                    case "*":
+                        get.setObject(marketplace.getBooks());
+                        break;
+                    case "find":
+                        get.setObject(marketplace.findBooks((String) get.getObject()));
+                        break;
+                }
+                break;
+            case "stores":
+                switch (params) {
+                    case "*":
+                        get.setObject(marketplace.getStores());
+                        break;
+                }
             default:
                 break;
         }
@@ -80,7 +96,6 @@ public class Helpers {
                                     } else {
                                         returningUser = marketplace.getUserByEmail(usernameEmail);
                                     }
-                                    System.out.println("Welcome back " + returningUser.getName() + "!");
                                     break;
                                 }
                             }

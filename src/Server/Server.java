@@ -30,7 +30,8 @@ public class Server implements Runnable {
                 Socket client;
                 try {
                     client = serverSocket.accept();
-                    System.out.println("NEW CONNECTION");
+                    System.out.println("NEW CONNECTION" + client.getPort()); // Implies a new query
+                    System.out.println(marketplace);
                 } catch (IOException e) {
                     System.out.println("Server Stopped.");
                     e.printStackTrace(); // TODO: may remove
@@ -56,7 +57,6 @@ public class Server implements Runnable {
         // All communication with client happens here
         @Override
         public void run() {
-            System.out.println(client);
             Helpers helpers = new Helpers(marketplace);
 
             try {

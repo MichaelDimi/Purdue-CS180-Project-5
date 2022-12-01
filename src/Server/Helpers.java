@@ -23,6 +23,9 @@ public class Helpers {
                     case "*":
                         get.setObject(marketplace.getUsers());
                         break;
+                    case "name":
+                        get.setObject(marketplace.getUserByUsername((String) get.getObject()));
+                        break;
                     default:
                         break; // Sends the query back as null
                 }
@@ -41,6 +44,10 @@ public class Helpers {
                 switch (params) {
                     case "*":
                         get.setObject(marketplace.getStores());
+                        break;
+                    case "name":
+                        String storeName = (String) get.getObject();
+                        get.setObject(marketplace.getStoreByName(storeName));
                         break;
                 }
             default:
@@ -85,6 +92,20 @@ public class Helpers {
                         return new Query(true, "");
                     }
 
+                }
+                break;
+            case "stores":
+                switch (params) {
+                    case "add":
+                        Seller seller = (Seller) update.getObject();
+                        if (seller == null) break;
+                        User user = marketplace.getUserByUsername(seller.getName());
+                        if (user instanceof Seller) {
+                            seller = (Seller) user;
+                        } else break;
+                        ArrayList<Store> stores = seller.getStores();
+                        stores.add((Store) update.getNewVal());
+                        return new Query(true, "");
                 }
                 break;
         }

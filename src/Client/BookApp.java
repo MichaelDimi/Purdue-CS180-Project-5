@@ -30,7 +30,7 @@ public class BookApp {
 
     public static User currentUser;
 
-    public static String appName = "BOOK APP";
+    public static String appName = "Barnes & Novel";
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -81,7 +81,7 @@ public class BookApp {
                     }
                 } else {
                     Seller seller = (Seller) currentUser;
-                    boolean mainMenu = seller.editStore(scan);
+                    boolean mainMenu = seller.sellerHomepage(scan);
                     if (!mainMenu) {
                         break;
                     }

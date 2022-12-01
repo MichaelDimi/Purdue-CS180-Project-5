@@ -2,13 +2,14 @@ package Objects;
 
 import Client.*;
 import Exceptions.IdenticalStoreException;
+import Query.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
 
-/* TODO
+/*
     - check for duplicate books
     - check for duplicate stores
     - update books in cart when something is edited
@@ -49,7 +50,11 @@ public class Seller extends User implements Serializable {
             // TODO: Catch this exception wherever this function is used.
             throw new IdenticalStoreException("You cannot have an identical store");
         }
-        stores.add(new Store(storeName, this.getName()));
+        Store newStore = new Store(storeName, this.getName());
+        Query addStoreQuery = BookApp.updateQuery(this, "stores", "add", newStore);
+        if (addStoreQuery.getObject() == null || addStoreQuery.getObject().equals(false)) {
+            System.out.println("Whoops: Couldn't add the store. Please try again");
+        }
     }
 
     // lets user add new store which gets added to seller's store arraylist
@@ -68,12 +73,17 @@ public class Seller extends User implements Serializable {
         if (storeName.equals("0")) {
             System.out.println("STORE CREATION CANCELED\n");
         } else {
-            stores.add(new Store(storeName, seller.getName()));
-            System.out.println("STORE SUCCESSFULLY CREATED");
+            Store newStore = new Store(storeName, this.getName());
+            Query addStoreQuery = BookApp.updateQuery(this, "stores", "add", newStore);
+            if (addStoreQuery.getObject() == null || addStoreQuery.getObject().equals(false)) {
+                System.out.println("Whoops: Couldn't add the store. Please try again");
+            } else {
+                System.out.println("STORE SUCCESSFULLY CREATED");
+            }
         }
     }
     // menu when creating/editing stores or adding/editing books
-    public boolean editStore(Scanner scanner) {
+    public boolean sellerHomepage(Scanner scanner) {
 
         String option;
         do {
@@ -93,7 +103,7 @@ public class Seller extends User implements Serializable {
 
             option = scanner.nextLine();
 
-        } while (!"12345678910".contains(option));
+        } while (!"1234567891011".contains(option));
 
         switch (option) {
             case "1":
@@ -179,7 +189,7 @@ public class Seller extends User implements Serializable {
                 if (storesArr.length < 1) {
                     System.out.println("There are no stores in the market yet");
                     System.out.println("Be the first to open a store");
-//                    BookApp.marketplace.saveMarketplace();
+//                    BookApp.marketplace.saveMarketplace(); TODO
                     return true;
                 }
 
@@ -198,7 +208,7 @@ public class Seller extends User implements Serializable {
 
                 Store storeSelected;
                 if (response == i) {
-//                    BookApp.marketplace.saveMarketplace();
+//                    BookApp.marketplace.saveMarketplace(); TODO
                     return true; // Go back
                 } else {
                     storeSelected = storesArr[response - 1];
@@ -275,41 +285,47 @@ public class Seller extends User implements Serializable {
 
                 // loops through all users
                 boolean isCartWithProduct = false;
-//                for (User user : BookApp.marketplace.getUsers()) {
-//                    // checks if user is a buyer
-//                    if (user instanceof Buyer) {
-//                        // string lists all of Buyer's books in cart that are sold by the Seller
-//                        String cartContents = "";
-//                        // loops through each book in that buyers cart
-//                        for (Book bookInCart : ((Buyer) user).getCart().keySet()) {
-//                            // loops through Seller's stores and cross-references to see if the book belongs
-//                            // to one of the Seller's store
-//                            for (Store store : stores) {
-//                                // checks if book's store is one of the Seller's
-//                                if (bookInCart.getStore().equals(store.getName())) {
-//                                    isCartWithProduct = true;
-//                                    cartContents += String.format("- %s | Qty: %d",
-//                                            bookInCart.getName(), ((Buyer) user).getCart().get(bookInCart));
-//                                }
-//                            }
-//                        }
-//
-//                        // prints Buyer's name and cart if user had any books in cart that are sold by the seller
-//                        // ONLY PRINTS CART CONTENTS THAT ARE SOLD BY THE SELLER; WILL NOT SHOW EVERYTHING IN CART
-//                        if (cartContents.length() > 0) {
-//                            System.out.println("CART CONTENTS OF: " + user.getName());
-//                            System.out.println(cartContents);
-//                        }
-//                    }
-//                }
+                Query usersQuery = BookApp.getQuery(null, "users", "*");
+                if (usersQuery.getObject() == null || usersQuery.getObject().equals(false)) {
+                    System.out.println("Whoops: We were unable to get the users from the server");
+                    return true;
+                }
+                @SuppressWarnings("unchecked")
+                ArrayList<User> users = (ArrayList<User>) usersQuery.getObject();
+                for (User user : users) {
+                    // checks if user is a buyer
+                    if (user instanceof Buyer) {
+                        // string lists all of Buyer's books in cart that are sold by the Seller
+                        String cartContents = "";
+                        // loops through each book in that buyers cart
+                        for (Book bookInCart : ((Buyer) user).getCart().keySet()) {
+                            // loops through Seller's stores and cross-references to see if the book belongs
+                            // to one of the Seller's store
+                            for (Store store : stores) {
+                                // checks if book's store is one of the Seller's
+                                if (bookInCart.getStore().equals(store.getName())) {
+                                    isCartWithProduct = true;
+                                    cartContents += String.format("- %s | Qty: %d",
+                                            bookInCart.getName(), ((Buyer) user).getCart().get(bookInCart));
+                                }
+                            }
+                        }
+
+                        // prints Buyer's name and cart if user had any books in cart that are sold by the seller
+                        // ONLY PRINTS CART CONTENTS THAT ARE SOLD BY THE SELLER; WILL NOT SHOW EVERYTHING IN CART
+                        if (cartContents.length() > 0) {
+                            System.out.println("CART CONTENTS OF: " + user.getName());
+                            System.out.println(cartContents);
+                        }
+                    }
+                }
 
                 if (!isCartWithProduct)
                     System.out.println("NO CARTS CONTAIN PRODUCTS YOU SELL");
                 break;
             case "9":
                 // Note: Menu header is provided in fileIOMenu
-                /* Seller seller = (Seller) BookApp.marketplace.getCurrentUser();*/ Seller seller = new Seller("", ""
-                    , "", "");
+                Seller seller = (Seller) BookApp.currentUser;
 
                 FileIOMenu fileIOMenu = new FileIOMenu();
                 fileIOMenu.fileIOMenu(scanner, seller);
@@ -325,10 +341,10 @@ public class Seller extends User implements Serializable {
                 }
                 break;
             case "11":
-//                BookApp.marketplace.saveMarketplace();
+//                BookApp.marketplace.saveMarketplace(); TODO
                 return false;
         }
-//        BookApp.marketplace.saveMarketplace();
+//        BookApp.marketplace.saveMarketplace(); TODO
         return true;
     }
 
@@ -470,7 +486,6 @@ public class Seller extends User implements Serializable {
             switch (scanner.nextLine()) {
                 case "1":
                     this.addBookMenu(scanner, store);
-
                     break;
                 case "2":
                     if (stock.size() == 0) {

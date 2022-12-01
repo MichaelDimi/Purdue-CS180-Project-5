@@ -67,7 +67,6 @@ public class Server implements Runnable {
                 if (query instanceof GetQuery) {
                     if (query instanceof ComputeQuery) {
                         Query q = helpers.compute((ComputeQuery) query);
-                        System.out.println(q);
                         writer.writeObject(q);
                     } else {
                         writer.writeObject(helpers.get((GetQuery) query));

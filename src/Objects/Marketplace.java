@@ -58,7 +58,7 @@ public class Marketplace implements Serializable {
     }
 
     public void saveMarketplace() {
-//        synchronized (Server.LOCK) { // TODO: maybe...?
+        synchronized (Server.LOCK) { // TODO: maybe...?
             // serializes data
             try {
                 FileOutputStream file = new FileOutputStream(filename);
@@ -72,7 +72,7 @@ public class Marketplace implements Serializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//        }
+        }
     }
 
     /**

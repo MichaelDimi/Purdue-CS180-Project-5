@@ -42,7 +42,7 @@ public class SalesMenu {
             books = seller.getSellerBooks(); // Get the books again
         }
 
-        BookApp.marketplace.saveMarketplace();
+//        BookApp.marketplace.saveMarketplace();
 
         Book[] booksArr = new Book[books.size()];
         booksArr = books.keySet().toArray(booksArr);

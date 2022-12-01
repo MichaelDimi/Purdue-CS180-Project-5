@@ -1,6 +1,7 @@
 package Client;
 
 import Objects.*;
+import Query.Query;
 
 import java.util.Scanner;
 
@@ -23,7 +24,7 @@ public class AccountMenu extends Menu {
         // The beginning of each menu should have some indicator
         // I've gone with stars, but we can change later
         System.out.println("*******************");
-        User user = BookApp.marketplace.getCurrentUser();
+        User user = BookApp.currentUser;
 
         do {
 
@@ -50,10 +51,12 @@ public class AccountMenu extends Menu {
                         if (newName.equals(user.getName())) { // Cancel by typing your current name
                             break;
                         }
-                        askUsernameAgain = !BookApp.marketplace.validateName(newName);
+
+                        Query validateNameQuery = BookApp.computeQuery(new String[]{newName}, "users", "validate name");
+                        askUsernameAgain = !(boolean) validateNameQuery.getObject();
                         if (!askUsernameAgain) {
-                            BookApp.marketplace.getCurrentUser().setName(newName);
-                            BookApp.marketplace.saveMarketplace();
+//                            BookApp.marketplace.getCurrentUser().setName(newName);
+//                            BookApp.marketplace.saveMarketplace();
                         }
                     } while (askUsernameAgain);
                     break;
@@ -65,11 +68,12 @@ public class AccountMenu extends Menu {
                         if (newEmail.equals(user.getEmail())) { // Cancel by typing your current email
                             break;
                         }
-                        askEmailAgain = !BookApp.marketplace.validateEmail(newEmail);
-                        if (!askEmailAgain) {
-                            BookApp.marketplace.getCurrentUser().setEmail(newEmail);
-                            BookApp.marketplace.saveMarketplace();
-                        }
+//                        askEmailAgain = !BookApp.marketplace.validateEmail(newEmail);
+//                        if (!askEmailAgain) {
+//                            BookApp.marketplace.getCurrentUser().setEmail(newEmail);
+//                            BookApp.marketplace.saveMarketplace();
+//                        }
+                        askEmailAgain = false;
                     } while (askEmailAgain);
                     break;
                 case "3":
@@ -98,8 +102,8 @@ public class AccountMenu extends Menu {
                                 if (hashedPassword == null) {
                                     return false;
                                 }
-                                BookApp.marketplace.getCurrentUser().setPassword(hashedPassword, confirmPassword);
-                                BookApp.marketplace.saveMarketplace();
+//                                BookApp.marketplace.getCurrentUser().setPassword(hashedPassword, confirmPassword);
+//                                BookApp.marketplace.saveMarketplace();
                             }
                         } while (askPasswordAgain);
                     } else {
@@ -124,7 +128,7 @@ public class AccountMenu extends Menu {
                     }
                     if (hashedPassword2.equals(user.getPassword())) {
                         // Remove from marketplace and sign out
-                        BookApp.marketplace.getUsers().remove(user);
+//                        BookApp.marketplace.getUsers().remove(user);
                         return false;
                     } else {
                         System.out.println("Invalid password");

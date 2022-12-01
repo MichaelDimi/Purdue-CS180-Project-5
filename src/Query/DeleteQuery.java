@@ -1,10 +1,10 @@
 package Query;
 
-public class DeleteQuery extends Query{
+import java.io.Serializable;
+
+public class DeleteQuery extends Query implements Serializable {
 
     private String params;
-
-    private Object newVal;
 
     public DeleteQuery(String opt, String params) {
         super(null, opt);

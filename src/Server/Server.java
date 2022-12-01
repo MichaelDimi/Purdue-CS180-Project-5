@@ -9,6 +9,8 @@ import java.net.Socket;
 
 public class Server implements Runnable {
 
+    public static final Object LOCK = new Object();
+
     public static void main(String[] args) {
         Server server = new Server();
         new Thread(server).start();
@@ -28,8 +30,9 @@ public class Server implements Runnable {
                 Socket client;
                 try {
                     client = serverSocket.accept();
+                    System.out.println("NEW CONNECTION");
                 } catch (IOException e) {
-                    System.out.println("Server.Server Stopped.");
+                    System.out.println("Server Stopped.");
                     e.printStackTrace(); // TODO: may remove
                     return;
                 }
@@ -53,6 +56,7 @@ public class Server implements Runnable {
         // All communication with client happens here
         @Override
         public void run() {
+            System.out.println(client);
             Helpers helpers = new Helpers(marketplace);
 
             try {
@@ -63,7 +67,9 @@ public class Server implements Runnable {
 
                 if (query instanceof GetQuery) {
                     if (query instanceof ComputeQuery) {
-                        writer.writeObject(helpers.compute((ComputeQuery) query));
+                        Query q = helpers.compute((ComputeQuery) query);
+                        System.out.println(q);
+                        writer.writeObject(q);
                     } else {
                         writer.writeObject(helpers.get((GetQuery) query));
                     }
@@ -75,10 +81,10 @@ public class Server implements Runnable {
                     marketplace.saveMarketplace();
                 }
 
-                writer.writeObject(marketplace);
+                writer.flush();
 
-                reader.close();
                 writer.close();
+                reader.close();
             } catch (IOException e) {
                 System.out.println("Client disconnected");
                 return;
@@ -87,13 +93,6 @@ public class Server implements Runnable {
                 throw new RuntimeException(e);
             }
         }
-
-
-
-
-
-
-
 
     }
 }

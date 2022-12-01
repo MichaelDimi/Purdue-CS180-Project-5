@@ -33,7 +33,7 @@ public class ReviewsMenu {
             if (storeName.equals("CANCEL")) {
                 return;
             }
-            store = BookApp.marketplace.getStoreByName(storeName);
+//            store = BookApp.marketplace.getStoreByName(storeName);
         }
 
         if (user instanceof Seller) {
@@ -77,7 +77,8 @@ public class ReviewsMenu {
             String response = scan.nextLine();
             if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("n")) {
                 if (response.equalsIgnoreCase("y")) {
-                    Seller seller = (Seller) BookApp.marketplace.getUserByUsername(store.getSellerName());
+                    /*Seller seller = (Seller) BookApp.marketplace.getUserByUsername(store.getSellerName());
+                    * */ Seller seller = new Seller("", "", "",", ");
                     if (store.getReviews() == null) {
                         store.setReviews(new ArrayList<>());
                     }
@@ -111,7 +112,7 @@ public class ReviewsMenu {
             if (storeName.equals("CANCEL")) {
                 return;
             }
-            store = BookApp.marketplace.getStoreByName(storeName);
+//            store = BookApp.marketplace.getStoreByName(storeName);
         }
 
         if (store.getReviews() == null || store.getReviews().isEmpty()) {
@@ -119,7 +120,7 @@ public class ReviewsMenu {
             System.out.println("Would you like to add a review? (Y/N)");
             String response = scan.nextLine();
             if (response.equalsIgnoreCase("Y")) {
-                leaveReview(scan, BookApp.marketplace.getCurrentUser(), store);
+//                leaveReview(scan, BookApp.marketplace.getCurrentUser(), store);
             } else {
                 return;
             }

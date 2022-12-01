@@ -150,7 +150,8 @@ public class Book implements Serializable {
      */
     public void printBookDetails() {
         System.out.println("Title: " + name);
-        System.out.printf("Price: $%.2f | Qty Available: %d\n", price, BookApp.marketplace.getBooks().get(this));
+//        System.out.printf("Price: $%.2f | Qty Available: %d\n", price, BookApp.marketplace.getBooks().get(this));
+        System.out.printf("Price: $%.2f | Qty Available: %d\n", price, "TODO: REMOVE THIS");
         System.out.println("Store: " + store);
         System.out.println("Genre(s): " + genre);
         System.out.println("Description: " + description);

@@ -77,13 +77,13 @@ public class Buyer extends User implements Serializable {
         boolean canCheckout = true;
         for (Book book : cart.keySet()) {
             // checks if there are enough books in stock to purchase
-            int availableQuantity = BookApp.marketplace.getBookQuantity(book);
-            if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
-                canCheckout = false;
-                System.out.println("SORRY, BUT THERE IS NOT ENOUGH STOCK TO PURCHASE: " + book.getName());
-                System.out.println("CART QUANTITY: " + cart.get(book) + " | AVAILABLE QUANTITY: " + availableQuantity);
-                break;
-            }
+//            int availableQuantity = BookApp.marketplace.getBookQuantity(book);
+//            if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
+//                canCheckout = false;
+//                System.out.println("SORRY, BUT THERE IS NOT ENOUGH STOCK TO PURCHASE: " + book.getName());
+//                System.out.println("CART QUANTITY: " + cart.get(book) + " | AVAILABLE QUANTITY: " + availableQuantity);
+//                break;
+//            }
 
             boolean identicalEntry = false;
             for (Book b : purchaseHistory.keySet()) {
@@ -100,8 +100,8 @@ public class Buyer extends User implements Serializable {
                 purchaseHistory.put(book, cart.get(book));
             }
 
-            Seller bookSeller = BookApp.marketplace.getSellerByBook(book);
-            bookSeller.updateStock(book, cart.get(book), this);
+//            Seller bookSeller = BookApp.marketplace.getSellerByBook(book);
+//            bookSeller.updateStock(book, cart.get(book), this);
         }
 
         if (canCheckout)

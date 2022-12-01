@@ -53,7 +53,7 @@ public class LoginMenu extends Menu {
         User returningUser;
 
         Query loginQuery = BookApp.computeQuery(new String[]{usernameEmail, hashedPassword}, "users", "login");
-        if (loginQuery.getObject().equals(false) || loginQuery.getObject() == null) {
+        if (loginQuery.getObject() == null || loginQuery.getObject().equals(false)) {
             System.out.println("Invalid username or password");
             return false;
         }

@@ -91,13 +91,13 @@ public class Helpers {
                         String[] input = (String[]) compute.getObject();
                         String username = input[0];
                         boolean isValidName = marketplace.validateName(username);
-                        return new Query(isValidName, null);
+                        return new Query(isValidName, "");
                     }
                     case "validate email": {
                         String[] input = (String[]) compute.getObject();
                         String email = input[0];
                         boolean isValidEmail = marketplace.validateEmail(email);
-                        return new Query(isValidEmail, null);
+                        return new Query(isValidEmail, "");
                     }
                     default:
                         break; // Sends the query back as null

@@ -1,6 +1,8 @@
 package Query;
 
-public class GetQuery extends Query {
+import java.io.Serializable;
+
+public class GetQuery extends Query implements Serializable {
 
     private String params;
 

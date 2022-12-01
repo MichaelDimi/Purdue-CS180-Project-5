@@ -178,7 +178,7 @@ public class Seller extends User implements Serializable {
                 if (storesArr.length < 1) {
                     System.out.println("There are no stores in the market yet");
                     System.out.println("Be the first to open a store");
-                    BookApp.marketplace.saveMarketplace();
+//                    BookApp.marketplace.saveMarketplace();
                     return true;
                 }
 
@@ -197,7 +197,7 @@ public class Seller extends User implements Serializable {
 
                 Store storeSelected;
                 if (response == i) {
-                    BookApp.marketplace.saveMarketplace();
+//                    BookApp.marketplace.saveMarketplace();
                     return true; // Go back
                 } else {
                     storeSelected = storesArr[response - 1];
@@ -274,49 +274,50 @@ public class Seller extends User implements Serializable {
 
                 // loops through all users
                 boolean isCartWithProduct = false;
-                for (User user : BookApp.marketplace.getUsers()) {
-                    // checks if user is a buyer
-                    if (user instanceof Buyer) {
-                        // string lists all of Buyer's books in cart that are sold by the Seller
-                        String cartContents = "";
-                        // loops through each book in that buyers cart
-                        for (Book bookInCart : ((Buyer) user).getCart().keySet()) {
-                            // loops through Seller's stores and cross-references to see if the book belongs
-                            // to one of the Seller's store
-                            for (Store store : stores) {
-                                // checks if book's store is one of the Seller's
-                                if (bookInCart.getStore().equals(store.getName())) {
-                                    isCartWithProduct = true;
-                                    cartContents += String.format("- %s | Qty: %d",
-                                            bookInCart.getName(), ((Buyer) user).getCart().get(bookInCart));
-                                }
-                            }
-                        }
-
-                        // prints Buyer's name and cart if user had any books in cart that are sold by the seller
-                        // ONLY PRINTS CART CONTENTS THAT ARE SOLD BY THE SELLER; WILL NOT SHOW EVERYTHING IN CART
-                        if (cartContents.length() > 0) {
-                            System.out.println("CART CONTENTS OF: " + user.getName());
-                            System.out.println(cartContents);
-                        }
-                    }
-                }
+//                for (User user : BookApp.marketplace.getUsers()) {
+//                    // checks if user is a buyer
+//                    if (user instanceof Buyer) {
+//                        // string lists all of Buyer's books in cart that are sold by the Seller
+//                        String cartContents = "";
+//                        // loops through each book in that buyers cart
+//                        for (Book bookInCart : ((Buyer) user).getCart().keySet()) {
+//                            // loops through Seller's stores and cross-references to see if the book belongs
+//                            // to one of the Seller's store
+//                            for (Store store : stores) {
+//                                // checks if book's store is one of the Seller's
+//                                if (bookInCart.getStore().equals(store.getName())) {
+//                                    isCartWithProduct = true;
+//                                    cartContents += String.format("- %s | Qty: %d",
+//                                            bookInCart.getName(), ((Buyer) user).getCart().get(bookInCart));
+//                                }
+//                            }
+//                        }
+//
+//                        // prints Buyer's name and cart if user had any books in cart that are sold by the seller
+//                        // ONLY PRINTS CART CONTENTS THAT ARE SOLD BY THE SELLER; WILL NOT SHOW EVERYTHING IN CART
+//                        if (cartContents.length() > 0) {
+//                            System.out.println("CART CONTENTS OF: " + user.getName());
+//                            System.out.println(cartContents);
+//                        }
+//                    }
+//                }
 
                 if (!isCartWithProduct)
                     System.out.println("NO CARTS CONTAIN PRODUCTS YOU SELL");
                 break;
             case "9":
                 // Note: Menu header is provided in fileIOMenu
-                Seller seller = (Seller) BookApp.marketplace.getCurrentUser();
+                /* Seller seller = (Seller) BookApp.marketplace.getCurrentUser();*/ Seller seller = new Seller("", ""
+                    , "", "");
 
                 FileIOMenu fileIOMenu = new FileIOMenu();
                 fileIOMenu.fileIOMenu(scanner, seller);
                 break;
             case "10":
-                BookApp.marketplace.saveMarketplace();
+//                BookApp.marketplace.saveMarketplace();
                 return false;
         }
-        BookApp.marketplace.saveMarketplace();
+//        BookApp.marketplace.saveMarketplace();
         return true;
     }
 

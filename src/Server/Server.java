@@ -30,7 +30,7 @@ public class Server implements Runnable {
                 Socket client;
                 try {
                     client = serverSocket.accept();
-                    System.out.println("NEW CONNECTION" + client.getPort()); // Implies a new query
+                    System.out.println("NEW CONNECTION: " + client.getPort()); // Implies a new query
                     System.out.println(marketplace);
                 } catch (IOException e) {
                     System.out.println("Server Stopped.");

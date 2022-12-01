@@ -163,14 +163,14 @@ public class BookApp {
         return new Query(false, "err");
     }
 
-    public static Query deleteQuery(String opt, String params) {
+    public static Query deleteQuery(Object o, String opt) {
         try {
             Socket socket = new Socket("localhost", 1111);
 
             writer = new ObjectOutputStream(socket.getOutputStream());
             reader = new ObjectInputStream(socket.getInputStream());
 
-            DeleteQuery delete = new DeleteQuery(opt, params);
+            DeleteQuery delete = new DeleteQuery(o, opt);
             writer.writeObject(delete);
             Query q = (Query) reader.readObject();
 

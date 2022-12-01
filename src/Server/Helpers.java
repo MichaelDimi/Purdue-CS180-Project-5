@@ -55,20 +55,48 @@ public class Helpers {
         switch (opt) {
             case "users":
                 switch (params) {
-                    case "add":
+                    case "add": {
                         marketplace.addToUsers((User) update.getNewVal());
                         return new Query(true, "");
+                    }
+                    case "name": {
+                        User user = (User) update.getObject();
+                        if (user == null) break;
+                        user = marketplace.getUserByUsername(user.getName());
+                        if (user == null) break;
+                        user.setName(update.getNewVal().toString());
+                        return new Query(true, "");
+                    }
+                    case "email": {
+                        User user = (User) update.getObject();
+                        if (user == null) break;
+                        user = marketplace.getUserByUsername(user.getName());
+                        if (user == null) break;
+                        user.setEmail(update.getNewVal().toString());
+                        return new Query(true, "");
+                    }
+                    case "password": {
+                        User user = (User) update.getObject();
+                        if (user == null) break;
+                        user = marketplace.getUserByUsername(user.getName());
+                        if (user == null) break;
+                        String[] input = (String[]) update.getObject();
+                        user.setPassword(input[0], input[1]);
+                        return new Query(true, "");
+                    }
+
                 }
                 break;
         }
-        return new Query(false, "err: Couldn't find opt/params");
+        return new Query(false, "err");
     }
 
     public Query delete(DeleteQuery delete) {
         String opt = delete.getOptions();
-        String params = delete.getParams();
         switch (opt) {
-
+            case "users":
+                marketplace.getUsers().remove((User) delete.getObject());
+                return new Query(true, "");
         }
         return new Query(false, "err: Couldn't find opt/params");
     }

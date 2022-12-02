@@ -73,18 +73,27 @@ public class BookApp {
                     break; // Exit to the login loop
                 }
 
+                // Update the current user
+                Query updateUserQuery = BookApp.getQuery(currentUser, "users", "currentUser");
+                if (updateUserQuery.getObject() == null || updateUserQuery.getObject().equals(false)) {
+                    break;
+                }
+                currentUser = (User) updateUserQuery.getObject();
+
                 if (currentUser instanceof Buyer) {
                     CustomerHomepage customerHomepage = new CustomerHomepage();
                     boolean mainMenu = customerHomepage.present(scan);
                     if (!mainMenu) {
                         break;
                     }
-                } else {
-                    Seller seller = (Seller) currentUser;
-                    boolean mainMenu = seller.sellerHomepage(scan);
+                } else if (currentUser instanceof Seller) {
+                    SellerHomepage sellerHomepage = new SellerHomepage();
+                    boolean mainMenu = sellerHomepage.present(scan);
                     if (!mainMenu) {
                         break;
                     }
+                } else {
+                    break;
                 }
 
             } while (true); // Main loop
@@ -171,6 +180,28 @@ public class BookApp {
             reader = new ObjectInputStream(socket.getInputStream());
 
             DeleteQuery delete = new DeleteQuery(o, opt);
+            writer.writeObject(delete);
+            Query q = (Query) reader.readObject();
+
+            writer.close();
+            reader.close();
+            socket.close();
+
+            return q;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Connection refused: Please make sure the server has been started");
+        }
+
+        return new Query(false, "err");
+    }
+    public static Query deleteQuery(Object o, String opt, Object params) {
+        try {
+            Socket socket = new Socket("localhost", 1111);
+
+            writer = new ObjectOutputStream(socket.getOutputStream());
+            reader = new ObjectInputStream(socket.getInputStream());
+
+            DeleteQuery delete = new DeleteQuery(o, opt, params);
             writer.writeObject(delete);
             Query q = (Query) reader.readObject();
 

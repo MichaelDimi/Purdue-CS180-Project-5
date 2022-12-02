@@ -4,7 +4,7 @@ import Client.BookApp;
 import Query.*;
 import Objects.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Helpers {
 
@@ -26,6 +26,15 @@ public class Helpers {
                     case "name":
                         get.setObject(marketplace.getUserByUsername((String) get.getObject()));
                         break;
+                    case "currentUser":
+                        User user = (User) get.getObject();
+                        if (user == null) return new GetQuery(null, "", "");
+                        String username = user.getName();
+                        if (username == null) return new GetQuery(null, "", "");
+                        user = marketplace.getUserByUsername(username);
+                        if (user == null) return new GetQuery(null, "", "");
+                        get.setObject(user);
+                        break;
                     default:
                         break; // Sends the query back as null
                 }
@@ -37,6 +46,10 @@ public class Helpers {
                         break;
                     case "find":
                         get.setObject(marketplace.findBooks((String) get.getObject()));
+                        break;
+                    case "quantity":
+                        HashMap<Book, Integer> books = marketplace.getBooks();
+                        get.setObject(books.get((Book) get.getObject()));
                         break;
                 }
                 break;
@@ -87,11 +100,10 @@ public class Helpers {
                         if (user == null) break;
                         user = marketplace.getUserByUsername(user.getName());
                         if (user == null) break;
-                        String[] input = (String[]) update.getObject();
+                        String[] input = (String[]) update.getNewVal();
                         user.setPassword(input[0], input[1]);
                         return new Query(true, "");
                     }
-
                 }
                 break;
             case "stores":
@@ -106,8 +118,52 @@ public class Helpers {
                         ArrayList<Store> stores = seller.getStores();
                         stores.add((Store) update.getNewVal());
                         return new Query(true, "");
+//                    case "name":
+//                        Store store = (Store) update.getObject();
+//                        String newName = (String) update.getNewVal();
+//                        for (Store s : marketplace.getStores()) {
+//                            if (newName.equals(s.getName())) {
+//                                return new Query(false, "taken");
+//                            }
+//                        }
+//                        store = marketplace.getStoreByName(store.getName());
+//                        store.setName(newName);
+//                        return new Query(true, "");
                 }
                 break;
+            case "stock":
+                switch (params) {
+                    case "set": {
+                        Store store = (Store) update.getObject();
+                        if (store == null) break;
+                        store = marketplace.getStoreByName(store.getName());
+                        if (store == null) break;
+                        store.setStock((HashMap<Book, Integer>) update.getNewVal());
+                        return new Query(true, "");
+                    }
+                    case "name": {
+                        Book bookToEdit = (Book) update.getObject();
+                        if (bookToEdit == null) break;
+                        String storeName = bookToEdit.getStore();
+                        if (storeName == null) break;
+                        Store store = marketplace.getStoreByName(storeName);
+                        if (store == null) break;
+                        HashMap<Book, Integer> stock = store.getStock();
+
+                        int currentBookQuantity = stock.get(bookToEdit);
+
+                        // removes old Book object and adds new Book object with the updated name
+                        bookToEdit.setName((String) update.getNewVal());
+                        stock.remove(bookToEdit);
+                        stock.put(bookToEdit, currentBookQuantity);
+
+                        return new Query(true, "");
+                    }
+                    case "genre": {
+
+                    }
+
+                }
         }
         return new Query(false, "err");
     }
@@ -115,7 +171,7 @@ public class Helpers {
     public Query delete(DeleteQuery delete) {
         String opt = delete.getOptions();
         switch (opt) {
-            case "users":
+            case "users": {
                 User user = (User) delete.getObject();
                 if (user == null) break;
                 String username = user.getName();
@@ -124,6 +180,26 @@ public class Helpers {
                 if (user == null) break;
                 marketplace.getUsers().remove(user);
                 return new Query(true, "");
+            }
+            case "stores": {
+                Store store = (Store) delete.getObject();
+                if (store == null) break;
+                String storeName = store.getName();
+                if (storeName == null) break;
+                store = marketplace.getStoreByName(storeName);
+                if (store == null) break;
+                marketplace.getStores().remove(store);
+                return new Query(true, "");
+            }
+//            case "stock": {
+//                Book book = (Book) delete.getObject();
+//                Store store = (Store) delete.getParams();
+//                if (book == null || store == null) break;
+//                HashMap<Book, Integer> stock = store.getStock();
+//                if (stock == null) break;
+//                stock.remove(book);
+//                return new Query(true, "");
+//            }
         }
         return new Query(false, "err: Couldn't find opt/params");
     }

@@ -113,6 +113,14 @@ public class Buyer extends User implements Serializable {
         cart.clear();
     }
 
+    public void setCart(HashMap<Book, Integer> cart) {
+        this.cart = cart;
+    }
+
+    public void setPurchaseHistory(HashMap<Book, Integer> purchaseHistory) {
+        this.purchaseHistory = purchaseHistory;
+    }
+
     @Override
     public String toString() {
         return "Buyer<" + this.getName() + ", " +

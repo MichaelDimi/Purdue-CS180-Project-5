@@ -32,7 +32,7 @@ public class SalesMenu {
             System.out.println("Would you like to add a book? (Y/N):");
             String response = scan.nextLine();
             if (response.equalsIgnoreCase("y")) {
-                if (!seller.addBookMenu(scan, null)) {
+                if (!SellerHomepage.addBookMenu(scan, null)) {
                     System.out.println("Whoops: You don't have any stores to add a book to");
                     return;
                 }

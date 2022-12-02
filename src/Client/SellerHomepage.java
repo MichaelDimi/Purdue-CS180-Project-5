@@ -403,13 +403,14 @@ public class SellerHomepage extends Menu {
         while (isEditingInventory) {
             System.out.println("What would you like to do:");
             System.out.println("1. Add new books");
-            System.out.println("2. Remove books");
-            System.out.println("3. Edit existing books");
-            System.out.println("4. View books in store");
+            System.out.println("2. Add more of existing book");
+            System.out.println("3. Remove books");
+            System.out.println("4. Edit existing books");
+            System.out.println("5. View books in store");
             if (firstTime) {
-                System.out.println("5. DONE");
+                System.out.println("6. DONE");
             } else {
-                System.out.println("5. SAVE");
+                System.out.println("6. SAVE");
             }
             firstTime = false;
 
@@ -421,6 +422,51 @@ public class SellerHomepage extends Menu {
                     }
                     break;
                 case "2":
+                    if (stock.size() == 0) {
+                        System.out.println("THERE ARE CURRENTLY NO BOOKS in " + store.getName());
+                    } else {
+                        // add more of books
+                        System.out.println("SELECT BOOK TO INCREASE STOCK OF");
+                        System.out.println("*******************");
+
+                        // cant select from hashmap by index
+                        // gets key object from books arraylist with same order as hashmap
+                        Book bookToAddTo = selectBook(scanner, stock);
+
+                        // checks if selectBook was cancelled and returned null
+                        if (bookToAddTo == null)
+                            break;
+
+                        // current quantity of specified book
+                        Integer bookToAddToCount = stock.get(bookToAddTo);
+
+                        // loops until a valid input is received
+                        int quantityToAdd = -1;
+                        while (quantityToAdd < 0) {
+                            // asks Seller for quantity of items to remove
+                            System.out.println("Please input the quantity you would like to add:");
+
+                            // prompts for the quantity of books to remove
+                            String quantityInput = scanner.nextLine();
+
+                            // try checks user inputted a valid number by attempting to parse the str into an int
+                            try {
+                                quantityToAdd = Integer.parseInt(quantityInput);
+
+                                // makes sure user does not input negative number
+                                if (quantityToAdd < 0)
+                                    throw new NumberFormatException();
+
+                            } catch (NumberFormatException e) {
+                                System.out.println("PLEASE ENTER A VALID NUMBER");
+                            }
+                        }
+
+                        // removes book from hashmap if final quantity is less than or equal 0
+                        stock.put(bookToAddTo, bookToAddToCount + quantityToAdd);
+                    }
+                    break;
+                case "3":
                     if (stock.size() == 0) {
                         System.out.println("THERE ARE CURRENTLY NO BOOKS in " + store.getName());
                     } else {
@@ -469,7 +515,7 @@ public class SellerHomepage extends Menu {
                         }
                     }
                     break;
-                case "3":
+                case "4":
                     if (stock.size() == 0) {
                         System.out.println("THERE ARE CURRENTLY NO BOOKS in " + store.getName());
                     } else {
@@ -546,7 +592,7 @@ public class SellerHomepage extends Menu {
                         }
                     }
                     break;
-                case "4":
+                case "5":
                     if (stock.size() == 0) {
                         System.out.println("THERE ARE CURRENTLY NO BOOKS in " + store.getName());
                     } else {

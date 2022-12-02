@@ -1,38 +1,35 @@
 package GUI;
 
+import Objects.Buyer;
+import Objects.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Login extends JFrame implements Runnable {
+import java.net.UnknownServiceException;
+
+public class SignUp extends JFrame implements Runnable {
+    JComboBox buyerOrSellerBox;
+    String buyerOrSeller;
     JLabel uLabel;
     JTextField uText;
     JLabel pLabel;
     JPasswordField pField;
-    JButton loginButton;
     JButton signUpButton;
     JCheckBox showPassword;
     JPanel panel;
     JFrame frame;
-    JLabel signup;
     ActionListener actionListener = new ActionListener() {
         @Override
-        
+
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource() == loginButton) {
-                /*if user present (similar to loginmenu) {
-                    JOptionPane.showMessageDialog(null, "Login Successful");
-                  } else {
-                    JOptionPane.showMessageDialog(null, "Login Unsuccessful");
-                    }
-                 */
-                JOptionPane.showMessageDialog(null, "Login Successful");
-                frame.dispose();
-
-            } else if (e.getSource() == signUpButton) {
-                SwingUtilities.invokeLater(new SignUp());
-                frame.dispose();
-
+            if (e.getSource() == signUpButton) {
+                if (buyerOrSeller.equals("Buyer")) {
+                    //create buyer
+                } else {
+                    // create seller
+                }
 
             } else if (e.getSource() == showPassword) {
                 if (showPassword.isSelected()) {
@@ -57,11 +54,19 @@ public class Login extends JFrame implements Runnable {
 //        frame.setResizable(false);
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
-        JLabel welcome = new JLabel("Welcome!");
+        JLabel welcome = new JLabel("Welcome! Create your account");
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(welcome);
         content.add(panel, BorderLayout.CENTER);
+        buyerOrSellerBox = new JComboBox<>();
+        buyerOrSellerBox.addItem("Buyer");
+        buyerOrSellerBox.addItem("Seller");
 
+        buyerOrSellerBox.addItemListener(listener -> {
+            JComboBox getSelection = (JComboBox) listener.getSource();
+            buyerOrSeller = (String) getSelection.getSelectedItem();
+
+        });
         panel = new JPanel();
         uLabel = new JLabel("Username");
         panel.add(uLabel);
@@ -79,19 +84,11 @@ public class Login extends JFrame implements Runnable {
         content.add(panel, BorderLayout.CENTER);
 
         panel = new JPanel();
-        loginButton = new JButton("Login");
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginButton.addActionListener(actionListener);
-        panel.add(loginButton);
         showPassword = new JCheckBox("Show Password");
         showPassword.addActionListener(actionListener);
         panel.add(showPassword);
         content.add(panel);
 
-        panel = new JPanel();
-        signup = new JLabel("New user? Sign up!");
-        panel.add(signup);
-        content.add(panel);
 
         signUpButton = new JButton("Sign Up");
         signUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -99,14 +96,14 @@ public class Login extends JFrame implements Runnable {
         panel.add(signUpButton);
 
         frame.pack();
-        frame.setSize(400, 400);
+        frame.setSize(400, 200);
         frame.setVisible(true);
 
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Login());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new SignUp());
+//    }
 
 
 }

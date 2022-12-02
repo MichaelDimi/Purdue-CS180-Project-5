@@ -76,7 +76,7 @@ public class Buyer extends User implements Serializable {
     public void checkoutCart() {
         boolean canCheckout = true;
         for (Book book : cart.keySet()) {
-            // checks if there are enough books in stock to purchase
+            // checks if there are enough books in stock to purchase TODO:
 //            int availableQuantity = BookApp.marketplace.getBookQuantity(book);
 //            if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
 //                canCheckout = false;
@@ -100,6 +100,7 @@ public class Buyer extends User implements Serializable {
                 purchaseHistory.put(book, cart.get(book));
             }
 
+            // TODO:
 //            Seller bookSeller = BookApp.marketplace.getSellerByBook(book);
 //            bookSeller.updateStock(book, cart.get(book), this);
         }

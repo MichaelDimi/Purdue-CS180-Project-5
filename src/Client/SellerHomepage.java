@@ -315,7 +315,7 @@ public class SellerHomepage extends Menu {
             } while (error);
 
         }
-//        HashMap<Book, Integer> stock = store.getStock();
+        HashMap<Book, Integer> stock = store.getStock();
 
         // add books
         String bookName;
@@ -377,16 +377,17 @@ public class SellerHomepage extends Menu {
 
         Book newBook = new Book(bookName, store.getName(), genre, description, price);
 
+        // Adds books to stock
         // current quantity of specified book
-//        Integer newBookCount = stock.get(newBook);
-//
-//        if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-//            stock.put(newBook, quantity);
-//            store.getStock().put(newBook, quantity);
-//        } else {
-//            stock.put(newBook, newBookCount + quantity);
-//            store.getStock().put(newBook, newBookCount + quantity);
-//        }
+        Integer newBookCount = stock.get(newBook);
+
+        if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+            stock.put(newBook, quantity);
+            store.getStock().put(newBook, quantity);
+        } else {
+            stock.put(newBook, newBookCount + quantity);
+            store.getStock().put(newBook, newBookCount + quantity);
+        }
         return true;
     }
 

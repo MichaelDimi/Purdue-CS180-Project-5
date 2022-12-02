@@ -315,7 +315,7 @@ public class SellerHomepage extends Menu {
             } while (error);
 
         }
-        HashMap<Book, Integer> stock = store.getStock();
+//        HashMap<Book, Integer> stock = store.getStock();
 
         // add books
         String bookName;
@@ -378,15 +378,15 @@ public class SellerHomepage extends Menu {
         Book newBook = new Book(bookName, store.getName(), genre, description, price);
 
         // current quantity of specified book
-        Integer newBookCount = stock.get(newBook);
-
-        if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-            stock.put(newBook, quantity);
-            store.getStock().put(newBook, quantity);
-        } else {
-            stock.put(newBook, newBookCount + quantity);
-            store.getStock().put(newBook, newBookCount + quantity);
-        }
+//        Integer newBookCount = stock.get(newBook);
+//
+//        if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+//            stock.put(newBook, quantity);
+//            store.getStock().put(newBook, quantity);
+//        } else {
+//            stock.put(newBook, newBookCount + quantity);
+//            store.getStock().put(newBook, newBookCount + quantity);
+//        }
         return true;
     }
 
@@ -398,13 +398,19 @@ public class SellerHomepage extends Menu {
             stock = new HashMap<>();
 
         boolean isEditingInventory = true;
+        boolean firstTime = true;
         while (isEditingInventory) {
             System.out.println("What would you like to do:");
             System.out.println("1. Add new books");
             System.out.println("2. Remove books");
             System.out.println("3. Edit existing books");
             System.out.println("4. View books in store");
-            System.out.println("5. DONE");
+            if (firstTime) {
+                System.out.println("5. DONE");
+            } else {
+                System.out.println("5. SAVE");
+            }
+            firstTime = false;
 
             switch (scanner.nextLine()) {
                 case "1":
@@ -563,7 +569,6 @@ public class SellerHomepage extends Menu {
             System.out.println("Whoops: There was an issue updating the stock");
             return;
         }
-//        store.setStock(stock);
     }
 
     public Book selectBook(Scanner scanner, HashMap<Book, Integer> stock) {

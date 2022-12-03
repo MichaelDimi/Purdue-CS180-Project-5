@@ -113,6 +113,8 @@ public class BookApp {
 
             Query q = (Query) reader.readObject();
 
+            if (q.getObject() == null) return new Query(false, "err");
+
             writer.close();
             reader.close();
             socket.close();

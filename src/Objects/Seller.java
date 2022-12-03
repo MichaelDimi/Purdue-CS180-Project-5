@@ -742,48 +742,47 @@ public class Seller extends User implements Serializable {
 //    }
 
     // runs when a Buyer purchases a book
-//    public void updateStock(Book purchasedBook, int quantity, Buyer buyer) {
-//        // gets store where book was bought
-//        Store store = getStoreByName(purchasedBook.getStore());
-//        for (Book book : store.getStock().keySet()) {
-//            if (book.equals(purchasedBook)) {
-//                // removes book quantity bought from store
-//                // current quantity of specified book
-//                Integer bookToRemoveCount = store.getStock().get(book);
-//
-//                // removes book from hashmap if final quantity is less than or equal 0
-//                if (bookToRemoveCount - quantity <= 0) {
-//                    store.getStock().remove(book);
-//                } else {
-//                    store.getStock().put(book, bookToRemoveCount - quantity);
-//                }
-//
-//                // increments Seller's revenue
-//                stats.incrementRevenue(book.getPrice() * quantity);
-//
-//                // adds Buyer to Seller's buyers stat
-//                Integer buyerCount = stats.getBuyers().get(buyer);
-//
-//                // checks if Buyer has boughten from Seller before and increments if so, else adds new Buyer
-//                if (buyerCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-//                    stats.getBuyers().put(buyer, 1);
-//                } else {
-//                    stats.getBuyers().put(buyer, buyerCount + 1);
-//                }
-//
-//                // the number of that book the Seller has sold
-//                Integer booksSoldCount = stats.getBooksSold().get(book);
-//
-//                // adds number of books bought to the Seller's stats
-//                if (booksSoldCount == null) { // could be replaced with merge, not sure if Vocareum will like?
-//                    stats.getBooksSold().put(book, quantity);
-//                } else {
-//                    stats.getBooksSold().put(book, booksSoldCount + quantity);
-//                }
-//            }
-//
-//        }
-//    }
+    public void updateStock(Book purchasedBook, int quantity, Buyer buyer) {
+        // gets store where book was bought
+        Store store = getStoreByName(purchasedBook.getStore());
+        for (Book book : store.getStock().keySet()) {
+            if (book.equals(purchasedBook)) {
+                // removes book quantity bought from store
+                // current quantity of specified book
+                Integer bookToRemoveCount = store.getStock().get(book);
+
+                // removes book from hashmap if final quantity is less than or equal 0
+                if (bookToRemoveCount - quantity <= 0) {
+                    store.getStock().remove(book);
+                } else {
+                    store.getStock().put(book, bookToRemoveCount - quantity);
+                }
+
+                // increments Seller's revenue
+                stats.incrementRevenue(book.getPrice() * quantity);
+
+                // adds Buyer to Seller's buyers stat
+                Integer buyerCount = stats.getBuyers().get(buyer);
+
+                // checks if Buyer has boughten from Seller before and increments if so, else adds new Buyer
+                if (buyerCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+                    stats.getBuyers().put(buyer, 1);
+                } else {
+                    stats.getBuyers().put(buyer, buyerCount + 1);
+                }
+
+                // the number of that book the Seller has sold
+                Integer booksSoldCount = stats.getBooksSold().get(book);
+
+                // adds number of books bought to the Seller's stats
+                if (booksSoldCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+                    stats.getBooksSold().put(book, quantity);
+                } else {
+                    stats.getBooksSold().put(book, booksSoldCount + quantity);
+                }
+            }
+        }
+    }
 
     public HashMap<Book, Integer> getSellerBooks() {
         HashMap<Book, Integer> sellersBooks = new HashMap<>();

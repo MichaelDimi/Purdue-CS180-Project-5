@@ -403,7 +403,7 @@ public class SellerHomepage extends Menu {
         while (isEditingInventory) {
             System.out.println("What would you like to do:");
             System.out.println("1. Add new books");
-            System.out.println("2. Add more of existing book");
+            System.out.println("2. Add to existing books");
             System.out.println("3. Remove books");
             System.out.println("4. Edit existing books");
             System.out.println("5. View books in store");

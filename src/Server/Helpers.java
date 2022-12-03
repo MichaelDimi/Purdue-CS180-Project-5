@@ -63,6 +63,15 @@ public class Helpers {
                         get.setObject(marketplace.getStoreByName(storeName));
                         break;
                 }
+            case "sellers":
+                switch (params) {
+                    case "book":
+                        Book book = (Book) get.getObject();
+                        if (book == null) break;
+                        get.setObject(marketplace.getSellerByBook(book));
+                        break;
+                }
+                break;
             default:
                 break;
         }

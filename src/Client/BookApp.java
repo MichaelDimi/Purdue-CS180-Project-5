@@ -3,11 +3,11 @@ package Client;
 import Objects.*;
 import Query.*;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -26,11 +26,11 @@ public class BookApp {
     public static ObjectOutputStream writer;
     public static ObjectInputStream reader;
 
-    public static Marketplace marketplace;
+//    public static Marketplace marketplace;
 
     public static User currentUser;
 
-    public static String appName = "BOOK APP";
+    public static String appName = "Barnes & Novel";
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -42,100 +42,110 @@ public class BookApp {
 
         // Figures out if user wants to log in or sign up
         // Login or Sign up Loop
+        do {
+
+            String loginSignup;
+            boolean validUser = false;
+            do {
+                currentUser = null;
+                System.out.println("1. Login\n2. Sign Up\n3. EXIT");
+                loginSignup = scan.nextLine();
+                if (!loginSignup.equals("1") && !loginSignup.equals("2") && !loginSignup.equals("3")) {
+                    System.out.println("Whoops: Please enter (1), (2), or (3)");
+                    continue;
+                }
+
+                if (loginSignup.equals("1")) {
+                    LoginMenu loginMenu = new LoginMenu();
+                    validUser = loginMenu.present(scan); // if false, return to login or signup
+                } else if (loginSignup.equals("2")) {
+                    SignUpMenu signUpMenu = new SignUpMenu();
+                    validUser = signUpMenu.present(scan); // Ignore this if we are signing up
+                } else {
+                    System.out.println("Thanks for using " + appName + "\nGoodbye!");
+                    return;
+                }
+            } while (!validUser);
+
+            // Main loop
+            do {
+                if (currentUser == null) {
+                    break; // Exit to the login loop
+                }
+
+                // Update the current user
+                Query updateUserQuery = BookApp.getQuery(currentUser, "users", "currentUser");
+                if (updateUserQuery.getObject() == null || updateUserQuery.getObject().equals(false)) {
+                    break;
+                }
+                currentUser = (User) updateUserQuery.getObject();
+
+                if (currentUser instanceof Buyer) {
+                    CustomerHomepage customerHomepage = new CustomerHomepage();
+                    boolean mainMenu = customerHomepage.present(scan);
+                    if (!mainMenu) {
+                        break;
+                    }
+                } else if (currentUser instanceof Seller) {
+                    SellerHomepage sellerHomepage = new SellerHomepage();
+                    boolean mainMenu = sellerHomepage.present(scan);
+                    if (!mainMenu) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+
+            } while (true); // Main loop
+
+        } while (true); // Login or Sign up Loop
+    }
+
+    public static Query getQuery(Object o, String opt, String params) {
         try {
             Socket socket = new Socket("localhost", 1111);
 
             writer = new ObjectOutputStream(socket.getOutputStream());
             reader = new ObjectInputStream(socket.getInputStream());
 
-            writer.writeObject("I need marketplace");
-            BookApp.marketplace = (Marketplace) reader.readObject();
-
-            System.out.println(marketplace);
-
-            do {
-                String loginSignup;
-                boolean validUser = false;
-                do {
-                    System.out.println("1. Login\n2. Sign Up\n3. EXIT");
-                    loginSignup = scan.nextLine();
-                    if (!Objects.equals(loginSignup, "1") && !Objects.equals(loginSignup, "2") && !Objects.equals(loginSignup, "3")) {
-                        System.out.println("Whoops: Please enter (1), (2), or (3)");
-                        continue;
-                    }
-
-                    if (loginSignup.equals("1")) {
-                        LoginMenu loginMenu = new LoginMenu();
-                        validUser = loginMenu.present(scan); // if false, return to login or signup
-                    } else if (loginSignup.equals("2")) {
-                        SignUpMenu signUpMenu = new SignUpMenu();
-                        validUser = signUpMenu.present(scan); // Ignore this if we are signing up
-                    } else {
-                        System.out.println("Thanks for using " + appName + "\nGoodbye!");
-                        writer.close();
-                        reader.close();
-                        return;
-                    }
-                } while (!validUser);
-
-                marketplace.saveMarketplace();
-
-                // Main loop
-                do {
-                    Query currentUserQuery = getQuery(Query.Action.GET, null, "currentUser");
-                    User currentUser = (User) currentUserQuery.getObject();
-                    if (currentUser == null) {
-                        break;
-                    }
-//                    User currentUser = marketplace.getCurrentUser();
-
-                    if (currentUser instanceof Buyer) {
-                        CustomerHomepage customerHomepage = new CustomerHomepage();
-                        boolean mainMenu = customerHomepage.present(scan);
-                        if (!mainMenu) {
-                            break;
-                        }
-                    } else {
-                        Seller seller = (Seller) marketplace.getCurrentUser();
-                        boolean mainMenu = seller.editStore(scan);
-                        if (!mainMenu) {
-                            break;
-                        }
-                    }
-
-                } while (true); // Main loop
-
-                marketplace.saveMarketplace();
-            } while (true); // Login or Sign up Loop
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("ERROR CONNECTING TO SERVER");
-            System.out.println("Tip: Make sure to start the server first");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Query getQuery(Object o, String opt, String params) {
-        try {
             GetQuery get = new GetQuery(o, opt, params);
             writer.writeObject(get);
-            return (Query) reader.readObject();
+
+            Query q = (Query) reader.readObject();
+
+            if (q.getObject() == null) return new Query(false, "err");
+
+            writer.close();
+            reader.close();
+            socket.close();
+
+            return q;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Connection refused: Please make sure the server has been started");
         }
 
         return new Query(false, "err");
     }
 
-    public static Query computeQuery(Object o, String opt, String params) {
+    public static Query computeQuery(Object[] input, String opt, String params) {
+
         try {
-            ComputeQuery get = new ComputeQuery(o, opt, params);
+            Socket socket = new Socket("localhost", 1111);
+
+            writer = new ObjectOutputStream(socket.getOutputStream());
+            reader = new ObjectInputStream(socket.getInputStream());
+
+            ComputeQuery get = new ComputeQuery(input, opt, params);
             writer.writeObject(get);
-            return (Query) reader.readObject();
+            Query q = (Query) reader.readObject();
+
+            writer.close();
+            reader.close();
+            socket.close();
+
+            return q;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Connection refused: Please make sure the server has been started");
         }
 
         return new Query(false, "err");
@@ -143,23 +153,67 @@ public class BookApp {
 
     public static Query updateQuery(Object o, String opt, String params, Object newVal) {
         try {
+            Socket socket = new Socket("localhost", 1111);
+
+            writer = new ObjectOutputStream(socket.getOutputStream());
+            reader = new ObjectInputStream(socket.getInputStream());
+
             UpdateQuery update = new UpdateQuery(o, opt, params, newVal);
             writer.writeObject(update);
-            return (Query) reader.readObject();
+            Query q = (Query) reader.readObject();
+
+            writer.close();
+            reader.close();
+            socket.close();
+
+            return q;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Connection refused: Please make sure the server has been started");
         }
 
         return new Query(false, "err");
     }
 
-    public static Query deleteQuery(String opt, String params) {
+    public static Query deleteQuery(Object o, String opt) {
         try {
-            DeleteQuery delete = new DeleteQuery(opt, params);
+            Socket socket = new Socket("localhost", 1111);
+
+            writer = new ObjectOutputStream(socket.getOutputStream());
+            reader = new ObjectInputStream(socket.getInputStream());
+
+            DeleteQuery delete = new DeleteQuery(o, opt);
             writer.writeObject(delete);
-            return (Query) reader.readObject();
+            Query q = (Query) reader.readObject();
+
+            writer.close();
+            reader.close();
+            socket.close();
+
+            return q;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Connection refused: Please make sure the server has been started");
+        }
+
+        return new Query(false, "err");
+    }
+    public static Query deleteQuery(Object o, String opt, Object params) {
+        try {
+            Socket socket = new Socket("localhost", 1111);
+
+            writer = new ObjectOutputStream(socket.getOutputStream());
+            reader = new ObjectInputStream(socket.getInputStream());
+
+            DeleteQuery delete = new DeleteQuery(o, opt, params);
+            writer.writeObject(delete);
+            Query q = (Query) reader.readObject();
+
+            writer.close();
+            reader.close();
+            socket.close();
+
+            return q;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Connection refused: Please make sure the server has been started");
         }
 
         return new Query(false, "err");

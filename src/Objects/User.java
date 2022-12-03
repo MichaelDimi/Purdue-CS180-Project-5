@@ -41,7 +41,13 @@ public class User implements Serializable {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.displayPassword = rawPassword.substring(0, 3) + "*".repeat(rawPassword.length() - 3);
+        if (rawPassword.length() >= 3) {
+            this.displayPassword = rawPassword.substring(0, 3) + "*".repeat(rawPassword.length() - 3);
+        } else if (rawPassword.length() == 2) {
+            this.displayPassword = rawPassword.substring(0, 2) + "*";
+        } else {
+            this.displayPassword = "*";
+        }
     }
 
     public static String hashPassword(String password) {

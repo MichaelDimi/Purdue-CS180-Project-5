@@ -1,3 +1,5 @@
+package Server;
+
 import Objects.*;
 import Query.*;
 
@@ -6,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server implements Runnable {
+
+    public static final Object LOCK = new Object();
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -26,6 +30,7 @@ public class Server implements Runnable {
                 Socket client;
                 try {
                     client = serverSocket.accept();
+                    System.out.println("NEW CONNECTION: " + client.getPort()); // Implies a new query
                 } catch (IOException e) {
                     System.out.println("Server Stopped.");
                     e.printStackTrace(); // TODO: may remove
@@ -51,6 +56,8 @@ public class Server implements Runnable {
         // All communication with client happens here
         @Override
         public void run() {
+            Helpers helpers = new Helpers(marketplace);
+
             try {
                 ObjectInputStream reader = new ObjectInputStream(client.getInputStream());
                 ObjectOutputStream writer = new ObjectOutputStream(client.getOutputStream());
@@ -59,22 +66,26 @@ public class Server implements Runnable {
 
                 if (query instanceof GetQuery) {
                     if (query instanceof ComputeQuery) {
-                        writer.writeObject(compute((ComputeQuery) query));
+                        Query q = helpers.compute((ComputeQuery) query);
+                        writer.writeObject(q);
                     } else {
-                        writer.writeObject(get((GetQuery) query));
+                        writer.writeObject(helpers.get((GetQuery) query));
                     }
+                    System.out.println(marketplace);
                 } else if (query instanceof DeleteQuery) {
-                    writer.writeObject(delete((DeleteQuery) query));
+                    writer.writeObject(helpers.delete((DeleteQuery) query));
                     marketplace.saveMarketplace();
+                    System.out.println(marketplace);
                 } else if (query instanceof UpdateQuery) {
-                    writer.writeObject(update((UpdateQuery) query));
+                    writer.writeObject(helpers.update((UpdateQuery) query));
                     marketplace.saveMarketplace();
+                    System.out.println(marketplace);
                 }
 
-                writer.writeObject(marketplace);
+                writer.flush();
 
-                reader.close();
                 writer.close();
+                reader.close();
             } catch (IOException e) {
                 System.out.println("Client disconnected");
                 return;
@@ -83,49 +94,6 @@ public class Server implements Runnable {
                 throw new RuntimeException(e);
             }
         }
-
-        public GetQuery get(GetQuery get) {
-            String opt = get.getOptions();
-            String params = get.getParams();
-            switch (opt) {
-                case "currentUser":
-                    get.setObject(this.marketplace.getCurrentUser());
-                    break;
-            }
-            return get;
-        }
-
-        public Query compute(ComputeQuery compute) {
-            String opt = compute.getOptions();
-            String params = compute.getParams();
-            switch (opt) {
-
-            }
-            return new Query(false, "err: Couldn't find opt/params");
-        }
-
-        public Query update(UpdateQuery update) {
-            String opt = update.getOptions();
-            String params = update.getParams();
-            switch (opt) {
-
-            }
-            return new Query(false, "err: Couldn't find opt/params");
-        }
-
-        public Query delete(DeleteQuery delete) {
-            String opt = delete.getOptions();
-            String params = delete.getParams();
-            switch (opt) {
-
-            }
-            return new Query(false, "err: Couldn't find opt/params");
-        }
-
-
-
-
-
 
     }
 }

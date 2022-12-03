@@ -2,6 +2,7 @@ package Objects;
 
 import Client.BookApp;
 import Exceptions.BookNotFoundException;
+import Query.Query;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -77,11 +78,18 @@ public class Buyer extends User implements Serializable {
         boolean canCheckout = true;
         for (Book book : cart.keySet()) {
             // checks if there are enough books in stock to purchase
-            int availableQuantity = BookApp.marketplace.getBookQuantity(book);
-            if (cart.get(book) > BookApp.marketplace.getBookQuantity(book)) {
+            String quantityString = "?";
+            Integer availableQuantity = null;
+            Query bookQuantityQuery = BookApp.getQuery(this, "books", "quantity");
+            if (bookQuantityQuery.getObject() != null && !bookQuantityQuery.getObject().equals(false)) {
+                availableQuantity = (Integer) bookQuantityQuery.getObject();
+                quantityString = availableQuantity.toString();
+            }
+            if (availableQuantity == null) break;
+            if (cart.get(book) > availableQuantity) {
                 canCheckout = false;
                 System.out.println("SORRY, BUT THERE IS NOT ENOUGH STOCK TO PURCHASE: " + book.getName());
-                System.out.println("CART QUANTITY: " + cart.get(book) + " | AVAILABLE QUANTITY: " + availableQuantity);
+                System.out.println("CART QUANTITY: " + cart.get(book) + " | AVAILABLE QUANTITY: " + quantityString);
                 break;
             }
 
@@ -93,15 +101,21 @@ public class Buyer extends User implements Serializable {
                 }
             }
 
+            // Update seller's stock
+            Query sellerQuery = BookApp.getQuery(book, "sellers", "book");
+            if (sellerQuery.getObject() == null || sellerQuery.getObject().equals(false)) {
+                return;
+            }
+            if (!(sellerQuery.getObject() instanceof Seller)) return;
+            Seller bookSeller = (Seller) sellerQuery.getObject();
+            bookSeller.updateStock(book, cart.get(book), this);
+
             // checks if user already has book in cart, increments current quantity if so
             if (identicalEntry) {
                 purchaseHistory.put(book, purchaseHistory.get(book) + cart.get(book));
             } else {
                 purchaseHistory.put(book, cart.get(book));
             }
-
-            Seller bookSeller = BookApp.marketplace.getSellerByBook(book);
-            bookSeller.updateStock(book, cart.get(book), this);
         }
 
         if (canCheckout)
@@ -111,6 +125,14 @@ public class Buyer extends User implements Serializable {
     // removes all items in the Buyer's cart
     public void clearCart() {
         cart.clear();
+    }
+
+    public void setCart(HashMap<Book, Integer> cart) {
+        this.cart = cart;
+    }
+
+    public void setPurchaseHistory(HashMap<Book, Integer> purchaseHistory) {
+        this.purchaseHistory = purchaseHistory;
     }
 
     @Override

@@ -1,21 +1,25 @@
 package Query;
 
-public class DeleteQuery extends Query{
+import java.io.Serializable;
 
-    private String params;
+public class DeleteQuery extends Query implements Serializable {
 
-    private Object newVal;
+    private Object params;
 
-    public DeleteQuery(String opt, String params) {
-        super(null, opt);
+    public DeleteQuery(Object o, String opt) {
+        super(o, opt);
+    }
+
+    public DeleteQuery(Object o, String opt, Object params) {
+        super(o, opt);
         this.params = params;
     }
 
-    public String getParams() {
+    public Object getParams() {
         return params;
     }
 
-    public void setParams(String params) {
+    public void setParams(Object params) {
         this.params = params;
     }
 }

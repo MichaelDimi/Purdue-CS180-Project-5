@@ -1,6 +1,8 @@
 package Query;
 
-public class Query {
+import java.io.Serializable;
+
+public class Query implements Serializable {
 
     private Object object;
 

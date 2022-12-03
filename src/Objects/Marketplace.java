@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+import Server.*;
+
 /**
  * This class is the place which
  * stores the books and users and important
@@ -32,12 +34,11 @@ public class Marketplace implements Serializable {
      * The current user logged in.
      * Null before login
      */
-    User currentUser;
+//    User currentUser;
 
     static String filename = "marketplace.ser";
 
     public Marketplace() {
-        this.currentUser = null;
 
         // Deserialize books and users
         Marketplace readMarket = Marketplace.readMarketplace();
@@ -57,18 +58,20 @@ public class Marketplace implements Serializable {
     }
 
     public void saveMarketplace() {
-        // serializes data
-        try {
-            FileOutputStream file = new FileOutputStream(filename);
-            ObjectOutputStream out = new ObjectOutputStream(file);
+        synchronized (Server.LOCK) { // TODO: maybe...?
+            // serializes data
+            try {
+                FileOutputStream file = new FileOutputStream(filename);
+                ObjectOutputStream out = new ObjectOutputStream(file);
 
-            // Method for serialization of object
-            out.writeObject(this);
+                // Method for serialization of object
+                out.writeObject(this);
 
-            out.close();
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+                out.close();
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -83,7 +86,7 @@ public class Marketplace implements Serializable {
 
             // Method for serialization of object
             this.users = new ArrayList<>();
-            this.currentUser = null;
+//            this.currentUser = null;
             out.writeObject(this);
 
             out.close();
@@ -103,7 +106,7 @@ public class Marketplace implements Serializable {
             // Method for deserialization of object
             Marketplace marketplace = (Marketplace) in.readObject();
 
-            marketplace.setCurrentUser(null);
+//            marketplace.setCurrentUser(null);
 
             in.close();
             file.close();
@@ -438,16 +441,16 @@ public class Marketplace implements Serializable {
         return purchaseCount;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
+//    public User getCurrentUser() {
+//        return currentUser;
+//    }
+//
+//    public void setCurrentUser(User currentUser) {
+//        this.currentUser = currentUser;
+//    }
 
     @Override
     public String toString() {
-        return "Marketplace{" + "users=" + users.toString() + ", currentUser=" + currentUser + '}';
+        return "Marketplace{" + "users=" + users.toString() + '}';
     }
 }

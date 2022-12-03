@@ -1,6 +1,7 @@
 package Client;
 
 import Objects.*;
+import Query.Query;
 
 import java.util.Scanner;
 
@@ -20,13 +21,10 @@ public class AccountMenu extends Menu {
 
     @Override
     public boolean present(Scanner scan) {
-        // The beginning of each menu should have some indicator
-        // I've gone with stars, but we can change later
         System.out.println("*******************");
-        User user = BookApp.marketplace.getCurrentUser();
+        User user = BookApp.currentUser;
 
         do {
-
             System.out.printf("You are a %s. Create a new account to become a %s.\n",
                     user instanceof Buyer ? "BUYER" : "SELLER",
                     user instanceof Buyer ? "SELLER" : "BUYER");
@@ -50,10 +48,15 @@ public class AccountMenu extends Menu {
                         if (newName.equals(user.getName())) { // Cancel by typing your current name
                             break;
                         }
-                        askUsernameAgain = !BookApp.marketplace.validateName(newName);
+
+                        Query validateNameQuery = BookApp.computeQuery(new String[]{newName}, "users", "validate name");
+                        askUsernameAgain = !(boolean) validateNameQuery.getObject();
                         if (!askUsernameAgain) {
-                            BookApp.marketplace.getCurrentUser().setName(newName);
-                            BookApp.marketplace.saveMarketplace();
+                            Query setNameQuery = BookApp.updateQuery(BookApp.currentUser, "users", "name", newName);
+                            if (setNameQuery.getObject().equals(false)) {
+                                System.out.println("Whoops: Couldn't set your new username");
+                                break;
+                            }
                         }
                     } while (askUsernameAgain);
                     break;
@@ -65,10 +68,15 @@ public class AccountMenu extends Menu {
                         if (newEmail.equals(user.getEmail())) { // Cancel by typing your current email
                             break;
                         }
-                        askEmailAgain = !BookApp.marketplace.validateEmail(newEmail);
+                        Query validateEmailQuery = BookApp.computeQuery(new String[]{newEmail}, "users", "validate " +
+                                "email");
+                        askEmailAgain = !(boolean) validateEmailQuery.getObject();
                         if (!askEmailAgain) {
-                            BookApp.marketplace.getCurrentUser().setEmail(newEmail);
-                            BookApp.marketplace.saveMarketplace();
+                            Query setEmailQuery = BookApp.updateQuery(BookApp.currentUser, "users", "email", newEmail);
+                            if (setEmailQuery.getObject().equals(false)) {
+                                System.out.println("Whoops: Couldn't set your new email");
+                                break;
+                            }
                         }
                     } while (askEmailAgain);
                     break;
@@ -98,8 +106,12 @@ public class AccountMenu extends Menu {
                                 if (hashedPassword == null) {
                                     return false;
                                 }
-                                BookApp.marketplace.getCurrentUser().setPassword(hashedPassword, confirmPassword);
-                                BookApp.marketplace.saveMarketplace();
+                                Query setPassQuery = BookApp.updateQuery(BookApp.currentUser, "users", "password",
+                                        new String[]{hashedPassword, confirmPassword});
+                                if (setPassQuery.getObject().equals(false)) {
+                                    System.out.println("Whoops: Couldn't set your new password");
+                                    break;
+                                }
                             }
                         } while (askPasswordAgain);
                     } else {
@@ -124,7 +136,10 @@ public class AccountMenu extends Menu {
                     }
                     if (hashedPassword2.equals(user.getPassword())) {
                         // Remove from marketplace and sign out
-                        BookApp.marketplace.getUsers().remove(user);
+                        Query deleteUser = BookApp.deleteQuery(user, "users");
+                        if (deleteUser.getObject().equals(false)) {
+                            System.out.println("Whoops: Couldn't delete your account. Please try again");
+                        }
                         return false;
                     } else {
                         System.out.println("Invalid password");

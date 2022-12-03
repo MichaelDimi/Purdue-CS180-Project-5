@@ -3,6 +3,7 @@ package Client;
 import Objects.Buyer;
 import Objects.Seller;
 import Objects.User;
+import Query.*;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -46,13 +47,17 @@ public class SignUpMenu extends Menu {
             try {
                 Thread.sleep(1000); // For dramatic effect
             } catch (InterruptedException e) {
-                System.out.println("Error: Program interruption");
+                System.out.println("Whoops: Program interruption");
             }
 
             // Validate in Marketplace
-            validationSuccess = BookApp.marketplace.validateName(username) && BookApp.marketplace.validateEmail(email);
+            Query validateNameQuery = BookApp.computeQuery(new String[]{username}, "users", "validate name");
+            Query validateEmailQuery = BookApp.computeQuery(new String[]{email}, "users", "validate email");
+            validationSuccess = (boolean) validateNameQuery.getObject() && (boolean) validateEmailQuery.getObject();
             if (validationSuccess) {
                 System.out.println("Validation successful!");
+            } else {
+                System.out.println("Whoops: Validation failed. Please try again");
             }
         } while (!validationSuccess);
 
@@ -81,9 +86,13 @@ public class SignUpMenu extends Menu {
             newUser = new Seller(username, email, hashedPassword, password);
         }
 
-        BookApp.marketplace.addToUsers(newUser);
-        BookApp.marketplace.setCurrentUser(newUser);
-
-        return true; // Always return true
+        // Updates that add info rather than change, will have a null object:
+        if ((boolean) BookApp.updateQuery(null, "users", "add", newUser).getObject()) {
+            BookApp.currentUser = newUser;
+            return true;
+        } else {
+            System.out.println("Whoops: Unable to create your account. Please try again");
+            return false;
+        }
     }
 }

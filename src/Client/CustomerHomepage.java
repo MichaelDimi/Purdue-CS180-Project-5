@@ -4,6 +4,7 @@ import Exceptions.BookNotFoundException;
 import Objects.Book;
 import Objects.Marketplace;
 import Objects.*;
+import Query.*;
 
 import java.util.*;
 
@@ -35,7 +36,7 @@ public class CustomerHomepage extends Menu {
         System.out.println("CUSTOMER HOME");
         System.out.println("*******************");
 
-        Buyer buyer = (Buyer) BookApp.marketplace.getCurrentUser();
+        Buyer buyer = (Buyer) BookApp.currentUser;
 
         // stores the number of items in user's cart
         int cartCount = 0;
@@ -62,7 +63,13 @@ public class CustomerHomepage extends Menu {
         if (choice.equalsIgnoreCase("1")) {
             System.out.println("PURCHASE A BOOK");
             System.out.println("*******************");
-            HashMap<Book, Integer> books = BookApp.marketplace.getBooks();
+            Query booksQuery = BookApp.getQuery(null, "books", "*");
+            if (booksQuery.getObject().equals(false)) {
+                System.out.println("Whoops: There was an error getting the books from the server");
+                return true;
+            }
+            @SuppressWarnings("unchecked")
+            HashMap<Book, Integer> books = (HashMap<Book, Integer>) booksQuery.getObject();
 
             // Convert the hashmap to an array, since its easier to manipulate
             Book[] booksArr = new Book[books.size()];
@@ -71,14 +78,14 @@ public class CustomerHomepage extends Menu {
             if (books.isEmpty()) {
                 System.out.println("There are no books for sale");
                 System.out.println("Create a new account and become a seller to start selling books");
-                BookApp.marketplace.saveMarketplace();
                 return true;
             }
-
-            System.out.println("How would you like to view the books?\n" +
-                    "1. Sorted by price\n" +
-                    "2. Sorted by quantity\n" +
-                    "3. Not sorted");
+            // TODO: May fix this to not be text block
+            System.out.println("""
+                    How would you like to view the books?
+                    1. Sorted by price
+                    2. Sorted by quantity
+                    3. Not sorted""");
             choice = scan.nextLine();
             if (choice.equals("1")) { // Lowest to highest
                 Marketplace.sortBooksByPrice(booksArr);
@@ -99,7 +106,6 @@ public class CustomerHomepage extends Menu {
             Book selection;
             // if the back option is selected
             if (response == i) {
-                BookApp.marketplace.saveMarketplace();
                 return true; // Go back
             } else {
                 // book to be bought
@@ -116,7 +122,13 @@ public class CustomerHomepage extends Menu {
             System.out.println("Enter search query: ");
             System.out.println("- Note the query will be used to search for name, genre, and description.");
             String query = scan.nextLine();
-            HashMap<Book, Integer> books = BookApp.marketplace.findBooks(query);
+            Query booksQuery = BookApp.getQuery(query, "books", "find");
+            if (booksQuery.getObject().equals(false)) {
+                System.out.println("Whoops: There was an error getting the books from the server");
+                return true;
+            }
+            @SuppressWarnings("unchecked")
+            HashMap<Book, Integer> books = (HashMap<Book, Integer>) booksQuery.getObject();
 
             // Convert the hashmap to an array, since its easier to manipulate
             Book[] booksArr = new Book[books.size()];
@@ -135,7 +147,6 @@ public class CustomerHomepage extends Menu {
             Book selection;
             // if the back option is selected
             if (response == i) {
-                BookApp.marketplace.saveMarketplace();
                 return true; // Go back
             } else {
                 // book to be bought
@@ -148,7 +159,13 @@ public class CustomerHomepage extends Menu {
             System.out.println("VIEW STORES");
             System.out.println("*******************");
 
-            ArrayList<Store> stores = BookApp.marketplace.getStores();
+            Query storesQuery = BookApp.getQuery(null, "stores", "*");
+            if (storesQuery.getObject().equals(false)) {
+                System.out.println("Whoops: There was an error getting the stores from the server");
+                return true;
+            }
+            @SuppressWarnings("unchecked")
+            ArrayList<Store> stores = (ArrayList<Store>) storesQuery.getObject();
             // Convert the arraylist to an array, since its easier to manipulate
             Store[] storesArr = new Store[stores.size()];
             storesArr = stores.toArray(storesArr);
@@ -156,7 +173,6 @@ public class CustomerHomepage extends Menu {
             if (storesArr.length < 1) {
                 System.out.println("There are no stores in the market yet");
                 System.out.println("Create an new account and become a seller to start a store");
-                BookApp.marketplace.saveMarketplace();
                 return true;
             }
 
@@ -255,7 +271,6 @@ public class CustomerHomepage extends Menu {
 
             Store storeSelected;
             if (response == i) {
-                BookApp.marketplace.saveMarketplace();
                 return true; // Go back
             } else {
                 storeSelected = storesArr[response - 1];
@@ -273,7 +288,6 @@ public class CustomerHomepage extends Menu {
             } while (!option.equals("1") && !option.equals("2") && !option.equals("3"));
 
             if (option.equals("3")) {
-                BookApp.marketplace.saveMarketplace();
                 return true;
             } else if (option.equals("1")) {
                 HashMap<Book, Integer> stock = storeSelected.getStock();
@@ -295,7 +309,6 @@ public class CustomerHomepage extends Menu {
                 Book selection;
                 // if the back option is selected
                 if (bookSelectedIndex == j) {
-                    BookApp.marketplace.saveMarketplace();
                     return true; // Go back
                 } else {
                     // book to be bought
@@ -314,7 +327,13 @@ public class CustomerHomepage extends Menu {
             System.out.println("LEAVE A REVIEW");
             System.out.println("*******************");
 
-            ArrayList<Store> stores = BookApp.marketplace.getStores();
+            Query storesQuery = BookApp.getQuery(null, "stores", "*");
+            if (storesQuery.getObject().equals(false)) {
+                System.out.println("Whoops: There was an error getting the stores from the server");
+                return true;
+            }
+            @SuppressWarnings("unchecked")
+            ArrayList<Store> stores = (ArrayList<Store>) storesQuery.getObject();
             // Convert the arraylist to an array, since its easier to manipulate
             Store[] storesArr = new Store[stores.size()];
             storesArr = stores.toArray(storesArr);
@@ -322,7 +341,6 @@ public class CustomerHomepage extends Menu {
             if (storesArr.length < 1) {
                 System.out.println("There are no stores in the market yet");
                 System.out.println("You can create an new account and become a seller to open a store");
-                BookApp.marketplace.saveMarketplace();
                 return true;
             }
 
@@ -340,7 +358,6 @@ public class CustomerHomepage extends Menu {
 
             Store storeSelected;
             if (response == i) {
-                BookApp.marketplace.saveMarketplace();
                 return true; // Go back
             } else {
                 storeSelected = storesArr[response - 1];
@@ -355,7 +372,6 @@ public class CustomerHomepage extends Menu {
             HashMap<Book, Integer> purchaseHistory = buyer.getPurchaseHistory();
             if (purchaseHistory.isEmpty()) {
                 System.out.println("You have never bought anything");
-                BookApp.marketplace.saveMarketplace();
                 return true;
             }
             for (Book book : purchaseHistory.keySet()) {
@@ -366,7 +382,6 @@ public class CustomerHomepage extends Menu {
             if (answer.equalsIgnoreCase("y")) {
                 FileIOMenu fileIOMenu = new FileIOMenu();
                 fileIOMenu.fileIOMenu(scan, buyer);
-                BookApp.marketplace.saveMarketplace();
             }
 
         } else if (choice.equals("6")) { // TODO: Come back to test this after buying is done
@@ -377,18 +392,18 @@ public class CustomerHomepage extends Menu {
                 HashMap<Book, Integer> cart = buyer.getCart();
                 if (cart.isEmpty()) {
                     System.out.println("Your cart is empty");
-                    BookApp.marketplace.saveMarketplace();
                     return true;
                 }
 
                 for (Book book : cart.keySet()) {
                     book.printBookListItem(null, cart.get(book));
                 }
-
-                System.out.println("1. Remove items\n" +
-                                    "2. Clear Cart\n" +
-                                    "3. Checkout\n" +
-                                    "4. BACK");
+                // TODO: May fix this to not be text block
+                System.out.println("""
+                        1. Remove items
+                        2. Clear Cart
+                        3. Checkout
+                        4. BACK""");
                 String cartOptions = scan.nextLine();
 
                 switch (cartOptions) {
@@ -484,15 +499,12 @@ public class CustomerHomepage extends Menu {
             boolean accountMenuResult = accountMenu.present(scan); // If false, sign out
             if (!accountMenuResult) {
                 // Sign out
-                BookApp.marketplace.setCurrentUser(null);
-                BookApp.marketplace.saveMarketplace();
+                BookApp.currentUser = null;
                 return false; // Should break main loop
             }
         } else if (choice.equals("8")) {
-            BookApp.marketplace.saveMarketplace();
             return false;
         }
-        BookApp.marketplace.saveMarketplace();
         return true;
     }
 

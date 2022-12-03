@@ -1,6 +1,7 @@
 package Objects;
 
 import Client.BookApp;
+import Query.Query;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -149,8 +150,14 @@ public class Book implements Serializable {
      * Prints detailed information about the book
      */
     public void printBookDetails() {
+        String quantity = "Error";
+        Query bookQuantityQuery = BookApp.getQuery(this, "books", "quantity");
+        if (bookQuantityQuery.getObject() != null && !bookQuantityQuery.getObject().equals(false)) {
+            quantity = ((Integer) bookQuantityQuery.getObject()).toString();
+        }
+
         System.out.println("Title: " + name);
-        System.out.printf("Price: $%.2f | Qty Available: %d\n", price, BookApp.marketplace.getBooks().get(this));
+        System.out.printf("Price: $%.2f | Qty Available: %s\n", price, quantity);
         System.out.println("Store: " + store);
         System.out.println("Genre(s): " + genre);
         System.out.println("Description: " + description);

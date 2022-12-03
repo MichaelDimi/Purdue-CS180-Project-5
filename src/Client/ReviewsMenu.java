@@ -95,6 +95,13 @@ public class ReviewsMenu {
                     }
                     store.getReviews().add(new Review(rating, buyer, seller.getName(), heading, description));
                     System.out.println("Uploading review...");
+
+                    Query setReviewsQuery = BookApp.updateQuery(store, "stores", "reviews", store.getReviews());
+                    if (setReviewsQuery.getObject().equals(false)) {
+                        System.out.println("Whoops: Couldn't set the reviews");
+                        break;
+                    }
+
                     try {
                         Thread.sleep(1000); // For dramatic effect
                     } catch (InterruptedException e) {

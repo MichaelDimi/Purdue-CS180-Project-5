@@ -119,7 +119,6 @@ public class AccountMenu extends Menu {
                             if (!askPasswordAgain) {
                                 hashedPassword = User.hashPassword(newPassword);
                                 if (hashedPassword == null) {
-                                    System.out.println("EheRE");
                                     return false;
                                 }
                                 Query setPassQuery = BookApp.updateQuery(BookApp.currentUser, "users", "password",

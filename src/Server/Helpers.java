@@ -117,7 +117,7 @@ public class Helpers {
                 break;
             case "stores":
                 switch (params) {
-                    case "add":
+                    case "add": {
                         Seller seller = (Seller) update.getObject();
                         if (seller == null) break;
                         User user = marketplace.getUserByUsername(seller.getName());
@@ -127,6 +127,15 @@ public class Helpers {
                         ArrayList<Store> stores = seller.getStores();
                         stores.add((Store) update.getNewVal());
                         return new Query(true, "");
+                    }
+                    case "reviews": {
+                        Store store = (Store) update.getObject();
+                        if (store == null) break;
+                        store = marketplace.getStoreByName(store.getName());
+                        if (store == null) break;
+                        store.setReviews((ArrayList<Review>) update.getNewVal());
+                        return new Query(true, "");
+                    }
 //                    case "name":
 //                        Store store = (Store) update.getObject();
 //                        String newName = (String) update.getNewVal();
@@ -197,7 +206,12 @@ public class Helpers {
                 if (storeName == null) break;
                 store = marketplace.getStoreByName(storeName);
                 if (store == null) break;
-                marketplace.getStores().remove(store);
+                for (User user : marketplace.getUsers()) {
+                    if (user instanceof Seller) {
+                        ((Seller) user).getStores().remove(store);
+                    }
+                }
+                System.out.println(marketplace.getStores());
                 return new Query(true, "");
             }
 //            case "stock": {

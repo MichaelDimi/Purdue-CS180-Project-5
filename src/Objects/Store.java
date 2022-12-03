@@ -101,6 +101,6 @@ public class Store implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Store{name=%s,\nstock=%s,\nreviews=%s}", name, stock, reviews);
+        return String.format("Store{name=%s, stock=%s, reviews=%s}", name, stock, reviews);
     }
 }

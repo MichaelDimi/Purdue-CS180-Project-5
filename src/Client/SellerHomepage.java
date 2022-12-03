@@ -85,6 +85,7 @@ public class SellerHomepage extends Menu {
                             System.out.println("Whoops: Couldn't delete your store. Please try again");
                             return true;
                         }
+                        stores.remove(storeToDelete);
                     }
                 }
                 break;

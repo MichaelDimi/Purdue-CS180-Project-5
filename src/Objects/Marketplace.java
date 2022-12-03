@@ -1,13 +1,9 @@
 package Objects;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
-
-import Server.*;
 
 /**
  * This class is the place which
@@ -25,7 +21,7 @@ public class Marketplace implements Serializable {
     /**
      * Array of users (buyers and sellers) who have accounts for the marketplace
      */
-    ArrayList<User> users;
+    volatile ArrayList<User> users;
     /**
      * Stores frequency of books in the marketplace
      */
@@ -36,7 +32,7 @@ public class Marketplace implements Serializable {
      */
 //    User currentUser;
 
-    static String filename = "marketplace.ser";
+    private static final String FILENAME = "marketplace.ser";
 
     public Marketplace() {
 
@@ -60,7 +56,7 @@ public class Marketplace implements Serializable {
     public void saveMarketplace() {
         // serializes data
         try {
-            FileOutputStream file = new FileOutputStream(filename);
+            FileOutputStream file = new FileOutputStream(FILENAME);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
             // Method for serialization of object
@@ -79,7 +75,7 @@ public class Marketplace implements Serializable {
      */
     public void clearMarketplace() {
         try {
-            FileOutputStream file = new FileOutputStream(filename);
+            FileOutputStream file = new FileOutputStream(FILENAME);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
             // Method for serialization of object
@@ -98,7 +94,7 @@ public class Marketplace implements Serializable {
         // deserializes data
         try {
             // Reading the object from a file
-            FileInputStream file = new FileInputStream(filename);
+            FileInputStream file = new FileInputStream(FILENAME);
             ObjectInputStream in = new ObjectInputStream(file);
 
             // Method for deserialization of object

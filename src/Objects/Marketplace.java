@@ -58,20 +58,18 @@ public class Marketplace implements Serializable {
     }
 
     public void saveMarketplace() {
-        synchronized (Server.LOCK) { // TODO: maybe...?
-            // serializes data
-            try {
-                FileOutputStream file = new FileOutputStream(filename);
-                ObjectOutputStream out = new ObjectOutputStream(file);
+        // serializes data
+        try {
+            FileOutputStream file = new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(file);
 
-                // Method for serialization of object
-                out.writeObject(this);
+            // Method for serialization of object
+            out.writeObject(this);
 
-                out.close();
-                file.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            out.close();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

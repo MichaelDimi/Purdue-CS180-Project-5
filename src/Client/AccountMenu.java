@@ -25,6 +25,13 @@ public class AccountMenu extends Menu {
         User user = BookApp.currentUser;
 
         do {
+            // Fetch the user again
+            Query updateUserQuery = BookApp.getQuery(user, "users", "currentUser");
+            if (updateUserQuery.getObject().equals(false)) {
+                return true;
+            }
+            user = (User) updateUserQuery.getObject();
+
             System.out.printf("You are a %s. Create a new account to become a %s.\n",
                     user instanceof Buyer ? "BUYER" : "SELLER",
                     user instanceof Buyer ? "SELLER" : "BUYER");
@@ -57,6 +64,10 @@ public class AccountMenu extends Menu {
                                 System.out.println("Whoops: Couldn't set your new username");
                                 break;
                             }
+                            user.setName(newName);
+                        } else {
+                            System.out.println("Whoops: Couldn't set your new username");
+                            System.out.println("That username might be taken");
                         }
                     } while (askUsernameAgain);
                     break;
@@ -77,6 +88,10 @@ public class AccountMenu extends Menu {
                                 System.out.println("Whoops: Couldn't set your new email");
                                 break;
                             }
+                            user.setEmail(newEmail);
+                        } else {
+                            System.out.println("Whoops: Couldn't set your new email");
+                            System.out.println("Email is either taken, or is invalid");
                         }
                     } while (askEmailAgain);
                     break;
@@ -104,14 +119,16 @@ public class AccountMenu extends Menu {
                             if (!askPasswordAgain) {
                                 hashedPassword = User.hashPassword(newPassword);
                                 if (hashedPassword == null) {
+                                    System.out.println("EheRE");
                                     return false;
                                 }
                                 Query setPassQuery = BookApp.updateQuery(BookApp.currentUser, "users", "password",
-                                        new String[]{hashedPassword, confirmPassword});
+                                        new String[]{hashedPassword, newPassword});
                                 if (setPassQuery.getObject().equals(false)) {
                                     System.out.println("Whoops: Couldn't set your new password");
                                     break;
                                 }
+                                user.setPassword(hashedPassword, newPassword);
                             }
                         } while (askPasswordAgain);
                     } else {

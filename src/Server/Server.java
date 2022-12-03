@@ -86,6 +86,7 @@ public class Server implements Runnable {
 
                 writer.close();
                 reader.close();
+                client.close();
             } catch (IOException e) {
                 System.out.println("Client disconnected");
                 return;

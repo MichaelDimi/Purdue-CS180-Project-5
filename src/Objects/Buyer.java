@@ -1,6 +1,7 @@
 package Objects;
 
 import Client.BookApp;
+import Client.ClientQuery;
 import Exceptions.BookNotFoundException;
 import Query.Query;
 
@@ -80,7 +81,7 @@ public class Buyer extends User implements Serializable {
             // checks if there are enough books in stock to purchase
             String quantityString = "?";
             Integer availableQuantity = null;
-            Query bookQuantityQuery = BookApp.getQuery(this, "books", "quantity");
+            Query bookQuantityQuery = new ClientQuery().getQuery(this, "books", "quantity");
             if (bookQuantityQuery.getObject() != null && !bookQuantityQuery.getObject().equals(false)) {
                 availableQuantity = (Integer) bookQuantityQuery.getObject();
                 quantityString = availableQuantity.toString();
@@ -102,7 +103,7 @@ public class Buyer extends User implements Serializable {
             }
 
             // Update seller's stock
-            Query sellerQuery = BookApp.getQuery(book, "sellers", "book");
+            Query sellerQuery = new ClientQuery().getQuery(book, "sellers", "book");
             if (sellerQuery.getObject() == null || sellerQuery.getObject().equals(false)) {
                 return;
             }

@@ -1,6 +1,7 @@
 package Objects;
 
 import Client.BookApp;
+import Client.ClientQuery;
 import Query.Query;
 
 import java.io.Serializable;
@@ -151,7 +152,7 @@ public class Book implements Serializable {
      */
     public void printBookDetails() {
         String quantity = "Error";
-        Query bookQuantityQuery = BookApp.getQuery(this, "books", "quantity");
+        Query bookQuantityQuery = new ClientQuery().getQuery(this, "books", "quantity");
         if (bookQuantityQuery.getObject() != null && !bookQuantityQuery.getObject().equals(false)) {
             quantity = ((Integer) bookQuantityQuery.getObject()).toString();
         }

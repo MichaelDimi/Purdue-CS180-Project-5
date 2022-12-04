@@ -56,42 +56,45 @@ public class Server implements Runnable {
         // All communication with client happens here
         @Override
         public void run() {
-            Helpers helpers = new Helpers(marketplace);
+            synchronized (LOCK) {
+                Helpers helpers = new Helpers(marketplace);
 
-            try {
-                ObjectInputStream reader = new ObjectInputStream(client.getInputStream());
-                ObjectOutputStream writer = new ObjectOutputStream(client.getOutputStream());
+                try {
+                    ObjectInputStream reader = new ObjectInputStream(client.getInputStream());
+                    ObjectOutputStream writer = new ObjectOutputStream(client.getOutputStream());
 
-                Query query = (Query) reader.readObject();
+                    Query query = (Query) reader.readObject();
 
-                if (query instanceof GetQuery) {
-                    if (query instanceof ComputeQuery) {
-                        Query q = helpers.compute((ComputeQuery) query);
-                        writer.writeObject(q);
-                    } else {
-                        writer.writeObject(helpers.get((GetQuery) query));
+                    if (query instanceof GetQuery) {
+                        if (query instanceof ComputeQuery) {
+                            Query q = helpers.compute((ComputeQuery) query);
+                            writer.writeObject(q);
+                        } else {
+                            writer.writeObject(helpers.get((GetQuery) query));
+                        }
+                        System.out.println(marketplace);
+                    } else if (query instanceof DeleteQuery) {
+                        writer.writeObject(helpers.delete((DeleteQuery) query));
+                        marketplace.saveMarketplace();
+                        System.out.println(marketplace);
+                    } else if (query instanceof UpdateQuery) {
+                        writer.writeObject(helpers.update((UpdateQuery) query));
+                        marketplace.saveMarketplace();
+                        System.out.println(marketplace);
                     }
-                    System.out.println(marketplace);
-                } else if (query instanceof DeleteQuery) {
-                    writer.writeObject(helpers.delete((DeleteQuery) query));
-                    marketplace.saveMarketplace();
-                    System.out.println(marketplace);
-                } else if (query instanceof UpdateQuery) {
-                    writer.writeObject(helpers.update((UpdateQuery) query));
-                    marketplace.saveMarketplace();
-                    System.out.println(marketplace);
+
+                    writer.flush();
+
+                    writer.close();
+                    reader.close();
+                    client.close();
+                } catch (IOException e) {
+                    System.out.println("Client disconnected");
+                    return;
+                } catch (ClassNotFoundException e) {
+                    // Not a valid object
+                    throw new RuntimeException(e);
                 }
-
-                writer.flush();
-
-                writer.close();
-                reader.close();
-            } catch (IOException e) {
-                System.out.println("Client disconnected");
-                return;
-            } catch (ClassNotFoundException e) {
-                // Not a valid object
-                throw new RuntimeException(e);
             }
         }
 

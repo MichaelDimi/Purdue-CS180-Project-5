@@ -80,7 +80,7 @@ public class SellerHomepage extends Menu {
                 for (int i = 0; i < stores.size(); i++) {
                     // store references should be the same (see selectStore() method)
                     if (stores.get(i) == storeToDelete) {
-                        Query deleteStoreQuery = BookApp.deleteQuery(stores.get(i), "stores");
+                        Query deleteStoreQuery = new ClientQuery().deleteQuery(stores.get(i), "stores");
                         if (deleteStoreQuery.getObject().equals(false)) {
                             System.out.println("Whoops: Couldn't delete your store. Please try again");
                             return true;
@@ -219,7 +219,7 @@ public class SellerHomepage extends Menu {
 
                 // loops through all users
                 boolean isCartWithProduct = false;
-                Query usersQuery = BookApp.getQuery(null, "users", "*");
+                Query usersQuery = new ClientQuery().getQuery(null, "users", "*");
                 if (usersQuery.getObject() == null || usersQuery.getObject().equals(false)) {
                     System.out.println("Whoops: We were unable to get the users from the server");
                     return true;
@@ -285,7 +285,7 @@ public class SellerHomepage extends Menu {
         if (storeName.equals("0")) {
             System.out.println("STORE RENAMING CANCELED");
         } else {
-            Query updateStoreNameQuery = BookApp.updateQuery(store, "stores", "name", storeName);
+            Query updateStoreNameQuery = new ClientQuery().updateQuery(store, "stores", "name", storeName);
             if (updateStoreNameQuery.getObject().equals(false)) {
                 System.out.println("Whoops: Couldn't rename your store");
                 if (updateStoreNameQuery.getOptions().equals("taken")) {
@@ -612,7 +612,7 @@ public class SellerHomepage extends Menu {
         }
 
         // updates the store's stock with the new modified stock
-        Query setStockQuery = BookApp.updateQuery(store, "stock", "set", stock);
+        Query setStockQuery = new ClientQuery().updateQuery(store, "stock", "set", stock);
         if (setStockQuery.getObject().equals(false)) {
             System.out.println("Whoops: There was an issue updating the stock");
             return;

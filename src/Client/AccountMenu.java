@@ -26,7 +26,7 @@ public class AccountMenu extends Menu {
 
         do {
             // Fetch the user again
-            Query updateUserQuery = BookApp.getQuery(user, "users", "currentUser");
+            Query updateUserQuery = new ClientQuery().getQuery(user, "users", "currentUser");
             if (updateUserQuery.getObject().equals(false)) {
                 return true;
             }
@@ -56,10 +56,10 @@ public class AccountMenu extends Menu {
                             break;
                         }
 
-                        Query validateNameQuery = BookApp.computeQuery(new String[]{newName}, "users", "validate name");
+                        Query validateNameQuery = new ClientQuery().computeQuery(new String[]{newName}, "users", "validate name");
                         askUsernameAgain = !(boolean) validateNameQuery.getObject();
                         if (!askUsernameAgain) {
-                            Query setNameQuery = BookApp.updateQuery(BookApp.currentUser, "users", "name", newName);
+                            Query setNameQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "name", newName);
                             if (setNameQuery.getObject().equals(false)) {
                                 System.out.println("Whoops: Couldn't set your new username");
                                 break;
@@ -79,11 +79,11 @@ public class AccountMenu extends Menu {
                         if (newEmail.equals(user.getEmail())) { // Cancel by typing your current email
                             break;
                         }
-                        Query validateEmailQuery = BookApp.computeQuery(new String[]{newEmail}, "users", "validate " +
+                        Query validateEmailQuery = new ClientQuery().computeQuery(new String[]{newEmail}, "users", "validate " +
                                 "email");
                         askEmailAgain = !(boolean) validateEmailQuery.getObject();
                         if (!askEmailAgain) {
-                            Query setEmailQuery = BookApp.updateQuery(BookApp.currentUser, "users", "email", newEmail);
+                            Query setEmailQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "email", newEmail);
                             if (setEmailQuery.getObject().equals(false)) {
                                 System.out.println("Whoops: Couldn't set your new email");
                                 break;
@@ -121,7 +121,7 @@ public class AccountMenu extends Menu {
                                 if (hashedPassword == null) {
                                     return false;
                                 }
-                                Query setPassQuery = BookApp.updateQuery(BookApp.currentUser, "users", "password",
+                                Query setPassQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "password",
                                         new String[]{hashedPassword, newPassword});
                                 if (setPassQuery.getObject().equals(false)) {
                                     System.out.println("Whoops: Couldn't set your new password");
@@ -152,7 +152,7 @@ public class AccountMenu extends Menu {
                     }
                     if (hashedPassword2.equals(user.getPassword())) {
                         // Remove from marketplace and sign out
-                        Query deleteUser = BookApp.deleteQuery(user, "users");
+                        Query deleteUser = new ClientQuery().deleteQuery(user, "users");
                         if (deleteUser.getObject().equals(false)) {
                             System.out.println("Whoops: Couldn't delete your account. Please try again");
                         }

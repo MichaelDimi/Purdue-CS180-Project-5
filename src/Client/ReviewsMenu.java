@@ -34,7 +34,7 @@ public class ReviewsMenu {
             if (storeName.equals("CANCEL")) {
                 return;
             }
-            Query storeQuery = BookApp.getQuery(storeName, "stores", "name");
+            Query storeQuery = new ClientQuery().getQuery(storeName, "stores", "name");
             if (!(storeQuery.getObject() instanceof Store) || storeQuery.getObject().equals(false)) {
                 System.out.println("Whoops: We couldn't get that store from the server");
                 return;
@@ -83,7 +83,7 @@ public class ReviewsMenu {
             String response = scan.nextLine();
             if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("n")) {
                 if (response.equalsIgnoreCase("y")) {
-                    Query sellerQuery = BookApp.getQuery(store.getSellerName(), "users", "name");
+                    Query sellerQuery = new ClientQuery().getQuery(store.getSellerName(), "users", "name");
                     if (!(sellerQuery.getObject() instanceof Seller)) {
                         System.out.println("Whoops: Couldn't get the owner of this store");
                         System.out.println("Please go back and try again");
@@ -96,7 +96,7 @@ public class ReviewsMenu {
                     store.getReviews().add(new Review(rating, buyer, seller.getName(), heading, description));
                     System.out.println("Uploading review...");
 
-                    Query setReviewsQuery = BookApp.updateQuery(store, "stores", "reviews", store.getReviews());
+                    Query setReviewsQuery = new ClientQuery().updateQuery(store, "stores", "reviews", store.getReviews());
                     if (setReviewsQuery.getObject().equals(false)) {
                         System.out.println("Whoops: Couldn't set the reviews");
                         break;
@@ -130,7 +130,7 @@ public class ReviewsMenu {
             if (storeName.equals("CANCEL")) {
                 return;
             }
-            Query storeQuery = BookApp.getQuery(storeName, "stores", "name");
+            Query storeQuery = new ClientQuery().getQuery(storeName, "stores", "name");
             if (!(storeQuery.getObject() instanceof Store) || storeQuery.getObject().equals(false)) {
                 System.out.println("Whoops: We couldn't get that store from the server");
                 return;

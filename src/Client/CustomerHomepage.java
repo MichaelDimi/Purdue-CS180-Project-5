@@ -63,7 +63,7 @@ public class CustomerHomepage extends Menu {
         if (choice.equalsIgnoreCase("1")) {
             System.out.println("PURCHASE A BOOK");
             System.out.println("*******************");
-            Query booksQuery = BookApp.getQuery(null, "books", "*");
+            Query booksQuery = new ClientQuery().getQuery(null, "books", "*");
             if (booksQuery.getObject().equals(false)) {
                 System.out.println("Whoops: There was an error getting the books from the server");
                 return true;
@@ -122,7 +122,7 @@ public class CustomerHomepage extends Menu {
             System.out.println("Enter search query: ");
             System.out.println("- Note the query will be used to search for name, genre, and description.");
             String query = scan.nextLine();
-            Query booksQuery = BookApp.getQuery(query, "books", "find");
+            Query booksQuery = new ClientQuery().getQuery(query, "books", "find");
             if (booksQuery.getObject().equals(false)) {
                 System.out.println("Whoops: There was an error getting the books from the server");
                 return true;
@@ -159,7 +159,7 @@ public class CustomerHomepage extends Menu {
             System.out.println("VIEW STORES");
             System.out.println("*******************");
 
-            Query storesQuery = BookApp.getQuery(null, "stores", "*");
+            Query storesQuery = new ClientQuery().getQuery(null, "stores", "*");
             if (storesQuery.getObject().equals(false)) {
                 System.out.println("Whoops: There was an error getting the stores from the server");
                 return true;
@@ -327,7 +327,7 @@ public class CustomerHomepage extends Menu {
             System.out.println("LEAVE A REVIEW");
             System.out.println("*******************");
 
-            Query storesQuery = BookApp.getQuery(null, "stores", "*");
+            Query storesQuery = new ClientQuery().getQuery(null, "stores", "*");
             if (storesQuery.getObject().equals(false)) {
                 System.out.println("Whoops: There was an error getting the stores from the server");
                 return true;

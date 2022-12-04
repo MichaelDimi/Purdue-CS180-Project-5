@@ -34,7 +34,7 @@ public class SignUpConcurrencyTest extends Menu {
 //            }
 
             // Add user
-            Query validateAddQuery = BookApp.updateQuery(null, "users", "add", new String[]{username, email, password, isBuyer ? "T" : "F"});
+            Query validateAddQuery = new ClientQuery().updateQuery(null, "users", "add", new String[]{username, email, password, isBuyer ? "T" : "F"});
             if (validateAddQuery.getObject().equals(false)) {
                 if (validateAddQuery.getOptions().equals("validation err")) {
                     System.out.println("Whoops: Validation failed. Please try again");

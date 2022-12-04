@@ -51,7 +51,7 @@ public class Seller extends User implements Serializable {
             throw new IdenticalStoreException("You cannot have an identical store");
         }
         Store newStore = new Store(storeName, this.getName());
-        Query addStoreQuery = BookApp.updateQuery(this, "stores", "add", newStore);
+        Query addStoreQuery = new ClientQuery().updateQuery(this, "stores", "add", newStore);
         if (addStoreQuery.getObject() == null || addStoreQuery.getObject().equals(false)) {
             System.out.println("Whoops: Couldn't add the store. Please try again");
         }
@@ -74,7 +74,7 @@ public class Seller extends User implements Serializable {
             System.out.println("STORE CREATION CANCELED\n");
         } else {
             Store newStore = new Store(storeName, this.getName());
-            Query addStoreQuery = BookApp.updateQuery(this, "stores", "add", newStore);
+            Query addStoreQuery = new ClientQuery().updateQuery(this, "stores", "add", newStore);
             if (addStoreQuery.getObject() == null || addStoreQuery.getObject().equals(false)) {
                 System.out.println("Whoops: Couldn't add the store. Please try again");
             } else {

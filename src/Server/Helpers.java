@@ -85,8 +85,32 @@ public class Helpers {
             case "users":
                 switch (params) {
                     case "add": {
-                        marketplace.addToUsers((User) update.getNewVal());
-                        return new Query(true, "");
+                        String[] input = (String[]) update.getNewVal();
+                        String username = input[0];
+                        String email = input[1];
+                        String rawPassword = input[2];
+                        boolean isBuyer = input[3].equals("T");
+
+                        boolean isValidName = marketplace.validateName(username);
+                        boolean isValidEmail = marketplace.validateEmail(email);
+                        boolean validationSuccess = isValidEmail && isValidName;
+                        if (!validationSuccess) return new Query(false, "validation err");
+
+                        // HASHING
+                        String hashedPassword = User.hashPassword(rawPassword);
+                        if (hashedPassword == null) {
+                            return new Query(false, "hash err");
+                        }
+
+                        User newUser;
+                        if (isBuyer) {
+                            newUser = new Buyer(username, email, hashedPassword, rawPassword);
+                        } else {
+                            newUser = new Seller(username, email, hashedPassword, rawPassword);
+                        }
+
+                        marketplace.addToUsers(newUser);
+                        return new Query(newUser, "");
                     }
                     case "name": {
                         User user = (User) update.getObject();

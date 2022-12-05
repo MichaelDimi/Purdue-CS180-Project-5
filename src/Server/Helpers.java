@@ -14,7 +14,7 @@ public class Helpers {
         this.marketplace = marketplace;
     }
 
-    public GetQuery get(GetQuery get) {  // Always have * as first case and default (no opt or params) as last
+    public synchronized GetQuery get(GetQuery get) {  // Always have * as first case and default (no opt or params) as last
         String opt = get.getOptions();
         String params = get.getParams();
         switch (opt) {
@@ -78,15 +78,39 @@ public class Helpers {
         return get;
     }
 
-    public Query update(UpdateQuery update) {
+    public synchronized Query update(UpdateQuery update) {
         String opt = update.getOptions();
         String params = update.getParams();
         switch (opt) {
             case "users":
                 switch (params) {
                     case "add": {
-                        marketplace.addToUsers((User) update.getNewVal());
-                        return new Query(true, "");
+                        String[] input = (String[]) update.getNewVal();
+                        String username = input[0];
+                        String email = input[1];
+                        String rawPassword = input[2];
+                        boolean isBuyer = input[3].equals("T");
+
+                        boolean isValidName = marketplace.validateName(username);
+                        boolean isValidEmail = marketplace.validateEmail(email);
+                        boolean validationSuccess = isValidEmail && isValidName;
+                        if (!validationSuccess) return new Query(false, "validation err");
+
+                        // HASHING
+                        String hashedPassword = User.hashPassword(rawPassword);
+                        if (hashedPassword == null) {
+                            return new Query(false, "hash err");
+                        }
+
+                        User newUser;
+                        if (isBuyer) {
+                            newUser = new Buyer(username, email, hashedPassword, rawPassword);
+                        } else {
+                            newUser = new Seller(username, email, hashedPassword, rawPassword);
+                        }
+
+                        marketplace.addToUsers(newUser);
+                        return new Query(newUser, "");
                     }
                     case "name": {
                         User user = (User) update.getObject();
@@ -117,7 +141,7 @@ public class Helpers {
                 break;
             case "stores":
                 switch (params) {
-                    case "add":
+                    case "add": {
                         Seller seller = (Seller) update.getObject();
                         if (seller == null) break;
                         User user = marketplace.getUserByUsername(seller.getName());
@@ -127,6 +151,15 @@ public class Helpers {
                         ArrayList<Store> stores = seller.getStores();
                         stores.add((Store) update.getNewVal());
                         return new Query(true, "");
+                    }
+                    case "reviews": {
+                        Store store = (Store) update.getObject();
+                        if (store == null) break;
+                        store = marketplace.getStoreByName(store.getName());
+                        if (store == null) break;
+                        store.setReviews((ArrayList<Review>) update.getNewVal());
+                        return new Query(true, "");
+                    }
 //                    case "name":
 //                        Store store = (Store) update.getObject();
 //                        String newName = (String) update.getNewVal();
@@ -177,7 +210,7 @@ public class Helpers {
         return new Query(false, "err");
     }
 
-    public Query delete(DeleteQuery delete) {
+    public synchronized Query delete(DeleteQuery delete) {
         String opt = delete.getOptions();
         switch (opt) {
             case "users": {
@@ -197,7 +230,12 @@ public class Helpers {
                 if (storeName == null) break;
                 store = marketplace.getStoreByName(storeName);
                 if (store == null) break;
-                marketplace.getStores().remove(store);
+                for (User user : marketplace.getUsers()) {
+                    if (user instanceof Seller) {
+                        ((Seller) user).getStores().remove(store);
+                    }
+                }
+                System.out.println(marketplace.getStores());
                 return new Query(true, "");
             }
 //            case "stock": {
@@ -213,7 +251,7 @@ public class Helpers {
         return new Query(false, "err: Couldn't find opt/params");
     }
 
-    public Query compute(ComputeQuery compute) {
+    public synchronized Query compute(ComputeQuery compute) {
         String opt = compute.getOptions();
         String params = compute.getParams();
         switch (opt) {

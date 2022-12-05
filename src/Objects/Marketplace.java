@@ -53,7 +53,7 @@ public class Marketplace implements Serializable {
         }
     }
 
-    public synchronized void saveMarketplace() {
+    synchronized public void saveMarketplace() {
         // serializes data
         try {
             FileOutputStream file = new FileOutputStream(FILENAME);
@@ -73,7 +73,7 @@ public class Marketplace implements Serializable {
      * Use with caution, used only for testing and clearing the marketplace each test
      * - Note if a market is used then the test is run, the market will be cleared
      */
-    public void clearMarketplace() {
+    synchronized public void clearMarketplace() {
         try {
             FileOutputStream file = new FileOutputStream(FILENAME);
             ObjectOutputStream out = new ObjectOutputStream(file);
@@ -90,7 +90,7 @@ public class Marketplace implements Serializable {
         }
     }
 
-    static public Marketplace readMarketplace() {
+    synchronized static public Marketplace readMarketplace() {
         // deserializes data
         try {
             // Reading the object from a file
@@ -121,7 +121,7 @@ public class Marketplace implements Serializable {
      * @param username The username of the user
      * @return The user with that name
      */
-    public synchronized User getUserByUsername(String username) {
+    synchronized public User getUserByUsername(String username) {
         for (User user : this.users) {
             if (user.getName().equals(username)) {
                 return user;
@@ -134,7 +134,7 @@ public class Marketplace implements Serializable {
      * @param email The email of the user
      * @return The user with that email
      */
-    public synchronized User getUserByEmail(String email) {
+    synchronized public User getUserByEmail(String email) {
         for (User user : this.users) {
             if (user.getEmail().equals(email)) {
                 return user;
@@ -148,7 +148,7 @@ public class Marketplace implements Serializable {
      * @param name Name of book
      * @return A book
      */
-    public ArrayList<Book> getBooksByName(String name) {
+    synchronized public ArrayList<Book> getBooksByName(String name) {
         ArrayList<Book> books = new ArrayList<>();
         for (Book book : this.getBooks().keySet()) {
             if (book.getName().toLowerCase().contains(name.toLowerCase())) {
@@ -164,7 +164,7 @@ public class Marketplace implements Serializable {
      * @param storeName Name of store
      * @return A book
      */
-    public ArrayList<Book> getBooksByStore(String storeName) {
+    synchronized public ArrayList<Book> getBooksByStore(String storeName) {
         ArrayList<Book> books = new ArrayList<>();
         for (Book book : this.getBooks().keySet()) {
             if (book.getStore().toLowerCase().contains(storeName.toLowerCase())) {
@@ -180,7 +180,7 @@ public class Marketplace implements Serializable {
      * @param description Description of book
      * @return A book
      */
-    public ArrayList<Book> getBooksByDescription(String description) {
+    synchronized public ArrayList<Book> getBooksByDescription(String description) {
         ArrayList<Book> books = new ArrayList<>();
         for (Book book : this.getBooks().keySet()) {
             if (book.getDescription().toLowerCase().contains(description.toLowerCase())) {
@@ -196,7 +196,7 @@ public class Marketplace implements Serializable {
      * @param name The username being validated
      * @return if the username is taken
      */
-    public synchronized boolean validateName(String name) {
+    synchronized public boolean validateName(String name) {
         if (name.isEmpty()) {
             return false;
         }
@@ -213,7 +213,7 @@ public class Marketplace implements Serializable {
      * @param email The email being validated
      * @return if the email is taken
      */
-    public synchronized boolean validateEmail(String email) {
+    synchronized public boolean validateEmail(String email) {
         if (email.isEmpty()) {
             return false;
         }
@@ -240,7 +240,7 @@ public class Marketplace implements Serializable {
      * @param book the book whose Seller is to be found
      * @return Seller of the book
      */
-    public synchronized Seller getSellerByBook(Book book) {
+    synchronized public Seller getSellerByBook(Book book) {
         for (User user : users) {
             if (user instanceof Seller) {
                 // loops though all of the Seller's books
@@ -260,15 +260,15 @@ public class Marketplace implements Serializable {
      * Adds a new user to the marketplace
      * @param user The user to add to marketplace
      */
-    public synchronized void addToUsers(User user) {
+    synchronized public void addToUsers(User user) {
         this.users.add(user);
     }
 
-    public synchronized ArrayList<User> getUsers() {
+    synchronized public ArrayList<User> getUsers() {
         return users;
     }
 
-    public synchronized void setUsers(ArrayList<User> users) {
+    synchronized public void setUsers(ArrayList<User> users) {
         this.users = users;
     }
 
@@ -276,7 +276,7 @@ public class Marketplace implements Serializable {
      * Gets the stores of all the sellers in the marketplace
      * @return an array list of stores
      */
-    public synchronized ArrayList<Store> getStores() {
+    synchronized public ArrayList<Store> getStores() {
         ArrayList<Store> stores = new ArrayList<>();
         for (User user : users) {
             if (user instanceof Seller) {
@@ -294,7 +294,7 @@ public class Marketplace implements Serializable {
      * @param storeName The name of the store you want
      * @return The store with that name. Null if none was found
      */
-    public synchronized Store getStoreByName(String storeName) {
+    synchronized public Store getStoreByName(String storeName) {
         ArrayList<Store> stores = getStores();
         for (Store store : stores) {
             if (store.getName().equals(storeName)) {
@@ -310,7 +310,7 @@ public class Marketplace implements Serializable {
      * @param book name of book being searched
      * @return The quantity of that book. 0 if none was found
      */
-    public int getBookQuantity(Book book) {
+    synchronized public int getBookQuantity(Book book) {
         for (User user : users) {
             if (user instanceof Seller) {
                 // loops through all the Seller's books
@@ -326,7 +326,7 @@ public class Marketplace implements Serializable {
         return 0;
     }
 
-    public synchronized HashMap<Book, Integer> getBooks() {
+    synchronized public HashMap<Book, Integer> getBooks() {
         HashMap<Book, Integer> books = new HashMap<>();
         ArrayList<Store> stores = getStores();
         for (Store store : stores) {
@@ -336,7 +336,7 @@ public class Marketplace implements Serializable {
         return books;
     }
 
-    public synchronized HashMap<Book, Integer> findBooks(String query) {
+    synchronized public HashMap<Book, Integer> findBooks(String query) {
         HashMap<Book, Integer> books = this.getBooks();
 
         HashMap<Book, Integer> booksFound = new HashMap<>();
@@ -351,7 +351,7 @@ public class Marketplace implements Serializable {
         return booksFound;
     }
 
-    public static void sortBooksByPrice(Book[] books) {
+    synchronized public static void sortBooksByPrice(Book[] books) {
         int n = books.length;
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
@@ -363,7 +363,7 @@ public class Marketplace implements Serializable {
             }
         }
     }
-    public static Book[] sortBooksByQuantity(HashMap<Book, Integer> books) {
+    synchronized public static Book[] sortBooksByQuantity(HashMap<Book, Integer> books) {
         int n = books.size();
 
         Book[] booksArr = new Book[books.size()];
@@ -383,7 +383,7 @@ public class Marketplace implements Serializable {
     }
 
     // returns array of Stores sorted by the amount of unique products they sell
-    public static Store[] sortStoresByVarietyOfProducts(ArrayList<Store> stores) {
+    synchronized public static Store[] sortStoresByVarietyOfProducts(ArrayList<Store> stores) {
         int n = stores.size();
 
         Store[] storeArr = new Store[stores.size()];
@@ -403,7 +403,7 @@ public class Marketplace implements Serializable {
     }
 
     // returns array of Stores sorted by the frequency of purchases from store
-    public static Store[] sortStoreByMostFrequentPurchases(Buyer buyer, ArrayList<Store> stores) {
+    synchronized public static Store[] sortStoreByMostFrequentPurchases(Buyer buyer, ArrayList<Store> stores) {
         int n = stores.size();
 
         Store[] storeArr = new Store[stores.size()];
@@ -424,7 +424,7 @@ public class Marketplace implements Serializable {
     }
 
     // returns an int with the number of purchases the current user has made at specified store
-    public synchronized static int getNumPurchasesFromStore(Buyer buyer, Store store) {
+    synchronized public static int getNumPurchasesFromStore(Buyer buyer, Store store) {
         int purchaseCount = 0;
         for (Book book : buyer.getPurchaseHistory().keySet()) {
             if (book.getStore().equals(store.getName())) {
@@ -444,7 +444,7 @@ public class Marketplace implements Serializable {
 //    }
 
     @Override
-    public String toString() {
+    synchronized public String toString() {
         return "Marketplace{" + "users=" + users.toString() + '}';
     }
 }

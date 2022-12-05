@@ -1,9 +1,7 @@
 package Objects;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -23,7 +21,7 @@ public class Marketplace implements Serializable {
     /**
      * Array of users (buyers and sellers) who have accounts for the marketplace
      */
-    ArrayList<User> users;
+    volatile ArrayList<User> users;
     /**
      * Stores frequency of books in the marketplace
      */
@@ -32,12 +30,11 @@ public class Marketplace implements Serializable {
      * The current user logged in.
      * Null before login
      */
-    User currentUser;
+//    User currentUser;
 
-    static String filename = "marketplace.ser";
+    private static final String FILENAME = "marketplace.ser";
 
     public Marketplace() {
-        this.currentUser = null;
 
         // Deserialize books and users
         Marketplace readMarket = Marketplace.readMarketplace();
@@ -56,10 +53,10 @@ public class Marketplace implements Serializable {
         }
     }
 
-    public void saveMarketplace() {
+    public synchronized void saveMarketplace() {
         // serializes data
         try {
-            FileOutputStream file = new FileOutputStream(filename);
+            FileOutputStream file = new FileOutputStream(FILENAME);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
             // Method for serialization of object
@@ -78,12 +75,12 @@ public class Marketplace implements Serializable {
      */
     public void clearMarketplace() {
         try {
-            FileOutputStream file = new FileOutputStream(filename);
+            FileOutputStream file = new FileOutputStream(FILENAME);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
             // Method for serialization of object
             this.users = new ArrayList<>();
-            this.currentUser = null;
+//            this.currentUser = null;
             out.writeObject(this);
 
             out.close();
@@ -97,13 +94,13 @@ public class Marketplace implements Serializable {
         // deserializes data
         try {
             // Reading the object from a file
-            FileInputStream file = new FileInputStream(filename);
+            FileInputStream file = new FileInputStream(FILENAME);
             ObjectInputStream in = new ObjectInputStream(file);
 
             // Method for deserialization of object
             Marketplace marketplace = (Marketplace) in.readObject();
 
-            marketplace.setCurrentUser(null);
+//            marketplace.setCurrentUser(null);
 
             in.close();
             file.close();
@@ -124,7 +121,7 @@ public class Marketplace implements Serializable {
      * @param username The username of the user
      * @return The user with that name
      */
-    public User getUserByUsername(String username) {
+    public synchronized User getUserByUsername(String username) {
         for (User user : this.users) {
             if (user.getName().equals(username)) {
                 return user;
@@ -137,7 +134,7 @@ public class Marketplace implements Serializable {
      * @param email The email of the user
      * @return The user with that email
      */
-    public User getUserByEmail(String email) {
+    public synchronized User getUserByEmail(String email) {
         for (User user : this.users) {
             if (user.getEmail().equals(email)) {
                 return user;
@@ -199,7 +196,7 @@ public class Marketplace implements Serializable {
      * @param name The username being validated
      * @return if the username is taken
      */
-    public boolean validateName(String name) {
+    public synchronized boolean validateName(String name) {
         if (name.isEmpty()) {
             return false;
         }
@@ -216,7 +213,7 @@ public class Marketplace implements Serializable {
      * @param email The email being validated
      * @return if the email is taken
      */
-    public boolean validateEmail(String email) {
+    public synchronized boolean validateEmail(String email) {
         if (email.isEmpty()) {
             return false;
         }
@@ -243,7 +240,7 @@ public class Marketplace implements Serializable {
      * @param book the book whose Seller is to be found
      * @return Seller of the book
      */
-    public Seller getSellerByBook(Book book) {
+    public synchronized Seller getSellerByBook(Book book) {
         for (User user : users) {
             if (user instanceof Seller) {
                 // loops though all of the Seller's books
@@ -263,15 +260,15 @@ public class Marketplace implements Serializable {
      * Adds a new user to the marketplace
      * @param user The user to add to marketplace
      */
-    public void addToUsers(User user) {
+    public synchronized void addToUsers(User user) {
         this.users.add(user);
     }
 
-    public ArrayList<User> getUsers() {
+    public synchronized ArrayList<User> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public synchronized void setUsers(ArrayList<User> users) {
         this.users = users;
     }
 
@@ -279,7 +276,7 @@ public class Marketplace implements Serializable {
      * Gets the stores of all the sellers in the marketplace
      * @return an array list of stores
      */
-    public ArrayList<Store> getStores() {
+    public synchronized ArrayList<Store> getStores() {
         ArrayList<Store> stores = new ArrayList<>();
         for (User user : users) {
             if (user instanceof Seller) {
@@ -297,7 +294,7 @@ public class Marketplace implements Serializable {
      * @param storeName The name of the store you want
      * @return The store with that name. Null if none was found
      */
-    public Store getStoreByName(String storeName) {
+    public synchronized Store getStoreByName(String storeName) {
         ArrayList<Store> stores = getStores();
         for (Store store : stores) {
             if (store.getName().equals(storeName)) {
@@ -329,7 +326,7 @@ public class Marketplace implements Serializable {
         return 0;
     }
 
-    public HashMap<Book, Integer> getBooks() {
+    public synchronized HashMap<Book, Integer> getBooks() {
         HashMap<Book, Integer> books = new HashMap<>();
         ArrayList<Store> stores = getStores();
         for (Store store : stores) {
@@ -339,7 +336,7 @@ public class Marketplace implements Serializable {
         return books;
     }
 
-    public HashMap<Book, Integer> findBooks(String query) {
+    public synchronized HashMap<Book, Integer> findBooks(String query) {
         HashMap<Book, Integer> books = this.getBooks();
 
         HashMap<Book, Integer> booksFound = new HashMap<>();
@@ -427,7 +424,7 @@ public class Marketplace implements Serializable {
     }
 
     // returns an int with the number of purchases the current user has made at specified store
-    public static int getNumPurchasesFromStore(Buyer buyer, Store store) {
+    public synchronized static int getNumPurchasesFromStore(Buyer buyer, Store store) {
         int purchaseCount = 0;
         for (Book book : buyer.getPurchaseHistory().keySet()) {
             if (book.getStore().equals(store.getName())) {
@@ -438,16 +435,16 @@ public class Marketplace implements Serializable {
         return purchaseCount;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
+//    public User getCurrentUser() {
+//        return currentUser;
+//    }
+//
+//    public void setCurrentUser(User currentUser) {
+//        this.currentUser = currentUser;
+//    }
 
     @Override
     public String toString() {
-        return "Marketplace{" + "users=" + users.toString() + ", currentUser=" + currentUser + '}';
+        return "Marketplace{" + "users=" + users.toString() + '}';
     }
 }

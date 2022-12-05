@@ -3,6 +3,7 @@ package Client;
 import Objects.Buyer;
 import Objects.Seller;
 import Objects.User;
+import Query.*;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -41,49 +42,44 @@ public class SignUpMenu extends Menu {
             email = input[1];
             password = input[2];
 
+            boolean isBuyer;
+            do {
+                System.out.println("Are you a\n1. Buyer\n2. Seller");
+                String buyerSeller = scan.nextLine();
+                if (buyerSeller.equals("1") || buyerSeller.equals("2")) {
+                    isBuyer = Objects.equals(buyerSeller, "1");
+                    break;
+                }
+                System.out.println("Whoops: Please enter (1) or (2)");
+            } while(true);
+
             System.out.println("Validating...");
 
             try {
                 Thread.sleep(1000); // For dramatic effect
             } catch (InterruptedException e) {
-                System.out.println("Error: Program interruption");
+                System.out.println("Whoops: Program interruption");
             }
 
-            // Validate in Marketplace
-            validationSuccess = BookApp.marketplace.validateName(username) && BookApp.marketplace.validateEmail(email);
-            if (validationSuccess) {
+            // Add user
+            Query validateAddQuery = new ClientQuery().updateQuery(null, "users", "add", new String[]{username, email, password, isBuyer ? "T" : "F"});
+            if (validateAddQuery.getObject().equals(false)) {
+                if (validateAddQuery.getOptions().equals("validation err")) {
+                    System.out.println("Whoops: Validation failed. Please try again");
+                } else if (validateAddQuery.getOptions().equals("hash err")) {
+                    System.out.println("Whoops: Unable to hash password");
+                } else {
+                    System.out.println("Whoops: Unable to create your account. Please try again");
+                }
+                validationSuccess = false;
+            } else {
                 System.out.println("Validation successful!");
+                // logs user in after signing up; uses get query to get user with the username of the just created account from server
+                BookApp.currentUser = (User) new ClientQuery().getQuery(username, "users", "name").getObject();
+                validationSuccess = true;
             }
         } while (!validationSuccess);
 
-        // PASSWORD HASHING
-        String hashedPassword = User.hashPassword(password);
-        if (hashedPassword == null) {
-            return false;
-        }
-
-        boolean isBuyer;
-        do {
-            System.out.println("Are you a\n1. Buyer\n2. Seller");
-            String buyerSeller = scan.nextLine();
-            if (buyerSeller.equals("1") || buyerSeller.equals("2")) {
-                isBuyer = Objects.equals(buyerSeller, "1");
-                break;
-            }
-            System.out.println("Whoops: Please enter (1) or (2)");
-        } while(true);
-
-        // Saves to marketplace and logs the user in
-        User newUser;
-        if (isBuyer) {
-            newUser = new Buyer(username, email, hashedPassword, password);
-        } else {
-            newUser = new Seller(username, email, hashedPassword, password);
-        }
-
-        BookApp.marketplace.addToUsers(newUser);
-        BookApp.marketplace.setCurrentUser(newUser);
-
-        return true; // Always return true
+        return true;
     }
 }

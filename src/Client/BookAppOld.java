@@ -1,15 +1,10 @@
 package Client;
 
-import GUI.Login;
-import Objects.*;
-import Query.*;
+import Objects.Buyer;
+import Objects.Seller;
+import Objects.User;
+import Query.Query;
 
-import javax.swing.*;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.Scanner;
 
 /**
@@ -24,14 +19,23 @@ import java.util.Scanner;
  * @author Sanya Mehra
  * @version 11/13/2022
  */
-public class BookApp {
+public class BookAppOld {
 //    public static Marketplace marketplace;
 
     public static User currentUser;
 
+    public static String appName = "Barnes & Novel";
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        SwingUtilities.invokeLater(new Login());
+
+//        BookApp.marketplace = new Marketplace();
+
+        System.out.println("WELCOME to " + appName);
+        System.out.println("*******************");
+
+        // Figures out if user wants to log in or sign up
+        // Login or Sign up Loop
         do {
 
             String loginSignup;
@@ -52,7 +56,7 @@ public class BookApp {
                     SignUpMenu signUpMenu = new SignUpMenu();
                     validUser = signUpMenu.present(scan); // Ignore this if we are signing up
                 } else {
-                    System.out.println("Thanks for using " + "Bruh" + "\nGoodbye!");
+                    System.out.println("Thanks for using " + appName + "\nGoodbye!");
                     return;
                 }
             } while (!validUser);

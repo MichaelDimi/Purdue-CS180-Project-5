@@ -19,24 +19,11 @@ import java.util.stream.Stream;
  */
 public class LoginMenu extends Menu {
 
-    @Override
-    public boolean present(Scanner scan) {
-        System.out.println("*******************");
-        System.out.println("Type 'CANCEL' at anytime to go back to start");
+    public boolean present(String usernameEmail, String password) {
 
-        String usernameEmail;
-        String password;
-
-        String[] input = Menu.validateLoginInput(scan);
-
-        if (input == null) {
+        if (usernameEmail == null || password == null) {
             return false;
         }
-
-        usernameEmail = input[0];
-        password = input[1];
-
-        System.out.println("Validating...");
 
         // PASSWORD HASHING
         String hashedPassword = User.hashPassword(password);

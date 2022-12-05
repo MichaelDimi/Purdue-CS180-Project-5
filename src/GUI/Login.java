@@ -1,5 +1,11 @@
 package GUI;
 
+import Client.*;
+import Objects.Buyer;
+import Objects.Seller;
+import Objects.User;
+import Query.Query;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,15 +26,36 @@ public class Login extends JFrame implements Runnable {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == loginButton) {
-                /*if user present (similar to loginmenu) {
+                boolean validUser;
+                LoginMenu loginMenu = new LoginMenu();
+                validUser = loginMenu.present(uText.getText(), new String(pField.getPassword()));
+                if (validUser) {
                     JOptionPane.showMessageDialog(null, "Login Successful");
-                  } else {
-                    JOptionPane.showMessageDialog(null, "Login Unsuccessful");
-                    }
-                 */
-                JOptionPane.showMessageDialog(null, "Login Successful");
-                frame.dispose();
 
+                    if (BookApp.currentUser == null) {
+                        //break; // Exit to the login loop TODO: ADD ERROR HERE?
+                    }
+
+                    Query updateUserQuery = new ClientQuery().getQuery(BookApp.currentUser, "users", "currentUser");
+                    if (updateUserQuery.getObject() == null || updateUserQuery.getObject().equals(false)) {
+                        //break; TODO: ADD ERROR HERE?
+                    }
+                    BookApp.currentUser = (User) updateUserQuery.getObject();
+
+                    if (BookApp.currentUser instanceof Buyer) {
+                        JOptionPane.showMessageDialog(null, "Is customer");
+                        SwingUtilities.invokeLater(new Customer());
+                    } else if (BookApp.currentUser instanceof Seller) {
+                        JOptionPane.showMessageDialog(null, "Is seller");
+                        SellerHomepage sellerHomepage = new SellerHomepage();
+                        //boolean mainMenu = sellerHomepage.present(scan);
+                    }
+
+                    frame.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Login Failed"); // TODO: Replace with error
+                }
             } else if (e.getSource() == signUpButton) {
                 SwingUtilities.invokeLater(new SignUp());
                 frame.dispose();
@@ -104,9 +131,9 @@ public class Login extends JFrame implements Runnable {
 
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Login());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Login());
+//    }
 
 
 }

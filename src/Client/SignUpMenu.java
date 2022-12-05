@@ -75,7 +75,7 @@ public class SignUpMenu extends Menu {
             } else {
                 System.out.println("Validation successful!");
                 // logs user in after signing up; uses get query to get user with the username of the just created account from server
-                BookApp.currentUser = (User) BookApp.getQuery(username, "users", "name").getObject();
+                BookApp.currentUser = (User) new ClientQuery().getQuery(username, "users", "name").getObject();
                 validationSuccess = true;
             }
         } while (!validationSuccess);

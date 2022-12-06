@@ -1,5 +1,7 @@
 package GUI;
 
+import Client.BookApp;
+import Client.SignUpMenu;
 import Objects.Buyer;
 import Objects.User;
 
@@ -7,12 +9,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.UnknownServiceException;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class SignUp extends JFrame implements Runnable {
     JComboBox buyerOrSellerBox;
-    String buyerOrSeller;
+    String buyerOrSeller = "Buyer";
     JLabel uLabel;
     JTextField uText;
+    JLabel eLabel;
+    JTextField eText;
     JLabel pLabel;
     JPasswordField pField;
     JButton signUpButton;
@@ -25,10 +31,23 @@ public class SignUp extends JFrame implements Runnable {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == signUpButton) {
-                if (buyerOrSeller.equals("Buyer")) {
-                    //create buyer
+                // checks if username, email, and password inputted are correct
+                if (validateSignUpInput(uText.getText(), eText.getText(), new String(pField.getPassword()))) {
+                    // valid username, email, or password
+                    SignUpMenu signUpMenu = new SignUpMenu();
+                    boolean validUser = signUpMenu.present(uText.getText(), // USERNAME
+                                                           eText.getText(), // EMAIL
+                                                           new String(pField.getPassword()), // PASSWORD
+                                                           buyerOrSeller); // BUYER OR SELLER
+
+                    if (validUser) {
+                        JOptionPane.showMessageDialog(null, "Validation successful!");
+                        BookApp.displayHomepage();
+                    }
                 } else {
-                    // create seller
+                    // invalid username, email, or password
+                    JOptionPane.showMessageDialog(null, "Please enter a valid username and password",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
             } else if (e.getSource() == showPassword) {
@@ -58,15 +77,7 @@ public class SignUp extends JFrame implements Runnable {
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(welcome);
         content.add(panel, BorderLayout.CENTER);
-        buyerOrSellerBox = new JComboBox<>();
-        buyerOrSellerBox.addItem("Buyer");
-        buyerOrSellerBox.addItem("Seller");
 
-        buyerOrSellerBox.addItemListener(listener -> {
-            JComboBox getSelection = (JComboBox) listener.getSource();
-            buyerOrSeller = (String) getSelection.getSelectedItem();
-
-        });
         panel = new JPanel();
         uLabel = new JLabel("Username");
         panel.add(uLabel);
@@ -74,13 +85,37 @@ public class SignUp extends JFrame implements Runnable {
         uText.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(uText);
         content.add(panel, BorderLayout.CENTER);
+
+        panel = new JPanel();
+        eLabel = new JLabel("Email");
+        panel.add(eLabel);
+        eText = new JTextField(15);
+        eText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(eText);
+        content.add(panel, BorderLayout.CENTER);
+
         panel = new JPanel();
         pLabel = new JLabel("Password");
         panel.add(pLabel);
-
         pField = new JPasswordField(15);
         pField.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(pField);
+        content.add(panel, BorderLayout.CENTER);
+
+        panel = new JPanel();
+        JLabel userTypeLabel = new JLabel("Role");
+        panel.add(userTypeLabel);
+
+        buyerOrSellerBox = new JComboBox<>();
+        buyerOrSellerBox.addItem(buyerOrSeller); // DEFAULT VALUE IS BUYER
+        buyerOrSellerBox.addItem("Seller"); // make sure buyerOrSeller is updated
+
+        buyerOrSellerBox.addItemListener(listener -> {
+            JComboBox getSelection = (JComboBox) listener.getSource();
+            buyerOrSeller = (String) getSelection.getSelectedItem();
+
+        });
+        panel.add(buyerOrSellerBox);
         content.add(panel, BorderLayout.CENTER);
 
         panel = new JPanel();
@@ -101,9 +136,30 @@ public class SignUp extends JFrame implements Runnable {
 
     }
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new SignUp());
-//    }
+    /**
+     * Queries the user for username, email, and password, and ensures
+     * the user is entering valid input before returning.
+     * @param username The scanner that is passed by reference
+     * @return Returns true or false if username, email, or password are valid or non-valid
+     */
+    public static boolean validateSignUpInput(String username, String email, String password) {
+        if (username.isEmpty()) {
+            return false;
+        }
 
+        Pattern regexPattern;
+        regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)" +
+                "*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
 
+        if (!regexPattern.matcher(email).matches()) {
+            return false;
+        } else if (email.isEmpty()) {
+            return false;
+        }
+
+        if (password.isEmpty())
+            return false;
+
+        return true;
+    }
 }

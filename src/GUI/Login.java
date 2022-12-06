@@ -9,6 +9,8 @@ import Query.Query;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Scanner;
+
 public class Login extends JFrame implements Runnable {
     JLabel uLabel;
     JTextField uText;
@@ -26,9 +28,8 @@ public class Login extends JFrame implements Runnable {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == loginButton) {
-                boolean validUser;
                 LoginMenu loginMenu = new LoginMenu();
-                validUser = loginMenu.present(uText.getText(), new String(pField.getPassword()));
+                boolean validUser = loginMenu.present(uText.getText(), new String(pField.getPassword()));
                 if (validUser) {
                     JOptionPane.showMessageDialog(null, "Login Successful");
 
@@ -42,19 +43,13 @@ public class Login extends JFrame implements Runnable {
                     }
                     BookApp.currentUser = (User) updateUserQuery.getObject();
 
-                    if (BookApp.currentUser instanceof Buyer) {
-                        JOptionPane.showMessageDialog(null, "Is customer");
-                        SwingUtilities.invokeLater(new Customer());
-                    } else if (BookApp.currentUser instanceof Seller) {
-                        JOptionPane.showMessageDialog(null, "Is seller");
-                        SellerHomepage sellerHomepage = new SellerHomepage();
-                        //boolean mainMenu = sellerHomepage.present(scan);
-                    }
+                    BookApp.displayHomepage();
 
                     frame.dispose();
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Login Failed"); // TODO: Replace with error
+                    JOptionPane.showMessageDialog(null, "Login Failed",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (e.getSource() == signUpButton) {
                 SwingUtilities.invokeLater(new SignUp());

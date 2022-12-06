@@ -2,6 +2,7 @@ package Client;
 
 import GUI.Customer;
 import GUI.Login;
+import GUI.Start;
 import Objects.*;
 import Query.*;
 
@@ -31,8 +32,8 @@ public class BookApp {
     public static User currentUser;
 
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        SwingUtilities.invokeLater(new Login());
+        //Scanner scan = new Scanner(System.in);
+        SwingUtilities.invokeLater(new Start());
 //        do {
 //
 //            String loginSignup;

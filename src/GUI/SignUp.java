@@ -78,6 +78,7 @@ public class SignUp extends JFrame implements Runnable {
         panel.add(welcome);
         content.add(panel, BorderLayout.CENTER);
 
+        // username
         panel = new JPanel();
         uLabel = new JLabel("Username");
         panel.add(uLabel);
@@ -86,14 +87,16 @@ public class SignUp extends JFrame implements Runnable {
         panel.add(uText);
         content.add(panel, BorderLayout.CENTER);
 
+        // email
         panel = new JPanel();
-        eLabel = new JLabel("Email");
+        eLabel = new JLabel("    Email"); // really stupid way to line up text fields
         panel.add(eLabel);
         eText = new JTextField(15);
         eText.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(eText);
         content.add(panel, BorderLayout.CENTER);
 
+        // password
         panel = new JPanel();
         pLabel = new JLabel("Password");
         panel.add(pLabel);
@@ -102,6 +105,7 @@ public class SignUp extends JFrame implements Runnable {
         panel.add(pField);
         content.add(panel, BorderLayout.CENTER);
 
+        // buyer seller drop down select
         panel = new JPanel();
         JLabel userTypeLabel = new JLabel("Role");
         panel.add(userTypeLabel);
@@ -124,14 +128,13 @@ public class SignUp extends JFrame implements Runnable {
         panel.add(showPassword);
         content.add(panel);
 
-
         signUpButton = new JButton("Sign Up");
         signUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         signUpButton.addActionListener(actionListener);
         panel.add(signUpButton);
 
         frame.pack();
-        frame.setSize(400, 200);
+        frame.setSize(400, 300);
         frame.setVisible(true);
 
     }

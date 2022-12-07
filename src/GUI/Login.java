@@ -1,7 +1,6 @@
 package GUI;
 
 import Client.*;
-import GUI.CustomerPages.PurchaseBook;
 import Objects.Buyer;
 import Objects.Seller;
 import Objects.User;
@@ -45,7 +44,12 @@ public class Login extends JFrame implements Runnable {
                     BookApp.currentUser = (User) updateUserQuery.getObject();
 
 //                    BookApp.displayHomepage();
-                    SwingUtilities.invokeLater(new PurchaseBook());
+                    if (BookApp.currentUser instanceof Buyer) {
+                        SwingUtilities.invokeLater(new Customer());
+                    } else {
+                        BookApp.displayHomepage();
+                        //SwingUtilities.invokeLater(new GUI.Seller());
+                    }
 
                     frame.dispose();
 

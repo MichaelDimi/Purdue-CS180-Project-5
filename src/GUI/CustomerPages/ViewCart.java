@@ -16,30 +16,31 @@ public class ViewCart implements Runnable {
     }
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-        //TODO: invoke other GUI's
+            //TODO: display message if cart is empty
+           /* HashMap<Book, Integer> cart = buyer.getCart();
+            if (cart.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Your cart is empty");
+            }*/
+        
             if (e.getSource() == remove) {
-
+                JOptionPane.showMessageDialog(null, "Book Removed");
             } else if (e.getSource() == clear) {
-
+                JOptionPane.showMessageDialog(null, "Cart Cleared");
             } else if (e.getSource() == checkout) {
-                
+                JOptionPane.showMessageDialog(null, "Book Checked Out");
             }
         }
     };
     public void run() {
         panel = new JPanel();
         optionPanel = new JPanel(new GridLayout(4, 4));
-        frame = new JFrame();
+        frame = new JFrame("Your Cart");
         Container content = frame.getContentPane();
 
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        JLabel title = new JLabel("Your Cart");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
-        panel.add(title);
         content.add(panel, BorderLayout.NORTH);
         content.add(optionPanel, BorderLayout.CENTER);
 

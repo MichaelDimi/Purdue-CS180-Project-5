@@ -1,5 +1,9 @@
 package GUI;
 
+import GUI.CustomerPages.LeaveReview;
+import GUI.CustomerPages.PurchaseBook;
+import GUI.CustomerPages.ViewStores;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -22,13 +26,13 @@ public class Customer implements Runnable {
         public void actionPerformed(ActionEvent e) {
         //TODO: invoke other GUI's
             if (e.getSource() == purchase) {
-
+                SwingUtilities.invokeLater(new PurchaseBook());
             } else if (e.getSource() == search) {
 
             } else if (e.getSource() == stores) {
-                
+               SwingUtilities.invokeLater(new ViewStores());
             } else if (e.getSource() == reviews) {
-                
+                SwingUtilities.invokeLater(new LeaveReview());
             } else if (e.getSource() == history) {
                 
             } else if (e.getSource() == cart) {

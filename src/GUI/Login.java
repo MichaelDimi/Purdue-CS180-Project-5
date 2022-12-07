@@ -16,7 +16,7 @@ public class Login extends JFrame implements Runnable {
     JLabel signup;
     ActionListener actionListener = new ActionListener() {
         @Override
-        
+
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == loginButton) {
@@ -104,9 +104,9 @@ public class Login extends JFrame implements Runnable {
 
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Login());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Login());
+//    }
 
 
 }

@@ -1,6 +1,6 @@
 package GUI;
 
-import GUI.CustomerPages.PurchaseBook;
+import GUI.CustomerPages.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,9 +57,10 @@ public class Customer extends JFrame implements Runnable {
                     SwingUtilities.invokeLater(new ___);
                 } else if (jComboBox.getSelectedIndex() == 2) {
                     SwingUtilities.invokeLater(new ___);
-                } else if (jComboBox.getSelectedIndex() == 3) {
-                    SwingUtilities.invokeLater(new ___);
-                } else if (jComboBox.getSelectedIndex() == 4) {
+                } else*/
+                if (jComboBox.getSelectedIndex() == 3) {
+                    SwingUtilities.invokeLater(new LeaveReview());
+                } /*else if (jComboBox.getSelectedIndex() == 4) {
                     SwingUtilities.invokeLater(new ___);
                 } else if (jComboBox.getSelectedIndex() == 5) {
                     SwingUtilities.invokeLater(new ___);

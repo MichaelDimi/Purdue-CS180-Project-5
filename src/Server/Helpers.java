@@ -14,7 +14,7 @@ public class Helpers {
         this.marketplace = marketplace;
     }
 
-    public synchronized GetQuery get(GetQuery get) {  // Always have * as first case and default (no opt or params) as last
+    synchronized public GetQuery get(GetQuery get) {  // Always have * as first case and default (no opt or params) as last
         String opt = get.getOptions();
         String params = get.getParams();
         switch (opt) {
@@ -78,7 +78,7 @@ public class Helpers {
         return get;
     }
 
-    public synchronized Query update(UpdateQuery update) {
+    synchronized public Query update(UpdateQuery update) {
         String opt = update.getOptions();
         String params = update.getParams();
         switch (opt) {
@@ -210,7 +210,7 @@ public class Helpers {
         return new Query(false, "err");
     }
 
-    public synchronized Query delete(DeleteQuery delete) {
+    synchronized public Query delete(DeleteQuery delete) {
         String opt = delete.getOptions();
         switch (opt) {
             case "users": {
@@ -251,7 +251,7 @@ public class Helpers {
         return new Query(false, "err: Couldn't find opt/params");
     }
 
-    public synchronized Query compute(ComputeQuery compute) {
+    synchronized public Query compute(ComputeQuery compute) {
         String opt = compute.getOptions();
         String params = compute.getParams();
         switch (opt) {

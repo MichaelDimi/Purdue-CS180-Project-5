@@ -1,84 +1,140 @@
 package GUI;
 
-import GUI.CustomerPages.*;
+import GUI.CustomerPages.LeaveReview;
+import GUI.CustomerPages.PurchaseBook;
+import GUI.CustomerPages.ViewStores;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Customer extends JFrame implements Runnable {
-    JPanel panel;
+public class Customer implements Runnable {
     JFrame frame;
-    JLabel welcome;
-    JComboBox<String> jComboBox;
-    Container content;
-    JButton jButton;
-    JLabel jLabel;
+    JPanel panel;
+    JPanel optionPanel;
+    JButton purchase;
+    JButton search;
+    JButton stores;
+    JButton reviews;
+    JButton history;
+    JButton cart;
+    JButton account;
+    JButton signOut;
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Customer());
+    }
+    ActionListener actionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        //TODO: invoke other GUI's
+            if (e.getSource() == purchase) {
+                SwingUtilities.invokeLater(new PurchaseBook());
+            } else if (e.getSource() == search) {
 
+            } else if (e.getSource() == stores) {
+               SwingUtilities.invokeLater(new ViewStores());
+            } else if (e.getSource() == reviews) {
+                SwingUtilities.invokeLater(new LeaveReview());
+            } else if (e.getSource() == history) {
+                
+            } else if (e.getSource() == cart) {
+                
+            } else if (e.getSource() == account) {
+                
+            } else if (e.getSource() == signOut) {
+                
+            }
+        }
+    };
 
-    @Override
     public void run() {
 
         panel = new JPanel();
+        optionPanel = new JPanel(new GridLayout(4, 4));
         frame = new JFrame();
-        content = frame.getContentPane();
 
-        welcome = new JLabel("Welcome! What would you like to do?");
-        welcome.setBounds(80, 80, 340, 20);
-        String[] options = {"1. Purchase a Book" , "2. Search for a Book", "3. View List of Stores / Store's Inventory or Reviews", "4. Leave a Review", "5. View / Export Purchase History", "6. Your Shopping Cart", "7. Edit Account", "8. SIGN OUT"};
+        Container content = frame.getContentPane();
 
-        jComboBox = new JComboBox<>(options);
-        jComboBox.setBounds(50, 150, 300, 20);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JLabel title = new JLabel("Customer Menu");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        jButton = new JButton("Done");
-        jButton.setBounds(140, 210, 90, 20);
+        content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
+        panel.add(title);
+        content.add(panel, BorderLayout.NORTH);
+        content.add(optionPanel, BorderLayout.CENTER);
 
-        jLabel = new JLabel();
-        jLabel.setBounds(90, 220, 400, 100);
+        purchase = new JButton("Purchase a Book");
+        purchase.setAlignmentX(Component.CENTER_ALIGNMENT);
+        purchase.addActionListener(actionListener);
+        optionPanel.add(purchase);
 
+        search = new JButton(" Search for a Book");
+        search.setAlignmentX(Component.CENTER_ALIGNMENT);
+        search.addActionListener(actionListener);
+        optionPanel.add(search);
 
-        frame.add(welcome);
-        frame.add(jComboBox);
-        frame.add(jButton);
+        stores = new JButton("View Stores and Reviews");
+        stores.setAlignmentX(Component.CENTER_ALIGNMENT);
+        stores.addActionListener(actionListener);
+        optionPanel.add(stores);
 
-        frame.add(jLabel);
+        reviews = new JButton("Leave a Review");
+        reviews.setAlignmentX(Component.CENTER_ALIGNMENT);
+        reviews.addActionListener(actionListener);
+        optionPanel.add(reviews);
+
+        history = new JButton("View Purchase History");
+        history.setAlignmentX(Component.CENTER_ALIGNMENT);
+        history.addActionListener(actionListener);
+        optionPanel.add(history);
+
+        cart = new JButton("Your Shopping Cart");
+        cart.setAlignmentX(Component.CENTER_ALIGNMENT);
+        cart.addActionListener(actionListener);
+        optionPanel.add(cart);
+        
+        account = new JButton("Edit Account");
+        account.setAlignmentX(Component.CENTER_ALIGNMENT);
+        account.addActionListener(actionListener);
+        optionPanel.add(account);
+
+        signOut = new JButton("Sign Out");
+        signOut.setAlignmentX(Component.CENTER_ALIGNMENT);
+        signOut.addActionListener(actionListener);
+        optionPanel.add(signOut);
 
         frame.pack();
         frame.setSize(400, 400);
         frame.setVisible(true);
 
-        jButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+//        jButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//
+//                //TODO: put name of screen inside invokeLater to move to selected dropdown screen
+//
+//                if (jComboBox.getSelectedIndex() == 0) {
+//                    SwingUtilities.invokeLater(new PurchaseBook());
+//                } /*else if (jComboBox.getSelectedIndex() == 1) {
+//                    SwingUtilities.invokeLater(new ___);
+//                } else if (jComboBox.getSelectedIndex() == 2) {
+//                    SwingUtilities.invokeLater(new ___);
+//                } else*/
+//                if (jComboBox.getSelectedIndex() == 3) {
+//                    SwingUtilities.invokeLater(new LeaveReview());
+//                } /*else if (jComboBox.getSelectedIndex() == 4) {
+//                    SwingUtilities.invokeLater(new ___);
+//                } else if (jComboBox.getSelectedIndex() == 5) {
+//                    SwingUtilities.invokeLater(new ___);
+//                } else if (jComboBox.getSelectedIndex() == 6) {
+//                    SwingUtilities.invokeLater(new ___);
+//                } else if (jComboBox.getSelectedIndex() == 7) {
+//                    SwingUtilities.invokeLater(new ___);
+//                } else {
+//                }*/
+//
+//            }
+//        });
 
-                //TODO: put name of screen inside invokeLater to move to selected dropdown screen
-
-                if (jComboBox.getSelectedIndex() == 0) {
-                    SwingUtilities.invokeLater(new PurchaseBook());
-                } /*else if (jComboBox.getSelectedIndex() == 1) {
-                    SwingUtilities.invokeLater(new ___);
-                } else if (jComboBox.getSelectedIndex() == 2) {
-                    SwingUtilities.invokeLater(new ___);
-                } else*/
-                if (jComboBox.getSelectedIndex() == 3) {
-                    SwingUtilities.invokeLater(new LeaveReview());
-                } /*else if (jComboBox.getSelectedIndex() == 4) {
-                    SwingUtilities.invokeLater(new ___);
-                } else if (jComboBox.getSelectedIndex() == 5) {
-                    SwingUtilities.invokeLater(new ___);
-                } else if (jComboBox.getSelectedIndex() == 6) {
-                    SwingUtilities.invokeLater(new ___);
-                } else if (jComboBox.getSelectedIndex() == 7) {
-                    SwingUtilities.invokeLater(new ___);
-                } else {
-                }*/
-
-            }
-        });
-
-
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Customer());
     }
 }

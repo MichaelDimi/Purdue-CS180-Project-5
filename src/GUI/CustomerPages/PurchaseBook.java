@@ -6,10 +6,6 @@ import Objects.Marketplace;
 import Query.Query;
 
 import javax.swing.*;
-<<<<<<< HEAD
-import javax.swing.text.JTextComponent;
-=======
->>>>>>> GUI
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,10 +21,8 @@ public class PurchaseBook extends JFrame implements Runnable {
     HashMap<Book, Integer> books;
     JTextArea listOfBooks;
     Query booksQuery;
-<<<<<<< HEAD
-=======
     JButton selectBook;
->>>>>>> GUI
+
     ActionListener actionListener = new ActionListener() {
         @Override
 
@@ -40,18 +34,6 @@ public class PurchaseBook extends JFrame implements Runnable {
 
                 Marketplace.sortBooksByPrice(booksArr);
                 int i = 1;
-<<<<<<< HEAD
-                String bookList = "";
-                for (Book book : booksArr) { //Printing list of books available for sale
-
-                    bookList += String.format("%d. %s -- Store: %s -- Original Price: $%.2f " +
-                                    "-- Percent off: %.2f%% -- Final price: $%.2f -- " +
-                                    "Quantity: " + "[%d]\n",
-                            i, book.getName(), book.getStore(), book.getPrice(), book.getPercentOff(), book.finalPrice(), books.get(book));
-                    i++;
-                }
-                listOfBooks.setText(bookList);
-=======
                 StringBuilder bookList = new StringBuilder();
                 for (Book book : booksArr) { //Printing list of books available for sale
 
@@ -62,23 +44,11 @@ public class PurchaseBook extends JFrame implements Runnable {
                     i++;
                 }
                 listOfBooks.setText(bookList.toString());
->>>>>>> GUI
             }
             if (e.getSource() == sortQty) {
                 booksArr = Marketplace.sortBooksByQuantity(books);
                 int i = 1;
-<<<<<<< HEAD
-                String bookList = "";
-                for (Book book : booksArr) { //Printing list of books available for sale
 
-                    bookList += String.format("%d. %s -- Store: %s -- Original Price: $%.2f " +
-                                    "-- Percent off: %.2f%% -- Final price: $%.2f -- " +
-                                    "Quantity: " + "[%d]\n",
-                            i, book.getName(), book.getStore(), book.getPrice(), book.getPercentOff(), book.finalPrice(), books.get(book));
-                    i++;
-                }
-                listOfBooks.setText(bookList);
-=======
                 StringBuilder bookList = new StringBuilder();
                 for (Book book : booksArr) { //Printing list of books available for sale
 
@@ -92,7 +62,6 @@ public class PurchaseBook extends JFrame implements Runnable {
             }
             if (e.getSource() == selectBook) {
                 System.out.println(bookSelection.getText());
->>>>>>> GUI
             }
         }
     };
@@ -110,16 +79,7 @@ public class PurchaseBook extends JFrame implements Runnable {
         if (books.isEmpty()) {
             JOptionPane.showMessageDialog(null, "There are no books for sale\nCreate a new account and become a seller to start selling books");
         }
-<<<<<<< HEAD
-        panel = new JPanel();
-        frame = new JFrame("Purchase Book");
-        content = frame.getContentPane();
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        content.setLayout(new BorderLayout());
-        //content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 
-=======
         //panel = new JPanel();
         frame = new JFrame("Purchase Book");
         content = frame.getContentPane();
@@ -129,34 +89,21 @@ public class PurchaseBook extends JFrame implements Runnable {
         //content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 
         //TODO: implement selecting a book
->>>>>>> GUI
         panel = new JPanel();
         JLabel select = new JLabel("Select a book to buy (enter number):");
         panel.add(select);
         bookSelection = new JTextField(10);
         panel.add(bookSelection);
-<<<<<<< HEAD
-=======
+
         selectBook = new JButton("Select");
         selectBook.addActionListener(actionListener);
         panel.add(selectBook);
->>>>>>> GUI
+
         frame.add(panel, BorderLayout.NORTH);
 
         panel = new JPanel();
         int i = 1;
-<<<<<<< HEAD
-        String bookList = "";
-        for (Book book : booksArr) { //Printing list of books available for sale
 
-            bookList += String.format("%d. %s -- Store: %s -- Original Price: $%.2f " +
-                            "-- Percent off: %.2f%% -- Final price: $%.2f -- " +
-                            "Quantity: " + "[%d]\n",
-                    i, book.getName(), book.getStore(), book.getPrice(), book.getPercentOff(), book.finalPrice(), books.get(book));
-            i++;
-        }
-        listOfBooks = new JTextArea(bookList);
-=======
         StringBuilder bookList = new StringBuilder();
         for (Book book : booksArr) { //Printing list of books available for sale
 
@@ -168,7 +115,7 @@ public class PurchaseBook extends JFrame implements Runnable {
         }
         listOfBooks = new JTextArea(bookList.toString());
         listOfBooks.setEditable(false);
->>>>>>> GUI
+
         panel.add(listOfBooks);
         content.add(panel, BorderLayout.CENTER);
 

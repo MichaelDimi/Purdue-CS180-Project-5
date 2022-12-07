@@ -26,9 +26,10 @@ public class LeaveReview extends JFrame implements Runnable {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == submit) {
                 String errorMessage = "Whoops: ";
-                if (reviewHeadline.getText().isEmpty()) {
+                if (reviewHeadline.getText().equals("*Enter headline") || reviewHeadline.getText().isEmpty()) {
                     errorMessage += "Please include a headline";
                 }
+
                 try {
                     int r = Integer.parseInt(rating.getText());
                     if (r < 0 || r > 5) {
@@ -39,7 +40,12 @@ public class LeaveReview extends JFrame implements Runnable {
                 }
                 if (!errorMessage.equals("Whoops: ")) {
                     JOptionPane.showMessageDialog(null, errorMessage, "Review Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (review.getText().equals("Leave review here.")) {
+                        review.setText("");
+                    }
                 }
+                //TODO: add review
             }
         }
     };
@@ -64,7 +70,7 @@ public class LeaveReview extends JFrame implements Runnable {
         frame = new JFrame();
         content = frame.getContentPane();
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 
         storeSelection = new JComboBox<>();
@@ -80,23 +86,26 @@ public class LeaveReview extends JFrame implements Runnable {
         content.add(panel,BorderLayout.NORTH);
 
         panel = new JPanel();
-        reviewHeadline = new JTextArea("*Enter headline",150,1);
+        reviewHeadline = new JTextArea("*Enter headline",1,50);
         reviewHeadline.setLineWrap(true);
-        panel.add(reviewHeadline);
-        review = new JTextArea("Leave review here.",150,3);
+        panel.add(reviewHeadline, BorderLayout.CENTER);
+        content.add(panel);
+        panel = new JPanel();
+        review = new JTextArea("Leave review here.",3,50);
         review.setLineWrap(true);
         panel.add(review);
-        content.add(panel, BorderLayout.CENTER);
-        panel = new JPanel();
-        rating = new JTextField("*Enter a rating out of 5",10);
-        panel.add(rating);
         content.add(panel);
+
+        panel = new JPanel();
+        rating = new JTextField("*Enter a rating out of 5",25);
+        panel.add(rating);
+        content.add(panel, BorderLayout.SOUTH);
 
         panel = new JPanel();
         submit = new JButton("Submit");
         submit.addActionListener(actionListener);
-        panel.add(rating);
-        content.add(panel, BorderLayout.SOUTH);
+        panel.add(submit);
+        content.add(panel);
 
         frame.pack();
         frame.setVisible(true);

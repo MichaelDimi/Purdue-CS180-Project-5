@@ -1,12 +1,17 @@
 package GUI;
 
 import javax.swing.*;
+
+import GUI.SellerPages.CreateStore;
+import GUI.SellerPages.DeleteStore;
+
 import java.awt.*;
 import java.awt.event.*;
-public class Seller implements Runnable {
+public class SellerMenu implements Runnable {
     JFrame frame;
     JPanel panel;
     JPanel optionPanel;
+    JLabel title;
     JButton createStore;
     JButton editStore;
     JButton deleteStore;
@@ -16,17 +21,19 @@ public class Seller implements Runnable {
     JButton viewCarts;
     JButton signOut;
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Seller());
+        SwingUtilities.invokeLater(new SellerMenu());
     }
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
         //TODO: invoke other GUI's
             if (e.getSource() == createStore) {
-
+                SwingUtilities.invokeLater(new CreateStore());
+                frame.dispose();
             } else if (e.getSource() == editStore) {
 
             } else if (e.getSource() == deleteStore) {
-                
+                SwingUtilities.invokeLater(new DeleteStore());
+                frame.dispose();
             } else if (e.getSource() == addSale) {
                 
             } else if (e.getSource() == viewReviews) {
@@ -35,6 +42,8 @@ public class Seller implements Runnable {
                 
             } else if (e.getSource() == viewCarts) {
                 
+            } else if (e.getSource() == signOut) {
+                frame.dispose();
             }
         }
     };
@@ -47,7 +56,7 @@ public class Seller implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        JLabel title = new JLabel("Seller Menu");
+        title = new JLabel("Seller Menu");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
@@ -96,6 +105,7 @@ public class Seller implements Runnable {
         optionPanel.add(signOut);
 
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setSize(400, 400);
         frame.setVisible(true);
     }

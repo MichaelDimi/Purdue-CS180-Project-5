@@ -2,6 +2,7 @@ package Client;
 
 import GUI.Customer;
 import GUI.Login;
+import GUI.SellerGUI;
 import GUI.Start;
 import Objects.*;
 import Query.*;
@@ -96,15 +97,14 @@ public class BookApp {
     public static void displayHomepage() {
         Scanner scan = new Scanner(System.in);
         if (currentUser instanceof Buyer) {
-            // TODO: DISPLAY HOMEPAGE GUI
-            CustomerHomepage customerHomepage = new CustomerHomepage();
-            boolean mainMenu = customerHomepage.present(scan);
-            //SwingUtilities.invokeLater(new Customer()); // WILL NOT WORK WITH SCANNERS
+//            CustomerHomepage customerHomepage = new CustomerHomepage();
+//            boolean mainMenu = customerHomepage.present(scan);
+            SwingUtilities.invokeLater(new Customer()); // WILL NOT WORK WITH SCANNERS
         } else if (currentUser instanceof Seller) {
-            // TODO: DISPLAY HOMEPAGE GUI
             //JOptionPane.showMessageDialog(null, "Is seller");
-            SellerHomepage sellerHomepage = new SellerHomepage();
-            boolean mainMenu = sellerHomepage.present(scan);
+//            SellerHomepage sellerHomepage = new SellerHomepage();
+//            boolean mainMenu = sellerHomepage.present(scan);
+            SwingUtilities.invokeLater(new SellerGUI());
         }
     }
 }

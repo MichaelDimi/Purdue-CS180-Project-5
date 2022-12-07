@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Seller implements Runnable {
+public class SellerGUI implements Runnable {
     JFrame frame;
     JPanel panel;
     JPanel optionPanel;
@@ -16,7 +16,7 @@ public class Seller implements Runnable {
     JButton viewCarts;
     JButton signOut;
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Seller());
+        SwingUtilities.invokeLater(new SellerGUI());
     }
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {

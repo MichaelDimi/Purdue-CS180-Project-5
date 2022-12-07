@@ -43,13 +43,7 @@ public class Login extends JFrame implements Runnable {
                     }
                     BookApp.currentUser = (User) updateUserQuery.getObject();
 
-//                    BookApp.displayHomepage();
-                    if (BookApp.currentUser instanceof Buyer) {
-                        SwingUtilities.invokeLater(new Customer());
-                    } else {
-                        BookApp.displayHomepage();
-                        //SwingUtilities.invokeLater(new GUI.Seller());
-                    }
+                    BookApp.displayHomepage();
 
                     frame.dispose();
 

@@ -2,60 +2,49 @@ package GUI.CustomerPages;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class PurchaseHistory extends JFrame implements Runnable {
-    JPanel panel;
-    JPanel panel2;
-    JPanel panel3;
+import java.awt.event.*;
+public class PurchaseHistory implements Runnable {
     JFrame frame;
-    Container content;
-    JLabel search;
-    JLabel enter;
-    JTextField searchText;
-    JTextArea note;
-    JLabel note2;
-    JPanel optionPanel;
+    JPanel panel;
+    JTextField yn;
+    JLabel export;
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new PurchaseHistory());
+    }
 
     ActionListener actionListener = new ActionListener() {
-        @Override
-
         public void actionPerformed(ActionEvent e) {
+        
         }
     };
 
     public void run() {
-
         panel = new JPanel();
-        optionPanel = new JPanel(new GridLayout(4, 4));
         frame = new JFrame();
         Container content = frame.getContentPane();
 
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JLabel title = new JLabel("View and Export Purchase History");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        content.setLayout(new BorderLayout(content,BoxLayout.Y_AXIS));
-        search = new JLabel("Your Purchase History");
-        panel.add(search);
-
-        panel2 = new JPanel();
-        enter = new JLabel("Would you like to export your purchase history? (Y/N)");
-        panel2.add(enter);
-
-        searchText = new JTextField(5);
-        panel2.add(searchText);
-
+        content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
+        panel.add(title);
         content.add(panel, BorderLayout.NORTH);
-        content.add(panel2, BorderLayout.CENTER);
+
+        export = new JLabel("Would you like to export your purchase history? (Y/N)");
+        panel.add(export);
+        content.add(panel, BorderLayout.CENTER);
+
+        yn = new JTextField(3);
+        panel.add(yn);
+        content.add(panel, BorderLayout.CENTER);
+
+        
 
         frame.pack();
         frame.setSize(400, 400);
         frame.setVisible(true);
-
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new PurchaseHistory());
     }
 }

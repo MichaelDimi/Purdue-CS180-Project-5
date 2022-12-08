@@ -1,9 +1,20 @@
 package GUI.CustomerPages;
 
+import Client.BookApp;
+import Client.ClientQuery;
+import Objects.Book;
+import Objects.Review;
+import Objects.Store;
+import Query.Query;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class ViewStores extends JFrame implements Runnable {
     JPanel panel;
@@ -11,6 +22,8 @@ public class ViewStores extends JFrame implements Runnable {
     Container content;
     JTextField storeSelection;
     JTextArea listOfStores;
+    Store[] storesArr;
+    String storesList;
     JButton sortNumberProdLtH; //Lowest to Highest
     JButton sortNumberProdHtL; //Highest to Lowest
     JButton sortFreqShopLtH;
@@ -25,35 +38,99 @@ public class ViewStores extends JFrame implements Runnable {
                 SwingUtilities.invokeLater(new SelectedStoreView());
 
             }
-            if (e.getSource() == sortNumberProdLtH) {
-
-            }
             if (e.getSource() == sortNumberProdHtL) {
+                storesArr = BookApp.sortStoresByVarietyOfProducts(storesArr);
 
+                // refreshes GUI
+                int i = 1;
+                storesList = "";
+
+                for (Store store : storesArr) { //Printing list of books available for sale
+                    storesList += i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                            + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                            + " -- Products Offered: " + store.getStock().size() + "\n";
+                    i++;
+                }
+                listOfStores.setText(storesList);
             }
-            if (e.getSource() == sortFreqShopLtH) {
+            if (e.getSource() == sortNumberProdLtH) {
+                storesArr = BookApp.sortStoresByVarietyOfProducts(storesArr);
+                Store[] revereArr = new Store[storesArr.length];
+                for (int k = storesArr.length - 1; k >= 0; k--) {
+                    // updates store array with reversed sorted array
+                    revereArr[storesArr.length - k - 1] = storesArr[k];
+                }
 
+                storesArr = revereArr;
+
+                // refreshes GUI
+                int i = 1;
+                storesList = "";
+
+                for (Store store : storesArr) { //Printing list of books available for sale
+                    storesList += i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                            + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                            + " -- Products Offered: " + store.getStock().size() + "\n";
+                    i++;
+                }
+                listOfStores.setText(storesList);
             }
             if (e.getSource() == sortFreqShopHtL) {
+                storesArr = BookApp.sortStoreByMostFrequentPurchases(storesArr);
 
+                // refreshes GUI
+                int i = 1;
+                storesList = "";
+
+                for (Store store : storesArr) { //Printing list of books available for sale
+                    storesList += i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                            + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                            + " -- Products Offered: " + store.getStock().size() + "\n";
+                    i++;
+                }
+                listOfStores.setText(storesList);
+            }
+            if (e.getSource() == sortFreqShopLtH) {
+                storesArr = BookApp.sortStoreByMostFrequentPurchases(storesArr);
+                Store[] revereArr = new Store[storesArr.length];
+                for (int k = storesArr.length - 1; k >= 0; k--) {
+                    // updates store array with reversed sorted array
+                    revereArr[storesArr.length - k - 1] = storesArr[k];
+                }
+
+                storesArr = revereArr;
+
+                // refreshes GUI
+                int i = 1;
+                storesList = "";
+
+                for (Store store : storesArr) { //Printing list of books available for sale
+                    storesList += i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                            + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                            + " -- Products Offered: " + store.getStock().size() + "\n";
+                    i++;
+                }
+                listOfStores.setText(storesList);
             }
         }
     };
     public void run() {
-//        Query storesQuery = new ClientQuery().getQuery(null, "stores", "*");
-//        if (storesQuery.getObject().equals(false)) {
-//            JOptionPane.showMessageDialog(null, "Whoops: There was an error getting the stores from the server", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//        @SuppressWarnings("unchecked")
-//        ArrayList<Store> stores = (ArrayList<Store>) storesQuery.getObject();
-//        // Convert the arraylist to an array, since its easier to manipulate
-//        Store[] storesArr = new Store[stores.size()];
-//        storesArr = stores.toArray(storesArr);
-//
-//        if (storesArr.length < 1) {
-//            JOptionPane.showMessageDialog(null, "There are no stores in the market yet\nCreate an new account and become a seller to start a store");
-//
-//        }
+        Query storesQuery = new ClientQuery().getQuery(null, "stores", "*");
+        if (storesQuery.getObject().equals(false)) {
+            JOptionPane.showMessageDialog(null, "Whoops: There was an error getting the stores from the server", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        @SuppressWarnings("unchecked")
+        ArrayList<Store> stores = (ArrayList<Store>) storesQuery.getObject();
+        // Convert the arraylist to an array, since its easier to manipulate
+        storesArr = new Store[stores.size()];
+        storesArr = stores.toArray(storesArr);
+
+        if (storesArr.length < 1) {
+            JOptionPane.showMessageDialog(null, "There are no stores in the market yet\nCreate an new account and become a seller to start a store");
+
+        }
+
+        // GUI
         panel = new JPanel();
         frame = new JFrame("View Stores");
         content = frame.getContentPane();
@@ -69,24 +146,18 @@ public class ViewStores extends JFrame implements Runnable {
         panel.add(selectStore);
         frame.add(panel, BorderLayout.NORTH);
 
-
         int i = 1;
-        String storesList = "List of stores placeholder";
+        storesList = "";
 
+        for (Store store : storesArr) { //Printing list of books available for sale
+            storesList += i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                    + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                    + " -- Products Offered: " + store.getStock().size() + "\n";
+            i++;
+        }
 
-        // sorted by most number of products offered
-//        for (Store store : stores) { //Printing list of books available for sale
-//            storesList += i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
-//                    + " -- Rating: " + Review.starDisplay(store.getAverageRating())
-//                    + " -- Products Offered: " + store.getStock().size() + "\n";
-//            i++;
-//        }
         panel = new JPanel();
         listOfStores = new JTextArea(storesList);
-//        JScrollPane jsp = new JScrollPane(listOfStores);
-//        jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-//        jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//        panel.add(jsp);
         listOfStores.setEditable(false);
         panel.add(listOfStores);
         content.add(panel, BorderLayout.CENTER);
@@ -125,5 +196,18 @@ public class ViewStores extends JFrame implements Runnable {
     public String SelectedStore() {
         String[] options = {"Stocks", "Reviews"};
         return (String) JOptionPane.showInputDialog(null,"Properties to view","Selected Store",JOptionPane.QUESTION_MESSAGE,null,options,0 );
+    }
+
+    public void updateList() {
+        int i = 1;
+        storesList = "";
+
+        for (Store store : storesArr) { //Printing list of books available for sale
+            storesList += i + ". " + store.getName() + " -- Owner: " + store.getSellerName()
+                    + " -- Rating: " + Review.starDisplay(store.getAverageRating())
+                    + " -- Products Offered: " + store.getStock().size() + "\n";
+            i++;
+        }
+        listOfStores.setText(storesList);
     }
 }

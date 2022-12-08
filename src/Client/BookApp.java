@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -115,6 +116,57 @@ public class BookApp {
             return;
         }
         currentUser = (User) updateUserQuery.getObject();
+    }
+
+    // returns array of Stores sorted by the amount of unique products they sell
+    public static Store[] sortStoresByVarietyOfProducts(Store[] stores) {
+        int n = stores.length;
+
+        Store[] storeArr = stores;
+
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (stores[j].getStock().size() < stores[j+1].getStock().size()) {
+                    Store temp = storeArr[j];
+                    storeArr[j] = storeArr[j+1];
+                    storeArr[j+1] = temp;
+                }
+            }
+        }
+
+        return storeArr;
+    }
+
+    // returns array of Stores sorted by the frequency of purchases from store
+    public static Store[] sortStoreByMostFrequentPurchases(Store[] stores) {
+        int n = stores.length;
+
+        Store[] storeArr = stores;
+
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (getNumPurchasesFromStore((Buyer) currentUser, stores[j])
+                        < getNumPurchasesFromStore((Buyer) currentUser, stores[j + 1])) {
+                    Store temp = storeArr[j];
+                    storeArr[j] = storeArr[j+1];
+                    storeArr[j+1] = temp;
+                }
+            }
+        }
+
+        return storeArr;
+    }
+
+    // returns an int with the number of purchases the current user has made at specified store
+    public static int getNumPurchasesFromStore(Buyer buyer, Store store) {
+        int purchaseCount = 0;
+        for (Book book : buyer.getPurchaseHistory().keySet()) {
+            if (book.getStore().equals(store.getName())) {
+                purchaseCount += buyer.getPurchaseHistory().get(book);
+            }
+        }
+
+        return purchaseCount;
     }
 }
 

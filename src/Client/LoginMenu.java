@@ -31,11 +31,11 @@ public class LoginMenu extends Menu {
             return false;
         }
 
-        try {
-            Thread.sleep(1000); // For dramatic effect
-        } catch (InterruptedException e) {
-            System.out.println("Whoops: Program interruption");
-        }
+//        try {
+//            Thread.sleep(1000); // For dramatic effect
+//        } catch (InterruptedException e) {
+//            System.out.println("Whoops: Program interruption");
+//        }
 
         User returningUser;
 

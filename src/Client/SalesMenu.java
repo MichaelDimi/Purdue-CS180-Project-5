@@ -91,11 +91,11 @@ public class SalesMenu {
                     } while (!confirm.equalsIgnoreCase("y"));
 
                     System.out.println("Setting percent off...");
-                    try {
-                        Thread.sleep(1000); // For dramatic effect
-                    } catch (InterruptedException e) {
-                        System.out.println("Error: Program interruption");
-                    }
+//                    try {
+//                        Thread.sleep(1000); // For dramatic effect
+//                    } catch (InterruptedException e) {
+//                        System.out.println("Error: Program interruption");
+//                    }
                     System.out.println("Done!");
 
                     break;

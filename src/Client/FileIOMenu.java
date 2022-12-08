@@ -277,11 +277,11 @@ public class FileIOMenu extends Menu {
         }
 
         System.out.println("Importing data... ");
-        try {
-            Thread.sleep(1000); // For dramatic effect
-        } catch (InterruptedException e) {
-            System.out.println("Error: Program interruption");
-        }
+//        try {
+//            Thread.sleep(1000); // For dramatic effect
+//        } catch (InterruptedException e) {
+//            System.out.println("Error: Program interruption");
+//        }
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));

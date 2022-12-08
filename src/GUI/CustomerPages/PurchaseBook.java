@@ -1,7 +1,9 @@
 package GUI.CustomerPages;
 
+import Client.BookApp;
 import Client.ClientQuery;
 import Objects.Book;
+import Objects.Buyer;
 import Objects.Marketplace;
 import Query.Query;
 
@@ -15,13 +17,16 @@ public class PurchaseBook extends JFrame implements Runnable {
     JPanel panel;
     JFrame frame;
     Container content;
-    JTextField bookSelection;
+    JComboBox bookSelection;
+    String selectedBookName;
+    JTextField quantitySelection;
     JButton sortPrice;
     JButton sortQty;
     HashMap<Book, Integer> books;
     JTextArea listOfBooks;
     Query booksQuery;
     JButton selectBook;
+
     ActionListener actionListener = new ActionListener() {
         @Override
 
@@ -47,6 +52,7 @@ public class PurchaseBook extends JFrame implements Runnable {
             if (e.getSource() == sortQty) {
                 booksArr = Marketplace.sortBooksByQuantity(books);
                 int i = 1;
+
                 StringBuilder bookList = new StringBuilder();
                 for (Book book : booksArr) { //Printing list of books available for sale
 
@@ -59,7 +65,34 @@ public class PurchaseBook extends JFrame implements Runnable {
                 listOfBooks.setText(bookList.toString());
             }
             if (e.getSource() == selectBook) {
-                System.out.println(bookSelection.getText());
+                System.out.println(selectedBookName);
+                try {
+                    //System.out.println(selectedBook);
+                    int quantityToBuy = Integer.parseInt(quantitySelection.getText());
+
+                    // makes sure user does not input negative number
+                    if (quantityToBuy < 0)
+                        throw new NumberFormatException();
+
+                    Book selectedBook = null;
+                    for (Book book : booksArr) {
+                        if (book.getName().equals(selectedBookName))
+                            selectedBook = book;
+                    }
+
+                    if (selectedBook == null) {
+                        JOptionPane.showMessageDialog(null, "This book is no longer available");
+                    } else {
+
+                        // adds books to the buyer's cart
+                        ((Buyer) BookApp.currentUser).addToCart(selectedBook, quantityToBuy);
+                        JOptionPane.showMessageDialog(null, "Book has been added to cart");
+                    }
+                    System.out.println(((Buyer) BookApp.currentUser).getCart().keySet() + " ::: " + ((Buyer) BookApp.currentUser).getCart().values());
+                } catch (NumberFormatException err) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid quantity",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     };
@@ -77,10 +110,11 @@ public class PurchaseBook extends JFrame implements Runnable {
         if (books.isEmpty()) {
             JOptionPane.showMessageDialog(null, "There are no books for sale\nCreate a new account and become a seller to start selling books");
         }
+
         //panel = new JPanel();
         frame = new JFrame("Purchase Book");
         content = frame.getContentPane();
-        frame.setLocationRelativeTo(null);
+
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         content.setLayout(new BorderLayout());
         //content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
@@ -89,15 +123,36 @@ public class PurchaseBook extends JFrame implements Runnable {
         panel = new JPanel();
         JLabel select = new JLabel("Select a book to buy (enter number):");
         panel.add(select);
-        bookSelection = new JTextField(10);
+
+        String[] bookNames = new String[booksArr.length];
+        for (int i = 0; i < booksArr.length; i++) {
+            bookNames[i] = booksArr[i].getName();
+        }
+
+        //bookSelection = new JTextField(10);
+        bookSelection = new JComboBox<>(bookNames);
+        selectedBookName = bookNames[0];
+        bookSelection.addItemListener(listener -> {
+            JComboBox getSelection = (JComboBox) listener.getSource();
+            selectedBookName = (String) getSelection.getSelectedItem();
+
+        });
         panel.add(bookSelection);
+
+        JLabel quantity = new JLabel("Quantity:");
+        panel.add(quantity);
+        quantitySelection = new JTextField(3);
+        panel.add(quantitySelection);
+
         selectBook = new JButton("Select");
         selectBook.addActionListener(actionListener);
         panel.add(selectBook);
+
         frame.add(panel, BorderLayout.NORTH);
 
         panel = new JPanel();
         int i = 1;
+
         StringBuilder bookList = new StringBuilder();
         for (Book book : booksArr) { //Printing list of books available for sale
 
@@ -109,6 +164,7 @@ public class PurchaseBook extends JFrame implements Runnable {
         }
         listOfBooks = new JTextArea(bookList.toString());
         listOfBooks.setEditable(false);
+
         panel.add(listOfBooks);
         content.add(panel, BorderLayout.CENTER);
 
@@ -123,6 +179,7 @@ public class PurchaseBook extends JFrame implements Runnable {
         panel.add(sortQty);
         frame.add(panel, BorderLayout.SOUTH);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         //frame.setSize();
         frame.setVisible(true);
     }

@@ -22,21 +22,8 @@ public class ViewStores extends JFrame implements Runnable {
 
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == selectStore) {
-                String choice = SelectedStore();
-                if (choice.equals("Stocks")) {
-                    System.out.println("Stocks");
-                } else {
-                    System.out.println("Reviews");
-                }
-//                panel = new JPanel();
-//                frame = new JFrame("View Selected Store");
-//                content = frame.getContentPane();
-//                frame.setLocationRelativeTo(null);
-//                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//                panel.add(new JLabel("Selected store details:"));
-//                content.add(panel);
-//                frame.pack();
-//                frame.setVisible(true);
+                SwingUtilities.invokeLater(new SelectedStoreView());
+
             }
             if (e.getSource() == sortNumberProdLtH) {
 
@@ -70,7 +57,6 @@ public class ViewStores extends JFrame implements Runnable {
         panel = new JPanel();
         frame = new JFrame("View Stores");
         content = frame.getContentPane();
-        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //content.setLayout(new BorderLayout());
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
@@ -127,6 +113,7 @@ public class ViewStores extends JFrame implements Runnable {
         content.add(panel);
 
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }

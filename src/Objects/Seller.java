@@ -758,6 +758,8 @@ public class Seller extends User implements Serializable {
                 } else {
                     store.getStock().put(book, bookToRemoveCount - quantity);
                 }
+                // updates stock on server
+                new ClientQuery().updateQuery(store, "stock", "set", store.getStock());
 
                 // increments Seller's revenue
                 stats.incrementRevenue(book.getPrice() * quantity);

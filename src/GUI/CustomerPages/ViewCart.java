@@ -92,7 +92,6 @@ public class ViewCart implements Runnable {
                 ((Buyer) BookApp.currentUser).checkoutCart();
                 // "refreshes" cart
                 frame.dispose();
-                run();
             }
         }
     };

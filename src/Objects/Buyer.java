@@ -131,11 +131,9 @@ public class Buyer extends User implements Serializable {
             }
             if (!(sellerQuery.getObject() instanceof Seller)) return;
             Seller bookSeller = (Seller) sellerQuery.getObject();
-            Object[] updateStockInfo = {book, cart.get(book), this};
-            // updates seller stock on server
-            new ClientQuery().updateQuery(bookSeller, "stock", "update", updateStockInfo);
 
-            //bookSeller.updateStock(book, cart.get(book), this);
+            // updates seller's stock
+            bookSeller.updateStock(book, cart.get(book), this);
 
             // checks if user already has book in cart, increments current quantity if so
             if (identicalEntry) {

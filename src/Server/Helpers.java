@@ -98,6 +98,8 @@ public class Helpers {
     synchronized public Query update(UpdateQuery update) {
         String opt = update.getOptions();
         String params = update.getParams();
+        System.out.println(opt);
+        System.out.println(params);
         switch (opt) {
             case "users":
                 switch (params) {
@@ -216,16 +218,6 @@ public class Helpers {
                         store = marketplace.getStoreByName(store.getName());
                         if (store == null) break;
                         store.setStock((HashMap<Book, Integer>) update.getNewVal());
-                        return new Query(true, "");
-                    }
-                    case "update": {
-                        Seller seller = (Seller) update.getObject();
-                        Object[] updateStockInfo = (Object[]) update.getNewVal();
-                        if (updateStockInfo == null) break;
-                        Book book = (Book) updateStockInfo[0];
-                        Integer quantity = (Integer) updateStockInfo[1];
-                        Buyer buyer = (Buyer) updateStockInfo[2];
-                        seller.updateStock(book, quantity, buyer);
                         return new Query(true, "");
                     }
                     case "name": {

@@ -117,9 +117,8 @@ public class PurchaseBook extends JFrame implements Runnable {
         content.setLayout(new BorderLayout());
         //content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 
-        //TODO: implement selecting a book
         panel = new JPanel();
-        JLabel select = new JLabel("Select a book to buy (enter number):");
+        JLabel select = new JLabel("Select a book to buy:");
         panel.add(select);
 
         String[] bookNames = new String[booksArr.length];

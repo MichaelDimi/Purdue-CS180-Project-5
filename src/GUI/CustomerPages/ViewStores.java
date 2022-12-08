@@ -137,14 +137,16 @@ public class ViewStores extends JFrame implements Runnable {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //content.setLayout(new BorderLayout());
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
-        JLabel select = new JLabel("Select a store to see their books or reviews (enter number):");
-        panel.add(select);
-        storeSelection = new JTextField(10);
-        panel.add(storeSelection);
-        selectStore = new JButton("Select");
-        selectStore.addActionListener(actionListener);
-        panel.add(selectStore);
-        frame.add(panel, BorderLayout.NORTH);
+
+        // TODO: Implement store select
+//        JLabel select = new JLabel("Select a store to see their books or reviews (enter number):");
+//        panel.add(select);
+//        storeSelection = new JTextField(10);
+//        panel.add(storeSelection);
+//        selectStore = new JButton("Select");
+//        selectStore.addActionListener(actionListener);
+//        panel.add(selectStore);
+//        frame.add(panel, BorderLayout.NORTH);
 
         int i = 1;
         storesList = "";

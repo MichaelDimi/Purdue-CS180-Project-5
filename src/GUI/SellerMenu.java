@@ -16,9 +16,11 @@ public class SellerMenu implements Runnable {
     JButton viewStats;
     JButton viewCarts;
     JButton signOut;
-    //TODO: import all stores and books
+    //TODO: import all stores, books and carts
     String[] stores = {"a", "b", "c"}; //Temporary Array
     String[] books = {"a", "b", "c"}; //Temporary Array
+    String[] carts = {"a", "b", "c"}; //contains info about carts, in this order: Buyer, Book and Qty
+    //eg: {"user1|book1|5", "user2|book2|4"}
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new SellerMenu());
     }
@@ -53,11 +55,17 @@ public class SellerMenu implements Runnable {
                         }
                     }
             } else if (e.getSource() == viewReviews) {
-                
+                String store = (String) JOptionPane.showInputDialog(null, "Select store", "Seller Menu",
+                JOptionPane.QUESTION_MESSAGE, null, stores, null);
+                if (store != null) {
+                    SwingUtilities.invokeLater(new ViewReviews(store));
+                    frame.dispose();
+                }
             } else if (e.getSource() == viewStats) {
                 
             } else if (e.getSource() == viewCarts) {
-                
+                JOptionPane.showInputDialog(null, "View Carts", "Seller Menu",
+                JOptionPane.QUESTION_MESSAGE, null, carts, null);
             } else if (e.getSource() == signOut) {
                 frame.dispose();
             }

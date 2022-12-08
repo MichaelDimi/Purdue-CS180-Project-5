@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import GUI.*;
-import Objects.*;
-
 public class ManageStore implements Runnable {
     String selectedStore;
     JFrame frame;

@@ -63,11 +63,28 @@ public class Helpers {
                         get.setObject(marketplace.getStoreByName(storeName));
                         break;
                 }
+                break;
+            case "cart":
+                switch (params) {
+                    case "currentBuyer":
+                        User user = (User) get.getObject();
+                        if (user == null) return new GetQuery(null, "", "");
+                        String username = user.getName();
+                        if (username == null) return new GetQuery(null, "", "");
+                        user = marketplace.getUserByUsername(username);
+                        if (user == null) return new GetQuery(null, "", "");
+                        get.setObject(((Buyer) user).getCart());
+                        break;
+                    default:
+                        break; // Sends the query back as null
+                }
+                break;
             case "sellers":
                 switch (params) {
                     case "book":
                         Book book = (Book) get.getObject();
                         if (book == null) break;
+                        System.out.println(marketplace.getSellerByBook(book));
                         get.setObject(marketplace.getSellerByBook(book));
                         break;
                 }
@@ -146,6 +163,15 @@ public class Helpers {
                         user.setCart(input);
                         return new Query(true, "");
                     }
+                    case "purchaseHistory": {
+                        Buyer user = (Buyer) update.getObject();
+                        if (user == null) break;
+                        user = (Buyer) marketplace.getUserByUsername(user.getName());
+                        if (user == null) break;
+                        HashMap<Book, Integer> input = (HashMap<Book, Integer>) update.getNewVal();
+                        user.setPurchaseHistory(input);
+                        return new Query(true, "");
+                    }
                 }
                 break;
             case "stores":
@@ -190,6 +216,16 @@ public class Helpers {
                         store = marketplace.getStoreByName(store.getName());
                         if (store == null) break;
                         store.setStock((HashMap<Book, Integer>) update.getNewVal());
+                        return new Query(true, "");
+                    }
+                    case "update": {
+                        Seller seller = (Seller) update.getObject();
+                        Object[] updateStockInfo = (Object[]) update.getNewVal();
+                        if (updateStockInfo == null) break;
+                        Book book = (Book) updateStockInfo[0];
+                        Integer quantity = (Integer) updateStockInfo[1];
+                        Buyer buyer = (Buyer) updateStockInfo[2];
+                        seller.updateStock(book, quantity, buyer);
                         return new Query(true, "");
                     }
                     case "name": {
@@ -245,6 +281,15 @@ public class Helpers {
                     }
                 }
                 System.out.println(marketplace.getStores());
+                return new Query(true, "");
+            }
+            case "cart": {
+                Buyer user = (Buyer) delete.getObject();
+                if (user == null) break;
+                user = (Buyer) marketplace.getUserByUsername(user.getName());
+                if (user == null) break;
+                System.out.println(user);
+                user.clearCart();
                 return new Query(true, "");
             }
 //            case "stock": {

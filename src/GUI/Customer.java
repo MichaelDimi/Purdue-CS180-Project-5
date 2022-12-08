@@ -1,8 +1,6 @@
 package GUI;
 
-import GUI.CustomerPages.LeaveReview;
-import GUI.CustomerPages.PurchaseBook;
-import GUI.CustomerPages.ViewStores;
+import GUI.CustomerPages.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,17 +26,17 @@ public class Customer implements Runnable {
             if (e.getSource() == purchase) {
                 SwingUtilities.invokeLater(new PurchaseBook());
             } else if (e.getSource() == search) {
-
+                SwingUtilities.invokeLater(new SearchBook());
             } else if (e.getSource() == stores) {
                SwingUtilities.invokeLater(new ViewStores());
             } else if (e.getSource() == reviews) {
                 SwingUtilities.invokeLater(new LeaveReview());
             } else if (e.getSource() == history) {
-                
+                SwingUtilities.invokeLater(new PurchaseHistory());
             } else if (e.getSource() == cart) {
-                
+                SwingUtilities.invokeLater(new ViewCart());
             } else if (e.getSource() == account) {
-                
+                SwingUtilities.invokeLater(new EditAccount());
             } else if (e.getSource() == signOut) {
                 frame.dispose();
             }

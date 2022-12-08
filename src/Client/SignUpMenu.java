@@ -5,6 +5,7 @@ import Objects.Seller;
 import Objects.User;
 import Query.*;
 
+import javax.swing.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -29,13 +30,16 @@ public class SignUpMenu extends Menu {
         Query validateAddQuery = new ClientQuery().updateQuery(null, "users", "add", new String[]{username, email, password, isBuyer ? "T" : "F"});
         if (validateAddQuery.getObject().equals(false)) {
             if (validateAddQuery.getOptions().equals("validation err")) {
-                System.out.println("Whoops: Validation failed. Please try again");
+                JOptionPane.showMessageDialog(null, "Account already exists",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             } else if (validateAddQuery.getOptions().equals("hash err")) {
-                System.out.println("Whoops: Unable to hash password");
+                JOptionPane.showMessageDialog(null, "Whoops: Unable to hash password",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             } else {
-                System.out.println("Whoops: Unable to create your account. Please try again");
+                JOptionPane.showMessageDialog(null, "Whoops: Unable to create your account. Please try again",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         } else {

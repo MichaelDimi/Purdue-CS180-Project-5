@@ -41,6 +41,7 @@ public class SignUp extends JFrame implements Runnable {
                                                            buyerOrSeller); // BUYER OR SELLER
 
                     if (validUser) {
+                        frame.dispose();
                         JOptionPane.showMessageDialog(null, "Validation successful!");
                         BookApp.displayHomepage();
                     }
@@ -49,7 +50,6 @@ public class SignUp extends JFrame implements Runnable {
                     JOptionPane.showMessageDialog(null, "Please enter a valid username and password",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
             } else if (e.getSource() == showPassword) {
                 if (showPassword.isSelected()) {
                     pField.setEchoChar((char) 0);

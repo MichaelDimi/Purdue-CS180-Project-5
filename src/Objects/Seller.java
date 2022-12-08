@@ -4,6 +4,7 @@ import Client.*;
 import Exceptions.IdenticalStoreException;
 import Query.*;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;

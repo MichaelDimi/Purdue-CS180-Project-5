@@ -65,7 +65,6 @@ public class PurchaseBook extends JFrame implements Runnable {
                 listOfBooks.setText(bookList.toString());
             }
             if (e.getSource() == selectBook) {
-                System.out.println(selectedBookName);
                 try {
                     //System.out.println(selectedBook);
                     int quantityToBuy = Integer.parseInt(quantitySelection.getText());
@@ -83,12 +82,9 @@ public class PurchaseBook extends JFrame implements Runnable {
                     if (selectedBook == null) {
                         JOptionPane.showMessageDialog(null, "This book is no longer available");
                     } else {
-
                         // adds books to the buyer's cart
                         ((Buyer) BookApp.currentUser).addToCart(selectedBook, quantityToBuy);
-                        JOptionPane.showMessageDialog(null, "Book has been added to cart");
                     }
-                    System.out.println(((Buyer) BookApp.currentUser).getCart().keySet() + " ::: " + ((Buyer) BookApp.currentUser).getCart().values());
                 } catch (NumberFormatException err) {
                     JOptionPane.showMessageDialog(null, "Please enter a valid quantity",
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -100,6 +96,7 @@ public class PurchaseBook extends JFrame implements Runnable {
         booksQuery = new ClientQuery().getQuery(null, "books", "*");
         if (booksQuery.getObject().equals(false)) {
             JOptionPane.showMessageDialog(null, "Whoops: There was an error getting the books from the server");
+            return;
         }
         books = (HashMap<Book, Integer>) booksQuery.getObject();
 
@@ -109,6 +106,7 @@ public class PurchaseBook extends JFrame implements Runnable {
 
         if (books.isEmpty()) {
             JOptionPane.showMessageDialog(null, "There are no books for sale\nCreate a new account and become a seller to start selling books");
+            return;
         }
 
         //panel = new JPanel();
@@ -144,7 +142,7 @@ public class PurchaseBook extends JFrame implements Runnable {
         quantitySelection = new JTextField(3);
         panel.add(quantitySelection);
 
-        selectBook = new JButton("Select");
+        selectBook = new JButton("Add to cart");
         selectBook.addActionListener(actionListener);
         panel.add(selectBook);
 

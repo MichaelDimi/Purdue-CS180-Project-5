@@ -107,6 +107,15 @@ public class BookApp {
             SwingUtilities.invokeLater(new SellerGUI());
         }
     }
+
+    // updates current user with the most up-to-date info
+    public static void updateCurrentUser() {
+        Query updateUserQuery = new ClientQuery().getQuery(currentUser, "users", "currentUser");
+        if (updateUserQuery.getObject() == null || updateUserQuery.getObject().equals(false)) {
+            return;
+        }
+        currentUser = (User) updateUserQuery.getObject();
+    }
 }
 
 

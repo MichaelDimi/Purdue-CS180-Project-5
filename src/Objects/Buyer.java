@@ -7,6 +7,7 @@ import Query.Query;
 
 import javax.swing.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -59,9 +60,11 @@ public class Buyer extends User implements Serializable {
         // updates cart on server
         Query setNameQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "cart", cart);
         if (setNameQuery.getObject().equals(false)) {
-            System.out.println("Whoops: Couldn't set your new password");
+            //System.out.println("Whoops: Couldn't set your new password");
             JOptionPane.showMessageDialog(null, "Item could not be added to cart",
                     "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Book has been added to cart");
         }
     }
 
@@ -81,6 +84,15 @@ public class Buyer extends User implements Serializable {
                 cart.put(book, currentCount - quantity);
             }
         }
+
+        // updates cart on server
+        Query setNameQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "cart", cart);
+        if (setNameQuery.getObject().equals(false)) {
+            JOptionPane.showMessageDialog(null, "Book could not be removed",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Book(s) Removed");
+        }
     }
 
     // adds books to Buyer's purchase history, clears cart's contents, and then returns hashmap will all books purchased
@@ -90,7 +102,7 @@ public class Buyer extends User implements Serializable {
             // checks if there are enough books in stock to purchase
             String quantityString = "?";
             Integer availableQuantity = null;
-            Query bookQuantityQuery = new ClientQuery().getQuery(this, "books", "quantity");
+            Query bookQuantityQuery = new ClientQuery().getQuery(book, "books", "quantity");
             if (bookQuantityQuery.getObject() != null && !bookQuantityQuery.getObject().equals(false)) {
                 availableQuantity = (Integer) bookQuantityQuery.getObject();
                 quantityString = availableQuantity.toString();
@@ -98,6 +110,7 @@ public class Buyer extends User implements Serializable {
             if (availableQuantity == null) break;
             if (cart.get(book) > availableQuantity) {
                 canCheckout = false;
+                // TODO: UPDATE TO JOPTION ERROR MESSAGES
                 System.out.println("SORRY, BUT THERE IS NOT ENOUGH STOCK TO PURCHASE: " + book.getName());
                 System.out.println("CART QUANTITY: " + cart.get(book) + " | AVAILABLE QUANTITY: " + quantityString);
                 break;
@@ -118,7 +131,11 @@ public class Buyer extends User implements Serializable {
             }
             if (!(sellerQuery.getObject() instanceof Seller)) return;
             Seller bookSeller = (Seller) sellerQuery.getObject();
-            bookSeller.updateStock(book, cart.get(book), this);
+            Object[] updateStockInfo = {book, cart.get(book), this};
+            // updates seller stock on server
+            new ClientQuery().updateQuery(bookSeller, "stock", "update", updateStockInfo);
+
+            //bookSeller.updateStock(book, cart.get(book), this);
 
             // checks if user already has book in cart, increments current quantity if so
             if (identicalEntry) {
@@ -128,13 +145,39 @@ public class Buyer extends User implements Serializable {
             }
         }
 
+        // clears cart when done
         if (canCheckout)
             cart.clear();
+
+        // updates purchase history on server
+        Query setPurchaseHistoryQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "purchaseHistory", purchaseHistory);
+        if (setPurchaseHistoryQuery.getObject().equals(false)) {
+            JOptionPane.showMessageDialog(null, "Purchase could not be made",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // updates cart on server
+        Query setCartQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "cart", cart);
+        if (setCartQuery.getObject().equals(false)) {
+            JOptionPane.showMessageDialog(null, "Cart could not be checked out",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Cart Checked Out");
+        }
     }
 
     // removes all items in the Buyer's cart
     public void clearCart() {
         cart.clear();
+        // updates cart on server
+        Query setCartQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "cart", cart);
+        if (setCartQuery.getObject().equals(false)) {
+            JOptionPane.showMessageDialog(null, "Cart could not be cleared",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Cart Cleared");
+        }
     }
 
     public void setCart(HashMap<Book, Integer> cart) {

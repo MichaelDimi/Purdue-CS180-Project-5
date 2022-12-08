@@ -137,6 +137,15 @@ public class Helpers {
                         user.setPassword(input[0], input[1]);
                         return new Query(true, "");
                     }
+                    case "cart": {
+                        Buyer user = (Buyer) update.getObject();
+                        if (user == null) break;
+                        user = (Buyer) marketplace.getUserByUsername(user.getName());
+                        if (user == null) break;
+                        HashMap<Book, Integer> input = (HashMap<Book, Integer>) update.getNewVal();
+                        user.setCart(input);
+                        return new Query(true, "");
+                    }
                 }
                 break;
             case "stores":

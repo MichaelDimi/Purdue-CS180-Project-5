@@ -5,6 +5,7 @@ import Client.ClientQuery;
 import Exceptions.BookNotFoundException;
 import Query.Query;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -53,6 +54,14 @@ public class Buyer extends User implements Serializable {
             cart.put(book, cart.get(book) + quantity);
         } else {
             cart.put(book, quantity);
+        }
+
+        // updates cart on server
+        Query setNameQuery = new ClientQuery().updateQuery(BookApp.currentUser, "users", "cart", cart);
+        if (setNameQuery.getObject().equals(false)) {
+            System.out.println("Whoops: Couldn't set your new password");
+            JOptionPane.showMessageDialog(null, "Item could not be added to cart",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

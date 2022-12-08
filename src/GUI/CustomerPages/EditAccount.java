@@ -20,5 +20,8 @@ public class EditAccount extends JFrame implements Runnable {
         panel = new JPanel();
         frame = new JFrame();
         content = frame.getContentPane();
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

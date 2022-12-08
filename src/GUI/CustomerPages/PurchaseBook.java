@@ -114,7 +114,7 @@ public class PurchaseBook extends JFrame implements Runnable {
         //panel = new JPanel();
         frame = new JFrame("Purchase Book");
         content = frame.getContentPane();
-        frame.setLocationRelativeTo(null);
+
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         content.setLayout(new BorderLayout());
         //content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
@@ -179,6 +179,7 @@ public class PurchaseBook extends JFrame implements Runnable {
         panel.add(sortQty);
         frame.add(panel, BorderLayout.SOUTH);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         //frame.setSize();
         frame.setVisible(true);
     }

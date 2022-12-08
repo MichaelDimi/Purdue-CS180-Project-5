@@ -69,7 +69,8 @@ public class SellerMenu implements Runnable {
                 JOptionPane.showInputDialog(null, "View Carts", "Seller Menu",
                 JOptionPane.QUESTION_MESSAGE, null, carts, null);
             } else if (e.getSource() == importExport) {
-                
+                SwingUtilities.invokeLater(new ImportExport());
+                frame.dispose();
             } else if (e.getSource() == signOut) {
                 frame.dispose();
             }

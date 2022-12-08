@@ -95,7 +95,8 @@ public class PurchaseBook extends JFrame implements Runnable {
     public void run() {
         booksQuery = new ClientQuery().getQuery(null, "books", "*");
         if (booksQuery.getObject().equals(false)) {
-            JOptionPane.showMessageDialog(null, "Whoops: There was an error getting the books from the server");
+            JOptionPane.showMessageDialog(null, "Whoops: There was an error getting the books from the server",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         books = (HashMap<Book, Integer>) booksQuery.getObject();

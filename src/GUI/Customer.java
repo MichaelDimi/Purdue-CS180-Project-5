@@ -1,8 +1,6 @@
 package GUI;
 
-import GUI.CustomerPages.LeaveReview;
-import GUI.CustomerPages.PurchaseBook;
-import GUI.CustomerPages.ViewStores;
+import GUI.CustomerPages.*;
 
 import javax.swing.*;
 import java.awt.*;

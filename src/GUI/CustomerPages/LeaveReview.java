@@ -69,7 +69,7 @@ public class LeaveReview extends JFrame implements Runnable {
         panel = new JPanel();
         frame = new JFrame();
         content = frame.getContentPane();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 
         storeSelection = new JComboBox<>();

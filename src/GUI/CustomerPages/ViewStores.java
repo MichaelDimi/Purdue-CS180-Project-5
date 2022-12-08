@@ -9,7 +9,7 @@ public class ViewStores extends JFrame implements Runnable {
     JPanel panel;
     JFrame frame;
     Container content;
-    JTextField storeSelection;
+    JComboBox storeSelection;
     JTextArea listOfStores;
     JButton sortNumberProdLtH; //Lowest to Highest
     JButton sortNumberProdHtL; //Highest to Lowest
@@ -62,7 +62,16 @@ public class ViewStores extends JFrame implements Runnable {
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
         JLabel select = new JLabel("Select a store to see their books or reviews (enter number):");
         panel.add(select);
-        storeSelection = new JTextField(10);
+//        storeSelection = new JTextField(10);
+//        panel.add(storeSelection);
+//        storeSelection = new JComboBox<>(storeNames);
+        storeSelection = new JComboBox<>(new String[] {"Book1","Book2","Book3"}); //for testing before integration
+//        selectedStoreName = storeNames[0];
+//        storeSelection.addItemListener(listener -> {
+//            JComboBox getSelection = (JComboBox) listener.getSource();
+//            selectedStoreName = (String) getSelection.getSelectedItem();
+//
+//        });
         panel.add(storeSelection);
         selectStore = new JButton("Select");
         selectStore.addActionListener(actionListener);

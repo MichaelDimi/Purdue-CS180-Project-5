@@ -47,7 +47,7 @@ public class SearchBook extends JFrame implements Runnable {
 
         frame = new JFrame("Search For A Book");
         content = frame.getContentPane();
-        frame.setLocationRelativeTo(null);
+
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         content.setLayout(new BorderLayout());
 
@@ -81,6 +81,7 @@ public class SearchBook extends JFrame implements Runnable {
         
         frame.pack();
         //frame.setSize();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

@@ -37,7 +37,6 @@ public class ViewCart implements Runnable {
         frame = new JFrame("Your Cart");
         Container content = frame.getContentPane();
 
-        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
@@ -63,6 +62,7 @@ public class ViewCart implements Runnable {
 
         frame.pack();
         frame.setSize(400, 400);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }

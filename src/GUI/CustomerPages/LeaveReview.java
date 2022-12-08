@@ -18,7 +18,7 @@ public class LeaveReview extends JFrame implements Runnable {
     JComboBox storeSelection;
     JTextArea reviewHeadline;
     JTextArea review;
-    JTextField rating;
+    JComboBox<Integer> rating;
     JButton submit;
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -31,7 +31,7 @@ public class LeaveReview extends JFrame implements Runnable {
                 }
 
                 try {
-                    int r = Integer.parseInt(rating.getText());
+                    int r = (Integer) rating.getSelectedItem();
                     if (r < 0 || r > 5) {
                         errorMessage += "\nYour rating must be an integer 0 through 5";
                     }
@@ -69,7 +69,6 @@ public class LeaveReview extends JFrame implements Runnable {
         panel = new JPanel();
         frame = new JFrame();
         content = frame.getContentPane();
-        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 
@@ -97,7 +96,9 @@ public class LeaveReview extends JFrame implements Runnable {
         content.add(panel);
 
         panel = new JPanel();
-        rating = new JTextField("*Enter a rating out of 5",25);
+
+        rating = new JComboBox<>(new Integer[] {1,2,3,4,5});
+        rating.addActionListener(actionListener);
         panel.add(rating);
         content.add(panel, BorderLayout.SOUTH);
 
@@ -108,6 +109,7 @@ public class LeaveReview extends JFrame implements Runnable {
         content.add(panel);
 
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
 

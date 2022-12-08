@@ -50,7 +50,6 @@ public class SignUp extends JFrame implements Runnable {
         frame = new JFrame();
         Container content = frame.getContentPane();
 
-        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 //        frame.setResizable(false);
@@ -118,6 +117,7 @@ public class SignUp extends JFrame implements Runnable {
 
         frame.pack();
         frame.setSize(400, 300);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }

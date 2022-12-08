@@ -40,7 +40,7 @@ public class Customer implements Runnable {
             } else if (e.getSource() == account) {
                 
             } else if (e.getSource() == signOut) {
-                
+                frame.dispose();
             }
         }
     };
@@ -49,8 +49,6 @@ public class Customer implements Runnable {
         optionPanel = new JPanel(new GridLayout(4, 4));
         frame = new JFrame();
         Container content = frame.getContentPane();
-
-        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         JLabel title = new JLabel("Customer Menu");
@@ -103,6 +101,7 @@ public class Customer implements Runnable {
 
         frame.pack();
         frame.setSize(400, 400);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }

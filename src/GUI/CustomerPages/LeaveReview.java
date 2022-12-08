@@ -71,7 +71,7 @@ public class LeaveReview extends JFrame implements Runnable {
                 if (!(sellerQuery.getObject() instanceof Seller)) {
                     JOptionPane.showMessageDialog(null, "Whoops: Couldn't get the owner of this store. Please go back and try again",
                             "Error", JOptionPane.ERROR_MESSAGE);
-                    System.out.println("Please go back and try again");
+                    //System.out.println("Please go back and try again");
                     return;
                 }
                 Seller seller = (Seller) sellerQuery.getObject();

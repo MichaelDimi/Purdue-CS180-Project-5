@@ -98,8 +98,6 @@ public class Helpers {
     synchronized public Query update(UpdateQuery update) {
         String opt = update.getOptions();
         String params = update.getParams();
-        System.out.println(opt);
-        System.out.println(params);
         switch (opt) {
             case "users":
                 switch (params) {

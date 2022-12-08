@@ -3,7 +3,6 @@ package GUI.SellerPages;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import GUI.*;
 public class AddBook implements Runnable{
     String selectedStore;
     JFrame frame;

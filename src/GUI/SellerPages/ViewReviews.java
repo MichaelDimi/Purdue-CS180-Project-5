@@ -3,8 +3,6 @@ package GUI.SellerPages;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import GUI.*;
-import Objects.*;
 
 public class ViewReviews implements Runnable {
     String store;
@@ -17,7 +15,6 @@ public class ViewReviews implements Runnable {
     //TODO: Import reviews
     String[] reviews = {"a", "b", "c"}; //Temporary Array
     public static void main(String[] args) {
-        //TODO: Add back functionality to window close button
         SwingUtilities.invokeLater(new ViewReviews(null));
     }
     public ViewReviews(String store) {

@@ -15,6 +15,7 @@ public class SellerMenu implements Runnable {
     JButton viewReviews;
     JButton viewStats;
     JButton viewCarts;
+    JButton importExport;
     JButton signOut;
     //TODO: import all stores, books and carts
     String[] stores = {"a", "b", "c"}; //Temporary Array
@@ -62,10 +63,13 @@ public class SellerMenu implements Runnable {
                     frame.dispose();
                 }
             } else if (e.getSource() == viewStats) {
-                
+                SwingUtilities.invokeLater(new ViewStats());
+                frame.dispose();
             } else if (e.getSource() == viewCarts) {
                 JOptionPane.showInputDialog(null, "View Carts", "Seller Menu",
                 JOptionPane.QUESTION_MESSAGE, null, carts, null);
+            } else if (e.getSource() == importExport) {
+                
             } else if (e.getSource() == signOut) {
                 frame.dispose();
             }
@@ -117,6 +121,11 @@ public class SellerMenu implements Runnable {
         viewCarts.setAlignmentX(Component.CENTER_ALIGNMENT);
         viewCarts.addActionListener(actionListener);
         optionPanel.add(viewCarts);
+
+        importExport = new JButton("Import/Export");
+        importExport.setAlignmentX(Component.CENTER_ALIGNMENT);
+        importExport.addActionListener(actionListener);
+        optionPanel.add(importExport);
 
         signOut = new JButton("Sign Out");
         signOut.setAlignmentX(Component.CENTER_ALIGNMENT);

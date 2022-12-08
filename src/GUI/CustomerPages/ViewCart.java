@@ -37,7 +37,7 @@ public class ViewCart implements Runnable {
         frame = new JFrame("Your Cart");
         Container content = frame.getContentPane();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
         content.add(panel, BorderLayout.NORTH);

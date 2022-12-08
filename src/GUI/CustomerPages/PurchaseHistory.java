@@ -29,7 +29,7 @@ public class PurchaseHistory implements Runnable {
         frame = new JFrame("View and Export Purchase History");
         Container content = frame.getContentPane();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 

@@ -46,7 +46,7 @@ public class EditAccount extends JFrame implements Runnable {
         content = frame.getContentPane();
 
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         title = new JLabel("Edit Account");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -87,6 +87,7 @@ public class EditAccount extends JFrame implements Runnable {
 
         frame.pack();
         frame.setSize(400, 400);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }

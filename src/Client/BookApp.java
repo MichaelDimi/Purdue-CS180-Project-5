@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -167,6 +168,38 @@ public class BookApp {
         }
 
         return purchaseCount;
+    }
+
+    public static void sortBooksByPrice(Book[] books) {
+        int n = books.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (books[j].finalPrice() > books[j + 1].finalPrice()) {
+                    Book temp = books[j];
+                    books[j] = books[j + 1];
+                    books[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static Book[] sortBooksByQuantity(HashMap<Book, Integer> books) {
+        int n = books.size();
+
+        Book[] booksArr = new Book[books.size()];
+        booksArr = books.keySet().toArray(booksArr);
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (books.get(booksArr[j]) < books.get(booksArr[j + 1])) {
+                    Book temp = booksArr[j];
+                    booksArr[j] = booksArr[j + 1];
+                    booksArr[j + 1] = temp;
+                }
+            }
+        }
+
+        return booksArr;
     }
 
     public static void signOut() {

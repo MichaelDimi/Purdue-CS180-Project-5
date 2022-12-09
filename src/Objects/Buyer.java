@@ -46,7 +46,6 @@ public class Buyer extends User implements Serializable {
         for (Book b : cart.keySet()) {
             if (b.equals(book)) {
                 identicalEntry = true;
-                break;
             }
         }
 
@@ -107,20 +106,19 @@ public class Buyer extends User implements Serializable {
                 availableQuantity = (Integer) bookQuantityQuery.getObject();
                 quantityString = availableQuantity.toString();
             }
-            if (availableQuantity == null) break;
+            if (availableQuantity == null) return;
             if (cart.get(book) > availableQuantity) {
-                canCheckout = false;
-                // TODO: UPDATE TO JOPTION ERROR MESSAGES
-                System.out.println("SORRY, BUT THERE IS NOT ENOUGH STOCK TO PURCHASE: " + book.getName());
-                System.out.println("CART QUANTITY: " + cart.get(book) + " | AVAILABLE QUANTITY: " + quantityString);
-                break;
+                JOptionPane.showMessageDialog(null,
+                        "Sorry, but there is not enough stock to purchase: " + book.getName()
+                                + "\nCart Qty: " + cart.get(book) + " | Available Qty: " + quantityString,
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
             boolean identicalEntry = false;
             for (Book b : purchaseHistory.keySet()) {
                 if (b.equals(book)) {
                     identicalEntry = true;
-                    break;
                 }
             }
 

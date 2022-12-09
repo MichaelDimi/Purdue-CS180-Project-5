@@ -26,6 +26,7 @@ public class PurchaseBook extends JFrame implements Runnable {
     JTextArea listOfBooks;
     Query booksQuery;
     JButton selectBook;
+    JButton refresh;
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -36,7 +37,7 @@ public class PurchaseBook extends JFrame implements Runnable {
             if (e.getSource() == sortPrice) {
                 //books = (HashMap<Book, Integer>) booksQuery.getObject();
 
-                Marketplace.sortBooksByPrice(booksArr);
+                BookApp.sortBooksByPrice(booksArr);
                 int i = 1;
                 StringBuilder bookList = new StringBuilder();
                 for (Book book : booksArr) { //Printing list of books available for sale
@@ -50,7 +51,7 @@ public class PurchaseBook extends JFrame implements Runnable {
                 listOfBooks.setText(bookList.toString());
             }
             if (e.getSource() == sortQty) {
-                booksArr = Marketplace.sortBooksByQuantity(books);
+                booksArr = BookApp.sortBooksByQuantity(books);
                 int i = 1;
 
                 StringBuilder bookList = new StringBuilder();
@@ -89,6 +90,11 @@ public class PurchaseBook extends JFrame implements Runnable {
                     JOptionPane.showMessageDialog(null, "Please enter a valid quantity",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+            if (e.getSource() == refresh) {
+                // "refreshes" GUI which also pulls updated data from server at the same time
+                frame.dispose();
+                run();
             }
         }
     };
@@ -145,6 +151,10 @@ public class PurchaseBook extends JFrame implements Runnable {
         selectBook = new JButton("Add to cart");
         selectBook.addActionListener(actionListener);
         panel.add(selectBook);
+
+        refresh = new JButton("Refresh");
+        refresh.addActionListener(actionListener);
+        panel.add(refresh);
 
         frame.add(panel, BorderLayout.NORTH);
 

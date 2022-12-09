@@ -1,5 +1,7 @@
 package GUI;
 
+import Client.BookApp;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -35,6 +37,10 @@ public class SellerGUI implements Runnable {
 
             } else if (e.getSource() == viewCarts) {
 
+            } else if (e.getSource() == signOut) {
+                frame.dispose();
+                JOptionPane.showMessageDialog(null, "You have been signed out");
+                BookApp.signOut();
             }
         }
     };

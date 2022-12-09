@@ -168,6 +168,11 @@ public class BookApp {
 
         return purchaseCount;
     }
+
+    public static void signOut() {
+        currentUser = null;
+        SwingUtilities.invokeLater(new Start());
+    }
 }
 
 

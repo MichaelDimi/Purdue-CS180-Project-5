@@ -25,9 +25,18 @@ public class EditAccount extends JFrame implements Runnable {
     JButton deleteAccount;
     JLabel title;
     JTextArea info;
-    
+
+    // takes in homepage so that delete account can dispose of it and sign out
+    JFrame userHomepage;
+
+    // TODO: Add frames to an array that does frame.dispose on contents?
+    // takes in homepage so that delete account can dispose of it and sign out
+    public EditAccount(JFrame userHomepage) {
+        this.userHomepage = userHomepage;
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new EditAccount());
+        //SwingUtilities.invokeLater(new EditAccount());
     }
 
     ActionListener actionListener = new ActionListener() {
@@ -142,7 +151,7 @@ public class EditAccount extends JFrame implements Runnable {
                         // updates current user password
                         BookApp.currentUser.setPassword(hashedPassword, newPassword);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Operation cancelled: Please enter a new email",
+                        JOptionPane.showMessageDialog(null, "Incorrect password",
                                 "Error", JOptionPane.ERROR_MESSAGE);
                     }
 
@@ -170,17 +179,18 @@ public class EditAccount extends JFrame implements Runnable {
                 // checks that password is correct
                 if (hashedPassword.equals(BookApp.currentUser.getPassword())) {
                     // Remove from marketplace and sign out
-                    Query deleteUser = new ClientQuery().deleteQuery(user, "users");
+                    Query deleteUser = new ClientQuery().deleteQuery(BookApp.currentUser, "users");
                     if (deleteUser.getObject().equals(false)) {
                         JOptionPane.showMessageDialog(null, "Whoops: Couldn't delete your account. Please try again",
                                 "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        frame.dispose();
+                        userHomepage.dispose();
+                        JOptionPane.showMessageDialog(null, "You account has been deleted and you have been signed out");
+                        BookApp.signOut();
                     }
-
-                    // "refreshes" GUI
-                    frame.dispose();
-                    run();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Operation cancelled: Please enter a new email",
+                    JOptionPane.showMessageDialog(null, "Incorrect password",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }

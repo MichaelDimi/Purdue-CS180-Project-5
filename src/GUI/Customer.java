@@ -1,5 +1,6 @@
 package GUI;
 
+import Client.BookApp;
 import GUI.CustomerPages.*;
 
 import javax.swing.*;
@@ -36,9 +37,11 @@ public class Customer implements Runnable {
             } else if (e.getSource() == cart) {
                 SwingUtilities.invokeLater(new ViewCart());
             } else if (e.getSource() == account) {
-                SwingUtilities.invokeLater(new EditAccount());
+                // passing homepage frame through, so that delete account can dispose of homepage frame when used
+                SwingUtilities.invokeLater(new EditAccount(frame));
             } else if (e.getSource() == signOut) {
                 frame.dispose();
+                BookApp.signOut();
             }
         }
     };

@@ -20,7 +20,7 @@ public class ViewStores extends JFrame implements Runnable {
     JPanel panel;
     JFrame frame;
     Container content;
-    JTextField storeSelection;
+    JComboBox storeSelection;
     JTextArea listOfStores;
     Store[] storesArr;
     String storesList;

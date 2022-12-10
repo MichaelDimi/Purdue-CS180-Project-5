@@ -1,6 +1,8 @@
 package GUI;
 
 import javax.swing.*;
+
+import Client.BookApp;
 import GUI.SellerPages.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -59,8 +61,9 @@ public class SellerMenu implements Runnable {
                 String store = (String) JOptionPane.showInputDialog(null, "Select store", "Seller Menu",
                 JOptionPane.QUESTION_MESSAGE, null, stores, null);
                 if (store != null) {
-                    SwingUtilities.invokeLater(new ViewReviews(store));
                     frame.dispose();
+                    JOptionPane.showMessageDialog(null, "You have been signed out");
+                    BookApp.signOut();
                 }
             } else if (e.getSource() == viewStats) {
                 SwingUtilities.invokeLater(new ViewStats());

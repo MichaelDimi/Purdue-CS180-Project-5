@@ -1,9 +1,6 @@
 package Client;
 
-import GUI.Customer;
-import GUI.Login;
-import GUI.SellerGUI;
-import GUI.Start;
+import GUI.*;
 import Objects.*;
 import Query.*;
 
@@ -106,7 +103,7 @@ public class BookApp {
             //JOptionPane.showMessageDialog(null, "Is seller");
 //            SellerHomepage sellerHomepage = new SellerHomepage();
 //            boolean mainMenu = sellerHomepage.present(scan);
-            SwingUtilities.invokeLater(new SellerGUI());
+            SwingUtilities.invokeLater(new SellerMenu());
         }
     }
 

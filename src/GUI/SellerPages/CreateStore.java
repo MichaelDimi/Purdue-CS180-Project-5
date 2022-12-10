@@ -3,7 +3,14 @@ package GUI.SellerPages;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+import Client.BookApp;
+import Client.ClientQuery;
+import Exceptions.IdenticalStoreException;
 import GUI.*;
+import Objects.Seller;
+import Query.Query;
+
 public class CreateStore implements Runnable {
     JFrame frame;
     JPanel panel;
@@ -20,7 +27,13 @@ public class CreateStore implements Runnable {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == createStore) {
                 //TODO: Create Store and add it to the database
-                JOptionPane.showMessageDialog(null, "Store Successfully Created");
+                try {
+                    ((Seller) BookApp.currentUser).createNewStore(storeName.getText());
+                    JOptionPane.showMessageDialog(null, "Store Successfully Created");
+                } catch (IdenticalStoreException error) {
+                    JOptionPane.showMessageDialog(null, "Whoops: A name with this store already exists",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 SwingUtilities.invokeLater(new SellerMenu());
                 frame.dispose();
             } else if (e.getSource() == back) {

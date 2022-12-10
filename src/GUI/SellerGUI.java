@@ -1,6 +1,8 @@
 package GUI;
 
 import Client.BookApp;
+import GUI.SellerPages.CreateStore;
+import GUI.SellerPages.ViewReviews;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,15 +26,15 @@ public class SellerGUI implements Runnable {
         public void actionPerformed(ActionEvent e) {
             //TODO: invoke other GUI's
             if (e.getSource() == createStore) {
-
+                SwingUtilities.invokeLater(new CreateStore());
             } else if (e.getSource() == editStore) {
-
+                //SwingUtilities.invokeLater(new ());
             } else if (e.getSource() == deleteStore) {
-
+                //SwingUtilities.invokeLater(new CreateStore());
             } else if (e.getSource() == addSale) {
-
+                SwingUtilities.invokeLater(new CreateStore());
             } else if (e.getSource() == viewReviews) {
-
+                SwingUtilities.invokeLater(new ViewReviews());
             } else if (e.getSource() == viewStats) {
 
             } else if (e.getSource() == viewCarts) {

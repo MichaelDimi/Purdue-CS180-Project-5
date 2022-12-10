@@ -91,6 +91,15 @@ public class Helpers {
                     }
                 }
                 break;
+            case "reviews":
+                switch (params) {
+                    case "store": {
+                        String storeName = (String) get.getObject();
+                        get.setObject(marketplace.getStoreByName(storeName).getReviews());
+                        System.out.println("1");
+                    }
+                }
+                break;
             case "cart":
                 switch (params) {
                     case "currentBuyer":

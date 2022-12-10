@@ -1,19 +1,27 @@
 package GUI.SellerPages;
 
+import Client.ClientQuery;
+import Objects.Book;
+import Objects.Review;
+import Objects.Store;
+import Query.Query;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ViewReviews implements Runnable {
     String store;
     JFrame frame;
     JPanel panel;
     JPanel optionPanel;
-    JLabel title;
+    ArrayList<Review> reviewsList;
+    JTextArea listOfReviews;
     JButton selectReview;
     JComboBox<String> jComboBox;
     //TODO: Import reviews
-    String[] reviews = {"a", "b", "c"}; //Temporary Array
+    Review[] reviews; //Temporary Array
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new ViewReviews(null));
     }
@@ -31,30 +39,41 @@ public class ViewReviews implements Runnable {
         }
     };
     public void run() {
+        Query storesQuery = new ClientQuery().getQuery(store, "reviews", "store");
+        if (storesQuery.getObject().equals(false)) {
+            JOptionPane.showMessageDialog(null, "Whoops: There was an error getting the reviews from the server");
+        }
+
+        reviewsList = (ArrayList<Review>) storesQuery.getObject();
+        // Convert the arraylist to an array, since its easier to manipulate
+        Review[] storesArr = new Review[reviewsList.size()];
+        storesArr = reviewsList.toArray(storesArr);
+        if (storesArr.length < 1) {
+            JOptionPane.showMessageDialog(null, "There are no stores in the market yet\nYou can create an new account and become a seller to open a store");
+        }
+
         panel = new JPanel();
         optionPanel = new JPanel(new GridLayout(4,4));
         frame = new JFrame();
         Container content = frame.getContentPane();
 
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        title = new JLabel("Selected store: " + "storename");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
-        panel.add(title);
-        content.add(panel, BorderLayout.NORTH);
-        content.add(optionPanel, BorderLayout.CENTER);
+        panel = new JPanel();
+        int i = 1;
 
-        jComboBox = new JComboBox<>(reviews);
-        jComboBox.setBounds(50, 150, 300, 20);
-        optionPanel.add(jComboBox);
+        StringBuilder bookList = new StringBuilder();
+        for (Review review : reviewsList) { //Printing list of books available for sale
 
-        selectReview = new JButton("Select Review");
-        selectReview.setAlignmentX(Component.CENTER_ALIGNMENT);
-        selectReview.addActionListener(actionListener);
-        optionPanel.add(selectReview);
+            bookList.append(String.format("%d. %s -- Rating: %d -- Buyer: %s\n%s",
+                    i, review.getTitle(), review.getRating(), review.getBuyer().getName(), review.getDescription()));
+            i++;
+        }
+        listOfReviews = new JTextArea(bookList.toString());
+        listOfReviews.setEditable(false);
+
+        panel.add(listOfReviews);
+        content.add(panel, BorderLayout.CENTER);
 
         frame.pack();
         frame.setLocationRelativeTo(null);

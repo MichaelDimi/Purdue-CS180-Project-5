@@ -90,7 +90,7 @@ public class SellerMenu implements Runnable {
                 JOptionPane.QUESTION_MESSAGE, null, storesNames, null);
                 if (store != null) {
                     SwingUtilities.invokeLater(new ViewReviews(store));
-                    frame.dispose();
+                    //frame.dispose();
                 }
             } else if (e.getSource() == viewStats) {
                 SwingUtilities.invokeLater(new ViewStats());

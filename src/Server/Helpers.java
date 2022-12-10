@@ -39,6 +39,15 @@ public class Helpers {
                         break; // Sends the query back as null
                 }
                 break;
+            case "purchaseHistory":
+                switch (params) {
+                    case "*":
+                        get.setObject(((Buyer) get.getObject()).getPurchaseHistory());
+                        break;
+                    default:
+                        break; // Sends the query back as null
+                }
+                break;
             case "books":
                 switch (params) {
                     case "*":

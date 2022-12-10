@@ -98,7 +98,7 @@ public class ViewCart implements Runnable {
     public void run() {
         BookApp.updateCurrentUser();
 
-        // gets updates cart of buyer
+        // gets updated cart of buyer
         booksQuery = new ClientQuery().getQuery(BookApp.currentUser, "cart", "currentBuyer");
         if (booksQuery.getObject() == null || booksQuery.getObject().equals(false)) {
             JOptionPane.showMessageDialog(null, "Your cart cannot be retrieved");

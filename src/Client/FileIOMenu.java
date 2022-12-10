@@ -1,7 +1,9 @@
 package Client;
 
 import Objects.*;
+import Query.Query;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,49 +24,36 @@ import java.util.Scanner;
  */
 public class FileIOMenu extends Menu {
 
-    public void fileIOMenu(Scanner scan, User user) {
-        System.out.println("IMPORT OR EXPORT STOCK");
-        System.out.println("*******************");
-
+    public void fileIOMenu(User user) {
         if (user instanceof Seller) {
-            String response;
-            do {
-                System.out.println("Would you like to ");
-                System.out.println("1. Export your stock");
-                System.out.println("2. Import stock list");
-                System.out.println("3. CANCEL");
-                response = scan.nextLine();
-                if (!response.equals("1") && !response.equals("2") && !response.equals("3")) {
-                    System.out.println("Whoops: Please enter (1), (2), or (3)");
-                }
-            } while (!response.equals("1") && !response.equals("2") && !response.equals("3"));
+            String[] options = {"Export your stock", "Import stock list", "Cancel"};
+            int response = JOptionPane.showOptionDialog(
+                    null,
+                    "Would you like to do?",
+                    "Import or Export Stock",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,     //no custom icon
+                    options,  //button titles
+                    options[0] //default button
+            );
 
-            if (response.equals("1")) {
-                sellerExport(scan, user);
-            } else if (response.equals("2")) {
-                sellerImportMenu(user, scan);
-            } else {
-                return;
+            if (response == 0) {
+                sellerExport(user);
+            } else if (response == 1) {
+                sellerImportMenu(user);
             }
         } else {
-            System.out.println("For your own privacy please confirm that you want to export your purchase history:");
-            System.out.println("- Enter 'CONFIRM':");
-            String response = scan.nextLine();
-            response = response.trim();
-            if (!response.equals("CONFIRM")) {
-                System.out.println("Whoops: Confirmation failed");
-            } else {
-                buyerExport(scan, user);
-            }
+            // Buyer export
+            buyerExport(user);
         }
     }
 
     /**
      * Exports the stock of all a seller's stores to a .csv file
      * @param user The seller that whose stock will be exported
-     * @param scan The scanner to get where the user wants to save the file
      */
-    public void sellerExport(Scanner scan, User user) {
+    public void sellerExport(User user) {
         System.out.println("EXPORT STOCK");
         System.out.println("*******************");
         if (!(user instanceof Seller)) {
@@ -84,14 +73,14 @@ public class FileIOMenu extends Menu {
         if (noStock) {
             System.out.println("You have no inventory to export");
             System.out.println("Press ENTER to continue");
-            scan.nextLine();
             return;
         }
 
         File file;
         do {
-            System.out.println("Where would you like to save: ");
-            String filepath = scan.nextLine();
+            String filepath = JOptionPane.showInputDialog("Where would you like to save:");
+            // cancel option selected
+            if (filepath == null) return;
             if (!filepath.endsWith(".csv")) {
                 System.out.println("Whoops: Invalid filetype - Must be '.csv'");
                 continue;
@@ -145,27 +134,25 @@ public class FileIOMenu extends Menu {
     }
 
 
-    public void buyerExport(Scanner scan, User user) {
-        System.out.println("EXPORT PURCHASE HISTORY");
-        System.out.println("*******************");
+    public void buyerExport(User user) {
         if (!(user instanceof Buyer)) {
-            System.out.println("Sellers cannot export using this function!");
+            JOptionPane.showMessageDialog(null, "Sellers cannot export using this function!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         Buyer buyer = (Buyer) user;
 
         if (buyer.getPurchaseHistory().isEmpty() || buyer.getPurchaseHistory() == null) {
-            System.out.println("You have no history to export");
-            System.out.println("Press ENTER to continue");
-            scan.nextLine();
-            return;
+            JOptionPane.showMessageDialog(null, "You have no history to export",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         File file;
         do {
-            System.out.println("Where would you like to save: ");
-            String filepath = scan.nextLine();
+            String filepath = JOptionPane.showInputDialog("Where would you like to save:");
+            // cancel option selected
+            if (filepath == null) return;
             if (!filepath.endsWith(".csv")) {
                 System.out.println("Whoops: Invalid filetype - Must be '.csv'");
                 continue;
@@ -222,9 +209,8 @@ public class FileIOMenu extends Menu {
     /**
      * Presents a menu where the seller will type the data they want to import
      * @param user The seller whose data will import
-     * @param scan The scanner for getting user input
      */
-    public void sellerImportMenu(User user, Scanner scan) {
+    public void sellerImportMenu(User user) {
         System.out.println("IMPORT STOCK");
         System.out.println("*******************");
 
@@ -241,42 +227,45 @@ public class FileIOMenu extends Menu {
             System.out.println("Please enter the path to the data to import: ");
             System.out.println("Importing overrides your current stock - type \"CANCEL\" to stop");
             System.out.println("- Note: Must be .csv ");
-            String filePath = scan.nextLine();
-            if (filePath.equals("CANCEL")) {
-                return;
-            }
+            String filePath = JOptionPane.showInputDialog("Please enter the path to the data to import" +
+                                                          "\nImporting overrides your current stock +" +
+                                                          "\nNote: Must be .csv");
+            // cancel option selected
+            if (filePath == null) return;
 
             // check for .csv
             while (!filePath.endsWith(".csv")) {
                 if (!filePath.endsWith(".csv")) {
 
                     System.out.println("Whoops: Your file did not end in .csv");
-                    System.out.println("Try again or hit ENTER to cancel");
-                    filePath = scan.nextLine();
+                    filePath = JOptionPane.showInputDialog("Whoops: Your file did not end in .csv" +
+                            "\nPlease enter the path to the data to import" +
+                            "\nNote: Must be .csv");
+                    // cancel option selected
+                    if (filePath == null) return;
+
                     if (filePath.isEmpty()) break;
                 }
             }
 
             // Call sellerImport()
-            error = !this.sellerImport(scan, seller, filePath);
+            error = !this.sellerImport(seller, filePath);
         } while (error);
     }
 
     /**
      * Handles importing user data. Data imported overrides current data for the seller.
-     * @param scan The scanner to get user input
      * @param seller The seller where the data will go
      * @param filePath The filepath for the data
      * @return True if the data was imported successfully, false if not
      */
-    public boolean sellerImport(Scanner scan, Seller seller, String filePath) {
+    public boolean sellerImport(Seller seller, String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
             System.out.println("Whoops: We couldn't find your file.");
             return false;
         }
 
-        System.out.println("Importing data... ");
 //        try {
 //            Thread.sleep(1000); // For dramatic effect
 //        } catch (InterruptedException e) {
@@ -345,11 +334,15 @@ public class FileIOMenu extends Menu {
                 }
                 store = seller.getStoreByName(storeName);
 
-                System.out.println("How much would stock do you want for: " + bookName + "?");
                 int quantity;
                 do {
                     try {
-                        quantity = Integer.parseInt(scan.nextLine());
+                        String quantityInput = JOptionPane.showInputDialog("How much stock do you want for: " + bookName + "?");
+                        // cancel option selected
+                        if (quantityInput == null) return false;
+
+                        quantity = Integer.parseInt(quantityInput);
+
                         if (quantity < 1) {
                             System.out.println("Whoops: Try that again");
                             continue;
@@ -359,9 +352,31 @@ public class FileIOMenu extends Menu {
                         System.out.println("Whoops: Try that again");
                     }
                 } while (true);
-                System.out.println("Which store do you want to set the stock to?");
+
                 do {
-                    storeName = scan.nextLine();
+                    // gets updated list of all stores from server
+                    Query storesQuery = new ClientQuery().getQuery(null, "stores", "*");
+                    if (storesQuery.getObject().equals(false)) {
+                        JOptionPane.showMessageDialog(null, "Whoops: There was an error getting the stores from the server");
+                    }
+
+                    ArrayList<Store> stores = (ArrayList<Store>) storesQuery.getObject();
+
+                    // array contains names of all stores
+                    String[] storeNamesArr = new String[stores.size()];
+
+                    // gets the name of all stores
+                    for (int i = 0; i < storeNamesArr.length; i++) {
+                        storeNamesArr[i] = stores.get(i).getName();
+                    }
+
+                    if (storeNamesArr.length < 1) {
+                        JOptionPane.showMessageDialog(null, "There are no stores in the market yet\nYou can create an new account and become a seller to open a store");
+                        return false;
+                    }
+
+                    storeName = JOptionPane.showInputDialog(null, "Which store do you want to set the stock to?", "Choose Store", JOptionPane.PLAIN_MESSAGE, null, storeNamesArr, storeNamesArr[0]).toString();
+
                     if (seller.getStoreByName(storeName) != null) {
                         break;
                     }
@@ -374,6 +389,14 @@ public class FileIOMenu extends Menu {
 
             }
             if (store != null) {
+                // updates stock on server
+                Query setStockQuery = new ClientQuery().updateQuery(store, "stock", "set", newStock);
+                if (setStockQuery.getObject().equals(false)) {
+                    System.out.println("Whoops: Couldn't set stock of store");
+                    return false;
+                }
+
+                // updates local stock
                 store.setStock(newStock);
             } else {
                 System.out.println("Whoops: Error, check your csv file and try again");

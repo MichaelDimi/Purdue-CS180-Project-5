@@ -52,20 +52,61 @@ public class ManageStore implements Runnable {
                 SwingUtilities.invokeLater(new AddBook(store));
                 frame.dispose();   
             } else if (e.getSource() == removeBooks) {
+                if (storeStockArr.length <= 0) {
+                    JOptionPane.showMessageDialog(null, "You have no stores",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 //TODO: Remove the specified amount of a book from a database
-                String book = (String) JOptionPane.showInputDialog(null, "Select book", "Manage store",
-                JOptionPane.QUESTION_MESSAGE, null, books, null);
-                if (book != null) {
+                int amount = 0;
+                String bookName = (String) JOptionPane.showInputDialog(null, "Select book", "Manage store",
+                        JOptionPane.QUESTION_MESSAGE, null, books, null);
+
+                // this is duplicated down from below, this is bad but i dont care
+                // gets quantity of selected bookName
+                int currQuantity = 0;
+                for (Book book : storeStockArr) {
+                    if (book.getName().equals(bookName)) {
+                        currQuantity = storeStock.get(book);
+                        break;
+                    }
+                }
+                if (bookName != null) {
                     try {
-                        int amount = Integer.parseInt(JOptionPane.showInputDialog(null, "Select amount to remove", "Manage Store",
+                        amount = Integer.parseInt(JOptionPane.showInputDialog(null, String.format("Select amount to remove (current qty: %d)", currQuantity), "Manage Store",
                         JOptionPane.QUESTION_MESSAGE));
                         JOptionPane.showMessageDialog(null, "Book successfully removed");
-                        } catch (Exception er) {
-                            JOptionPane.showMessageDialog(null, "Invalid Amount", "Manage store",
-                                JOptionPane.INFORMATION_MESSAGE, null);
+                    } catch (Exception er) {
+                        JOptionPane.showMessageDialog(null, "Invalid Amount", "Manage store",
+                            JOptionPane.INFORMATION_MESSAGE, null);
+                    }
+
+                    // finds selected book to remove
+                    for (Book book : storeStockArr) {
+                        if (book.getName().equals(bookName)) {
+                            if (storeStock.get(book) - amount <= 0) {
+                                System.out.println("tf");
+                                storeStock.remove(book);
+                            } else {
+                                System.out.println("wtf");
+                                storeStock.put(book, storeStock.get(book) - amount);
+                            }
+
+                            // updates stock on server
+                            new ClientQuery().updateQuery(store, "stock", "set", storeStock);
+                            break;
                         }
                     }
+
+                }
             } else if (e.getSource() == editBooks) {
+                if (storeStockArr.length <= 0) {
+                    JOptionPane.showMessageDialog(null, "You have no stores",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 String book = (String) JOptionPane.showInputDialog(null, "Select book", "Manage store",
                 JOptionPane.QUESTION_MESSAGE, null, books, null);
                 if (book != null) {

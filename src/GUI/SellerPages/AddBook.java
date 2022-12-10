@@ -93,7 +93,7 @@ public class AddBook implements Runnable{
         quantity.addActionListener(actionListener);
         optionPanel.add(quantity);
 
-        addBook = new JButton("Add Book (number)");
+        addBook = new JButton("Add Book");
         addBook.setAlignmentX(Component.CENTER_ALIGNMENT);
         addBook.addActionListener(actionListener);
         optionPanel.add(addBook);
@@ -125,7 +125,8 @@ public class AddBook implements Runnable{
         try {
             price = Double.parseDouble(priceString);
         } catch (NumberFormatException e) {
-            System.out.println("Whoops: Price must be a number");
+            JOptionPane.showMessageDialog(null, "Whoops: Price must be a number",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -133,11 +134,13 @@ public class AddBook implements Runnable{
         try {
             quantity = Integer.parseInt(quantityString);
             if (quantity < 1) {
-                System.out.println("Whoops: Quantity must be a number greater than 0");
+                JOptionPane.showMessageDialog(null, "Whoops: Quantity must be a number greater than 0",
+                        "Error", JOptionPane.ERROR_MESSAGE);;
                 return false;
             }
         } catch (NumberFormatException e) {
-            System.out.println("Whoops: Quantity must be a number greater than 0");
+            JOptionPane.showMessageDialog(null, "Whoops: Quantity must be a number greater than 0",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 

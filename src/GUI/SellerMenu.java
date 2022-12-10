@@ -28,8 +28,8 @@ public class SellerMenu implements Runnable {
     JButton signOut;
     ArrayList<Store> stores;
     String[] storesNames;
-    String[] books = {"a", "b", "c"}; //Temporary Array
-    String[] carts = {"a", "b", "c"}; //contains info about carts, in this order: Buyer, Book and Qty
+    String[] books; //Temporary Array
+    String[] carts; //contains info about carts, in this order: Buyer, Book and Qty
     //eg: {"user1|book1|5", "user2|book2|4"}
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new SellerMenu());
@@ -137,30 +137,30 @@ public class SellerMenu implements Runnable {
         manageStore.addActionListener(actionListener);
         optionPanel.add(manageStore);
 
-        addSale = new JButton("Add Sale");
-        addSale.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addSale.addActionListener(actionListener);
-        optionPanel.add(addSale);
+//        addSale = new JButton("Add Sale");
+//        addSale.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        addSale.addActionListener(actionListener);
+//        optionPanel.add(addSale);
 
         viewReviews = new JButton("View Reviews");
         viewReviews.setAlignmentX(Component.CENTER_ALIGNMENT);
         viewReviews.addActionListener(actionListener);
         optionPanel.add(viewReviews);
         
-        viewStats = new JButton("View Stats");
-        viewStats.setAlignmentX(Component.CENTER_ALIGNMENT);
-        viewStats.addActionListener(actionListener);
-        optionPanel.add(viewStats);
+//        viewStats = new JButton("View Stats");
+//        viewStats.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        viewStats.addActionListener(actionListener);
+//        optionPanel.add(viewStats);
 
-        viewCarts = new JButton("View Carts");
-        viewCarts.setAlignmentX(Component.CENTER_ALIGNMENT);
-        viewCarts.addActionListener(actionListener);
-        optionPanel.add(viewCarts);
+//        viewCarts = new JButton("View Carts");
+//        viewCarts.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        viewCarts.addActionListener(actionListener);
+//        optionPanel.add(viewCarts);
 
-        importExport = new JButton("Import/Export");
-        importExport.setAlignmentX(Component.CENTER_ALIGNMENT);
-        importExport.addActionListener(actionListener);
-        optionPanel.add(importExport);
+//        importExport = new JButton("Import/Export");
+//        importExport.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        importExport.addActionListener(actionListener);
+//        optionPanel.add(importExport);
 
         signOut = new JButton("Sign Out");
         signOut.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -3,7 +3,6 @@ package GUI.SellerPages;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import GUI.*;
 public class EditBook implements Runnable{
     String selectedStore;
     //TODO: Add previous book info

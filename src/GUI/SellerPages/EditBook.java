@@ -1,14 +1,18 @@
 package GUI.SellerPages;
 
+import Client.ClientQuery;
+import Objects.Book;
 import Objects.Store;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+
 public class EditBook implements Runnable{
     Store store;
-    //TODO: Add previous book info
-    String bookTitle;
+    Book book;
+    HashMap<Book, Integer> storeStock;
     String bookGenre;
     String bookDescription;
     String bookPrice;
@@ -23,17 +27,40 @@ public class EditBook implements Runnable{
     JButton updateBook;
     JButton back;
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new EditBook(null, null));
+        //SwingUtilities.invokeLater(new EditBook(null, null));
     }
 
-    public EditBook(Store store, String bookTitle) {
+    public EditBook(Store store, Book book, HashMap<Book, Integer> storeStock) {
         this.store = store;
-        this.bookTitle = bookTitle;
+        this.book = book;
+        this.storeStock = storeStock;
     }
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == updateBook) {
                 //TODO: Edit book info using JTextFields and update database
+                if (!book.getName().equals(bookName.getText())) {
+                    book.setName(bookName.getText());
+                }
+
+                if (!book.getGenre().equals(genre.getText())) {
+                    book.setGenre(bookName.getText());
+                }
+
+                if (!book.getDescription().equals(description.getText())) {
+                    book.setDescription(bookName.getText());
+                }
+
+                if (book.getPrice() != Double.parseDouble(price.getText())) {
+                    book.setPrice(Double.parseDouble(price.getText()));
+                }
+
+                storeStock.remove(book);
+                storeStock.put(book, storeStock.get(book));
+
+                // updates stock on server
+                new ClientQuery().updateQuery(store, "stock", "set", storeStock);
+
                 JOptionPane.showMessageDialog(null, "Book Successfully Updated");
                 SwingUtilities.invokeLater(new ManageStore(store));
                 frame.dispose();
@@ -52,7 +79,7 @@ public class EditBook implements Runnable{
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        title = new JLabel("Selected book: " + bookTitle);
+        title = new JLabel("Selected book: " + book.getName());
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
@@ -60,35 +87,35 @@ public class EditBook implements Runnable{
         content.add(panel, BorderLayout.NORTH);
         content.add(optionPanel, BorderLayout.CENTER);
 
-        bookName = new JTextField(bookTitle);
+        bookName = new JTextField(book.getName());
         bookName.setAlignmentX(Component.CENTER_ALIGNMENT);
         bookName.addActionListener(actionListener);
         optionPanel.add(bookName);
 
-        genre = new JTextField(bookGenre);
+        genre = new JTextField(book.getGenre());
         genre.setAlignmentX(Component.CENTER_ALIGNMENT);
         genre.addActionListener(actionListener);
         optionPanel.add(genre);
 
-        description = new JTextField(bookDescription);
+        description = new JTextField(book.getDescription());
         description.setAlignmentX(Component.CENTER_ALIGNMENT);
         description.addActionListener(actionListener);
         optionPanel.add(description);
 
-        price = new JTextField(bookPrice);
+        price = new JTextField(String.valueOf(book.getPrice()));
         price.setAlignmentX(Component.CENTER_ALIGNMENT);
         price.addActionListener(actionListener);
         optionPanel.add(price);
 
-        updateBook = new JButton("Edit Book");
-        updateBook.setAlignmentX(Component.CENTER_ALIGNMENT);
-        updateBook.addActionListener(actionListener);
-        optionPanel.add(updateBook);
-        
         back = new JButton("Back");
         back.setAlignmentX(Component.CENTER_ALIGNMENT);
         back.addActionListener(actionListener);
         optionPanel.add(back);
+
+        updateBook = new JButton("Save");
+        updateBook.setAlignmentX(Component.CENTER_ALIGNMENT);
+        updateBook.addActionListener(actionListener);
+        optionPanel.add(updateBook);
 
         frame.pack();
         frame.setLocationRelativeTo(null);

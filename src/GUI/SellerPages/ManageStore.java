@@ -107,10 +107,18 @@ public class ManageStore implements Runnable {
                     return;
                 }
 
-                String book = (String) JOptionPane.showInputDialog(null, "Select book", "Manage store",
-                JOptionPane.QUESTION_MESSAGE, null, books, null);
-                if (book != null) {
-                    SwingUtilities.invokeLater(new EditBook(store, book));
+                String bookName = (String) JOptionPane.showInputDialog(null, "Select book", "Manage store",
+                        JOptionPane.QUESTION_MESSAGE, null, books, null);
+
+                Book selectedBook = null;
+                for (Book book : storeStockArr) {
+                    if (book.getName().equals(bookName)) {
+                        selectedBook = book;
+                        break;
+                    }
+                }
+                if (bookName != null && selectedBook != null) {
+                    SwingUtilities.invokeLater(new EditBook(store, selectedBook, storeStock));
                     frame.dispose();
                 }
             } else if (e.getSource() == deleteStore) {

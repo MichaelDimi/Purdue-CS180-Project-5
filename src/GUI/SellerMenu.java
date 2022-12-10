@@ -132,7 +132,7 @@ public class SellerMenu implements Runnable {
         createStore.addActionListener(actionListener);
         optionPanel.add(createStore);
 
-        manageStore = new JButton("Manage Store");
+        manageStore = new JButton("Manage Store/Stock");
         manageStore.setAlignmentX(Component.CENTER_ALIGNMENT);
         manageStore.addActionListener(actionListener);
         optionPanel.add(manageStore);

@@ -1,10 +1,18 @@
 package GUI.SellerPages;
 
+import Client.BookApp;
+import Client.ClientQuery;
+import Objects.Book;
+import Objects.Seller;
 import Objects.Store;
+import Query.Query;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Scanner;
+
 public class AddBook implements Runnable{
     Store selectedStore;
     JFrame frame;
@@ -28,10 +36,15 @@ public class AddBook implements Runnable{
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == addBook) {
-                // //TODO: Add book and quanitity using JTextField data and add it to the database
-                JOptionPane.showMessageDialog(null, "Book Successfully Added");
-                SwingUtilities.invokeLater(new ManageStore(selectedStore));
-                frame.dispose();
+                boolean addBookSuccess = addBook(selectedStore, bookName.getText(), genre.getText(), description.getText(), price.getText(), quantity.getText());
+                if (!addBookSuccess) {
+                    JOptionPane.showMessageDialog(null, "Please make sure inputs are valid",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Book Successfully Added");
+                    SwingUtilities.invokeLater(new ManageStore(selectedStore));
+                    frame.dispose();
+                }
             } else if (e.getSource() == back) {
                 SwingUtilities.invokeLater(new ManageStore(selectedStore));
                 frame.dispose();
@@ -47,7 +60,7 @@ public class AddBook implements Runnable{
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        title = new JLabel("Selected store: " + selectedStore);
+        title = new JLabel("Selected store: " + selectedStore.getName());
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
@@ -75,12 +88,12 @@ public class AddBook implements Runnable{
         price.addActionListener(actionListener);
         optionPanel.add(price);
 
-        quantity = new JTextField("Enter quanitity");
+        quantity = new JTextField("Enter quanitity (number)");
         quantity.setAlignmentX(Component.CENTER_ALIGNMENT);
         quantity.addActionListener(actionListener);
         optionPanel.add(quantity);
 
-        addBook = new JButton("Add Book");
+        addBook = new JButton("Add Book (number)");
         addBook.setAlignmentX(Component.CENTER_ALIGNMENT);
         addBook.addActionListener(actionListener);
         optionPanel.add(addBook);
@@ -94,5 +107,56 @@ public class AddBook implements Runnable{
         frame.setLocationRelativeTo(null);
         frame.setSize(400, 400);
         frame.setVisible(true);
+    }
+
+    public static boolean addBook(Store store, String bookName, String genre, String description, String priceString, String quantityString) {
+        Seller seller = (Seller) BookApp.currentUser;
+
+        HashMap<Book, Integer> stock = store.getStock();
+
+//        System.out.println("Enter a price:");
+//        try {
+//            price = Double.parseDouble(scanner.nextLine());
+//        } catch (NumberFormatException e) {
+//            System.out.println("Whoops: Price must be a number");
+//            return false;
+//        }
+        double price = 0;
+        try {
+            price = Double.parseDouble(priceString);
+        } catch (NumberFormatException e) {
+            System.out.println("Whoops: Price must be a number");
+            return false;
+        }
+
+        int quantity = 0;
+        try {
+            quantity = Integer.parseInt(quantityString);
+            if (quantity < 1) {
+                System.out.println("Whoops: Quantity must be a number greater than 0");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Whoops: Quantity must be a number greater than 0");
+            return false;
+        }
+
+        Book newBook = new Book(bookName, store.getName(), genre, description, price);
+
+        // Adds books to stock
+        // current quantity of specified book
+        Integer newBookCount = stock.get(newBook);
+
+        if (newBookCount == null) { // could be replaced with merge, not sure if Vocareum will like?
+            stock.put(newBook, quantity);
+            store.getStock().put(newBook, quantity);
+        } else {
+            stock.put(newBook, newBookCount + quantity);
+            store.getStock().put(newBook, newBookCount + quantity);
+        }
+
+        // updates stock on server
+        new ClientQuery().updateQuery(store, "stock", "set", store.getStock());
+        return true;
     }
 }

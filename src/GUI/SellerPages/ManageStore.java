@@ -23,6 +23,7 @@ public class ManageStore implements Runnable {
     JLabel title;
     JButton changeName;
     JButton addBooks;
+    JButton addQuantity;
     JButton removeBooks;
     JButton editBooks;
     JButton deleteStore;
@@ -30,7 +31,7 @@ public class ManageStore implements Runnable {
     Query storeStockQuery;
     HashMap<Book, Integer> storeStock;
     Book[] storeStockArr;
-    String[] books = {"a", "b", "c"}; //Temporary Array
+    String[] books;
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new ManageStore(null));
     }
@@ -53,7 +54,7 @@ public class ManageStore implements Runnable {
                 frame.dispose();   
             } else if (e.getSource() == removeBooks) {
                 if (storeStockArr.length <= 0) {
-                    JOptionPane.showMessageDialog(null, "You have no stores",
+                    JOptionPane.showMessageDialog(null, "You have no books",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -86,12 +87,63 @@ public class ManageStore implements Runnable {
                     for (Book book : storeStockArr) {
                         if (book.getName().equals(bookName)) {
                             if (storeStock.get(book) - amount <= 0) {
-                                System.out.println("tf");
                                 storeStock.remove(book);
                             } else {
-                                System.out.println("wtf");
                                 storeStock.put(book, storeStock.get(book) - amount);
                             }
+
+                            // updates stock on server
+                            new ClientQuery().updateQuery(store, "stock", "set", storeStock);
+
+                            // updates local stock lists
+                            storeStockArr = new Book[storeStock.size()];
+                            storeStockArr = storeStock.keySet().toArray(storeStockArr);
+
+                            books = new String[storeStockArr.length];
+                            for (int i = 0; i < storeStockArr.length; i++) {
+                                books[i] = storeStockArr[i].getName();
+                            }
+
+                            break;
+                        }
+                    }
+
+                }
+            } else if (e.getSource() == addQuantity) {
+                if (storeStockArr.length <= 0) {
+                    JOptionPane.showMessageDialog(null, "You have no stores",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                //TODO: Remove the specified amount of a book from a database
+                int amount = 0;
+                String bookName = (String) JOptionPane.showInputDialog(null, "Select book", "Manage store",
+                        JOptionPane.QUESTION_MESSAGE, null, books, null);
+
+                // this is duplicated down from below, this is bad but i dont care
+                // gets quantity of selected bookName
+                int currQuantity = 0;
+                for (Book book : storeStockArr) {
+                    if (book.getName().equals(bookName)) {
+                        currQuantity = storeStock.get(book);
+                        break;
+                    }
+                }
+                if (bookName != null) {
+                    try {
+                        amount = Integer.parseInt(JOptionPane.showInputDialog(null, String.format("Select amount to add (current qty: %d)", currQuantity), "Manage Store",
+                                JOptionPane.QUESTION_MESSAGE));
+                        JOptionPane.showMessageDialog(null, "Book successfully removed");
+                    } catch (Exception er) {
+                        JOptionPane.showMessageDialog(null, "Invalid Amount", "Manage store",
+                                JOptionPane.INFORMATION_MESSAGE, null);
+                    }
+
+                    // finds selected book to add
+                    for (Book book : storeStockArr) {
+                        if (book.getName().equals(bookName)) {
+                            storeStock.put(book, storeStock.get(book) + amount);
 
                             // updates stock on server
                             new ClientQuery().updateQuery(store, "stock", "set", storeStock);
@@ -194,6 +246,11 @@ public class ManageStore implements Runnable {
         removeBooks.setAlignmentX(Component.CENTER_ALIGNMENT);
         removeBooks.addActionListener(actionListener);
         optionPanel.add(removeBooks);
+
+        addQuantity = new JButton("Add Stock to Existing Books");
+        addQuantity.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addQuantity.addActionListener(actionListener);
+        optionPanel.add(addQuantity);
 
         editBooks = new JButton("Edit Books");
         editBooks.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -323,51 +380,6 @@ public class ManageStore implements Runnable {
             store.getStock().put(newBook, newBookCount + quantity);
         }
         return true;
-    }
-
-    public Book selectBook(Scanner scanner, HashMap<Book, Integer> stock) {
-        Seller seller = (Seller) BookApp.currentUser;
-
-        ArrayList<Book> books = new ArrayList<>();
-
-        // loops until a valid input is inputted
-        int bookSelection = -1;
-        while (bookSelection > stock.size() || bookSelection < 0) {
-            books.clear();
-
-            // prints out all books and their quantities; adds them to arraylist to preserve order
-            int i = 1;
-            for (Book book : stock.keySet()) {
-                System.out.println(i + ". " + book.getName() + " | Qty: " + stock.get(book));
-                books.add(book);
-                i++;
-            }
-
-            System.out.println((books.size() + 1) + ". CANCEL");
-
-            String selectionInput = scanner.nextLine();
-
-            // try checks user inputted a valid number by attempting to parse the string into an int
-            try {
-                bookSelection = Integer.parseInt(selectionInput) - 1;
-
-                // makes sure user does not input negative number or a number that isn't an option
-                if (bookSelection < 0 || bookSelection > seller.getStores().size())
-                    throw new NumberFormatException();
-
-            } catch (NumberFormatException e) {
-                System.out.println("PLEASE ENTER A VALID NUMBER");
-            }
-        }
-
-        // ensures selection was not the cancel option or invalid
-        if (bookSelection < books.size()) {
-            // cant select from hashmap by index
-            // gets key object from books arraylist with same order as hashmap
-            return books.get(bookSelection);
-        }
-
-        return null;
     }
 
     // displays all stores a seller owns and lets seller select a store

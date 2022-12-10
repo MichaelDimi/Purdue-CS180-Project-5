@@ -33,6 +33,13 @@ public class PurchaseHistory implements Runnable {
 
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 
+        //TODO: implement message for empty cart
+        // Buyer buyer = (Buyer) BookApp.currentUser;
+        // HashMap<Book, Integer> purchaseHistory = buyer.getPurchaseHistory();
+        // if (purchaseHistory.isEmpty()) {
+        //     JOptionPane.showMessageDialog(null, "You have never bought anything");
+        // }
+        
         export = new JLabel("Would you like to export your purchase history? (Y/N)");
         panel.add(export);
         yes = new JButton("Yes");

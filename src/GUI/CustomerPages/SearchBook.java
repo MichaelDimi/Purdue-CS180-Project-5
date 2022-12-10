@@ -53,7 +53,7 @@ public class SearchBook extends JFrame implements Runnable {
 
         //TODO: implement selecting a book
         panel = new JPanel();
-        JLabel select = new JLabel("Select a book to buy (enter number):");
+        JLabel select = new JLabel("Select a book to buy:");
         panel.add(select);
         bookSelection = new JTextField(10);
         panel.add(bookSelection);

@@ -43,6 +43,12 @@ public class ViewCart implements Runnable {
         content.add(panel, BorderLayout.NORTH);
         content.add(optionPanel, BorderLayout.CENTER);
 
+        //TODO: display message when cart is empty
+        // HashMap<Book, Integer> cart = buyer.getCart();
+        // if (cart.isEmpty()) {
+        //     JOptionPane.showMessageDialog(null, "Your cart is empty!");
+        // }
+
         remove = new JButton("Remove Items");
         remove.setAlignmentX(Component.CENTER_ALIGNMENT);
         remove.addActionListener(actionListener);

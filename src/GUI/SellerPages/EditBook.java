@@ -1,10 +1,12 @@
 package GUI.SellerPages;
 
+import Objects.Store;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class EditBook implements Runnable{
-    String selectedStore;
+    Store store;
     //TODO: Add previous book info
     String bookTitle;
     String bookGenre;
@@ -24,8 +26,8 @@ public class EditBook implements Runnable{
         SwingUtilities.invokeLater(new EditBook(null, null));
     }
 
-    public EditBook(String selectedStore, String bookTitle) {
-        this.selectedStore = selectedStore;
+    public EditBook(Store store, String bookTitle) {
+        this.store = store;
         this.bookTitle = bookTitle;
     }
     ActionListener actionListener = new ActionListener() {
@@ -33,10 +35,10 @@ public class EditBook implements Runnable{
             if (e.getSource() == updateBook) {
                 //TODO: Edit book info using JTextFields and update database
                 JOptionPane.showMessageDialog(null, "Book Successfully Updated");
-                SwingUtilities.invokeLater(new ManageStore(selectedStore));
+                SwingUtilities.invokeLater(new ManageStore(store));
                 frame.dispose();
             } else if (e.getSource() == back) {
-                SwingUtilities.invokeLater(new ManageStore(selectedStore));
+                SwingUtilities.invokeLater(new ManageStore(store));
                 frame.dispose();
             }
         }

@@ -34,7 +34,7 @@ public class SellerGUI implements Runnable {
             } else if (e.getSource() == addSale) {
                 SwingUtilities.invokeLater(new CreateStore());
             } else if (e.getSource() == viewReviews) {
-                SwingUtilities.invokeLater(new ViewReviews());
+                //SwingUtilities.invokeLater(new ViewReviews());
             } else if (e.getSource() == viewStats) {
 
             } else if (e.getSource() == viewCarts) {

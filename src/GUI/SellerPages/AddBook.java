@@ -1,10 +1,12 @@
 package GUI.SellerPages;
 
+import Objects.Store;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class AddBook implements Runnable{
-    String selectedStore;
+    Store selectedStore;
     JFrame frame;
     JPanel panel;
     JPanel optionPanel;
@@ -20,7 +22,7 @@ public class AddBook implements Runnable{
         SwingUtilities.invokeLater(new AddBook(null));
     }
 
-    public AddBook(String selectedStore) {
+    public AddBook(Store selectedStore) {
         this.selectedStore = selectedStore;
     }
     ActionListener actionListener = new ActionListener() {

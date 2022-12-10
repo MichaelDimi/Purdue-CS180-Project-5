@@ -3,9 +3,16 @@ package GUI;
 import javax.swing.*;
 
 import Client.BookApp;
+import Client.ClientQuery;
 import GUI.SellerPages.*;
+import Objects.Store;
+import Query.Query;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class SellerMenu implements Runnable {
     JFrame frame;
     JPanel panel;
@@ -19,8 +26,8 @@ public class SellerMenu implements Runnable {
     JButton viewCarts;
     JButton importExport;
     JButton signOut;
-    //TODO: import all stores, books and carts
-    String[] stores = {"a", "b", "c"}; //Temporary Array
+    ArrayList<Store> stores;
+    String[] storesNames;
     String[] books = {"a", "b", "c"}; //Temporary Array
     String[] carts = {"a", "b", "c"}; //contains info about carts, in this order: Buyer, Book and Qty
     //eg: {"user1|book1|5", "user2|book2|4"}
@@ -34,10 +41,24 @@ public class SellerMenu implements Runnable {
                 SwingUtilities.invokeLater(new CreateStore());
                 frame.dispose();
             } else if (e.getSource() == manageStore) {
+                updatedBookList();
+
+                if (storesNames.length <= 0) {
+                    JOptionPane.showMessageDialog(null, "You do not own any stores");
+                    return;
+                }
+
                 String store = (String) JOptionPane.showInputDialog(null, "Select store", "Manage store",
-                    JOptionPane.QUESTION_MESSAGE, null, stores, null);
+                    JOptionPane.QUESTION_MESSAGE, null, storesNames, null);
                     if (store != null) {
-                        SwingUtilities.invokeLater(new ManageStore(store));
+                        Query storeQuery = new ClientQuery().getQuery(store, "stores", "name");
+                        if (!(storeQuery.getObject() instanceof Store) || storeQuery.getObject().equals(false)) {
+                            System.out.println("Whoops: We couldn't get that store from the server");
+                            return;
+                        }
+
+                        Store storeObject = (Store) storeQuery.getObject();
+                        SwingUtilities.invokeLater(new ManageStore(storeObject));
                         frame.dispose();
                     }
             } else if (e.getSource() == addSale) {
@@ -58,12 +79,18 @@ public class SellerMenu implements Runnable {
                         }
                     }
             } else if (e.getSource() == viewReviews) {
+                updatedBookList();
+
+                if (storesNames.length <= 0) {
+                    JOptionPane.showMessageDialog(null, "You do not own any stores");
+                    return;
+                }
+
                 String store = (String) JOptionPane.showInputDialog(null, "Select store", "Seller Menu",
-                JOptionPane.QUESTION_MESSAGE, null, stores, null);
+                JOptionPane.QUESTION_MESSAGE, null, storesNames, null);
                 if (store != null) {
+                    SwingUtilities.invokeLater(new ViewReviews(store));
                     frame.dispose();
-                    JOptionPane.showMessageDialog(null, "You have been signed out");
-                    BookApp.signOut();
                 }
             } else if (e.getSource() == viewStats) {
                 SwingUtilities.invokeLater(new ViewStats());
@@ -76,10 +103,14 @@ public class SellerMenu implements Runnable {
                 frame.dispose();
             } else if (e.getSource() == signOut) {
                 frame.dispose();
+                JOptionPane.showMessageDialog(null, "You have been signed out");
+                BookApp.signOut();
             }
         }  
     };
     public void run() {
+        updatedBookList();
+
         panel = new JPanel();
         optionPanel = new JPanel(new GridLayout(4, 4));
         frame = new JFrame();
@@ -140,5 +171,20 @@ public class SellerMenu implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setSize(400, 400);
         frame.setVisible(true);
+    }
+
+    // gets list of stores from server
+    private void updatedBookList() {
+        Query storesQuery = new ClientQuery().getQuery(BookApp.currentUser, "stores", "user");
+        if (storesQuery.getObject().equals(false)) {
+            System.out.println("Whoops: There was an error getting the stores from the server");
+            return;
+        }
+        stores = (ArrayList<Store>) storesQuery.getObject();
+        storesNames = new String[stores.size()];
+
+        for (int i = 0; i < stores.size(); i++) {
+            storesNames[i] = stores.get(i).getName();
+        }
     }
 }

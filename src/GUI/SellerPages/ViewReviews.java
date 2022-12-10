@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ViewReviews implements Runnable {
+    String store;
     JFrame frame;
     JPanel panel;
     JPanel optionPanel;
@@ -14,7 +15,10 @@ public class ViewReviews implements Runnable {
     //TODO: Import reviews
     String[] reviews = {"a", "b", "c"}; //Temporary Array
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new ViewReviews());
+        SwingUtilities.invokeLater(new ViewReviews(null));
+    }
+    public ViewReviews(String store) {
+        this.store = store;
     }
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {

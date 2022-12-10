@@ -67,10 +67,28 @@ public class Helpers {
                     case "*":
                         get.setObject(marketplace.getStores());
                         break;
-                    case "name":
+                    case "name": {
                         String storeName = (String) get.getObject();
                         get.setObject(marketplace.getStoreByName(storeName));
+                        System.out.println(storeName);
                         break;
+                    }
+                    case "user":
+                        String sellerName = ((Seller) get.getObject()).getName();
+                        ArrayList<Store> ownedStores = new ArrayList<>();
+
+                        for (Store store : marketplace.getStores()) {
+                            if (store.getSellerName().equals(sellerName)) {
+                                ownedStores.add(store);
+                            }
+                        }
+
+                        get.setObject(ownedStores);
+                        break;
+                    case "books": {
+                        String storeName = (String) get.getObject();
+                        get.setObject(marketplace.getStoreByName(storeName).getStock());
+                    }
                 }
                 break;
             case "cart":
@@ -204,17 +222,17 @@ public class Helpers {
                         store.setReviews((ArrayList<Review>) update.getNewVal());
                         return new Query(true, "");
                     }
-//                    case "name":
-//                        Store store = (Store) update.getObject();
-//                        String newName = (String) update.getNewVal();
-//                        for (Store s : marketplace.getStores()) {
-//                            if (newName.equals(s.getName())) {
-//                                return new Query(false, "taken");
-//                            }
-//                        }
-//                        store = marketplace.getStoreByName(store.getName());
-//                        store.setName(newName);
-//                        return new Query(true, "");
+                    case "name":
+                        Store store = (Store) update.getObject();
+                        String newName = (String) update.getNewVal();
+
+                        if (newName.equals(store.getName())) {
+                            return new Query(false, "taken");
+                        }
+
+                        store = marketplace.getStoreByName(store.getName());
+                        store.setName(newName);
+                        return new Query(true, "");
                 }
                 break;
             case "stock":

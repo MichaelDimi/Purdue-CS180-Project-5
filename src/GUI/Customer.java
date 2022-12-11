@@ -23,7 +23,6 @@ public class Customer implements Runnable {
     }
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-        //TODO: invoke other GUI's
             if (e.getSource() == purchase) {
                 SwingUtilities.invokeLater(new PurchaseBook());
             } else if (e.getSource() == search) {

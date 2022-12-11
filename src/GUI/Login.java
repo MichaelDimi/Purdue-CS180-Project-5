@@ -60,7 +60,7 @@ public class Login extends JFrame implements Runnable {
                 if (showPassword.isSelected()) {
                     pField.setEchoChar((char) 0);
                 } else {
-                    pField.setEchoChar('*');
+                    pField.setEchoChar('•');
                 }
             }
 

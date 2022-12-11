@@ -78,7 +78,7 @@ public class FileIOMenu extends Menu {
 
         File file;
         do {
-            String filepath = JOptionPane.showInputDialog("Where would you like to save:");
+            String filepath = JOptionPane.showInputDialog("Where would you like to save (must end in .csv):");
             // cancel option selected
             if (filepath == null) return;
             if (!filepath.endsWith(".csv")) {
@@ -150,7 +150,7 @@ public class FileIOMenu extends Menu {
 
         File file;
         do {
-            String filepath = JOptionPane.showInputDialog("Where would you like to save:");
+            String filepath = JOptionPane.showInputDialog("Where would you like to save (must end in .csv):");
             // cancel option selected
             if (filepath == null) return;
             if (!filepath.endsWith(".csv")) {
@@ -224,9 +224,6 @@ public class FileIOMenu extends Menu {
 
         boolean error;
         do {
-            System.out.println("Please enter the path to the data to import: ");
-            System.out.println("Importing overrides your current stock - type \"CANCEL\" to stop");
-            System.out.println("- Note: Must be .csv ");
             String filePath = JOptionPane.showInputDialog("Please enter the path to the data to import" +
                                                           "\nImporting overrides your current stock +" +
                                                           "\nNote: Must be .csv");

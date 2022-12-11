@@ -83,6 +83,7 @@ public class PurchaseHistory implements Runnable {
 
         panel = new JPanel();
         export = new JButton("Export purchase history");
+        export.addActionListener(actionListener);
         panel.add(export);
         content.add(panel, BorderLayout.CENTER);
 

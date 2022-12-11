@@ -105,6 +105,7 @@ public class LeaveReview extends JFrame implements Runnable {
         Query storesQuery = new ClientQuery().getQuery(null, "stores", "*");
         if (storesQuery.getObject().equals(false)) {
             JOptionPane.showMessageDialog(null, "Whoops: There was an error getting the stores from the server");
+            return;
         }
 
         stores = (ArrayList<Store>) storesQuery.getObject();
@@ -113,6 +114,7 @@ public class LeaveReview extends JFrame implements Runnable {
         storesArr = stores.toArray(storesArr);
         if (storesArr.length < 1) {
             JOptionPane.showMessageDialog(null, "There are no stores in the market yet\nYou can create an new account and become a seller to open a store");
+            return;
         }
 
         panel = new JPanel();

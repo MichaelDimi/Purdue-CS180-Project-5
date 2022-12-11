@@ -61,11 +61,11 @@ public class SellerHomepage extends Menu {
                 }
                 break;
             case "2":
-                try {
-                    seller.createNewStore(scanner, seller);
-                } catch (IdenticalStoreException ignored) {
-                    System.out.println("Whoops: You cannot create a store with the same name as another");
-                }
+//                try {
+//                    seller.createNewStore(seller);
+//                } catch (IdenticalStoreException ignored) {
+//                    System.out.println("Whoops: You cannot create a store with the same name as another");
+//                }
                 break;
             case "3":
                 System.out.println("DELETE STORE");
@@ -260,7 +260,7 @@ public class SellerHomepage extends Menu {
             case "9":
                 // Note: Menu header is provided in fileIOMenu
                 FileIOMenu fileIOMenu = new FileIOMenu();
-                fileIOMenu.fileIOMenu(scanner, seller);
+                fileIOMenu.fileIOMenu(seller);
                 break;
             case "10":
                 System.out.println("YOUR ACCOUNT MENU");
@@ -680,11 +680,11 @@ public class SellerHomepage extends Menu {
             // recursion; could infinitely loop?
             if (scanner.nextLine().equals("1")) {
                 // TODO: IdenticalStoreException not needed?
-                try {
-                    seller.createNewStore(scanner, seller);
-                } catch (IdenticalStoreException e) {
-                    System.out.println(e.getMessage());
-                }
+//                try {
+//                    seller.createNewStore(scanner, seller);
+//                } catch (IdenticalStoreException e) {
+//                    System.out.println(e.getMessage());
+//                }
                 // prompts user to select store again from the updated list
                 return selectStore(scanner);
             }

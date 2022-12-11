@@ -1,8 +1,16 @@
 package GUI;
 
+import Client.*;
+import Objects.Buyer;
+import Objects.Seller;
+import Objects.User;
+import Query.Query;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Scanner;
+
 public class Login extends JFrame implements Runnable {
     JLabel uLabel;
     JTextField uText;
@@ -16,19 +24,33 @@ public class Login extends JFrame implements Runnable {
     JLabel signup;
     ActionListener actionListener = new ActionListener() {
         @Override
-        
+
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == loginButton) {
-                /*if user present (similar to loginmenu) {
+                LoginMenu loginMenu = new LoginMenu();
+                boolean validUser = loginMenu.present(uText.getText(), new String(pField.getPassword()));
+                if (validUser) {
                     JOptionPane.showMessageDialog(null, "Login Successful");
-                  } else {
-                    JOptionPane.showMessageDialog(null, "Login Unsuccessful");
-                    }
-                 */
-                JOptionPane.showMessageDialog(null, "Login Successful");
-                frame.dispose();
 
+                    if (BookApp.currentUser == null) {
+                        //break; // Exit to the login loop TODO: ADD ERROR HERE?
+                    }
+
+                    Query updateUserQuery = new ClientQuery().getQuery(BookApp.currentUser, "users", "currentUser");
+                    if (updateUserQuery.getObject() == null || updateUserQuery.getObject().equals(false)) {
+                        //break; TODO: ADD ERROR HERE?
+                    }
+                    BookApp.currentUser = (User) updateUserQuery.getObject();
+
+                    BookApp.displayHomepage();
+
+                    frame.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Login Failed",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (e.getSource() == signUpButton) {
                 SwingUtilities.invokeLater(new SignUp());
                 frame.dispose();
@@ -51,7 +73,6 @@ public class Login extends JFrame implements Runnable {
         frame = new JFrame();
         Container content = frame.getContentPane();
 
-        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 //        frame.setResizable(false);
@@ -100,13 +121,14 @@ public class Login extends JFrame implements Runnable {
 
         frame.pack();
         frame.setSize(400, 400);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Login());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Login());
+//    }
 
 
 }

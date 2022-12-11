@@ -381,7 +381,7 @@ public class CustomerHomepage extends Menu {
             String answer = scan.nextLine();
             if (answer.equalsIgnoreCase("y")) {
                 FileIOMenu fileIOMenu = new FileIOMenu();
-                fileIOMenu.fileIOMenu(scan, buyer);
+                fileIOMenu.fileIOMenu(buyer);
             }
 
         } else if (choice.equals("6")) { // TODO: Come back to test this after buying is done

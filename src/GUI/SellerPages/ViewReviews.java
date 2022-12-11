@@ -49,7 +49,8 @@ public class ViewReviews implements Runnable {
         Review[] storesArr = new Review[reviewsList.size()];
         storesArr = reviewsList.toArray(storesArr);
         if (storesArr.length < 1) {
-            JOptionPane.showMessageDialog(null, "There are no stores in the market yet\nYou can create an new account and become a seller to open a store");
+            JOptionPane.showMessageDialog(null, "You have no reviews");
+            return;
         }
 
         panel = new JPanel();

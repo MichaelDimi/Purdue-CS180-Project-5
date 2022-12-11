@@ -48,11 +48,7 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
     - [UserTest](#UserTest)
 
 ## How to compile and run the project
-The easiest way to run our project is to download the "work" folder from Vocareum, unzip it, and compile and run through an IDE like IntelliJ.  Inside the work folder is a folder called "cs180-project-4", which is what you should open in your IDE to run. 
-
-Alternatively, you can compile each file in terminal, however, we strongly suggest you use an IDE since there are many files and they are in different packages. 
-
-When you run the project, for the best experience we suggest making the terminal/run window as big as possible. Some of the menus have many options, so extending the size of the window will help you see what is happening. 
+Using the project is fairly simple. Just complie and run the project and follow the GUI.
 
 ## Parts Submitted
 | Person | Assignment Part |

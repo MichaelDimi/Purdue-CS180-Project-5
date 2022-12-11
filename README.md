@@ -1,5 +1,9 @@
 # CS 180 Project 5
-For Project 5 we made a Bookstore app, where users can create accounts for buying or selling books. Our project runs in the command line, and uses text menus and text user input to navigate the app. There are several security features and user experience design choices that went into making our app.
+Barnes & Novel is the perfect solution for book lovers and sellers alike. Our app makes it easy to browse and purchase books from a wide selection of titles from the comfort of your own home.
+
+With Barnes & Novel, you can create your own account and start buying and selling books right away. Our intuitive GUI makes it easy to navigate the app and find the books you want. Our user experience design choices make the app a pleasure to use, so you can focus on finding the perfect book without any hassle. Our app is fully concurrent and works over a network, allowing multiple users to use the app at the same time. But that's not all - we've also included several security features to protect your personal information and ensure a safe and secure shopping experience.
+
+As a seller, you'll love our platform because it allows you to reach a wider audience and make some extra cash. You can easily make listings for your books and set your own prices, making it easy to sell your books to buyers all over the world.
 
 ### Authors
 Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra

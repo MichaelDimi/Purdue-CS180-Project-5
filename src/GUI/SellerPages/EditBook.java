@@ -38,6 +38,8 @@ public class EditBook implements Runnable{
     ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == updateBook) {
+                int bookQty = storeStock.get(book);
+
                 //TODO: Edit book info using JTextFields and update database
                 if (!book.getName().equals(bookName.getText())) {
                     book.setName(bookName.getText());
@@ -56,7 +58,7 @@ public class EditBook implements Runnable{
                 }
 
                 storeStock.remove(book);
-                storeStock.put(book, storeStock.get(book));
+                storeStock.put(book, bookQty);
 
                 // updates stock on server
                 new ClientQuery().updateQuery(store, "stock", "set", storeStock);

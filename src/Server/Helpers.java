@@ -39,6 +39,15 @@ public class Helpers {
                         break; // Sends the query back as null
                 }
                 break;
+            case "purchaseHistory":
+                switch (params) {
+                    case "*":
+                        get.setObject(((Buyer) get.getObject()).getPurchaseHistory());
+                        break;
+                    default:
+                        break; // Sends the query back as null
+                }
+                break;
             case "books":
                 switch (params) {
                     case "*":
@@ -58,16 +67,60 @@ public class Helpers {
                     case "*":
                         get.setObject(marketplace.getStores());
                         break;
-                    case "name":
+                    case "name": {
                         String storeName = (String) get.getObject();
                         get.setObject(marketplace.getStoreByName(storeName));
+                        System.out.println(storeName);
                         break;
+                    }
+                    case "user":
+                        String sellerName = ((Seller) get.getObject()).getName();
+                        ArrayList<Store> ownedStores = new ArrayList<>();
+
+                        for (Store store : marketplace.getStores()) {
+                            if (store.getSellerName().equals(sellerName)) {
+                                ownedStores.add(store);
+                            }
+                        }
+
+                        get.setObject(ownedStores);
+                        break;
+                    case "books": {
+                        String storeName = (String) get.getObject();
+                        get.setObject(marketplace.getStoreByName(storeName).getStock());
+                    }
                 }
+                break;
+            case "reviews":
+                switch (params) {
+                    case "store": {
+                        String storeName = (String) get.getObject();
+                        get.setObject(marketplace.getStoreByName(storeName).getReviews());
+                        System.out.println("1");
+                    }
+                }
+                break;
+            case "cart":
+                switch (params) {
+                    case "currentBuyer":
+                        User user = (User) get.getObject();
+                        if (user == null) return new GetQuery(null, "", "");
+                        String username = user.getName();
+                        if (username == null) return new GetQuery(null, "", "");
+                        user = marketplace.getUserByUsername(username);
+                        if (user == null) return new GetQuery(null, "", "");
+                        get.setObject(((Buyer) user).getCart());
+                        break;
+                    default:
+                        break; // Sends the query back as null
+                }
+                break;
             case "sellers":
                 switch (params) {
                     case "book":
                         Book book = (Book) get.getObject();
                         if (book == null) break;
+                        System.out.println(marketplace.getSellerByBook(book));
                         get.setObject(marketplace.getSellerByBook(book));
                         break;
                 }
@@ -137,6 +190,24 @@ public class Helpers {
                         user.setPassword(input[0], input[1]);
                         return new Query(true, "");
                     }
+                    case "cart": {
+                        Buyer user = (Buyer) update.getObject();
+                        if (user == null) break;
+                        user = (Buyer) marketplace.getUserByUsername(user.getName());
+                        if (user == null) break;
+                        HashMap<Book, Integer> input = (HashMap<Book, Integer>) update.getNewVal();
+                        user.setCart(input);
+                        return new Query(true, "");
+                    }
+                    case "purchaseHistory": {
+                        Buyer user = (Buyer) update.getObject();
+                        if (user == null) break;
+                        user = (Buyer) marketplace.getUserByUsername(user.getName());
+                        if (user == null) break;
+                        HashMap<Book, Integer> input = (HashMap<Book, Integer>) update.getNewVal();
+                        user.setPurchaseHistory(input);
+                        return new Query(true, "");
+                    }
                 }
                 break;
             case "stores":
@@ -160,17 +231,17 @@ public class Helpers {
                         store.setReviews((ArrayList<Review>) update.getNewVal());
                         return new Query(true, "");
                     }
-//                    case "name":
-//                        Store store = (Store) update.getObject();
-//                        String newName = (String) update.getNewVal();
-//                        for (Store s : marketplace.getStores()) {
-//                            if (newName.equals(s.getName())) {
-//                                return new Query(false, "taken");
-//                            }
-//                        }
-//                        store = marketplace.getStoreByName(store.getName());
-//                        store.setName(newName);
-//                        return new Query(true, "");
+                    case "name":
+                        Store store = (Store) update.getObject();
+                        String newName = (String) update.getNewVal();
+
+                        if (newName.equals(store.getName())) {
+                            return new Query(false, "taken");
+                        }
+
+                        store = marketplace.getStoreByName(store.getName());
+                        store.setName(newName);
+                        return new Query(true, "");
                 }
                 break;
             case "stock":
@@ -236,6 +307,15 @@ public class Helpers {
                     }
                 }
                 System.out.println(marketplace.getStores());
+                return new Query(true, "");
+            }
+            case "cart": {
+                Buyer user = (Buyer) delete.getObject();
+                if (user == null) break;
+                user = (Buyer) marketplace.getUserByUsername(user.getName());
+                if (user == null) break;
+                System.out.println(user);
+                user.clearCart();
                 return new Query(true, "");
             }
 //            case "stock": {

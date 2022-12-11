@@ -4,6 +4,7 @@ import Client.*;
 import Exceptions.IdenticalStoreException;
 import Query.*;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -58,30 +59,30 @@ public class Seller extends User implements Serializable {
     }
 
     // lets user add new store which gets added to seller's store arraylist
-    public void createNewStore(Scanner scanner, Seller seller) throws IdenticalStoreException {
-        System.out.println("CREATE NEW STORE");
-        System.out.println("*******************");
-        System.out.println("Please enter a new store name (enter 0 to cancel):");
-        String storeName = scanner.nextLine();
-
-        // Check that the name is not identical
-        if (this.getStoreByName(storeName) != null) {
-            // TODO: Catch this exception wherever this function is used.
-            throw new IdenticalStoreException("You cannot have an identical store");
-        }
-
-        if (storeName.equals("0")) {
-            System.out.println("STORE CREATION CANCELED\n");
-        } else {
-            Store newStore = new Store(storeName, this.getName());
-            Query addStoreQuery = new ClientQuery().updateQuery(this, "stores", "add", newStore);
-            if (addStoreQuery.getObject() == null || addStoreQuery.getObject().equals(false)) {
-                System.out.println("Whoops: Couldn't add the store. Please try again");
-            } else {
-                System.out.println("STORE SUCCESSFULLY CREATED");
-            }
-        }
-    }
+//    public void createNewStore(Scanner scanner) throws IdenticalStoreException {
+//        System.out.println("CREATE NEW STORE");
+//        System.out.println("*******************");
+//        System.out.println("Please enter a new store name (enter 0 to cancel):");
+//        String storeName = scanner.nextLine();
+//
+//        // Check that the name is not identical
+//        if (this.getStoreByName(storeName) != null) {
+//            // TODO: Catch this exception wherever this function is used.
+//            throw new IdenticalStoreException("You cannot have an identical store");
+//        }
+//
+//        if (storeName.equals("0")) {
+//            System.out.println("STORE CREATION CANCELED\n");
+//        } else {
+//            Store newStore = new Store(storeName, this.getName());
+//            Query addStoreQuery = new ClientQuery().updateQuery(this, "stores", "add", newStore);
+//            if (addStoreQuery.getObject() == null || addStoreQuery.getObject().equals(false)) {
+//                System.out.println("Whoops: Couldn't add the store. Please try again");
+//            } else {
+//                System.out.println("STORE SUCCESSFULLY CREATED");
+//            }
+//        }
+//    }
     // menu when creating/editing stores or adding/editing books
 //    public boolean sellerHomepage(Scanner scanner) {
 //
@@ -757,6 +758,8 @@ public class Seller extends User implements Serializable {
                 } else {
                     store.getStock().put(book, bookToRemoveCount - quantity);
                 }
+                // updates stock on server
+                new ClientQuery().updateQuery(store, "stock", "set", store.getStock());
 
                 // increments Seller's revenue
                 stats.incrementRevenue(book.getPrice() * quantity);
@@ -801,6 +804,14 @@ public class Seller extends User implements Serializable {
     }
 
     public Store getStoreByName(String storeName) {
+        // gets updated store list from server
+        Query storesQuery = new ClientQuery().getQuery(null, "stores", "*");
+        if (storesQuery.getObject().equals(false)) {
+            System.out.println("Whoops: There was an error getting the stores from the server");
+            return null;
+        }
+        this.stores = (ArrayList<Store>) storesQuery.getObject();
+
         for (Store store : this.stores) {
             if (storeName.equals(store.getName())) {
                 return store;

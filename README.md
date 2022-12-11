@@ -1,5 +1,9 @@
 # CS 180 Project 5
-For Project 5 we made a Bookstore app, where users can create accounts for buying or selling books. Our project runs in the command line, and uses text menus and text user input to navigate the app. There are several security features and user experience design choices that went into making our app.
+Barnes & Novel is the perfect solution for book lovers and sellers alike. Our app makes it easy to browse and purchase books from a wide selection of titles from the comfort of your own home.
+
+With Barnes & Novel, you can create your own account and start buying and selling books right away. Our intuitive GUI makes it easy to navigate the app and find the books you want. Our user experience design choices make the app a pleasure to use, so you can focus on finding the perfect book without any hassle. Our app is fully concurrent and works over a network, allowing multiple users to use the app at the same time. But that's not all - we've also included several security features to protect your personal information and ensure a safe and secure shopping experience.
+
+As a seller, you'll love our platform because it allows you to reach a wider audience and make some extra cash. You can easily make listings for your books and set your own prices, making it easy to sell your books to buyers all over the world.
 
 ### Authors
 Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
@@ -44,11 +48,7 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
     - [UserTest](#UserTest)
 
 ## How to compile and run the project
-The easiest way to run our project is to download the "work" folder from Vocareum, unzip it, and compile and run through an IDE like IntelliJ.  Inside the work folder is a folder called "cs180-project-4", which is what you should open in your IDE to run. 
-
-Alternatively, you can compile each file in terminal, however, we strongly suggest you use an IDE since there are many files and they are in different packages. 
-
-When you run the project, for the best experience we suggest making the terminal/run window as big as possible. Some of the menus have many options, so extending the size of the window will help you see what is happening. 
+Using the project is fairly simple. Just complie and run the project and follow the GUI.
 
 ## Parts Submitted
 | Person | Assignment Part |

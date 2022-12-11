@@ -1,5 +1,7 @@
 package GUI;
 
+import Client.BookApp;
+import Client.SignUpMenu;
 import Objects.Buyer;
 import Objects.User;
 
@@ -7,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.UnknownServiceException;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class SignUp extends JFrame implements Runnable {
     JComboBox buyerOrSellerBox;
@@ -27,12 +31,25 @@ public class SignUp extends JFrame implements Runnable {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == signUpButton) {
-                if (buyerOrSeller.equals("Buyer")) {
-                    //create buyer
-                } else {
-                    // create seller
-                }
+                // checks if username, email, and password inputted are correct
+                if (validateSignUpInput(uText.getText(), eText.getText(), new String(pField.getPassword()))) {
+                    // valid username, email, or password
+                    SignUpMenu signUpMenu = new SignUpMenu();
+                    boolean validUser = signUpMenu.present(uText.getText(), // USERNAME
+                                                           eText.getText(), // EMAIL
+                                                           new String(pField.getPassword()), // PASSWORD
+                                                           buyerOrSeller); // BUYER OR SELLER
 
+                    if (validUser) {
+                        frame.dispose();
+                        JOptionPane.showMessageDialog(null, "Validation successful!");
+                        BookApp.displayHomepage();
+                    }
+                } else {
+                    // invalid username, email, or password
+                    JOptionPane.showMessageDialog(null, "Please enter a valid username and password",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (e.getSource() == showPassword) {
                 if (showPassword.isSelected()) {
                     pField.setEchoChar((char) 0);
@@ -50,7 +67,6 @@ public class SignUp extends JFrame implements Runnable {
         frame = new JFrame();
         Container content = frame.getContentPane();
 
-        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 //        frame.setResizable(false);
@@ -118,13 +134,35 @@ public class SignUp extends JFrame implements Runnable {
 
         frame.pack();
         frame.setSize(400, 300);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new SignUp());
-//    }
+    /**
+     * Queries the user for username, email, and password, and ensures
+     * the user is entering valid input before returning.
+     * @param username The scanner that is passed by reference
+     * @return Returns true or false if username, email, or password are valid or non-valid
+     */
+    public static boolean validateSignUpInput(String username, String email, String password) {
+        if (username.isEmpty()) {
+            return false;
+        }
 
+        Pattern regexPattern;
+        regexPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)" +
+                "*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$");
 
+        if (!regexPattern.matcher(email).matches()) {
+            return false;
+        } else if (email.isEmpty()) {
+            return false;
+        }
+
+        if (password.isEmpty())
+            return false;
+
+        return true;
+    }
 }

@@ -1,24 +1,15 @@
 package Client;
 
-import Objects.Buyer;
-import Objects.Seller;
 import Objects.User;
 import Query.*;
 
-import java.util.Objects;
-import java.util.Scanner;
-
 public class SignUpConcurrencyTest extends Menu {
-
-    @Override
-    public boolean present(Scanner scan) {
+    public boolean signup(String[] input) {
         String username;
         String email;
         String password;
         boolean validationSuccess;
         do {
-            String[] input = {"Aaron", "SomeEmail@email.cum", "CyberSecure"};
-
             username = input[0];
             email = input[1];
             password = input[2];
@@ -26,12 +17,6 @@ public class SignUpConcurrencyTest extends Menu {
             boolean isBuyer = true;
 
             System.out.println("Validating...");
-
-//            try {
-//                Thread.sleep(1000); // For dramatic effect
-//            } catch (InterruptedException e) {
-//                System.out.println("Whoops: Program interruption");
-//            }
 
             // Add user
             Query validateAddQuery = new ClientQuery().updateQuery(null, "users", "add", new String[]{username, email, password, isBuyer ? "T" : "F"});

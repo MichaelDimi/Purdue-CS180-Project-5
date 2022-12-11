@@ -99,11 +99,11 @@ public class AccountMenu extends Menu {
                     System.out.println("Confirm by entering your password...");
                     String confirmPassword = scan.nextLine();
                     System.out.println("Validating...");
-                    try {
-                        Thread.sleep(1000); // For dramatic effect
-                    } catch (InterruptedException e) {
-                        System.out.println("Error: Program interruption");
-                    }
+//                    try {
+//                        Thread.sleep(1000); // For dramatic effect
+//                    } catch (InterruptedException e) {
+//                        System.out.println("Error: Program interruption");
+//                    }
 
                     String hashedPassword = User.hashPassword(confirmPassword);
                     if (hashedPassword == null) {
@@ -141,11 +141,11 @@ public class AccountMenu extends Menu {
                     System.out.println("Confirm by entering your password...");
                     String confirmPassword2 = scan.nextLine();
                     System.out.println("Validating...");
-                    try {
-                        Thread.sleep(1000); // For dramatic effect
-                    } catch (InterruptedException e) {
-                        System.out.println("Error: Program interruption");
-                    }
+//                    try {
+//                        Thread.sleep(1000); // For dramatic effect
+//                    } catch (InterruptedException e) {
+//                        System.out.println("Error: Program interruption");
+//                    }
                     String hashedPassword2 = User.hashPassword(confirmPassword2);
                     if (hashedPassword2 == null) {
                         return false;

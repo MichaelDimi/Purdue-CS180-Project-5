@@ -28,7 +28,6 @@ public class Start extends JFrame implements Runnable {
         panel = new JPanel();
         frame = new JFrame();
 
-        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel.setLayout(new GridBagLayout());
@@ -56,6 +55,7 @@ public class Start extends JFrame implements Runnable {
         frame.add(panel);
         frame.pack();
         frame.setSize(400, 300);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

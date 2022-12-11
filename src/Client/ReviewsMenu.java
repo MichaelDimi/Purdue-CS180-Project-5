@@ -102,11 +102,11 @@ public class ReviewsMenu {
                         break;
                     }
 
-                    try {
-                        Thread.sleep(1000); // For dramatic effect
-                    } catch (InterruptedException e) {
-                        System.out.println("Error: Program interruption");
-                    }
+//                    try {
+//                        Thread.sleep(1000); // For dramatic effect
+//                    } catch (InterruptedException e) {
+//                        System.out.println("Error: Program interruption");
+//                    }
                     System.out.println("Review Added Successfully!");
                 }
                 break;

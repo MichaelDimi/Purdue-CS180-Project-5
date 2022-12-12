@@ -71,6 +71,7 @@ Using the project is fairly simple. Just compile and run the Server class and th
 ## GUI Package
 
 ### Customer
+The Customer class serves as the main menu for a user with a Customer account. It consists of eight buttons that open new screens, allowing the user to manage their purchases and account: Purchase a Book, Search for a Book, View Stores and Reviews, Leave a Review, View Purchase History, Your Shopping Cart, Edit Account, and Sign Out.
 
 ### Login
 
@@ -85,18 +86,24 @@ Using the project is fairly simple. Just compile and run the Server class and th
 #### EditAccount
 
 #### LeaveReview
+The LeaveReview class displays a menu in which the Customer can select a store from a dropdown that they would like to create a review for. Then they can enter a headline and description for their review as well as a numerical rating.
 
 #### PurchaseBook
+The PurchaseBook class displays a screen that allows the user to select a book to purchase from a dropdown menu. By entering a number in the provided textbox, they can select a quantity of the book to purchase, and add their purchase to their cart. The screen contains a Refresh button that allows the Customer to see the most up-to-date stock as well as Sort by Price and Sorrt by Quantity buttons to view the current stock accorrding to their needs.
 
 #### PurchaseHistory
+The PurchaseHistory class displays a list of all the books the Customer purchased, along with each book's important information such as price and quantity. By clicking the button on the screen, a Customer can export their purchase history, downloading a CSV file to their computer containing a record of their purchase.
 
 #### SearchBook
+The SearchBook class displays a screen with a text box that allows the user to enter a search query consisting of either the name, genre, or description of a book they would like to purchase. If the search matches the name, genre, or description of any currently in stock books in the marketplace, the information of these books in the marketplace will be displayed on the screen.
 
 #### SelectedStoreView
 
 #### ViewCart
+The ViewCart class displays all books in the Customer's cart, along with their imporrtant information. Additionally, it contains three buttons that allow the Customer to manage their carrt: Remove Items, Clear Cart, and Checkout.
 
 #### ViewStores
+The ViewStores class displays a list of all stores in the marketplace, along with the name of the owner, average ratings, and number of products offered for each of these stores. The Customer has the ability to select between four buttons to sort by number of products from lowest to highest or highest to lowest or by frequently shopped at stores from lowest to highest or highest to lowest.
 
 ### SellerPages Package
 

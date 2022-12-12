@@ -63,8 +63,9 @@ Using the project is fairly simple. Just compile and run the Server class and th
 ## Parts Submitted
 | Person | Assignment Part |
 |--|--|
-| Aaron Ni | Submitted Report on Brightspace |
+| Aaron Ni | Submitted Presentation Video on Brightspace |
 | Michael Dimitrov | Submitted Vocareum workspace |
+| Sanya Mehra | Submitted Report on Brightspace |
 
 # Classes
 
@@ -74,21 +75,16 @@ Using the project is fairly simple. Just compile and run the Server class and th
 The Customer class serves as the main menu for a user with a Customer account. It consists of eight buttons that open new screens, allowing the user to manage their purchases and account: Purchase a Book, Search for a Book, View Stores and Reviews, Leave a Review, View Purchase History, Your Shopping Cart, Edit Account, and Sign Out.
 
 ### Login
-The Login class displays two text boxes for the user to enter their username and password. It also includes the ability to show and hide the password as well as a Sign Up button for the Customer to press if they are a new user.
 
 ### Seller Menu
 This is the initial menu that is displayed to a Seller when they first login into their account. It contains buttons for creating a store, managing a store and its stock, viewing a store's reviews and signing out. 
-
 ### SignUp
-The SignUp class creates a screen with three text fields for username, email, and password along with a dropdown for the user to select a Buyer or Seller account. The user also has the ability to hide and unhide their password.
 
 ### Start
-The Start class displays the initial screen for the project that consists of a Login button and a Sign Up button for the user to select depending on whether they do or do not already have an account.
 
 ### CustomerPages Package
 
 #### EditAccount
-The EditAccount class displays a screen that prints the current Customer's username, email, and password. Additionally, it contains four buttons: Reset Username, Reset Email, Reset Password, and Delete Account. When the Customer's information is rest, the account information printed at the top of the screen updates.
 
 #### LeaveReview
 The LeaveReview class displays a menu in which the Customer can select a store from a dropdown that they would like to create a review for. Then they can enter a headline and description for their review as well as a numerical rating.
@@ -103,7 +99,6 @@ The PurchaseHistory class displays a list of all the books the Customer purchase
 The SearchBook class displays a screen with a text box that allows the user to enter a search query consisting of either the name, genre, or description of a book they would like to purchase. If the search matches the name, genre, or description of any currently in stock books in the marketplace, the information of these books in the marketplace will be displayed on the screen.
 
 #### SelectedStoreView
-The SelectedStoreView creates a screen with a dropdown that allows the user to select either the stock or reviews for a particular store.
 
 #### ViewCart
 The ViewCart class displays all books in the Customer's cart, along with their imporrtant information. Additionally, it contains three buttons that allow the Customer to manage their carrt: Remove Items, Clear Cart, and Checkout.
@@ -115,16 +110,12 @@ The ViewStores class displays a list of all stores in the marketplace, along wit
 
 #### AddBook
 Contains a GUI that allows a Seller to add books to their stock. In here they specify fields like name, description, genre, price and quantity (Hashmap). 
-
 #### CreateStore
 Contains a GUI that allows a Seller to create a store. Only the name of the store will be specified at creation, all the other details can be done under the ManageStore GUI.
-
 #### EditBook
 THis GUI is used to edit the fields of a book. This includes its name, description, genre and price. Note that the quanitity of a book cannot be modifed here as there is a specific button under the ManageStore GUI that allows this.
-
 #### ManageStore
 This class contains many features used to modify a store. It allows a Seller to change the name of a store, add books, remove books, edit books, add books to stock and delete a store.
-
 #### ViewReviews
 This GUI allows a Seller to view reviews place upon a certain store. Contains details like title, description and rating (out of 5). An important thing to note is that reviews are placed on stores and not on books.
 

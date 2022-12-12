@@ -68,6 +68,52 @@ Using the project is fairly simple. Just compile and run the Server class and th
 
 # Classes
 
+## GUI Package
+
+### Customer
+
+### Login
+
+### Seller Menu
+
+### SignUp
+
+### Start
+
+### CustomerPages Package
+
+#### EditAccount
+
+#### LeaveReview
+
+#### PurchaseBook
+
+#### PurchaseHistory
+
+#### SearchBook
+
+#### SelectedStoreView
+
+#### ViewCart
+
+#### ViewStores
+
+### SellerPages Package
+
+#### AddBook
+
+#### CreateStore
+
+#### EditBook
+
+#### ImportExport
+
+#### ManageStore
+
+#### ViewReviews
+
+#### ViewStats
+
 ## Queries Package
 
 ### Query

@@ -76,7 +76,7 @@ The Customer class serves as the main menu for a user with a Customer account. I
 ### Login
 
 ### Seller Menu
-
+This is the initial menu that is displayed to a Seller when they first login into their account. It contains buttons for creating a store, managing a store and its stock, viewing a store's reviews and signing out. 
 ### SignUp
 
 ### Start
@@ -108,7 +108,7 @@ The ViewStores class displays a list of all stores in the marketplace, along wit
 ### SellerPages Package
 
 #### AddBook
-Contains a GUI that allows a Seller to add books to their stock. In here they specify fields like name, description, genre, price and quantity(Hashmap). 
+Contains a GUI that allows a Seller to add books to their stock. In here they specify fields like name, description, genre, price and quantity (Hashmap). 
 #### CreateStore
 Contains a GUI that allows a Seller to create a store. Only the name of the store will be specified at creation, all the other details can be done under the ManageStore GUI.
 #### EditBook

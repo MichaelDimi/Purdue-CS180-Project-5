@@ -58,7 +58,7 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
     - [UserTest](#UserTest)
 
 ## How to compile and run the project
-Using the project is fairly simple. Just complie and run the project and follow the GUI.
+Using the project is fairly simple. Just compile and run the Server class and then run the BookApp class for each client. Follow the GUI after starting BookApp.
 
 ## Parts Submitted
 | Person | Assignment Part |

@@ -108,18 +108,15 @@ The ViewStores class displays a list of all stores in the marketplace, along wit
 ### SellerPages Package
 
 #### AddBook
-
+Contains a GUI that allows a Seller to add books to their stock. In here they specify fields like name, description, genre, price and quantity(Hashmap). 
 #### CreateStore
-
+Contains a GUI that allows a Seller to create a store. Only the name of the store will be specified at creation, all the other details can be done under the ManageStore GUI.
 #### EditBook
-
-#### ImportExport
-
+THis GUI is used to edit the fields of a book. This includes its name, description, genre and price. Note that the quanitity of a book cannot be modifed here as there is a specific button under the ManageStore GUI that allows this.
 #### ManageStore
-
+This class contains many features used to modify a store. It allows a Seller to change the name of a store, add books, remove books, edit books, add books to stock and delete a store.
 #### ViewReviews
-
-#### ViewStats
+This GUI allows a Seller to view reviews place upon a certain store. Contains details like title, description and rating (out of 5). An important thing to note is that reviews are placed on stores and not on books.
 
 ## Queries Package
 

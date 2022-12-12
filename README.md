@@ -19,6 +19,10 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
     - [DeleteQuery](#DeleteQuery)
     - [UpdateQuery](#UpdateQuery)
     - [ComputeQuery](#ComputeQuery)
+  - [Server Package](#Server-Package)
+    - [Server](#Server)
+      - [ClientHandler](#ClientHandler)
+    - [Helpers](#Helpers)
   - [Client Package](#App-Package)
     - [BookApp](#BookApp)
     - [CustomerHomepage](#CustomerHomepage)
@@ -80,6 +84,17 @@ UpdateQuery works the same as DeleteQuery, except instead of deleting it updates
 
 ### ComputeQuery
 ComputeQueries are the most interesting and novel of the query types. We needed some way to make large computations on the data server-side. The main use of compute queries is to validate emails and usernames when signing up, and to do login validation. This computation is instructed by the client, and multiple objects are passed into the Query constructor through an object array. This way different objects can be passed as input, as long as they are casted correctly. When the computation is complete, the result is passed in to the query back to the client. 
+
+## Server Package
+
+### Server
+When the server is first started it loads the marketplace from the .ser file, and stores it. Then this class always awaits for a connection from a client. When a connection is made, the client socket is passed to a ClientHandler, which is spawned in a new thread. The server also passes the marketplace object to the ClientHandler.
+
+#### ClientHandler
+ClientHandler is a nested class of Server. This class will handle the communication back and forth with the client. It decides what type of query is being sent, and calls the apporpriate helper function, using and instance of the Helpers class. The Helpers are given access to the marketplace. 
+
+### Helpers
+The Helpers class handles the functionality behind the Queries that are being sent. It figures out what the instructions are saying, and does the appropriate computation and returns the correct value. Essentially, this class handles the actual functionality for the Server. 
 
 ## Client Package
 

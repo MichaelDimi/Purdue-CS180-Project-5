@@ -13,6 +13,12 @@ Aaron Ni, Diya Singh, Federico Lebron, Michael Dimitrov, Sanya Mehra
 - [Compiling and Running](#How-to-compile-and-run-the-project)
 - [Parts Submitted](#Parts-Submitted)
 - [Classes](#Classes)
+  - [Queries Package](#Queries-Package)
+    - [Query](#Query)
+    - [GetQuery](#GetQuery)
+    - [DeleteQuery](#DeleteQuery)
+    - [UpdateQuery](#UpdateQuery)
+    - [ComputeQuery](#ComputeQuery)
   - [Client Package](#App-Package)
     - [BookApp](#BookApp)
     - [CustomerHomepage](#CustomerHomepage)
@@ -57,6 +63,23 @@ Using the project is fairly simple. Just complie and run the project and follow 
 | Michael Dimitrov | Submitted Vocareum workspace |
 
 # Classes
+
+## Queries Package
+
+### Query
+A query is an object that wraps data being sent between the client and server. Like all our other objects, queries are Serializable, meaning they can be written and read by ObjectStreams. Queries store an Object and String, both of which can be null. Think of Queries like a box, with istructions. The box can be sent empty or full, and the String acts as instructions. Some other types of queries have other properties for instruction the server or chaning values, but this is the gist of it. Note the below Queries are just the structure. They themselves have no functionality, but are be used in the way that is described. 
+
+### GetQuery
+All the 4 types of query extend the above Query class. They give additional specificity and functionality to what can be sent and what instructions can be made. The GetQuery allows requests to be made for the server to return an object. Essentially the server returns a query "filled" with the obejct that is being requested. It can also return a Query filled with false if an error occured, or nothing was found. 
+
+### DeleteQuery
+DeleteQuery is just like what it sounds. This query allows delete requests to be made. An object can be sent, and instructions where it should be deleted from. The server can then compare to the object being sent to confirm and then delete. A true or false is returned in the query if the request was completed or if there was an error. 
+
+### UpdateQuery
+UpdateQuery works the same as DeleteQuery, except instead of deleting it updates. There is also a property that stores the new value that is being assigned. 
+
+### ComputeQuery
+ComputeQueries are the most interesting and novel of the query types. We needed some way to make large computations on the data server-side. The main use of compute queries is to validate emails and usernames when signing up, and to do login validation. This computation is instructed by the client, and multiple objects are passed into the Query constructor through an object array. This way different objects can be passed as input, as long as they are casted correctly. When the computation is complete, the result is passed in to the query back to the client. 
 
 ## Client Package
 
